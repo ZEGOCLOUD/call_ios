@@ -8,13 +8,16 @@
 import Foundation
 
 struct CustomCommandContent : Codable {
-    var accept: Bool
+    var user_info: String
+    var response_type : Int
 }
 
 class CustomCommand : NSObject, Codable {
     enum CustomCommandType : Int, Codable {
-        case invitation = 1
-        case respondInvitation = 2
+        case call = 1
+        case cancel = 2
+        case reply = 3
+        case end = 4
     }
     
     var targetUserIDs: [String] = []

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <viewController id="9rt-vN-NBh" customClass="GeneralWebVC" customModule="ZEGOCallDemo" customModuleProvider="target">
+            <view key="view" contentMode="scaleToFill" id="WZB-QL-SLG">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rBQ-R8-Bcz">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <wkWebViewConfiguration key="configuration">
+                            <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                            <wkPreferences key="preferences"/>
+                        </wkWebViewConfiguration>
+                    </wkWebView>
+                </subviews>
+                <viewLayoutGuide key="safeArea" id="S8T-I1-maw"/>
+                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                <constraints>
+                    <constraint firstItem="S8T-I1-maw" firstAttribute="trailing" secondItem="rBQ-R8-Bcz" secondAttribute="trailing" id="WdD-uw-pBu"/>
+                    <constraint firstItem="rBQ-R8-Bcz" firstAttribute="leading" secondItem="S8T-I1-maw" secondAttribute="leading" id="lpN-wO-oTF"/>
+                    <constraint firstItem="rBQ-R8-Bcz" firstAttribute="top" secondItem="WZB-QL-SLG" secondAttribute="top" id="uf7-uM-yno"/>
+                    <constraint firstAttribute="bottom" secondItem="rBQ-R8-Bcz" secondAttribute="bottom" id="zxI-hc-CDN"/>
+                </constraints>
+            </view>
+            <connections>
+                <outlet property="webview" destination="rBQ-R8-Bcz" id="1GO-vA-lG2"/>
+            </connections>
+            <point key="canvasLocation" x="-188.40579710144928" y="8.7053571428571423"/>
+        </viewController>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

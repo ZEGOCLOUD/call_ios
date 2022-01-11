@@ -44,7 +44,6 @@ class RoomService: NSObject {
             var result: ZegoResult = .success(())
             if error.code == .ZIMErrorCodeSuccess {
                 RoomManager.shared.roomService.roomInfo = parameters.2
-                RoomManager.shared.userService.localUserInfo?.role = .host
                 RoomManager.shared.loginRtcRoom(with: token)
             }
             else {
@@ -104,7 +103,6 @@ class RoomService: NSObject {
                 result = .failure(.other(Int32(error.code.rawValue)))
             }
             RoomManager.shared.logoutRtcRoom()
-            RoomManager.shared.roomListService.leaveServerRoom(roomID, callback: nil)
             
 
             guard let callback = callback else { return }

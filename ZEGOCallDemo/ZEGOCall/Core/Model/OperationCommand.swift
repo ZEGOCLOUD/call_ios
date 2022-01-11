@@ -43,12 +43,12 @@ struct OperationAction : Codable {
 }
 
 class OperationCommand : NSObject, Codable {
-    var coHost: [CoHostModel] = []
+    //var coHost: [CoHostModel] = []
     var requestCoHost: [String] = []
     var action: OperationAction = OperationAction()
     
     enum CodingKeys: String, CodingKey {
-        case coHost = "co_host"
+        //case coHost = "co_host"
         case requestCoHost = "request_co_host"
         case action = "action"
     }
@@ -65,9 +65,9 @@ class OperationCommand : NSObject, Codable {
         }
         
         if type.contains(.coHost) {
-            if let seatListJson = ZegoJsonTool.modelToJson(toString: coHost) {
-                attributes["co_host"] = seatListJson
-            }
+//            if let seatListJson = ZegoJsonTool.modelToJson(toString: coHost) {
+//                attributes["co_host"] = seatListJson
+//            }
         }
         
         if type.contains(.requestCoHost) {
@@ -85,16 +85,6 @@ class OperationCommand : NSObject, Codable {
         return false
     }
     
-    func updateSeatList(_ json: String) {
-        guard let arr = ZegoJsonTool.jsonToArray(json) else { return }
-        var list: [CoHostModel] = []
-        for seatDict in arr {
-            guard let seatDict = seatDict as? [String: Any] else { return }
-            guard let seat = ZegoJsonTool.dictionaryToModel(type: CoHostModel.self, dict: seatDict) else { return }
-            list.append(seat)
-        }
-        self.coHost = list
-    }
     
     func updateRequestCoHostList(_ json: String) {
         guard let arr = ZegoJsonTool.jsonToArray(json) else { return }
@@ -110,9 +100,9 @@ class OperationCommand : NSObject, Codable {
 extension OperationCommand: NSCopying {
     func copy(with zone: NSZone? = nil) -> Any {
         let copy = OperationCommand()
-        copy.coHost = self.coHost.compactMap({ seat in
-            seat.copy() as? CoHostModel
-        })
+//        copy.coHost = self.coHost.compactMap({ seat in
+//            seat.copy() as? CoHostModel
+//        })
         copy.requestCoHost = self.requestCoHost
         copy.action = OperationAction()
         copy.action.seq = self.action.seq

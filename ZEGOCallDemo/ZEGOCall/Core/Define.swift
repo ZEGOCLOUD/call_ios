@@ -20,9 +20,6 @@ typealias OnlineRoomUsersCallback = (Result<[UserInfo], ZegoError>) -> Void
 /// room list callback
 typealias RoomListCallback = (Result<[RoomInfo], ZegoError>) -> Void
 
-/// create room callback
-typealias CreateRoomCallback = (Result<RoomInfo, ZegoError>) -> Void
-
 
 enum ZegoError: Error {
         
@@ -54,9 +51,4 @@ enum ZegoError: Error {
         case .other(let rawValue): return rawValue
         }
     }
-}
-
-func getKeyWindow() -> UIWindow {
-    let window: UIWindow = UIApplication.shared.windows.filter({ $0.isKeyWindow }).last!
-    return window
 }
