@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CallingVideoView" customModule="ZEGOCallDemo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0XY-V9-3c4">
+                    <rect key="frame" x="177" y="0.0" width="60" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="jdD-2z-yXc"/>
+                        <constraint firstAttribute="width" constant="60" id="rz5-Wd-3cb"/>
+                    </constraints>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="Button" image="call_hand_up_icon"/>
+                    <connections>
+                        <action selector="handUpButtonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="iwE-Q5-uVs"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KaE-ua-Yrx">
+                    <rect key="frame" x="108" y="6.5" width="47" height="47"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="47" id="XRo-gH-F9g"/>
+                        <constraint firstAttribute="width" constant="47" id="uKH-XL-sGu"/>
+                    </constraints>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="Button" image="call_mic_open"/>
+                    <connections>
+                        <action selector="micButtonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="eyr-rx-9de"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UpV-SO-Xx6">
+                    <rect key="frame" x="259" y="6.5" width="47" height="47"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="47" id="XfJ-C9-VMs"/>
+                        <constraint firstAttribute="width" constant="47" id="pTJ-ha-5rL"/>
+                    </constraints>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="Button" image="call_camera_flip_icon"/>
+                    <connections>
+                        <action selector="flipButtonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="XLy-zu-7n8"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OTw-ZV-ehd">
+                    <rect key="frame" x="39" y="6.5" width="47" height="47"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="47" id="Dmo-1h-ytN"/>
+                        <constraint firstAttribute="height" constant="47" id="NOc-yG-g4E"/>
+                    </constraints>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="Button" image="call_camera_open_icon"/>
+                    <connections>
+                        <action selector="videoButtonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="nac-q1-DnQ"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y5d-Gv-cnU">
+                    <rect key="frame" x="328" y="6.5" width="47" height="47"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="47" id="2BE-Oj-WPn"/>
+                        <constraint firstAttribute="width" constant="47" id="ZFS-4w-sNc"/>
+                    </constraints>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="Button" image="call_voice_open_icon"/>
+                    <connections>
+                        <action selector="voiceButtonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="D5n-o9-bf0"/>
+                    </connections>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="Y5d-Gv-cnU" firstAttribute="centerY" secondItem="UpV-SO-Xx6" secondAttribute="centerY" id="20i-pc-u8z"/>
+                <constraint firstItem="OTw-ZV-ehd" firstAttribute="centerY" secondItem="KaE-ua-Yrx" secondAttribute="centerY" id="GzS-iw-AhU"/>
+                <constraint firstItem="0XY-V9-3c4" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="IQQ-Cq-aZf"/>
+                <constraint firstItem="KaE-ua-Yrx" firstAttribute="leading" secondItem="OTw-ZV-ehd" secondAttribute="trailing" constant="22" id="QeJ-zc-VZ1"/>
+                <constraint firstItem="0XY-V9-3c4" firstAttribute="leading" secondItem="KaE-ua-Yrx" secondAttribute="trailing" constant="22" id="RbV-On-4Uv"/>
+                <constraint firstItem="KaE-ua-Yrx" firstAttribute="centerY" secondItem="0XY-V9-3c4" secondAttribute="centerY" id="TNX-sR-7Zf"/>
+                <constraint firstItem="0XY-V9-3c4" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="h21-8K-aeb"/>
+                <constraint firstItem="UpV-SO-Xx6" firstAttribute="centerY" secondItem="0XY-V9-3c4" secondAttribute="centerY" id="mvi-wz-TxN"/>
+                <constraint firstItem="Y5d-Gv-cnU" firstAttribute="leading" secondItem="UpV-SO-Xx6" secondAttribute="trailing" constant="22" id="sQV-ra-hsU"/>
+                <constraint firstItem="UpV-SO-Xx6" firstAttribute="leading" secondItem="0XY-V9-3c4" secondAttribute="trailing" constant="22" id="zPw-rk-tKA"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="139" y="89"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="call_camera_flip_icon" width="47" height="47"/>
+        <image name="call_camera_open_icon" width="47" height="47"/>
+        <image name="call_hand_up_icon" width="60" height="60"/>
+        <image name="call_mic_open" width="47" height="47"/>
+        <image name="call_voice_open_icon" width="47" height="47"/>
+    </resources>
+</document>

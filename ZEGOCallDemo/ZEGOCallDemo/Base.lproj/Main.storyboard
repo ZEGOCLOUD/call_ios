@@ -52,7 +52,8 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits"/>
                                                 <connections>
-                                                    <action selector="userNameTextFieldDidChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="xq3-sh-jJ6"/>
+                                                    <action selector="userNameTextFieldDidChanged:" destination="BYZ-38-t0r" eventType="editingChanged" id="R5f-76-gCd"/>
+                                                    <outlet property="delegate" destination="BYZ-38-t0r" id="jAg-JZ-QVr"/>
                                                 </connections>
                                             </textField>
                                         </subviews>
@@ -77,7 +78,7 @@
                                         <color key="textColor" red="1" green="0.29019607843137252" blue="0.31372549019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oo2-Zg-kus">
+                                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oo2-Zg-kus">
                                         <rect key="frame" x="37" y="126" width="340" height="50"/>
                                         <color key="backgroundColor" red="0.0" green="0.33333333333333331" blue="1" alpha="0.40000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -96,7 +97,6 @@
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="loginClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="adQ-Dj-zwn"/>
-                                            <segue destination="rTD-bi-Xal" kind="push" id="jaa-ZD-S1D"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -159,10 +159,10 @@
             </objects>
             <point key="canvasLocation" x="89.855072463768124" y="97.767857142857139"/>
         </scene>
-        <!--ZEGO Live-->
+        <!--HomeVC-->
         <scene sceneID="DXX-81-A00">
             <objects>
-                <viewController id="rTD-bi-Xal" customClass="HomeVC" customModule="ZEGOCallDemo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeVC" id="rTD-bi-Xal" userLabel="HomeVC" customClass="HomeVC" customModule="ZEGOCallDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1EY-7W-Psf">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -343,7 +343,7 @@
                             <userDefinedRuntimeAttribute type="boolean" keyPath="keyPath" value="YES"/>
                         </userDefinedRuntimeAttributes>
                     </view>
-                    <navigationItem key="navigationItem" title="ZEGO Live" id="jHd-R4-MUc"/>
+                    <navigationItem key="navigationItem" id="jHd-R4-MUc"/>
                     <connections>
                         <outlet property="backView" destination="tKv-bc-wQY" id="6BJ-3O-vXX"/>
                         <outlet property="headImage" destination="9xP-TC-EkB" id="FXO-bs-boz"/>
@@ -359,9 +359,9 @@
         <!--Settings-->
         <scene sceneID="VeC-k2-b6P">
             <objects>
-                <tableViewController id="N3j-gh-fEx" customClass="SettingsVC" customModule="ZEGOLiveDemo" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="N3j-gh-fEx" customClass="SettingsVC" customModule="ZEGOCallDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="54" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" id="Qkm-qb-xxW">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.95294117647058818" green="0.95686274509803915" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>

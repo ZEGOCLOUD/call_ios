@@ -7,12 +7,22 @@
 
 import UIKit
 
+enum CallActionType: Int {
+    case phone
+    case video
+}
+
+protocol OnlineUserListCellDelegate: AnyObject {
+    func startCall(_ type: CallActionType)
+}
+
 class OnlineUserListCell: UITableViewCell {
     
     @IBOutlet weak var headImage: UIImageView!
     @IBOutlet weak var userIDLabel: UILabel!
     @IBOutlet weak var userNameLabel: UILabel!
     
+    weak var delegate: OnlineUserListCellDelegate?
     
 
     override func awakeFromNib() {
@@ -20,20 +30,12 @@ class OnlineUserListCell: UITableViewCell {
         // Initialization code
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-    
     @IBAction func startVideoClick(_ sender: UIButton) {
-        
+        delegate?.startCall(.video)
     }
     
     @IBAction func startPhoneClick(_ sender: UIButton) {
-        
+        delegate?.startCall(.phone)
     }
-    
-    
 
 }

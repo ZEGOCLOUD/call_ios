@@ -65,6 +65,20 @@
 		86B1997A278D75F60004C997 /* User.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86B19979278D75F60004C997 /* User.storyboard */; };
 		86B1997D278D77280004C997 /* OnlineUserListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B1997C278D77280004C997 /* OnlineUserListCell.swift */; };
 		86B1997F278D96A80004C997 /* GeneralWebVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86B1997E278D96A80004C997 /* GeneralWebVC.xib */; };
+		86B19986278EB89F0004C997 /* CallAcceptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19985278EB89F0004C997 /* CallAcceptView.swift */; };
+		86B19988278EB8B20004C997 /* CallAcceptView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86B19987278EB8B20004C997 /* CallAcceptView.xib */; };
+		86B1998A278EBB7D0004C997 /* CallingPhoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19989278EBB7D0004C997 /* CallingPhoneView.swift */; };
+		86B1998C278EBB8C0004C997 /* CallingPhoneView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86B1998B278EBB8C0004C997 /* CallingPhoneView.xib */; };
+		86B1998E278EBC7E0004C997 /* CallingVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B1998D278EBC7E0004C997 /* CallingVideoView.swift */; };
+		86B19990278EBC8E0004C997 /* CallingVideoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86B1998F278EBC8E0004C997 /* CallingVideoView.xib */; };
+		86B19992278EBDB20004C997 /* CallingTakeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19991278EBDB20004C997 /* CallingTakeView.swift */; };
+		86B19994278EBDC10004C997 /* CallingTakeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86B19993278EBDC10004C997 /* CallingTakeView.xib */; };
+		86B19996278EC1050004C997 /* CallAcceptTipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19995278EC1050004C997 /* CallAcceptTipView.swift */; };
+		86B19998278EC11C0004C997 /* CallAcceptTipView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86B19997278EC11C0004C997 /* CallAcceptTipView.xib */; };
+		86B19A082790034B0004C997 /* OnlineUserListVC+Call.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19A072790034B0004C997 /* OnlineUserListVC+Call.swift */; };
+		86B19A1127901B550004C997 /* CallMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19A0F27901B550004C997 /* CallMainVC.swift */; };
+		86B19A1227901B550004C997 /* CallMainVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86B19A1027901B550004C997 /* CallMainVC.xib */; };
+		86B19A1427901FAF0004C997 /* CallBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19A1327901FAF0004C997 /* CallBaseView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -177,6 +191,20 @@
 		86B19979278D75F60004C997 /* User.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = User.storyboard; sourceTree = "<group>"; };
 		86B1997C278D77280004C997 /* OnlineUserListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineUserListCell.swift; sourceTree = "<group>"; };
 		86B1997E278D96A80004C997 /* GeneralWebVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GeneralWebVC.xib; sourceTree = "<group>"; };
+		86B19985278EB89F0004C997 /* CallAcceptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallAcceptView.swift; sourceTree = "<group>"; };
+		86B19987278EB8B20004C997 /* CallAcceptView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CallAcceptView.xib; sourceTree = "<group>"; };
+		86B19989278EBB7D0004C997 /* CallingPhoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallingPhoneView.swift; sourceTree = "<group>"; };
+		86B1998B278EBB8C0004C997 /* CallingPhoneView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CallingPhoneView.xib; sourceTree = "<group>"; };
+		86B1998D278EBC7E0004C997 /* CallingVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallingVideoView.swift; sourceTree = "<group>"; };
+		86B1998F278EBC8E0004C997 /* CallingVideoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CallingVideoView.xib; sourceTree = "<group>"; };
+		86B19991278EBDB20004C997 /* CallingTakeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallingTakeView.swift; sourceTree = "<group>"; };
+		86B19993278EBDC10004C997 /* CallingTakeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CallingTakeView.xib; sourceTree = "<group>"; };
+		86B19995278EC1050004C997 /* CallAcceptTipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallAcceptTipView.swift; sourceTree = "<group>"; };
+		86B19997278EC11C0004C997 /* CallAcceptTipView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CallAcceptTipView.xib; sourceTree = "<group>"; };
+		86B19A072790034B0004C997 /* OnlineUserListVC+Call.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OnlineUserListVC+Call.swift"; sourceTree = "<group>"; };
+		86B19A0F27901B550004C997 /* CallMainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallMainVC.swift; sourceTree = "<group>"; };
+		86B19A1027901B550004C997 /* CallMainVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CallMainVC.xib; sourceTree = "<group>"; };
+		86B19A1327901FAF0004C997 /* CallBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallBaseView.swift; sourceTree = "<group>"; };
 		95F1BBF3114F32302EC88A9C /* Pods-ZEGOCallDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZEGOCallDemo.debug.xcconfig"; path = "Target Support Files/Pods-ZEGOCallDemo/Pods-ZEGOCallDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -380,13 +408,13 @@
 			isa = PBXGroup;
 			children = (
 				86B198FC278D63430004C997 /* Token */,
+				86B19949278D63430004C997 /* MBProgressHUD.h */,
 				86B19943278D63430004C997 /* MBProgressHUD.m */,
-				86B19944278D63430004C997 /* TipView.xib */,
 				86B19945278D63430004C997 /* HUDHelper.swift */,
+				86B19944278D63430004C997 /* TipView.xib */,
 				86B19946278D63430004C997 /* TipView.swift */,
 				86B19947278D63430004C997 /* StringTool.swift */,
 				86B19948278D63430004C997 /* ZegoColor.swift */,
-				86B19949278D63430004C997 /* MBProgressHUD.h */,
 				86B1994A278D63430004C997 /* AppToken.swift */,
 				86B1994B278D63430004C997 /* String+Head.swift */,
 				86B1994C278D63430004C997 /* ZegoTimer.swift */,
@@ -592,6 +620,7 @@
 			children = (
 				86B1997B278D76E50004C997 /* Cell */,
 				86B19977278D75E00004C997 /* OnlineUserListVC.swift */,
+				86B19A072790034B0004C997 /* OnlineUserListVC+Call.swift */,
 				86B19979278D75F60004C997 /* User.storyboard */,
 			);
 			path = User;
@@ -600,6 +629,9 @@
 		86B19976278D75930004C997 /* Call */ = {
 			isa = PBXGroup;
 			children = (
+				86B19984278EB6C40004C997 /* View */,
+				86B19A0F27901B550004C997 /* CallMainVC.swift */,
+				86B19A1027901B550004C997 /* CallMainVC.xib */,
 			);
 			path = Call;
 			sourceTree = "<group>";
@@ -610,6 +642,24 @@
 				86B1997C278D77280004C997 /* OnlineUserListCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		86B19984278EB6C40004C997 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				86B19985278EB89F0004C997 /* CallAcceptView.swift */,
+				86B19987278EB8B20004C997 /* CallAcceptView.xib */,
+				86B19989278EBB7D0004C997 /* CallingPhoneView.swift */,
+				86B1998B278EBB8C0004C997 /* CallingPhoneView.xib */,
+				86B1998D278EBC7E0004C997 /* CallingVideoView.swift */,
+				86B1998F278EBC8E0004C997 /* CallingVideoView.xib */,
+				86B19991278EBDB20004C997 /* CallingTakeView.swift */,
+				86B19993278EBDC10004C997 /* CallingTakeView.xib */,
+				86B19995278EC1050004C997 /* CallAcceptTipView.swift */,
+				86B19997278EC11C0004C997 /* CallAcceptTipView.xib */,
+				86B19A1327901FAF0004C997 /* CallBaseView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -672,13 +722,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86B19988278EB8B20004C997 /* CallAcceptView.xib in Resources */,
+				86B19A1227901B550004C997 /* CallMainVC.xib in Resources */,
 				86B19959278D63440004C997 /* TipView.xib in Resources */,
 				86B198AB278BE1C60004C997 /* AppCenter.json in Resources */,
 				86B1989E278BDD7F0004C997 /* LaunchScreen.storyboard in Resources */,
 				86B1989B278BDD7F0004C997 /* Assets.xcassets in Resources */,
+				86B19998278EC11C0004C997 /* CallAcceptTipView.xib in Resources */,
 				86B19899278BDD7E0004C997 /* Main.storyboard in Resources */,
+				86B1998C278EBB8C0004C997 /* CallingPhoneView.xib in Resources */,
 				86B1997A278D75F60004C997 /* User.storyboard in Resources */,
+				86B19990278EBC8E0004C997 /* CallingVideoView.xib in Resources */,
 				86B1997F278D96A80004C997 /* GeneralWebVC.xib in Resources */,
+				86B19994278EBDC10004C997 /* CallingTakeView.xib in Resources */,
 				86B19954278D63440004C997 /* CMakeLists.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -737,6 +793,8 @@
 				86B198DF278BE2600004C997 /* RoomInfoList.swift in Sources */,
 				86B198D5278BE2600004C997 /* Result+Zego.swift in Sources */,
 				86B1995E278D63440004C997 /* AppToken.swift in Sources */,
+				86B19996278EC1050004C997 /* CallAcceptTipView.swift in Sources */,
+				86B19A082790034B0004C997 /* OnlineUserListVC+Call.swift in Sources */,
 				86B198AC278BE1C60004C997 /* AppCenter.swift in Sources */,
 				86B19955278D63440004C997 /* ZegoCrypto.cpp in Sources */,
 				86B1997D278D77280004C997 /* OnlineUserListCell.swift in Sources */,
@@ -749,6 +807,7 @@
 				86B19964278D63E30004C997 /* AppDefine.swift in Sources */,
 				86B198D8278BE2600004C997 /* RoomService+Private.swift in Sources */,
 				86B198D7278BE2600004C997 /* UserService+Paramater.swift in Sources */,
+				86B19A1427901FAF0004C997 /* CallBaseView.swift in Sources */,
 				86B19896278BDD7E0004C997 /* LoginVC.swift in Sources */,
 				86B19962278D63440004C997 /* UIImage+Zego.swift in Sources */,
 				86B198E6278BE2600004C997 /* RoomService.swift in Sources */,
@@ -760,6 +819,7 @@
 				86B19961278D63440004C997 /* AuthorizedCheck.swift in Sources */,
 				86B198D1278BE2600004C997 /* NetworkManager.swift in Sources */,
 				86B19978278D75E00004C997 /* OnlineUserListVC.swift in Sources */,
+				86B19992278EBDB20004C997 /* CallingTakeView.swift in Sources */,
 				86B19951278D63440004C997 /* ZegoRTCServerAssistant.cpp in Sources */,
 				86B198E0278BE2600004C997 /* RoomInfo.swift in Sources */,
 				86B19892278BDD7D0004C997 /* AppDelegate.swift in Sources */,
@@ -775,9 +835,13 @@
 				86B19958278D63440004C997 /* MBProgressHUD.m in Sources */,
 				86B1995B278D63440004C997 /* TipView.swift in Sources */,
 				86B198F7278D625F0004C997 /* SettingCellModel.swift in Sources */,
+				86B1998E278EBC7E0004C997 /* CallingVideoView.swift in Sources */,
+				86B19986278EB89F0004C997 /* CallAcceptView.swift in Sources */,
 				86B198EB278BE2600004C997 /* DictionaryArray.swift in Sources */,
+				86B19A1127901B550004C997 /* CallMainVC.swift in Sources */,
 				86B19960278D63440004C997 /* ZegoTimer.swift in Sources */,
 				86B1995A278D63440004C997 /* HUDHelper.swift in Sources */,
+				86B1998A278EBB7D0004C997 /* CallingPhoneView.swift in Sources */,
 				86B19894278BDD7E0004C997 /* SceneDelegate.swift in Sources */,
 				86B1995D278D63440004C997 /* ZegoColor.swift in Sources */,
 				86B19952278D63440004C997 /* ZegoServerAssistantImpl.cpp in Sources */,
