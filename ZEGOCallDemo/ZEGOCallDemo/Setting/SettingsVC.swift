@@ -115,7 +115,7 @@ class SettingsVC: UITableViewController {
         let model = dataSource[indexPath.section][indexPath.row]
         if model.type == .logout {
             RoomManager.shared.userService.logout()
-            performSegue(withIdentifier: "popToLoginVC", sender: self)
+            self.navigationController?.popToRootViewController(animated: true)
         } else if model.type == .shareLog {
             // share log.
             HUDHelper.showNetworkLoading()

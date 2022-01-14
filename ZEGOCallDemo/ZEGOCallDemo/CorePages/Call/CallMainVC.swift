@@ -25,12 +25,14 @@ class CallMainVC: UIViewController {
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var callStatusLabel: UILabel!
     @IBOutlet weak var bottomView: UIView!
+    @IBOutlet weak var callQualityLabel: UILabel!
     
     @IBOutlet weak var bottomViewHeight: NSLayoutConstraint!
     @IBOutlet weak var toBottomDistance: NSLayoutConstraint!
 
     lazy var takeView: CallingTakeView = {
         let view: CallingTakeView = UINib(nibName: "CallingTakeView", bundle: nil).instantiate(withOwner: nil, options: nil).first as! CallingTakeView
+        view.delegate = self
         view.frame = CGRect.init(x: 0, y: 0, width: self.view.bounds.size.width, height: 60)
         view.isHidden = true
         bottomView.addSubview(view)
@@ -39,6 +41,7 @@ class CallMainVC: UIViewController {
     
     lazy var acceptView: CallAcceptView = {
         let view: CallAcceptView = UINib(nibName: "CallAcceptView", bundle: nil).instantiate(withOwner: nil, options: nil).first as! CallAcceptView
+        view.delegate = self
         view.frame = CGRect.init(x: 0, y: self.view.bounds.size.height - 28, width: self.view.bounds.size.width, height: 85)
         view.isHidden = true
         bottomView.addSubview(view)
@@ -47,6 +50,7 @@ class CallMainVC: UIViewController {
     
     lazy var phoneView: CallingPhoneView = {
         let view: CallingPhoneView = UINib(nibName: "CallingPhoneView", bundle: nil).instantiate(withOwner: nil, options: nil).first as! CallingPhoneView
+        view.delegate = self
         view.frame = CGRect.init(x: 0, y: self.view.bounds.size.height - 52.5, width: self.view.bounds.size.width, height: 60)
         view.isHidden = true
         bottomView.addSubview(view)
@@ -55,6 +59,7 @@ class CallMainVC: UIViewController {
     
     lazy var videoView: CallingVideoView = {
         let view: CallingVideoView = UINib(nibName: "CallingVideoView", bundle: nil).instantiate(withOwner: nil, options: nil).first as! CallingVideoView
+        view.delegate = self
         view.frame = CGRect.init(x: 0, y: self.view.bounds.size.height - 52.5, width: self.view.bounds.size.width, height: 60)
         view.isHidden = true
         bottomView.addSubview(view)
@@ -78,7 +83,4 @@ class CallMainVC: UIViewController {
             break
         }
     }
-    
-    
-
 }

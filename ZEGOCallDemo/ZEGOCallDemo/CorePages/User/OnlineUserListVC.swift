@@ -10,6 +10,7 @@ import UIKit
 class OnlineUserListVC: UIViewController {
     
     @IBOutlet weak var userListTableView: UITableView!
+    var dataSource:[AnyObject] = []
     
     lazy var refreshControl: UIRefreshControl = {
         var refreshControl = UIRefreshControl()
@@ -21,11 +22,6 @@ class OnlineUserListVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        let backBtn: UIBarButtonItem = UIBarButtonItem()
-        backBtn.title = "Back"
-        self.navigationItem.backBarButtonItem = backBtn;
-        
-        self.userListTableView.refreshControl = refreshControl
     }
     
     // MARK: action

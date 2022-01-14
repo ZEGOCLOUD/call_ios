@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		811FC88CC6FD5651833E2209 /* Pods_ZEGOCallDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55A62E6D598ECA438B1684C8 /* Pods_ZEGOCallDemo.framework */; };
+		86718CA427915A0B00CEA8A0 /* DefaultRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CA327915A0B00CEA8A0 /* DefaultRefreshView.swift */; };
+		86718CA627915A5D00CEA8A0 /* RefreshViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CA527915A5D00CEA8A0 /* RefreshViewAnimator.swift */; };
+		86718CA827915A8F00CEA8A0 /* DefaultViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CA727915A8F00CEA8A0 /* DefaultViewAnimator.swift */; };
+		86718CAA27915AC100CEA8A0 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CA927915AC100CEA8A0 /* State.swift */; };
+		86718CAC27915ADE00CEA8A0 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CAB27915ADE00CEA8A0 /* PullToRefresh.swift */; };
+		86718CAE27915B2B00CEA8A0 /* UIScrollView+PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CAD27915B2B00CEA8A0 /* UIScrollView+PullToRefresh.swift */; };
 		86B19892278BDD7D0004C997 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19891278BDD7D0004C997 /* AppDelegate.swift */; };
 		86B19894278BDD7E0004C997 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19893278BDD7E0004C997 /* SceneDelegate.swift */; };
 		86B19896278BDD7E0004C997 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19895278BDD7E0004C997 /* LoginVC.swift */; };
@@ -79,11 +85,18 @@
 		86B19A1127901B550004C997 /* CallMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19A0F27901B550004C997 /* CallMainVC.swift */; };
 		86B19A1227901B550004C997 /* CallMainVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86B19A1027901B550004C997 /* CallMainVC.xib */; };
 		86B19A1427901FAF0004C997 /* CallBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19A1327901FAF0004C997 /* CallBaseView.swift */; };
+		86B19A1727911D740004C997 /* CallMainVC+Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19A1627911D740004C997 /* CallMainVC+Operation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1FAC22BD21F182989689EBE3 /* Pods-ZEGOCallDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZEGOCallDemo.release.xcconfig"; path = "Target Support Files/Pods-ZEGOCallDemo/Pods-ZEGOCallDemo.release.xcconfig"; sourceTree = "<group>"; };
 		55A62E6D598ECA438B1684C8 /* Pods_ZEGOCallDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZEGOCallDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		86718CA327915A0B00CEA8A0 /* DefaultRefreshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultRefreshView.swift; sourceTree = "<group>"; };
+		86718CA527915A5D00CEA8A0 /* RefreshViewAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshViewAnimator.swift; sourceTree = "<group>"; };
+		86718CA727915A8F00CEA8A0 /* DefaultViewAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultViewAnimator.swift; sourceTree = "<group>"; };
+		86718CA927915AC100CEA8A0 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
+		86718CAB27915ADE00CEA8A0 /* PullToRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefresh.swift; sourceTree = "<group>"; };
+		86718CAD27915B2B00CEA8A0 /* UIScrollView+PullToRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+PullToRefresh.swift"; sourceTree = "<group>"; };
 		86B1988E278BDD7D0004C997 /* ZEGOCallDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZEGOCallDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86B19891278BDD7D0004C997 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		86B19893278BDD7E0004C997 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -205,6 +218,7 @@
 		86B19A0F27901B550004C997 /* CallMainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallMainVC.swift; sourceTree = "<group>"; };
 		86B19A1027901B550004C997 /* CallMainVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CallMainVC.xib; sourceTree = "<group>"; };
 		86B19A1327901FAF0004C997 /* CallBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallBaseView.swift; sourceTree = "<group>"; };
+		86B19A1627911D740004C997 /* CallMainVC+Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallMainVC+Operation.swift"; sourceTree = "<group>"; };
 		95F1BBF3114F32302EC88A9C /* Pods-ZEGOCallDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZEGOCallDemo.debug.xcconfig"; path = "Target Support Files/Pods-ZEGOCallDemo/Pods-ZEGOCallDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -237,6 +251,19 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		86718CA2279159BA00CEA8A0 /* Refresh */ = {
+			isa = PBXGroup;
+			children = (
+				86718CA327915A0B00CEA8A0 /* DefaultRefreshView.swift */,
+				86718CA727915A8F00CEA8A0 /* DefaultViewAnimator.swift */,
+				86718CA527915A5D00CEA8A0 /* RefreshViewAnimator.swift */,
+				86718CAB27915ADE00CEA8A0 /* PullToRefresh.swift */,
+				86718CA927915AC100CEA8A0 /* State.swift */,
+				86718CAD27915B2B00CEA8A0 /* UIScrollView+PullToRefresh.swift */,
+			);
+			path = Refresh;
+			sourceTree = "<group>";
+		};
 		86B19885278BDD7D0004C997 = {
 			isa = PBXGroup;
 			children = (
@@ -259,15 +286,15 @@
 		86B19890278BDD7D0004C997 /* ZEGOCallDemo */ = {
 			isa = PBXGroup;
 			children = (
-				86B1996A278D711B0004C997 /* WebPages */,
 				86B198FB278D63430004C997 /* Helper */,
+				86B19A15279118210004C997 /* Login */,
+				86B1996A278D711B0004C997 /* WebPages */,
 				86B198F3278D62420004C997 /* Setting */,
 				86B198F0278D57530004C997 /* Home */,
 				86B198EF278D28B20004C997 /* CorePages */,
 				86B198A6278BE1C60004C997 /* AppCenter */,
 				86B19891278BDD7D0004C997 /* AppDelegate.swift */,
 				86B19893278BDD7E0004C997 /* SceneDelegate.swift */,
-				86B19895278BDD7E0004C997 /* LoginVC.swift */,
 				86B19963278D63E30004C997 /* AppDefine.swift */,
 				86B19968278D6AAC0004C997 /* ZEGOCallDemo-Bridging-Header.h */,
 				86B19897278BDD7E0004C997 /* Main.storyboard */,
@@ -407,6 +434,7 @@
 		86B198FB278D63430004C997 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				86718CA2279159BA00CEA8A0 /* Refresh */,
 				86B198FC278D63430004C997 /* Token */,
 				86B19949278D63430004C997 /* MBProgressHUD.h */,
 				86B19943278D63430004C997 /* MBProgressHUD.m */,
@@ -632,6 +660,7 @@
 				86B19984278EB6C40004C997 /* View */,
 				86B19A0F27901B550004C997 /* CallMainVC.swift */,
 				86B19A1027901B550004C997 /* CallMainVC.xib */,
+				86B19A1627911D740004C997 /* CallMainVC+Operation.swift */,
 			);
 			path = Call;
 			sourceTree = "<group>";
@@ -660,6 +689,14 @@
 				86B19A1327901FAF0004C997 /* CallBaseView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		86B19A15279118210004C997 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				86B19895278BDD7E0004C997 /* LoginVC.swift */,
+			);
+			path = Login;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -789,6 +826,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				86B198DE278BE2600004C997 /* CustomCommand.swift in Sources */,
+				86718CA627915A5D00CEA8A0 /* RefreshViewAnimator.swift in Sources */,
 				86B1995C278D63440004C997 /* StringTool.swift in Sources */,
 				86B198DF278BE2600004C997 /* RoomInfoList.swift in Sources */,
 				86B198D5278BE2600004C997 /* Result+Zego.swift in Sources */,
@@ -809,8 +847,10 @@
 				86B198D7278BE2600004C997 /* UserService+Paramater.swift in Sources */,
 				86B19A1427901FAF0004C997 /* CallBaseView.swift in Sources */,
 				86B19896278BDD7E0004C997 /* LoginVC.swift in Sources */,
+				86718CAC27915ADE00CEA8A0 /* PullToRefresh.swift in Sources */,
 				86B19962278D63440004C997 /* UIImage+Zego.swift in Sources */,
 				86B198E6278BE2600004C997 /* RoomService.swift in Sources */,
+				86718CA827915A8F00CEA8A0 /* DefaultViewAnimator.swift in Sources */,
 				86B198D4278BE2600004C997 /* String+Stream.swift in Sources */,
 				86B19950278D63440004C997 /* ZegoRTCServerAssistantImpl.cpp in Sources */,
 				86B19953278D63440004C997 /* ZegoServerAssistant.cpp in Sources */,
@@ -825,6 +865,7 @@
 				86B19892278BDD7D0004C997 /* AppDelegate.swift in Sources */,
 				86B198D6278BE2600004C997 /* UserService+Util.swift in Sources */,
 				86B198EE278D27A80004C997 /* OperationCommand.swift in Sources */,
+				86718CAA27915AC100CEA8A0 /* State.swift in Sources */,
 				86B198EC278BE2600004C997 /* ZegoJsonTool.swift in Sources */,
 				86B198E4278BE2600004C997 /* UserService.swift in Sources */,
 				86B19956278D63440004C997 /* aes.cpp in Sources */,
@@ -837,9 +878,12 @@
 				86B198F7278D625F0004C997 /* SettingCellModel.swift in Sources */,
 				86B1998E278EBC7E0004C997 /* CallingVideoView.swift in Sources */,
 				86B19986278EB89F0004C997 /* CallAcceptView.swift in Sources */,
+				86718CA427915A0B00CEA8A0 /* DefaultRefreshView.swift in Sources */,
 				86B198EB278BE2600004C997 /* DictionaryArray.swift in Sources */,
 				86B19A1127901B550004C997 /* CallMainVC.swift in Sources */,
+				86B19A1727911D740004C997 /* CallMainVC+Operation.swift in Sources */,
 				86B19960278D63440004C997 /* ZegoTimer.swift in Sources */,
+				86718CAE27915B2B00CEA8A0 /* UIScrollView+PullToRefresh.swift in Sources */,
 				86B1995A278D63440004C997 /* HUDHelper.swift in Sources */,
 				86B1998A278EBB7D0004C997 /* CallingPhoneView.swift in Sources */,
 				86B19894278BDD7E0004C997 /* SceneDelegate.swift in Sources */,

@@ -11,19 +11,16 @@ class CallAcceptView: CallBaseView {
     
     @IBOutlet weak var acceptButton: UIButton!
     @IBOutlet weak var declineButton: UIButton!
-    
-    
     @IBOutlet weak var acceptLabel: UILabel!
     @IBOutlet weak var declineLabel: UILabel!
     
     
     @IBAction func declineButtonClick(_ sender: UIButton) {
-        delegate?.callDecline()
+        delegate?.callDecline(self)
     }
     
-    
     @IBAction func acceptButtonClick(_ sender: UIButton) {
-        delegate?.callAccept()
+        delegate?.callAccept(self)
     }
     
 }

@@ -12,6 +12,7 @@
             <connections>
                 <outlet property="bottomView" destination="WpY-gi-mHI" id="v09-DO-5wM"/>
                 <outlet property="bottomViewHeight" destination="2cQ-s2-tmF" id="yud-RR-4Sy"/>
+                <outlet property="callQualityLabel" destination="FXF-MN-Utr" id="pGW-oM-U2I"/>
                 <outlet property="callStatusLabel" destination="7wa-uL-Azy" id="DhR-H6-6iD"/>
                 <outlet property="headImage" destination="5G2-Zx-Cu3" id="lXu-y6-jq6"/>
                 <outlet property="timeLabel" destination="hhF-a9-GgM" id="oEf-0M-AOr"/>
@@ -28,7 +29,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UGq-gf-GMi">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hhF-a9-GgM">
+                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hhF-a9-GgM">
                             <rect key="frame" x="0.0" y="22" width="414" height="44"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="tN3-Bb-iSZ"/>
@@ -59,7 +60,7 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7wa-uL-Azy">
+                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7wa-uL-Azy">
                             <rect key="frame" x="37" y="294.5" width="340" height="22.5"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="22.5" id="Rab-FY-Qgi"/>
@@ -75,12 +76,24 @@
                                 <constraint firstAttribute="height" constant="70" id="2cQ-s2-tmF"/>
                             </constraints>
                         </view>
+                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FXF-MN-Utr">
+                            <rect key="frame" x="60" y="735.5" width="294" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="lD2-eV-UZ1"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="BYn-4l-wvv" firstAttribute="centerX" secondItem="UGq-gf-GMi" secondAttribute="centerX" id="4l9-v5-bKv"/>
+                        <constraint firstItem="FXF-MN-Utr" firstAttribute="leading" secondItem="UGq-gf-GMi" secondAttribute="leading" constant="60" id="5se-tr-nhB"/>
                         <constraint firstItem="WpY-gi-mHI" firstAttribute="leading" secondItem="UGq-gf-GMi" secondAttribute="leading" id="74c-Zr-6Wd"/>
+                        <constraint firstAttribute="trailing" secondItem="FXF-MN-Utr" secondAttribute="trailing" constant="60" id="KSv-Jq-0Wc"/>
                         <constraint firstItem="hhF-a9-GgM" firstAttribute="leading" secondItem="UGq-gf-GMi" secondAttribute="leading" id="LUe-I8-LDd"/>
+                        <constraint firstItem="WpY-gi-mHI" firstAttribute="top" secondItem="FXF-MN-Utr" secondAttribute="bottom" constant="17" id="N9e-3r-2M7"/>
                         <constraint firstAttribute="trailing" secondItem="WpY-gi-mHI" secondAttribute="trailing" id="Pv9-0n-trP"/>
                         <constraint firstItem="BYn-4l-wvv" firstAttribute="top" secondItem="5G2-Zx-Cu3" secondAttribute="bottom" constant="5" id="R0y-l8-MJe"/>
                         <constraint firstItem="hhF-a9-GgM" firstAttribute="top" secondItem="UGq-gf-GMi" secondAttribute="top" constant="22" id="UJW-7S-HHN"/>

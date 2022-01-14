@@ -8,13 +8,13 @@
 import UIKit
 
 protocol CallActionDelegate: AnyObject {
-    func callhandUp()
-    func callAccept()
-    func callDecline()
-    func callOpenMic(_ isOpen: Bool)
-    func callOpenVoice(_ isOpen: Bool)
-    func callOpenVideo(_ isOpen: Bool)
-    func callFlipCamera()
+    func callhandUp(_ callView: CallBaseView)
+    func callAccept(_ callView: CallBaseView)
+    func callDecline(_ callView: CallBaseView)
+    func callOpenMic(_ callView: CallBaseView, isOpen: Bool)
+    func callOpenVoice(_ callView: CallBaseView, isOpen: Bool)
+    func callOpenVideo(_ callView: CallBaseView, isOpen: Bool)
+    func callFlipCamera(_ callView: CallBaseView)
 }
 
 class CallBaseView: UIView {

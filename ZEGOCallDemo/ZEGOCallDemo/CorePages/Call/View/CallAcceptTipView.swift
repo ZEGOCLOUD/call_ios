@@ -20,11 +20,11 @@ class CallAcceptTipView: CallBaseView {
     
     
     @IBAction func declineButtonClick(_ sender: UIButton) {
-        delegate?.callDecline()
+        delegate?.callDecline(self)
     }
     
     @IBAction func acceptButtonClick(_ sender: UIButton) {
-        delegate?.callAccept()
+        delegate?.callAccept(self)
     }
     
 }

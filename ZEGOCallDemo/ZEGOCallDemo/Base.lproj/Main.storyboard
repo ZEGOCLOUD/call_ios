@@ -423,7 +423,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Settings" id="cIP-I3-mIc">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="nav_back" id="zhP-Z3-R8e"/>
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="nav_back" id="zhP-Z3-R8e">
+                            <connections>
+                                <action selector="backItemClick:" destination="N3j-gh-fEx" id="kaf-Lb-NQM"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6HG-1n-OQp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

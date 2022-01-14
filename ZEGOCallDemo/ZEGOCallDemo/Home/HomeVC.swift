@@ -15,7 +15,6 @@ class HomeVC: UIViewController {
     @IBOutlet weak var backView: UIView!
     
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -33,15 +32,8 @@ class HomeVC: UIViewController {
         self.navigationController?.navigationBar.isHidden = false
     }
     
-    func pushToWeb(_ url: String) {
-        let vc: GeneralWebVC = UINib(nibName: "GeneralWebVC", bundle: nil).instantiate(withOwner: nil, options: nil).first as! GeneralWebVC
-        vc.loadUrl(url)
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
     
     //MARK: -Action
-    
     @IBAction func signUpClick(_ sender: UIButton) {
         pushToWeb("")
     }
@@ -49,6 +41,12 @@ class HomeVC: UIViewController {
     
     @IBAction func getMoreClick(_ sender: UIButton) {
         pushToWeb("https://www.zegocloud.com/")
+    }
+    
+    func pushToWeb(_ url: String) {
+        let vc: GeneralWebVC = UINib(nibName: "GeneralWebVC", bundle: nil).instantiate(withOwner: nil, options: nil).first as! GeneralWebVC
+        vc.loadUrl(url)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func tap() {

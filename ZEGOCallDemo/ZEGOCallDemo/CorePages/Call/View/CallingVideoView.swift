@@ -13,24 +13,24 @@ class CallingVideoView: CallBaseView {
 
     
     @IBAction func videoButtonClick(_ sender: UIButton) {
-        delegate?.callOpenVideo(true)
+        delegate?.callOpenVideo(self, isOpen: true)
     }
     
     @IBAction func micButtonClick(_ sender: UIButton) {
-        delegate?.callOpenMic(true)
+        delegate?.callOpenMic(self, isOpen: true)
     }
     
     @IBAction func handUpButtonClick(_ sender: UIButton) {
-        delegate?.callhandUp()
+        delegate?.callhandUp(self)
     }
     
     @IBAction func flipButtonClick(_ sender: UIButton) {
-        delegate?.callFlipCamera()
+        delegate?.callFlipCamera(self)
     }
     
     
     @IBAction func voiceButtonClick(_ sender: UIButton) {
-        delegate?.callOpenVoice(true)
+        delegate?.callOpenVoice(self, isOpen: true)
     }
     
     

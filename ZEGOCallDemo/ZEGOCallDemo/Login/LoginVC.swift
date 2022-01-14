@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class LoginVC: UIViewController {
     
@@ -16,16 +17,48 @@ class LoginVC: UIViewController {
     @IBOutlet weak var inputNameTipLabel: UILabel!
     @IBOutlet weak var loginButton: UIButton!
     
+    var micPermissions: Bool = true
+    var cameraPermissions: Bool = true
+    
     var myUserName: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        clipRoundCorners()
+        applicationHasMicAndCameraAccess()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
+    }
+    
+    private func applicationHasMicAndCameraAccess() -> Bool {
+        // not determined
+        if !AuthorizedCheck.isCameraAuthorizationDetermined(){
+            AuthorizedCheck.takeCameraAuthorityStatus(completion: nil)
+            cameraPermissions = false
+            return false
+        }
+        // determined but not authorized
+        if !AuthorizedCheck.isCameraAuthorized() {
+            AuthorizedCheck.showCameraUnauthorizedAlert(self)
+            cameraPermissions = false
+            return false
+        }
+        
+        // not determined
+        if !AuthorizedCheck.isMicrophoneAuthorizationDetermined(){
+            AuthorizedCheck.takeMicPhoneAuthorityStatus(completion: nil)
+            micPermissions = false
+            return false
+        }
+        // determined but not authorized
+        if !AuthorizedCheck.isMicrophoneAuthorized() {
+            AuthorizedCheck.showMicrophoneUnauthorizedAlert(self)
+            micPermissions = false
+            return false
+        }
+        return true
     }
     
     func clipRoundCorners() -> Void {
@@ -72,8 +105,8 @@ class LoginVC: UIViewController {
     }
     
     //MARK: -Action
-    
     @IBAction func loginClick(_ sender: Any) {
+        if !micPermissions || !cameraPermissions {return}
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -81,14 +114,6 @@ class LoginVC: UIViewController {
 }
 
 extension LoginVC : UITextFieldDelegate {
-    //MARK: - UITextFieldDelegate
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        
-    }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let proposeLength = (textField.text?.lengthOfBytes(using: .utf8))! - range.length + string.lengthOfBytes(using: .utf8)

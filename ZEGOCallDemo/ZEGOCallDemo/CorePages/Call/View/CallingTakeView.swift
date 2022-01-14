@@ -11,7 +11,7 @@ class CallingTakeView: CallBaseView {
 
     
     @IBAction func hangUpButtonClick(_ sender: UIButton) {
-        delegate?.callhandUp()
+        delegate?.callhandUp(self)
     }
     
 }

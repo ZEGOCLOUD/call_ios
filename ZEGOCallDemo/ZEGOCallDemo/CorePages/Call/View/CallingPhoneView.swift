@@ -15,15 +15,15 @@ class CallingPhoneView: CallBaseView {
     
     
     @IBAction func micButtonClick(_ sender: UIButton) {
-        delegate?.callOpenMic(true)
+        delegate?.callOpenMic(self, isOpen: true)
     }
     
     @IBAction func handUpButtonClick(_ sender: UIButton) {
-        delegate?.callhandUp()
+        delegate?.callhandUp(self)
     }
     
     @IBAction func voiceButtonClick(_ sender: UIButton) {
-        delegate?.callOpenVoice(true)
+        delegate?.callOpenVoice(self, isOpen: true)
     }
 
 }
