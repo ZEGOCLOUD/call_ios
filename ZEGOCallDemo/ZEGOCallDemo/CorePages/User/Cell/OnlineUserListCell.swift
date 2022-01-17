@@ -29,6 +29,11 @@ class OnlineUserListCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
+    
+    func updateCell(_ model: UserInfo) {
+        userIDLabel.text = model.userID
+        userNameLabel.text = model.userName
+    }
 
     @IBAction func startVideoClick(_ sender: UIButton) {
         delegate?.startCall(.video)

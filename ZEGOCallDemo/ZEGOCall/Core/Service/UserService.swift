@@ -14,9 +14,9 @@ enum CallResponseType {
     case reject
 }
 
-enum CallType {
-    case audio
-    case video
+enum CallType: Int {
+    case audio = 1
+    case video = 2
 }
 
 protocol UserServiceDelegate : AnyObject  {
@@ -47,14 +47,12 @@ class UserService: NSObject {
     let delegates = NSHashTable<AnyObject>.weakObjects()
     var localUserInfo: UserInfo?
     var userList = DictionaryArray<String, UserInfo>()
-    var roomService: RoomService?
+    var roomService: RoomService = RoomService()
+    let timer = ZegoTimer(30000)
     
     
     override init() {
         super.init()
-        
-        roomService = RoomService()
-        
         // RoomManager didn't finish init at this time.
         DispatchQueue.main.async {
             RoomManager.shared.addZIMEventHandler(self)
@@ -65,9 +63,21 @@ class UserService: NSObject {
         self.delegates.add(delegate)
     }
     
+    func requestUserID(_ callback: UserIDCallBack?) {
+        let request = UserIDReauest()
+        RequestManager.shared.getUserIDRequest(request: request) { requestStatus in
+            guard let callback = callback else { return }
+            let userID: String = requestStatus?.data["id"] as? String ?? ""
+            callback(.success(userID))
+        } failure: { requestStatus in
+            guard let callback = callback else { return }
+            callback(.failure(.failed))
+        }
+
+    }
+    
     /// user login with user info and `ZIM token`
     func login(_ user: UserInfo, _ token: String, callback: RoomCallback?) {
-        
         guard let userID = user.userID else {
             guard let callback = callback else { return }
             callback(.failure(.paramInvalid))
@@ -80,21 +90,39 @@ class UserService: NSObject {
             return
         }
         
-        let zimUser = ZIMUserInfo()
-        zimUser.userID = userID
-        zimUser.userName = userName
-        
-        ZIMManager.shared.zim?.login(zimUser, token: token, callback: { error in
-            var result: ZegoResult
-            if error.code == .ZIMErrorCodeSuccess {
-                self.localUserInfo = user
-                result = .success(())
-            } else {
-                result = .failure(.other(Int32(error.code.rawValue)))
+        var request = LoginRequest()
+        request.userID = userID
+        request.name = userName
+        RequestManager.shared.loginRequest(request: request) { requestStatus in
+            
+            user.order = requestStatus?.data["order"] as? String ?? ""
+            
+            self.timer.setEventHandler {
+                self.heartBeatRequest()
             }
+            
+            let zimUser = ZIMUserInfo()
+            zimUser.userID = userID
+            zimUser.userName = userName
+            
+            ZIMManager.shared.zim?.login(zimUser, token: token, callback: { error in
+                var result: ZegoResult
+                if error.code == .ZIMErrorCodeSuccess {
+                    self.localUserInfo = user
+                    result = .success(())
+                } else {
+                    result = .failure(.other(Int32(error.code.rawValue)))
+                }
+                guard let callback = callback else { return }
+                callback(result)
+            })
+            
+            
+        } failure: { requestStatus in
             guard let callback = callback else { return }
+            let result: ZegoResult = .failure(.other(Int32(requestStatus?.code ?? 0)))
             callback(result)
-        })
+        }
     }
     
     /// user logout
@@ -103,8 +131,56 @@ class UserService: NSObject {
         RoomManager.shared.logoutRtcRoom(true)
     }
     
-    func callToUser(_ userID: String, type: CallType) {
+    func callToUser(_ userID: String, type: CallType, callback: RoomCallback?) {
+        let rtcToken = AppToken.getRtcToken(withRoomID: userID) ?? ""
+        roomService.createRoom(userID, localUserInfo?.userName ?? "", rtcToken) { [self] result in
+            HUDHelper.hideNetworkLoading()
+            switch result {
+            case .success():
+                self.roomService.joinRoom(userID, rtcToken) { result in
+                    switch result {
+                    case .success():
+                        sendPeerMesssage(userID, callType: type,callback: callback)
+                    case .failure(let code):
+                        guard let callback = callback else { return }
+                        let result: ZegoResult = .failure(code)
+                        callback(result)
+                    }
+                }
+            case .failure(let error):
+                let message = String(format: ZGLocalizedString("toast_create_room_fail"), error.code)
+//                TipView.showWarn(message)
+                break
+            }
+        }
+    }
+    
+    private func sendPeerMesssage(_ userID: String, callType: CallType, callback: RoomCallback?) {
         
+        let invitation = CustomCommand(.call)
+        invitation.targetUserIDs.append(userID)
+        invitation.content = CustomCommandContent(user_info: ["id": localUserInfo?.userID ?? "", "name" : localUserInfo?.userName ?? ""], response_type: 0, call_type: callType.rawValue)
+        guard let json = invitation.json(),
+              let data = json.data(using: .utf8) else {
+            guard let callback = callback else { return }
+            callback(.failure(.failed))
+            return
+        }
+        
+        let customMessage: ZIMCustomMessage = ZIMCustomMessage(message: data)
+        ZIMManager.shared.zim?.sendPeerMessage(customMessage, toUserID: userID, callback: { _, error in
+            var result: ZegoResult
+            if error.code == .ZIMErrorCodeSuccess {
+                result = .success(())
+//                if let user = self.userList.getObj(userID) {
+//                    user.hasInvited = true
+//                }
+            } else {
+                result = .failure(.other(Int32(error.code.rawValue)))
+            }
+            guard let callback = callback else { return }
+            callback(result)
+        })
     }
     
     func cancelCallToUser(userID: String) {
@@ -145,6 +221,15 @@ class UserService: NSObject {
         // open camera
         ZegoExpressEngine.shared().enableCamera(open)
     }
+    
+    // MARK: private method
+    private func heartBeatRequest() {
+        var request = HeartBeatRequest()
+        request.userID = RoomManager.shared.userService.localUserInfo?.userID ?? ""
+        RequestManager.shared.heartBeatRequest(request: request) { requestStatus in
+        } failure: { requestStatus in
+        }
+    }
 }
 
 // MARK: - Private
@@ -182,17 +267,29 @@ extension UserService : ZIMEventHandler {
             guard let command = command else { continue }
             if command.targetUserIDs.count == 0 { continue }
             
-            
             for delegate in delegates.allObjects {
                 guard let delegate = delegate as? UserServiceDelegate else { continue }
-                if command.type == .call {
-                    
-                } else {
-//                    guard let accept = command.content?.accept else { continue }
-//                    if let user = self.userList.getObj(command.targetUserIDs.first ?? "") {
-//                        delegate.receiveAddCoHostRespond(user, accept: accept)
-//                    }
+                switch command.type {
+                case .call:
+            
+                    break
+                case .cancel:
+                    break
+                case .reply:
+                    break
+                case .end:
+                    break
+                case .none:
+                    break
                 }
+//                if command.type == .call {
+//
+//                } else {
+////                    guard let accept = command.content?.accept else { continue }
+////                    if let user = self.userList.getObj(command.targetUserIDs.first ?? "") {
+////                        delegate.receiveAddCoHostRespond(user, accept: accept)
+////                    }
+//                }
             }
         }
     }

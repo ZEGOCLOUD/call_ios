@@ -11,6 +11,8 @@ typealias ZegoResult = Result<Void, ZegoError>
 /// common room callback
 typealias RoomCallback = (ZegoResult) -> Void
 
+typealias UserIDCallBack = (Result<String, ZegoError>) -> Void
+
 /// online room users count callback
 typealias OnlineRoomUsersCountCallback = (Result<UInt32, ZegoError>) -> Void
 
@@ -18,7 +20,7 @@ typealias OnlineRoomUsersCountCallback = (Result<UInt32, ZegoError>) -> Void
 typealias OnlineRoomUsersCallback = (Result<[UserInfo], ZegoError>) -> Void
 
 /// room list callback
-typealias RoomListCallback = (Result<[RoomInfo], ZegoError>) -> Void
+typealias UserListCallback = (Result<[UserInfo], ZegoError>) -> Void
 
 
 enum ZegoError: Error {

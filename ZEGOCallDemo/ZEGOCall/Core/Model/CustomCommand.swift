@@ -8,8 +8,9 @@
 import Foundation
 
 struct CustomCommandContent : Codable {
-    var user_info: String
-    var response_type : Int
+    var user_info = Dictionary<String, String>() ///
+    var response_type : Int /// 1:agree  2:refused
+    var call_type : Int /// 1:voice 2:video
 }
 
 class CustomCommand : NSObject, Codable {

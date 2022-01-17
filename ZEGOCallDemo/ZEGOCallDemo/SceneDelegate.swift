@@ -16,7 +16,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        window = UIWindow(windowScene: windowScene)
+        setRootViewController()
+        window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -45,6 +48,32 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
+    }
+    
+    func setRootViewController() {
+        let rootVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginVC") as! LoginVC
+        let nav: UINavigationController = UINavigationController.init(rootViewController: rootVC)
+        let userInfoDic: Dictionary? = UserDefaults.standard.object(forKey: USERID_KEY) as? Dictionary<String, String>
+        if let userInfoDic = userInfoDic {
+            let userInfo = UserInfo()
+            userInfo.userID = userInfoDic["userID"]
+            userInfo.userName = userInfoDic["userName"]
+            RoomManager.shared.userService.localUserInfo = userInfo
+            if let token = AppToken.getZIMToken(withUserID: userInfo.userID) {
+                RoomManager.shared.userService.login(userInfo, token) { result in
+                    switch result {
+                    case .success():
+                        self.window?.rootViewController = nav
+                        let homeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
+                        rootVC.navigationController?.pushViewController(homeVC, animated: false)
+                    case .failure(let code):
+                        break
+                    }
+                }
+            }
+        } else {
+            window?.rootViewController = nav
+        }
     }
 
 

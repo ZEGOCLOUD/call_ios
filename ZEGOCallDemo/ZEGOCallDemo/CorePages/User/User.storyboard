@@ -3,7 +3,6 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -12,15 +11,46 @@
         <!--Online User ListVC-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="OnlineUserListVC" id="Y6W-OH-hqX" customClass="OnlineUserListVC" customModule="ZEGOCallDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_list_empty_icon" translatesAutoresizingMaskIntoConstraints="NO" id="OjA-qy-RZJ">
+                                <rect key="frame" x="182" y="423" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="6hy-Zy-HmU"/>
+                                    <constraint firstAttribute="height" constant="50" id="ggx-mV-ZZz"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="None Online User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PNa-NN-jw9">
+                                <rect key="frame" x="147" y="481" width="120.5" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="kQd-5l-bqk"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.64313725490196072" green="0.64313725490196072" blue="0.64313725490196072" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EHj-jB-wYK">
+                                <rect key="frame" x="16" y="49" width="84.5" height="39"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="39" id="1kd-oF-ahZ"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="Online">
+                                        <attributes>
+                                            <color key="NSColor" name="2A2A2A"/>
+                                            <font key="NSFont" size="28" name="PingFangSC-Medium"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="vQD-FX-PSW">
                                 <rect key="frame" x="0.0" y="96.5" width="414" height="799.5"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="OnlineUserListCell" rowHeight="74" id="ogB-Yc-lPi" customClass="OnlineUserListCell" customModule="ZEGOCallDemo" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="44.5" width="414" height="74"/>
@@ -129,27 +159,15 @@
                                     <outlet property="delegate" destination="Y6W-OH-hqX" id="la6-gt-sk3"/>
                                 </connections>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EHj-jB-wYK">
-                                <rect key="frame" x="16" y="49" width="84.5" height="39"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="39" id="1kd-oF-ahZ"/>
-                                </constraints>
-                                <attributedString key="attributedText">
-                                    <fragment content="Online">
-                                        <attributes>
-                                            <color key="NSColor" name="2A2A2A"/>
-                                            <font key="NSFont" size="28" name="PingFangSC-Medium"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="vQD-FX-PSW" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="4Ae-as-mBz"/>
+                            <constraint firstItem="OjA-qy-RZJ" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="5FN-TD-GoF"/>
+                            <constraint firstItem="OjA-qy-RZJ" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="9qk-Mr-c4z"/>
+                            <constraint firstItem="PNa-NN-jw9" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="EJB-rK-qhR"/>
+                            <constraint firstItem="PNa-NN-jw9" firstAttribute="top" secondItem="OjA-qy-RZJ" secondAttribute="bottom" constant="8" id="Nvm-Xd-Wfv"/>
                             <constraint firstItem="vQD-FX-PSW" firstAttribute="top" secondItem="EHj-jB-wYK" secondAttribute="bottom" constant="8.5" id="bXx-ki-gcY"/>
                             <constraint firstItem="EHj-jB-wYK" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="fzh-RX-Vdq"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="vQD-FX-PSW" secondAttribute="trailing" id="jbC-Io-WSj"/>
@@ -158,14 +176,18 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="emptyImage" destination="OjA-qy-RZJ" id="dRr-wM-LPu"/>
+                        <outlet property="emptyLabel" destination="PNa-NN-jw9" id="IzF-7L-phr"/>
                         <outlet property="userListTableView" destination="vQD-FX-PSW" id="ICx-sC-SdJ"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="89.855072463768124" y="73.660714285714278"/>
         </scene>
     </scenes>
     <resources>
+        <image name="user_list_empty_icon" width="50" height="50"/>
         <image name="user_phone_icon" width="25" height="25"/>
         <image name="user_video_icon" width="25" height="25"/>
         <namedColor name="2A2A2A">

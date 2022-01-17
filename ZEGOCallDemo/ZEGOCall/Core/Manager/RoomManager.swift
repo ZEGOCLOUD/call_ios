@@ -19,12 +19,14 @@ class RoomManager: NSObject {
     private override init() {
         roomService = RoomService()
         userService = UserService()
+        userListService = UserListService()
         super.init()
     }
     
     // MARK: - Public
     var roomService: RoomService
     var userService: UserService
+    var userListService: UserListService
     
     func initWithAppID(appID: UInt32, appSign: String, callback: RoomCallback?) {
         if appSign.count == 0 {
@@ -100,6 +102,7 @@ extension RoomManager {
         }
         roomService = RoomService()
         userService.userList = DictionaryArray<String, UserInfo>()
+        UserDefaults.standard.removeObject(forKey: USERID_KEY)
     }
     
     // MARK: - event handler

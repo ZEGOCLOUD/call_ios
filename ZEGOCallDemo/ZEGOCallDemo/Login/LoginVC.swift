@@ -32,33 +32,28 @@ class LoginVC: UIViewController {
         self.view.endEditing(true)
     }
     
-    private func applicationHasMicAndCameraAccess() -> Bool {
+    private func applicationHasMicAndCameraAccess() {
         // not determined
         if !AuthorizedCheck.isCameraAuthorizationDetermined(){
             AuthorizedCheck.takeCameraAuthorityStatus(completion: nil)
             cameraPermissions = false
-            return false
         }
         // determined but not authorized
         if !AuthorizedCheck.isCameraAuthorized() {
             AuthorizedCheck.showCameraUnauthorizedAlert(self)
             cameraPermissions = false
-            return false
         }
         
         // not determined
         if !AuthorizedCheck.isMicrophoneAuthorizationDetermined(){
             AuthorizedCheck.takeMicPhoneAuthorityStatus(completion: nil)
             micPermissions = false
-            return false
         }
         // determined but not authorized
         if !AuthorizedCheck.isMicrophoneAuthorized() {
             AuthorizedCheck.showMicrophoneUnauthorizedAlert(self)
             micPermissions = false
-            return false
         }
-        return true
     }
     
     func clipRoundCorners() -> Void {
@@ -106,9 +101,53 @@ class LoginVC: UIViewController {
     
     //MARK: -Action
     @IBAction func loginClick(_ sender: Any) {
-        if !micPermissions || !cameraPermissions {return}
-        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
-        self.navigationController?.pushViewController(vc, animated: true)
+        // if !micPermissions || !cameraPermissions {return}
+        let userInfo = UserInfo()
+        userInfo.userName = myUserName
+        RoomManager.shared.userService.requestUserID { result in
+            switch result {
+            case .success(let newUserID):
+                userInfo.userID = newUserID
+                if let token = AppToken.getZIMToken(withUserID: newUserID) {
+                    self.userLogin(userInfo, token: token)
+                }
+            case .failure(let code):
+                break
+            }
+        }
+//        let oldUserInfo: UserInfo? = UserDefaults.standard.object(forKey: USERID_KEY) as? UserInfo
+//        if let oldUserInfo = oldUserInfo {
+//            if let token = AppToken.getZIMToken(withUserID: oldUserInfo.userID) {
+//                userLogin(oldUserInfo, token: token)
+//            }
+//        } else {
+//            RoomManager.shared.userService.requestUserID { result in
+//                switch result {
+//                case .success(let newUserID):
+//                    userInfo.userID = newUserID
+//                    if let token = AppToken.getZIMToken(withUserID: userID) {
+//                        self.userLogin(userInfo, token: token)
+//                    }
+//                case .failure(let code):
+//                    break
+//                }
+//            }
+//        }
+    }
+    
+    func userLogin(_ userInfo: UserInfo, token: String) {
+        
+        RoomManager.shared.userService.login(userInfo, token) { result in
+            switch result {
+            case .success():
+                UserDefaults.standard.set(["userID":userInfo.userID, "userName":userInfo.userName], forKey: USERID_KEY)
+                let deviceID: String = UIDevice.current.identifierForVendor!.uuidString
+                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
+                self.navigationController?.pushViewController(vc, animated: true)
+            case .failure(_):
+                break
+            }
+        }
     }
     
 }

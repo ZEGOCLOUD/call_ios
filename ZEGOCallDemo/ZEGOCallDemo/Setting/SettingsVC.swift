@@ -95,7 +95,7 @@ class SettingsVC: UITableViewController {
             lineView.backgroundColor = ZegoColor("F3F4F7")
             cell.contentView.addSubview(lineView)
         }
-        
+
         return cell
     }
     

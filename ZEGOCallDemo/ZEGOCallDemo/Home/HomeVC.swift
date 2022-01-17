@@ -20,6 +20,7 @@ class HomeVC: UIViewController {
         // Do any additional setup after loading the view.
         let tapClick:UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(tap))
         backView.addGestureRecognizer(tapClick)
+        configUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -30,6 +31,11 @@ class HomeVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.navigationBar.isHidden = false
+    }
+    
+    func configUI() {
+        userNameLabel.text = RoomManager.shared.userService.localUserInfo?.userName ?? ""
+        userIDLabel.text = RoomManager.shared.userService.localUserInfo?.userID ?? ""
     }
     
     
