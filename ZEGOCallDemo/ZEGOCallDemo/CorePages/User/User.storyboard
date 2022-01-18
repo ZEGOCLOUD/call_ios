@@ -68,7 +68,7 @@
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                            <integer key="value" value="21"/>
+                                                            <integer key="value" value="16"/>
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
@@ -148,8 +148,10 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="headImage" destination="H6j-KR-a8F" id="jsy-rh-pou"/>
+                                            <outlet property="phoneButton" destination="uSq-CT-NJ3" id="jea-r4-ojH"/>
                                             <outlet property="userIDLabel" destination="BEJ-SN-lFS" id="L1M-H0-6D2"/>
                                             <outlet property="userNameLabel" destination="Kqm-kS-kBR" id="yMi-4f-om6"/>
+                                            <outlet property="videoButton" destination="gnu-mu-3SI" id="nJI-bA-pyW"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

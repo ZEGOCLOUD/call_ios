@@ -43,7 +43,7 @@ class RoomService: NSObject {
             
             var result: ZegoResult = .success(())
             if error.code == .ZIMErrorCodeSuccess {
-                RoomManager.shared.roomService.roomInfo = parameters.2
+                RoomManager.shared.userService.roomService.roomInfo = parameters.2
                 RoomManager.shared.loginRtcRoom(with: token)
             }
             else {
@@ -73,8 +73,8 @@ class RoomService: NSObject {
                 }
                 return
             }
-            RoomManager.shared.roomService.roomInfo.roomID = fullRoomInfo.baseInfo.roomID
-            RoomManager.shared.roomService.getRoomStatus { result in
+            RoomManager.shared.userService.roomService.roomInfo.roomID = fullRoomInfo.baseInfo.roomID
+            RoomManager.shared.userService.roomService.getRoomStatus { result in
                 guard let callback = callback else { return }
                 switch result {
                 case .success():
@@ -90,7 +90,7 @@ class RoomService: NSObject {
     /// Leave the chat room
     func leaveRoom(callback: RoomCallback?) {
         // if call the leave room api, just logout rtc room
-        guard let roomID = RoomManager.shared.roomService.roomInfo.roomID else {
+        guard let roomID = RoomManager.shared.userService.roomService.roomInfo.roomID else {
             assert(false, "room ID can't be nil")
             guard let callback = callback else { return }
             callback(.failure(.failed))
@@ -111,7 +111,7 @@ class RoomService: NSObject {
     }
     
     func getRoomStatus(callback: RoomCallback?) {
-        guard let roomID = RoomManager.shared.roomService.roomInfo.roomID else {
+        guard let roomID = RoomManager.shared.userService.roomService.roomInfo.roomID else {
             assert(false, "room ID can't be nil")
             guard let callback = callback else { return }
             callback(.failure(.failed))
@@ -158,7 +158,7 @@ extension RoomService: ZIMEventHandler {
     func zim(_ zim: ZIM, connectionStateChanged state: ZIMConnectionState, event: ZIMConnectionEvent, extendedData: [AnyHashable : Any]) {
         // if host reconneted
         if state == .connected && event == .success {
-            guard let roomID = RoomManager.shared.roomService.roomInfo.roomID else { return }
+            guard let roomID = RoomManager.shared.userService.roomService.roomInfo.roomID else { return }
             ZIMManager.shared.zim?.queryRoomAllAttributes(byRoomID: roomID, callback: { dict, error in
                 if error.code != .ZIMErrorCodeSuccess { return }
                 if dict.count == 0 {

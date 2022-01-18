@@ -19,13 +19,6 @@ struct OperationAttributeType : OptionSet {
 enum OperationActionType : Int, Codable {
     case mic = 100
     case camera = 101
-    case mute = 102
-    case takeCoHostSeat = 103
-    case leaveCoHostSeat = 104
-    case requestToCoHost = 200
-    case cancelRequestCoHost = 201
-    case declineToCoHost = 202
-    case agreeToCoHost = 203
 }
 
 struct OperationAction : Codable {
@@ -43,13 +36,9 @@ struct OperationAction : Codable {
 }
 
 class OperationCommand : NSObject, Codable {
-    //var coHost: [CoHostModel] = []
-    var requestCoHost: [String] = []
     var action: OperationAction = OperationAction()
     
     enum CodingKeys: String, CodingKey {
-        //case coHost = "co_host"
-        case requestCoHost = "request_co_host"
         case action = "action"
     }
     
@@ -64,18 +53,6 @@ class OperationCommand : NSObject, Codable {
             attributes["action"] = actionJson
         }
         
-        if type.contains(.coHost) {
-//            if let seatListJson = ZegoJsonTool.modelToJson(toString: coHost) {
-//                attributes["co_host"] = seatListJson
-//            }
-        }
-        
-        if type.contains(.requestCoHost) {
-            if let coHostJson = ZegoJsonTool.modelToJson(toString: requestCoHost) {
-                attributes["request_co_host"] = coHostJson
-            }
-        }
-        
         return attributes
     }
     
@@ -84,26 +61,11 @@ class OperationCommand : NSObject, Codable {
         if seq > 0 && seq > action.seq { return true }
         return false
     }
-    
-    
-    func updateRequestCoHostList(_ json: String) {
-        guard let arr = ZegoJsonTool.jsonToArray(json) else { return }
-        var list: [String] = []
-        for userID in arr {
-            guard let userID = userID as? String else { return }
-            list.append(userID)
-        }
-        self.requestCoHost = list
-    }
 }
 
 extension OperationCommand: NSCopying {
     func copy(with zone: NSZone? = nil) -> Any {
         let copy = OperationCommand()
-//        copy.coHost = self.coHost.compactMap({ seat in
-//            seat.copy() as? CoHostModel
-//        })
-        copy.requestCoHost = self.requestCoHost
         copy.action = OperationAction()
         copy.action.seq = self.action.seq
         return copy

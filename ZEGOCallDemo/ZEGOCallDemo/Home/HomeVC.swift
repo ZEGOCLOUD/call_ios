@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ZIM
 
 class HomeVC: UIViewController {
 
@@ -21,6 +22,7 @@ class HomeVC: UIViewController {
         let tapClick:UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(tap))
         backView.addGestureRecognizer(tapClick)
         configUI()
+        RoomManager.shared.userService.addUserServiceDelegate(self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,7 +37,8 @@ class HomeVC: UIViewController {
     
     func configUI() {
         userNameLabel.text = RoomManager.shared.userService.localUserInfo?.userName ?? ""
-        userIDLabel.text = RoomManager.shared.userService.localUserInfo?.userID ?? ""
+        userIDLabel.text = "ID:\(RoomManager.shared.userService.localUserInfo?.userID ?? "")"
+        headImage.image = UIImage(named: String.getHeadImageName(userName: RoomManager.shared.userService.localUserInfo?.userName ?? ""))
     }
     
     
@@ -60,4 +63,23 @@ class HomeVC: UIViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
+}
+
+extension HomeVC: UserServiceDelegate {
+    func connectionStateChanged(_ state: ZIMConnectionState, _ event: ZIMConnectionEvent) {
+        
+    }
+    func receiveCall(_ userInfo: UserInfo, type: CallType) {
+        let vc:CallMainVC = CallMainVC.loadCallMainVC(.phone, userInfo: userInfo, status: .accept)
+        self.present(vc, animated: true, completion: nil)
+    }
+    func receiveCancelCall(_ userInfo: UserInfo) {
+        
+    }
+    func receiveCallResponse(_ userInfo: UserInfo, responseType: CallResponseType) {
+        
+    }
+    func receiveEndCall() {
+        
+    }
 }

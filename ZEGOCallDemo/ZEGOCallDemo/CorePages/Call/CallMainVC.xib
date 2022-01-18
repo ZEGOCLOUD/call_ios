@@ -10,6 +10,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CallMainVC" customModule="ZEGOCallDemo" customModuleProvider="target">
             <connections>
+                <outlet property="backGroundImage" destination="jUE-Ex-rtP" id="uEa-G7-nQV"/>
+                <outlet property="backGroundView" destination="UGq-gf-GMi" id="DdN-Ad-c57"/>
                 <outlet property="bottomView" destination="WpY-gi-mHI" id="v09-DO-5wM"/>
                 <outlet property="bottomViewHeight" destination="2cQ-s2-tmF" id="yud-RR-4Sy"/>
                 <outlet property="callQualityLabel" destination="FXF-MN-Utr" id="pGW-oM-U2I"/>
@@ -29,6 +31,9 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UGq-gf-GMi">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                     <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pic_haed_1_big" translatesAutoresizingMaskIntoConstraints="NO" id="jUE-Ex-rtP">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        </imageView>
                         <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hhF-a9-GgM">
                             <rect key="frame" x="0.0" y="22" width="414" height="44"/>
                             <constraints>
@@ -88,9 +93,13 @@
                     </subviews>
                     <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <constraints>
+                        <constraint firstItem="jUE-Ex-rtP" firstAttribute="leading" secondItem="UGq-gf-GMi" secondAttribute="leading" id="1eP-gW-zHp"/>
                         <constraint firstItem="BYn-4l-wvv" firstAttribute="centerX" secondItem="UGq-gf-GMi" secondAttribute="centerX" id="4l9-v5-bKv"/>
                         <constraint firstItem="FXF-MN-Utr" firstAttribute="leading" secondItem="UGq-gf-GMi" secondAttribute="leading" constant="60" id="5se-tr-nhB"/>
                         <constraint firstItem="WpY-gi-mHI" firstAttribute="leading" secondItem="UGq-gf-GMi" secondAttribute="leading" id="74c-Zr-6Wd"/>
+                        <constraint firstAttribute="trailing" secondItem="jUE-Ex-rtP" secondAttribute="trailing" id="80K-3T-nNk"/>
+                        <constraint firstAttribute="bottom" secondItem="jUE-Ex-rtP" secondAttribute="bottom" id="9fH-xt-0Rv"/>
+                        <constraint firstItem="jUE-Ex-rtP" firstAttribute="top" secondItem="UGq-gf-GMi" secondAttribute="top" id="C0i-aJ-lMK"/>
                         <constraint firstAttribute="trailing" secondItem="FXF-MN-Utr" secondAttribute="trailing" constant="60" id="KSv-Jq-0Wc"/>
                         <constraint firstItem="hhF-a9-GgM" firstAttribute="leading" secondItem="UGq-gf-GMi" secondAttribute="leading" id="LUe-I8-LDd"/>
                         <constraint firstItem="WpY-gi-mHI" firstAttribute="top" secondItem="FXF-MN-Utr" secondAttribute="bottom" constant="17" id="N9e-3r-2M7"/>
@@ -119,6 +128,7 @@
         </view>
     </objects>
     <resources>
+        <image name="pic_haed_1_big" width="130" height="231.5"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

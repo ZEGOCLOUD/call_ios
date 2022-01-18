@@ -13,76 +13,26 @@ extension UserService {
     
     typealias ParametersResult = ([String: String], String, ZIMRoomAttributesSetConfig)
     
-    // get request or cancel request to host parameters
-    func getRequestOrCancelToHostParameters(_ targetUserID: String?, isRequest: Bool) -> ParametersResult? {
-//        guard let roomID = RoomManager.shared.roomService.roomInfo.roomID,
-//              let myUserID = localUserInfo?.userID,
-//              let targetUserID = targetUserID
-//        else {
-//            assert(false, "the hostID or roomID cannot be nil")
-//            return nil
-//        }
-//
-//        let operation = RoomManager.shared.roomService.operation.copy() as! OperationCommand
-//        operation.action.seq += 1
-//        operation.action.operatorID = myUserID
-//        operation.action.targetID = targetUserID
-//
-//        if isRequest {
-//            operation.action.type = .requestToCoHost
-//            operation.requestCoHost.append(myUserID)
-//        } else {
-//            operation.action.type = .cancelRequestCoHost
-//            operation.requestCoHost = operation.requestCoHost.filter { $0 != myUserID }
-//        }
-//
-//        let config = ZIMRoomAttributesSetConfig()
-//        config.isDeleteAfterOwnerLeft = false
-//        config.isForce = true
-//        config.isUpdateOwner = true
-//
-//        let attributes = operation.attributes(.requestCoHost)
-//
-//        return (attributes, roomID, config)
-        return nil
-    }
-    
-    
-    func getRespondCoHostParameters(_ agree: Bool, userID: String) -> ParametersResult? {
+    func getDeviceChangeParameters(_ enable: Bool, flag: Int) -> ParametersResult? {
         
-//        guard let roomID = RoomManager.shared.roomService.roomInfo.roomID,
-//              let myUserID = localUserInfo?.userID
-//        else {
-//            assert(false, "the hostID or roomID cannot be nil")
-//            return nil
-//        }
-//
-//        let operation = RoomManager.shared.roomService.operation.copy() as! OperationCommand
-//        operation.action.seq += 1
-//        operation.action.operatorID = myUserID
-//        operation.action.targetID = userID
-//
-//        if !operation.requestCoHost.contains(userID) {
-//            assert(false, "the user ID did not in coHost list.")
-//            return nil
-//        }
-//
-//        if agree {
-//            operation.action.type = .agreeToCoHost
-//        } else {
-//            operation.action.type = .declineToCoHost
-//        }
-//        operation.requestCoHost = operation.requestCoHost.filter { $0 != userID }
-//
-//        let attributes = operation.attributes(.requestCoHost)
-//
-//        let config = ZIMRoomAttributesSetConfig()
-//        config.isDeleteAfterOwnerLeft = false
-//        config.isForce = true
-//        config.isUpdateOwner = true
-//
-//        return (attributes, roomID, config)
+        guard let userInfo = localUserInfo else {
+            return nil
+        }
         
-        return nil
+        guard let roomID = RoomManager.shared.userService.roomService.roomInfo.roomID,
+              let myUserID = localUserInfo?.userID,
+              let myUserName = localUserInfo?.userName
+        else {
+            assert(false, "roomID cannot be nil")
+            return nil
+        }
+        
+        let attributes:[String : String] = ["id": myUserID, "name": myUserName, "mic": userInfo.mic.description, "camera": userInfo.camera.description]
+        
+        let config = ZIMRoomAttributesSetConfig()
+        config.isDeleteAfterOwnerLeft = false
+        config.isForce = true
+        config.isUpdateOwner = true
+        return (attributes, roomID, config)
     }
 }

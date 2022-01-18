@@ -1081,6 +1081,8 @@
 				DEVELOPMENT_TEAM = B82BHJ5H89;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ZEGOCallDemo/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "是否允许访问摄像头";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "是否允许访问麦克风";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -1111,6 +1113,8 @@
 				DEVELOPMENT_TEAM = B82BHJ5H89;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ZEGOCallDemo/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "是否允许访问摄像头";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "是否允许访问麦克风";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

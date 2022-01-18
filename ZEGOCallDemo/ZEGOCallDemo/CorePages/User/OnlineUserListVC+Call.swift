@@ -8,19 +8,32 @@
 import Foundation
 
 extension OnlineUserListVC: OnlineUserListCellDelegate {
-    func startCall(_ type: CallActionType) {
+    func startCall(_ type: CallActionType, userInfo: UserInfo) {
         switch type {
         case .phone:
-            let vc: CallMainVC = CallMainVC(nibName :"CallMainVC",bundle : nil)
-            vc.modalPresentationStyle = .fullScreen;
-            vc.setCallType(.phone, status: .take)
-            self.present(vc, animated: true, completion: nil)
+            if let userID = userInfo.userID {
+                RoomManager.shared.userService.callToUser(userID, type: .audio) { result in
+                    switch result {
+                    case .success():
+                        let vc: CallMainVC = CallMainVC.loadCallMainVC(.phone, userInfo: userInfo, status: .take)
+                        self.present(vc, animated: true, completion: nil)
+                    case .failure(let code):
+                        break
+                    }
+                }
+            }
         case .video:
-            let vc: CallMainVC = CallMainVC(nibName :"CallMainVC",bundle : nil)
-            vc.modalPresentationStyle = .fullScreen;
-            vc.setCallType(.video, status: .take)
-            self.present(vc, animated: true, completion: nil)
-            break
+            if let userID = userInfo.userID {
+                RoomManager.shared.userService.callToUser(userID, type: .video) { result in
+                    switch result {
+                    case .success():
+                        let vc: CallMainVC = CallMainVC.loadCallMainVC(.video, userInfo: userInfo, status: .take)
+                        self.present(vc, animated: true, completion: nil)
+                    case .failure(let code):
+                        break
+                    }
+                }
+            }
         }
     }
 }

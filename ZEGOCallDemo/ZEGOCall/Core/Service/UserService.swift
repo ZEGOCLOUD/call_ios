@@ -100,6 +100,7 @@ class UserService: NSObject {
             self.timer.setEventHandler {
                 self.heartBeatRequest()
             }
+            self.timer.start()
             
             let zimUser = ZIMUserInfo()
             zimUser.userID = userID
@@ -183,15 +184,90 @@ class UserService: NSObject {
         })
     }
     
-    func cancelCallToUser(userID: String) {
+    func cancelCallToUser(userID: String, callback: RoomCallback?) {
+        
+        let cancel = CustomCommand(.cancel)
+        cancel.targetUserIDs.append(userID)
+        cancel.content = CustomCommandContent(user_info: ["id": localUserInfo?.userID ?? "", "name" : localUserInfo?.userName ?? ""])
+        guard let json = cancel.json(),
+              let data = json.data(using: .utf8) else {
+            guard let callback = callback else { return }
+            callback(.failure(.failed))
+            return
+        }
+        
+        let customMessage: ZIMCustomMessage = ZIMCustomMessage(message: data)
+        ZIMManager.shared.zim?.sendPeerMessage(customMessage, toUserID: userID, callback: { _, error in
+            var result: ZegoResult
+            if error.code == .ZIMErrorCodeSuccess {
+                result = .success(())
+//                if let user = self.userList.getObj(userID) {
+//                    user.hasInvited = true
+//                }
+            } else {
+                result = .failure(.other(Int32(error.code.rawValue)))
+            }
+            guard let callback = callback else { return }
+            callback(result)
+        })
+    }
+    
+    func responseCall(_ userID: String, responseType: CallResponseType, callback: RoomCallback?) {
+        
+        var response = CustomCommand(.reply)
+        if responseType == .reject {
+            response = CustomCommand(.end)
+        }
+        response.targetUserIDs.append(userID)
+        response.content = CustomCommandContent(user_info: ["id": localUserInfo?.userID ?? "", "name" : localUserInfo?.userName ?? ""])
+        guard let json = response.json(),
+              let data = json.data(using: .utf8) else {
+            guard let callback = callback else { return }
+            callback(.failure(.failed))
+            return
+        }
+        
+        let customMessage: ZIMCustomMessage = ZIMCustomMessage(message: data)
+        ZIMManager.shared.zim?.sendPeerMessage(customMessage, toUserID: userID, callback: { _, error in
+            var result: ZegoResult
+            if error.code == .ZIMErrorCodeSuccess {
+                result = .success(())
+//                if let user = self.userList.getObj(userID) {
+//                    user.hasInvited = true
+//                }
+            } else {
+                result = .failure(.other(Int32(error.code.rawValue)))
+            }
+            guard let callback = callback else { return }
+            callback(result)
+        })
         
     }
     
-    func responseCall(_ responseType: CallResponseType) {
-        
-    }
-    
-    func endCall() {
+    func endCall(_ userID: String, callback: RoomCallback?) {
+        var response = CustomCommand(.end)
+        response.targetUserIDs.append(userID)
+        response.content = CustomCommandContent()
+        guard let json = response.json(),
+              let data = json.data(using: .utf8) else {
+            guard let callback = callback else { return }
+            callback(.failure(.failed))
+            return
+        }
+        let customMessage: ZIMCustomMessage = ZIMCustomMessage(message: data)
+        ZIMManager.shared.zim?.sendPeerMessage(customMessage, toUserID: userID, callback: { _, error in
+            var result: ZegoResult
+            if error.code == .ZIMErrorCodeSuccess {
+                result = .success(())
+//                if let user = self.userList.getObj(userID) {
+//                    user.hasInvited = true
+//                }
+            } else {
+                result = .failure(.other(Int32(error.code.rawValue)))
+            }
+            guard let callback = callback else { return }
+            callback(result)
+        })
         
     }
 
@@ -199,11 +275,11 @@ class UserService: NSObject {
     /// mic operation
     func micOperation(_ open: Bool, callback: RoomCallback?) {
         
-//        guard let parameters = getSeatChangeParameters(localUserInfo?.userID, enable: open, flag: 0) else {
-//            return
-//        }
-//
-//        setRoomAttributes(parameters.0, parameters.1, parameters.2, nil)
+        guard let parameters = getDeviceChangeParameters(open, flag: 0) else {
+            return
+        }
+
+        setRoomAttributes(parameters.0, parameters.1, parameters.2, nil)
         
         // open mic
         ZegoExpressEngine.shared().muteMicrophone(!open)
@@ -212,11 +288,11 @@ class UserService: NSObject {
     /// camera operation
     func cameraOpen(_ open: Bool, callback: RoomCallback?) {
         
-//        guard let parameters = getSeatChangeParameters(localUserInfo?.userID, enable: open, flag: 1) else {
-//            return
-//        }
-//
-//        setRoomAttributes(parameters.0, parameters.1, parameters.2, nil)
+        guard let parameters = getDeviceChangeParameters(open, flag: 1) else {
+            return
+        }
+
+        setRoomAttributes(parameters.0, parameters.1, parameters.2, nil)
         
         // open camera
         ZegoExpressEngine.shared().enableCamera(open)
@@ -266,20 +342,22 @@ extension UserService : ZIMEventHandler {
             let command: CustomCommand? = ZegoJsonTool.jsonToModel(type: CustomCommand.self, json: jsonStr)
             guard let command = command else { continue }
             if command.targetUserIDs.count == 0 { continue }
-            
+            let userInfo: UserInfo = UserInfo()
+            userInfo.userID = command.content?.user_info["id"]
+            userInfo.userName = command.content?.user_info["name"]
             for delegate in delegates.allObjects {
                 guard let delegate = delegate as? UserServiceDelegate else { continue }
                 switch command.type {
                 case .call:
-            
-                    break
+                    delegate.receiveCall(userInfo, type: .audio)
                 case .cancel:
+                    delegate.receiveCancelCall(userInfo)
                     break
                 case .reply:
+                    delegate.receiveCallResponse(userInfo, responseType: .accept)
                     break
                 case .end:
-                    break
-                case .none:
+                    delegate.receiveEndCall()
                     break
                 }
 //                if command.type == .call {

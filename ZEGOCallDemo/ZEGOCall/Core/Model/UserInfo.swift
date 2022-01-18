@@ -18,10 +18,10 @@ class UserInfo: NSObject, Codable {
     var order: String?
     
     /// mic
-    var mic: Bool = false
+    var mic: Bool = true
     
     /// camera
-    var camera: Bool = false
+    var camera: Bool = true
     
     override init() {
         

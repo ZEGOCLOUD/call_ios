@@ -17,14 +17,12 @@ class RoomManager: NSObject {
     private let zimEventDelegates: NSHashTable<ZIMEventHandler> = NSHashTable(options: .weakMemory)
     
     private override init() {
-        roomService = RoomService()
         userService = UserService()
         userListService = UserListService()
         super.init()
     }
     
     // MARK: - Public
-    var roomService: RoomService
     var userService: UserService
     var userListService: UserListService
     
@@ -77,7 +75,7 @@ extension RoomManager {
             return
         }
         
-        guard let roomID = RoomManager.shared.roomService.roomInfo.roomID else {
+        guard let roomID = RoomManager.shared.userService.roomService.roomInfo.roomID else {
             assert(false, "room id can't be nil.")
             return
         }
@@ -100,7 +98,6 @@ extension RoomManager {
         if containsUserService {
             userService = UserService()
         }
-        roomService = RoomService()
         userService.userList = DictionaryArray<String, UserInfo>()
         UserDefaults.standard.removeObject(forKey: USERID_KEY)
     }

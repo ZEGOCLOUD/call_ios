@@ -9,8 +9,8 @@ import Foundation
 
 struct CustomCommandContent : Codable {
     var user_info = Dictionary<String, String>() ///
-    var response_type : Int /// 1:agree  2:refused
-    var call_type : Int /// 1:voice 2:video
+    var response_type : Int? /// 1:agree  2:refused
+    var call_type : Int? /// 1:voice 2:video
 }
 
 class CustomCommand : NSObject, Codable {
@@ -22,7 +22,7 @@ class CustomCommand : NSObject, Codable {
     }
     
     var targetUserIDs: [String] = []
-    var type: CustomCommandType?
+    var type: CustomCommandType = .call
     var content: CustomCommandContent?
     
     enum CodingKeys: String, CodingKey {
