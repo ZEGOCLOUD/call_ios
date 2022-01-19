@@ -9,9 +9,9 @@ import Foundation
 import ZIM
 import ZegoExpressEngine
 
-enum CallResponseType {
-    case accept
-    case reject
+enum CallResponseType: Int {
+    case accept = 1
+    case reject = 2
 }
 
 enum CallType: Int {
@@ -44,7 +44,7 @@ extension UserServiceDelegate {
 
 class UserService: NSObject {
     // MARK: - Public
-    let delegates = NSHashTable<AnyObject>.weakObjects()
+    var delegates = NSHashTable<AnyObject>.weakObjects()
     var localUserInfo: UserInfo?
     var userList = DictionaryArray<String, UserInfo>()
     var roomService: RoomService = RoomService()
@@ -134,54 +134,25 @@ class UserService: NSObject {
     
     func callToUser(_ userID: String, type: CallType, callback: RoomCallback?) {
         let rtcToken = AppToken.getRtcToken(withRoomID: userID) ?? ""
-        roomService.createRoom(userID, localUserInfo?.userName ?? "", rtcToken) { [self] result in
+        guard let myUserID = localUserInfo?.userID else { return }
+        roomService.createRoom(myUserID, localUserInfo?.userName ?? "", rtcToken) { [self] result in
             HUDHelper.hideNetworkLoading()
             switch result {
             case .success():
-                self.roomService.joinRoom(userID, rtcToken) { result in
-                    switch result {
-                    case .success():
-                        sendPeerMesssage(userID, callType: type,callback: callback)
-                    case .failure(let code):
-                        guard let callback = callback else { return }
-                        let result: ZegoResult = .failure(code)
-                        callback(result)
+                sendPeerMesssage(userID, callType: type, commandType: .call, responseType: nil) { result in
+                    if result.isSuccess {
+                        if let callback = callback {
+                            callback(result)
+                        }
+                    } else {
+                        self.roomService.leaveRoom(callback: nil)
                     }
                 }
             case .failure(let error):
                 let message = String(format: ZGLocalizedString("toast_create_room_fail"), error.code)
-//                TipView.showWarn(message)
-                break
+                TipView.showWarn(message)
             }
         }
-    }
-    
-    private func sendPeerMesssage(_ userID: String, callType: CallType, callback: RoomCallback?) {
-        
-        let invitation = CustomCommand(.call)
-        invitation.targetUserIDs.append(userID)
-        invitation.content = CustomCommandContent(user_info: ["id": localUserInfo?.userID ?? "", "name" : localUserInfo?.userName ?? ""], response_type: 0, call_type: callType.rawValue)
-        guard let json = invitation.json(),
-              let data = json.data(using: .utf8) else {
-            guard let callback = callback else { return }
-            callback(.failure(.failed))
-            return
-        }
-        
-        let customMessage: ZIMCustomMessage = ZIMCustomMessage(message: data)
-        ZIMManager.shared.zim?.sendPeerMessage(customMessage, toUserID: userID, callback: { _, error in
-            var result: ZegoResult
-            if error.code == .ZIMErrorCodeSuccess {
-                result = .success(())
-//                if let user = self.userList.getObj(userID) {
-//                    user.hasInvited = true
-//                }
-            } else {
-                result = .failure(.other(Int32(error.code.rawValue)))
-            }
-            guard let callback = callback else { return }
-            callback(result)
-        })
     }
     
     func cancelCallToUser(userID: String, callback: RoomCallback?) {
@@ -212,48 +183,62 @@ class UserService: NSObject {
         })
     }
     
-    func responseCall(_ userID: String, responseType: CallResponseType, callback: RoomCallback?) {
+    func responseCall(_ userID: String, callType:CallType, responseType: CallResponseType, callback: RoomCallback?) {
         
-        var response = CustomCommand(.reply)
-        if responseType == .reject {
-            response = CustomCommand(.end)
-        }
-        response.targetUserIDs.append(userID)
-        response.content = CustomCommandContent(user_info: ["id": localUserInfo?.userID ?? "", "name" : localUserInfo?.userName ?? ""])
-        guard let json = response.json(),
-              let data = json.data(using: .utf8) else {
-            guard let callback = callback else { return }
-            callback(.failure(.failed))
-            return
-        }
-        
-        let customMessage: ZIMCustomMessage = ZIMCustomMessage(message: data)
-        ZIMManager.shared.zim?.sendPeerMessage(customMessage, toUserID: userID, callback: { _, error in
-            var result: ZegoResult
-            if error.code == .ZIMErrorCodeSuccess {
-                result = .success(())
-//                if let user = self.userList.getObj(userID) {
-//                    user.hasInvited = true
-//                }
-            } else {
-                result = .failure(.other(Int32(error.code.rawValue)))
+        if responseType == .accept {
+            let rtcToken = AppToken.getRtcToken(withRoomID: userID) ?? ""
+            self.roomService.joinRoom(userID, rtcToken) { result in
+                switch result {
+                case .success():
+                    ///start publish
+                    guard let myUserID = self.localUserInfo?.userID else { return }
+                    let streamID = String.getStreamID(myUserID, roomID: userID, isVideo: callType == .video)
+                    ZegoExpressEngine.shared().startPublishingStream(streamID)
+                    ///send peer message
+                    self.sendPeerMesssage(userID, callType: callType, commandType: .reply, responseType: responseType, callback: callback)
+                case .failure(let code):
+                    break
+                }
             }
-            guard let callback = callback else { return }
-            callback(result)
-        })
-        
+        } else {
+            sendPeerMesssage(userID, callType: callType, commandType: .reply, responseType: .reject, callback: nil)
+        }
     }
     
+    
     func endCall(_ userID: String, callback: RoomCallback?) {
-        var response = CustomCommand(.end)
-        response.targetUserIDs.append(userID)
-        response.content = CustomCommandContent()
-        guard let json = response.json(),
+        roomService.leaveRoom { result in
+            switch result {
+            case .success():
+                ZegoExpressEngine.shared().stopPublishingStream()
+                self.sendPeerMesssage(userID, callType: .audio, commandType: .end, responseType: nil,callback: callback)
+            case .failure(let code):
+                break
+            }
+        }
+    }
+    
+    private func sendPeerMesssage(_ userID: String, callType: CallType, commandType: CustomCommandType, responseType: CallResponseType?, callback: RoomCallback?) {
+        
+        let invitation = CustomCommand(commandType)
+        invitation.targetUserIDs.append(userID)
+        
+        var content: CustomCommandContent = CustomCommandContent()
+        switch commandType {
+        case .call,.end,.cancel:
+            content = CustomCommandContent(user_info: ["id": localUserInfo?.userID ?? "", "name" : localUserInfo?.userName ?? ""], call_type: callType.rawValue)
+        case .reply:
+            content = CustomCommandContent(user_info: ["id": localUserInfo?.userID ?? "", "name" : localUserInfo?.userName ?? ""], response_type: responseType?.rawValue ?? 1, call_type: callType.rawValue)
+        }
+        invitation.content = content
+        
+        guard let json = invitation.json(),
               let data = json.data(using: .utf8) else {
             guard let callback = callback else { return }
             callback(.failure(.failed))
             return
         }
+        
         let customMessage: ZIMCustomMessage = ZIMCustomMessage(message: data)
         ZIMManager.shared.zim?.sendPeerMessage(customMessage, toUserID: userID, callback: { _, error in
             var result: ZegoResult
@@ -268,7 +253,6 @@ class UserService: NSObject {
             guard let callback = callback else { return }
             callback(result)
         })
-        
     }
 
     
@@ -345,6 +329,10 @@ extension UserService : ZIMEventHandler {
             let userInfo: UserInfo = UserInfo()
             userInfo.userID = command.content?.user_info["id"]
             userInfo.userName = command.content?.user_info["name"]
+            var callType: CallType = .audio
+            if let content = command.content {
+                callType = CallType(rawValue: content.call_type) ?? .audio
+            }
             for delegate in delegates.allObjects {
                 guard let delegate = delegate as? UserServiceDelegate else { continue }
                 switch command.type {
@@ -354,20 +342,24 @@ extension UserService : ZIMEventHandler {
                     delegate.receiveCancelCall(userInfo)
                     break
                 case .reply:
-                    delegate.receiveCallResponse(userInfo, responseType: .accept)
+                    if command.content?.response_type == 1 {
+                        let streamID = String.getStreamID(localUserInfo?.userID, roomID: userInfo.userID, isVideo: callType == .video)
+                        ZegoExpressEngine.shared().startPublishingStream(streamID)
+                        delegate.receiveCallResponse(userInfo, responseType: .accept)
+                    } else {
+                        roomService.leaveRoom { result in
+                            if result.isSuccess {
+                                delegate.receiveCallResponse(userInfo, responseType: .reject)
+                            } else {
+                                
+                            }
+                        }
+                    }
                     break
                 case .end:
                     delegate.receiveEndCall()
                     break
                 }
-//                if command.type == .call {
-//
-//                } else {
-////                    guard let accept = command.content?.accept else { continue }
-////                    if let user = self.userList.getObj(command.targetUserIDs.first ?? "") {
-////                        delegate.receiveAddCoHostRespond(user, accept: accept)
-////                    }
-//                }
             }
         }
     }

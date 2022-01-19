@@ -7,13 +7,8 @@
 
 import UIKit
 
-enum CallActionType: Int {
-    case phone
-    case video
-}
-
 protocol OnlineUserListCellDelegate: AnyObject {
-    func startCall(_ type: CallActionType, userInfo: UserInfo)
+    func startCall(_ type: CallType, userInfo: UserInfo)
 }
 
 class OnlineUserListCell: UITableViewCell {
@@ -53,7 +48,7 @@ class OnlineUserListCell: UITableViewCell {
     }
     
     @IBAction func startPhoneClick(_ sender: UIButton) {
-        delegate?.startCall(.phone, userInfo: cellModel ?? UserInfo())
+        delegate?.startCall(.audio, userInfo: cellModel ?? UserInfo())
     }
 
 }

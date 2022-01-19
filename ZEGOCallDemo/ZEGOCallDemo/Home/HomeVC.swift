@@ -15,14 +15,15 @@ class HomeVC: UIViewController {
     @IBOutlet weak var userIDLabel: UILabel!
     @IBOutlet weak var backView: UIView!
     
+    let appDelegate = (UIApplication.shared.delegate) as! AppDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        RoomManager.shared.userService.addUserServiceDelegate(CallUIBusiness.shared)
         let tapClick:UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(tap))
         backView.addGestureRecognizer(tapClick)
         configUI()
-        RoomManager.shared.userService.addUserServiceDelegate(self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -63,23 +64,4 @@ class HomeVC: UIViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-}
-
-extension HomeVC: UserServiceDelegate {
-    func connectionStateChanged(_ state: ZIMConnectionState, _ event: ZIMConnectionEvent) {
-        
-    }
-    func receiveCall(_ userInfo: UserInfo, type: CallType) {
-        let vc:CallMainVC = CallMainVC.loadCallMainVC(.phone, userInfo: userInfo, status: .accept)
-        self.present(vc, animated: true, completion: nil)
-    }
-    func receiveCancelCall(_ userInfo: UserInfo) {
-        
-    }
-    func receiveCallResponse(_ userInfo: UserInfo, responseType: CallResponseType) {
-        
-    }
-    func receiveEndCall() {
-        
-    }
 }

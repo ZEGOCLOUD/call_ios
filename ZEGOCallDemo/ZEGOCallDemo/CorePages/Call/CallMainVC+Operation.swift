@@ -19,7 +19,7 @@ extension CallMainVC: CallActionDelegate {
     func callAccept(_ callView: CallBaseView) {
         updateCallType(self.vcType, userInfo: self.callUser ?? UserInfo(), status: .calling)
         if let userID = RoomManager.shared.userService.localUserInfo?.userID {
-            RoomManager.shared.userService.responseCall(userID, responseType: .accept) { result in
+            RoomManager.shared.userService.responseCall(userID, callType: self.vcType, responseType: .accept) { result in
                 
             }
         }
@@ -27,7 +27,7 @@ extension CallMainVC: CallActionDelegate {
     
     func callDecline(_ callView: CallBaseView) {
         if let userID = RoomManager.shared.userService.localUserInfo?.userID {
-            RoomManager.shared.userService.responseCall(userID, responseType: .reject) { result in
+            RoomManager.shared.userService.responseCall(userID, callType: self.vcType, responseType: .reject) { result in
                 
             }
         }

@@ -7,19 +7,20 @@
 
 import Foundation
 
+enum CustomCommandType : Int, Codable {
+    case call = 1
+    case cancel = 2
+    case reply = 3
+    case end = 4
+}
+
 struct CustomCommandContent : Codable {
     var user_info = Dictionary<String, String>() ///
-    var response_type : Int? /// 1:agree  2:refused
-    var call_type : Int? /// 1:voice 2:video
+    var response_type : Int = 1 /// 1:agree  2:refused
+    var call_type : Int = 1 /// 1:voice 2:video
 }
 
 class CustomCommand : NSObject, Codable {
-    enum CustomCommandType : Int, Codable {
-        case call = 1
-        case cancel = 2
-        case reply = 3
-        case end = 4
-    }
     
     var targetUserIDs: [String] = []
     var type: CustomCommandType = .call

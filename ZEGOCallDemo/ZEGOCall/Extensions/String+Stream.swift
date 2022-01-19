@@ -8,7 +8,7 @@
 import Foundation
 
 extension String {
-    static func getStreamID(_ userID: String?, roomID: String?) -> String {
+    static func getStreamID(_ userID: String?, roomID: String?, isVideo: Bool = false) -> String {
         guard let userID = userID else {
             assert(false, "local user ID cannot be nil")
             return ""
@@ -19,8 +19,12 @@ extension String {
             return ""
         }
         
-        let streamID = roomID + "_" + userID + "_main"
-        
+        var streamID = ""
+        if isVideo {
+            streamID = roomID + "_" + userID + "_main"
+        } else {
+            streamID = roomID + "_" + userID + "_media"
+        }
         return streamID
     }
 }

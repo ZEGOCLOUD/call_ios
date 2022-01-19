@@ -7,11 +7,6 @@
 
 import UIKit
 
-enum CallVCType {
-    case phone
-    case video
-}
-
 enum CallStatusType {
     case take
     case accept
@@ -28,6 +23,9 @@ class CallMainVC: UIViewController {
     @IBOutlet weak var callStatusLabel: UILabel!
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var callQualityLabel: UILabel!
+    @IBOutlet weak var mainPreviewView: UIView!
+    @IBOutlet weak var previewView: UIView!
+    
     
     @IBOutlet weak var bottomViewHeight: NSLayoutConstraint!
     @IBOutlet weak var toBottomDistance: NSLayoutConstraint!
@@ -71,7 +69,7 @@ class CallMainVC: UIViewController {
     }()
     
     var callUser: UserInfo?
-    var vcType: CallVCType = .phone
+    var vcType: CallType = .audio
     var statusType: CallStatusType = .take
     var useFrontCamera: Bool = true
 
@@ -81,14 +79,14 @@ class CallMainVC: UIViewController {
         configUI()
     }
     
-    static func loadCallMainVC(_ type: CallVCType, userInfo: UserInfo, status: CallStatusType) -> CallMainVC {
+    static func loadCallMainVC(_ type: CallType, userInfo: UserInfo, status: CallStatusType) -> CallMainVC {
         let vc: CallMainVC = CallMainVC(nibName :"CallMainVC",bundle : nil)
         vc.modalPresentationStyle = .fullScreen;
         vc.callUser = userInfo
         vc.vcType = type
         vc.statusType = status
         switch type {
-        case .phone:
+        case .audio:
             vc.bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: userInfo.userName)))
         case .video:
             vc.bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: userInfo.userName)))
@@ -101,7 +99,7 @@ class CallMainVC: UIViewController {
         backGroundImage.image = bgImage
         headImage.image = UIImage(named: String.getHeadImageName(userName: callUser?.userName))
         userNameLabel.text = callUser?.userName
-        if vcType == .phone {
+        if vcType == .audio {
             backGroundImage.isHidden = true
         } else {
             backGroundImage.isHidden = false
@@ -129,27 +127,28 @@ class CallMainVC: UIViewController {
         case .calling:
             self.takeView.isHidden = true
             self.acceptView.isHidden = true
-            if vcType == .phone {
+            if vcType == .audio {
                 self.phoneView.isHidden = false
                 self.videoView.isHidden = true
             } else {
                 self.phoneView.isHidden = true
                 self.videoView.isHidden = false
             }
+            
+            startPlaying(callUser?.userID, streamView: nil, type: vcType)
         }
     }
     
-    func updateCallType(_ type: CallVCType, userInfo: UserInfo, status: CallStatusType) {
+    func updateCallType(_ type: CallType, userInfo: UserInfo, status: CallStatusType) {
         callUser = userInfo
         vcType = type
         statusType = status
         
         switch type {
-        case .phone:
+        case .audio:
             bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: userInfo.userName)))
         case .video:
             bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: userInfo.userName)))
-            
         }
         configUI()
     }

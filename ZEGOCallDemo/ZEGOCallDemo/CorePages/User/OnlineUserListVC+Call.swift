@@ -8,15 +8,14 @@
 import Foundation
 
 extension OnlineUserListVC: OnlineUserListCellDelegate {
-    func startCall(_ type: CallActionType, userInfo: UserInfo) {
+    func startCall(_ type: CallType, userInfo: UserInfo) {
         switch type {
-        case .phone:
+        case .audio:
             if let userID = userInfo.userID {
                 RoomManager.shared.userService.callToUser(userID, type: .audio) { result in
                     switch result {
                     case .success():
-                        let vc: CallMainVC = CallMainVC.loadCallMainVC(.phone, userInfo: userInfo, status: .take)
-                        self.present(vc, animated: true, completion: nil)
+                        CallUIBusiness.shared.startCall(userInfo, callType: .audio)
                     case .failure(let code):
                         break
                     }
@@ -27,8 +26,7 @@ extension OnlineUserListVC: OnlineUserListCellDelegate {
                 RoomManager.shared.userService.callToUser(userID, type: .video) { result in
                     switch result {
                     case .success():
-                        let vc: CallMainVC = CallMainVC.loadCallMainVC(.video, userInfo: userInfo, status: .take)
-                        self.present(vc, animated: true, completion: nil)
+                        CallUIBusiness.shared.startCall(userInfo, callType: .video)
                     case .failure(let code):
                         break
                     }
