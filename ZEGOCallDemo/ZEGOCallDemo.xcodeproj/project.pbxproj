@@ -23,6 +23,9 @@
 		86718CE5279542E300CEA8A0 /* HeartBeatRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CE4279542E300CEA8A0 /* HeartBeatRequest.swift */; };
 		86718CE727955A0900CEA8A0 /* UserListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CE627955A0900CEA8A0 /* UserListService.swift */; };
 		86718D2D2797E56D00CEA8A0 /* ProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718D2C2797E56D00CEA8A0 /* ProviderDelegate.swift */; };
+		86AC134427997B5C00607277 /* CallBusiness+Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC134327997B5C00607277 /* CallBusiness+Stream.swift */; };
+		86AC134627997D7F00607277 /* CallBusiness+CallKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC134527997D7F00607277 /* CallBusiness+CallKit.swift */; };
+		86AC134827998A4000607277 /* String+Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC134727998A4000607277 /* String+Time.swift */; };
 		86B19892278BDD7D0004C997 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19891278BDD7D0004C997 /* AppDelegate.swift */; };
 		86B19894278BDD7E0004C997 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19893278BDD7E0004C997 /* SceneDelegate.swift */; };
 		86B19896278BDD7E0004C997 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19895278BDD7E0004C997 /* LoginVC.swift */; };
@@ -95,7 +98,7 @@
 		86B19A1227901B550004C997 /* CallMainVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86B19A1027901B550004C997 /* CallMainVC.xib */; };
 		86B19A1427901FAF0004C997 /* CallBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19A1327901FAF0004C997 /* CallBaseView.swift */; };
 		86B19A1727911D740004C997 /* CallMainVC+Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19A1627911D740004C997 /* CallMainVC+Operation.swift */; };
-		86DE03C727981B3D000EE3C5 /* CallUIBusiness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE03C627981B3D000EE3C5 /* CallUIBusiness.swift */; };
+		86DE03C727981B3D000EE3C5 /* CallBusiness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE03C627981B3D000EE3C5 /* CallBusiness.swift */; };
 		86DE03C927983D98000EE3C5 /* CallMainVC+Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */; };
 /* End PBXBuildFile section */
 
@@ -117,6 +120,9 @@
 		86718CE4279542E300CEA8A0 /* HeartBeatRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartBeatRequest.swift; sourceTree = "<group>"; };
 		86718CE627955A0900CEA8A0 /* UserListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListService.swift; sourceTree = "<group>"; };
 		86718D2C2797E56D00CEA8A0 /* ProviderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderDelegate.swift; sourceTree = "<group>"; };
+		86AC134327997B5C00607277 /* CallBusiness+Stream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallBusiness+Stream.swift"; sourceTree = "<group>"; };
+		86AC134527997D7F00607277 /* CallBusiness+CallKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallBusiness+CallKit.swift"; sourceTree = "<group>"; };
+		86AC134727998A4000607277 /* String+Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Time.swift"; sourceTree = "<group>"; };
 		86B1988E278BDD7D0004C997 /* ZEGOCallDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZEGOCallDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86B19891278BDD7D0004C997 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		86B19893278BDD7E0004C997 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -239,7 +245,7 @@
 		86B19A1027901B550004C997 /* CallMainVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CallMainVC.xib; sourceTree = "<group>"; };
 		86B19A1327901FAF0004C997 /* CallBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallBaseView.swift; sourceTree = "<group>"; };
 		86B19A1627911D740004C997 /* CallMainVC+Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallMainVC+Operation.swift"; sourceTree = "<group>"; };
-		86DE03C627981B3D000EE3C5 /* CallUIBusiness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallUIBusiness.swift; sourceTree = "<group>"; };
+		86DE03C627981B3D000EE3C5 /* CallBusiness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallBusiness.swift; sourceTree = "<group>"; };
 		86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallMainVC+Stream.swift"; sourceTree = "<group>"; };
 		95F1BBF3114F32302EC88A9C /* Pods-ZEGOCallDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZEGOCallDemo.debug.xcconfig"; path = "Target Support Files/Pods-ZEGOCallDemo/Pods-ZEGOCallDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -491,6 +497,7 @@
 				86B19948278D63430004C997 /* ZegoColor.swift */,
 				86B1994A278D63430004C997 /* AppToken.swift */,
 				86B1994B278D63430004C997 /* String+Head.swift */,
+				86AC134727998A4000607277 /* String+Time.swift */,
 				86B1994C278D63430004C997 /* ZegoTimer.swift */,
 				86B1994D278D63430004C997 /* AuthorizedCheck.swift */,
 				86B1994E278D63430004C997 /* UIImage+Zego.swift */,
@@ -751,7 +758,9 @@
 		86DE03C527981AF2000EE3C5 /* CallShow */ = {
 			isa = PBXGroup;
 			children = (
-				86DE03C627981B3D000EE3C5 /* CallUIBusiness.swift */,
+				86DE03C627981B3D000EE3C5 /* CallBusiness.swift */,
+				86AC134327997B5C00607277 /* CallBusiness+Stream.swift */,
+				86AC134527997D7F00607277 /* CallBusiness+CallKit.swift */,
 			);
 			path = CallShow;
 			sourceTree = "<group>";
@@ -897,11 +906,13 @@
 				86B1997D278D77280004C997 /* OnlineUserListCell.swift in Sources */,
 				86B198D2278BE2600004C997 /* Request.swift in Sources */,
 				86B198D3278BE2600004C997 /* RequestStatus.swift in Sources */,
+				86AC134827998A4000607277 /* String+Time.swift in Sources */,
+				86AC134427997B5C00607277 /* CallBusiness+Stream.swift in Sources */,
 				86B198DC278BE2600004C997 /* UserInfo.swift in Sources */,
 				86B19972278D71820004C997 /* GeneralWebVC.swift in Sources */,
 				86B1995F278D63440004C997 /* String+Head.swift in Sources */,
 				86B198DA278BE2600004C997 /* ZIMManager.swift in Sources */,
-				86DE03C727981B3D000EE3C5 /* CallUIBusiness.swift in Sources */,
+				86DE03C727981B3D000EE3C5 /* CallBusiness.swift in Sources */,
 				86B19964278D63E30004C997 /* AppDefine.swift in Sources */,
 				86B198D8278BE2600004C997 /* RoomService+Private.swift in Sources */,
 				86B198D7278BE2600004C997 /* UserService+Paramater.swift in Sources */,
@@ -940,6 +951,7 @@
 				86B198DB278BE2600004C997 /* Define.swift in Sources */,
 				86B19958278D63440004C997 /* MBProgressHUD.m in Sources */,
 				86B1995B278D63440004C997 /* TipView.swift in Sources */,
+				86AC134627997D7F00607277 /* CallBusiness+CallKit.swift in Sources */,
 				86B198F7278D625F0004C997 /* SettingCellModel.swift in Sources */,
 				86B1998E278EBC7E0004C997 /* CallingVideoView.swift in Sources */,
 				86718D2D2797E56D00CEA8A0 /* ProviderDelegate.swift in Sources */,
@@ -1116,7 +1128,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1149,7 +1161,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -69,6 +69,11 @@ class ProviderDelegate: NSObject,CXProviderDelegate {
     /// Use CXProvider to report the incoming call to the system
     func reportIncomingCall(uuid: UUID, handle: String, hasVideo: Bool = false, completion: ((NSError?) -> Void)? = nil) {
         // Construct a CXCallUpdate describing the incoming call, including the caller.
+        do{
+            try AVAudioSession.sharedInstance().setCategory(.playAndRecord)
+        } catch {
+            print(error)
+        }
         let update = CXCallUpdate()
         update.remoteHandle = CXHandle(type: .generic, value: handle)
         update.hasVideo = hasVideo
@@ -115,6 +120,11 @@ class ProviderDelegate: NSObject,CXProviderDelegate {
     
     func provider(_ provider: CXProvider, perform action: CXSetHeldCallAction) {
         action.fulfill()
+    }
+    
+    func provider(_ provider: CXProvider, perform action: CXSetMutedCallAction) {
+        action.fulfill()
+        NotificationCenter.default.post(name: Notification.Name("muteSpeaker"), object: self, userInfo: ["uuid":action.uuid.uuidString])
     }
     
     func provider(_ provider: CXProvider, timedOutPerforming action: CXAction) {

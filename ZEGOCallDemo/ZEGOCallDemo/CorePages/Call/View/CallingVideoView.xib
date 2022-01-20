@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -68,7 +69,7 @@
                         <constraint firstAttribute="width" constant="47" id="ZFS-4w-sNc"/>
                     </constraints>
                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                    <state key="normal" title="Button" image="call_voice_open_icon"/>
+                    <state key="normal" title="Button" image="call_voice_close_selected_icon"/>
                     <connections>
                         <action selector="voiceButtonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="D5n-o9-bf0"/>
                     </connections>
@@ -89,6 +90,12 @@
                 <constraint firstItem="UpV-SO-Xx6" firstAttribute="leading" secondItem="0XY-V9-3c4" secondAttribute="trailing" constant="22" id="zPw-rk-tKA"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="flipButton" destination="UpV-SO-Xx6" id="bQ5-lc-DJ8"/>
+                <outlet property="micButton" destination="KaE-ua-Yrx" id="D1k-n0-CNg"/>
+                <outlet property="videoButton" destination="OTw-ZV-ehd" id="eHx-ln-4Zm"/>
+                <outlet property="voiceButton" destination="Y5d-Gv-cnU" id="5Ge-gM-mYo"/>
+            </connections>
             <point key="canvasLocation" x="139" y="89"/>
         </view>
     </objects>
@@ -97,6 +104,6 @@
         <image name="call_camera_open_icon" width="47" height="47"/>
         <image name="call_hand_up_icon" width="60" height="60"/>
         <image name="call_mic_open" width="47" height="47"/>
-        <image name="call_voice_open_icon" width="47" height="47"/>
+        <image name="call_voice_close_selected_icon" width="47" height="47"/>
     </resources>
 </document>

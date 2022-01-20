@@ -15,7 +15,7 @@ extension OnlineUserListVC: OnlineUserListCellDelegate {
                 RoomManager.shared.userService.callToUser(userID, type: .audio) { result in
                     switch result {
                     case .success():
-                        CallUIBusiness.shared.startCall(userInfo, callType: .audio)
+                        CallBusiness.shared.startCall(userInfo, callType: .audio)
                     case .failure(let code):
                         break
                     }
@@ -26,7 +26,7 @@ extension OnlineUserListVC: OnlineUserListCellDelegate {
                 RoomManager.shared.userService.callToUser(userID, type: .video) { result in
                     switch result {
                     case .success():
-                        CallUIBusiness.shared.startCall(userInfo, callType: .video)
+                        CallBusiness.shared.startCall(userInfo, callType: .video)
                     case .failure(let code):
                         break
                     }

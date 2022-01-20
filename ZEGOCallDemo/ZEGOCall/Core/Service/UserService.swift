@@ -8,6 +8,7 @@
 import Foundation
 import ZIM
 import ZegoExpressEngine
+import AVFoundation
 
 enum CallResponseType: Int {
     case accept = 1
@@ -155,32 +156,18 @@ class UserService: NSObject {
         }
     }
     
-    func cancelCallToUser(userID: String, callback: RoomCallback?) {
-        
-        let cancel = CustomCommand(.cancel)
-        cancel.targetUserIDs.append(userID)
-        cancel.content = CustomCommandContent(user_info: ["id": localUserInfo?.userID ?? "", "name" : localUserInfo?.userName ?? ""])
-        guard let json = cancel.json(),
-              let data = json.data(using: .utf8) else {
-            guard let callback = callback else { return }
-            callback(.failure(.failed))
-            return
-        }
-        
-        let customMessage: ZIMCustomMessage = ZIMCustomMessage(message: data)
-        ZIMManager.shared.zim?.sendPeerMessage(customMessage, toUserID: userID, callback: { _, error in
-            var result: ZegoResult
-            if error.code == .ZIMErrorCodeSuccess {
-                result = .success(())
-//                if let user = self.userList.getObj(userID) {
-//                    user.hasInvited = true
-//                }
+    func cancelCallToUser(userID: String, callType: CallType, callback: RoomCallback?) {
+        sendPeerMesssage(userID, callType: callType, commandType: .cancel, responseType: .none) { result in
+            if result.isSuccess {
+                self.roomService.leaveRoom { result in
+                    if let callback = callback {
+                        callback(result)
+                    }
+                }
             } else {
-                result = .failure(.other(Int32(error.code.rawValue)))
+                
             }
-            guard let callback = callback else { return }
-            callback(result)
-        })
+        }
     }
     
     func responseCall(_ userID: String, callType:CallType, responseType: CallResponseType, callback: RoomCallback?) {
@@ -207,13 +194,15 @@ class UserService: NSObject {
     
     
     func endCall(_ userID: String, callback: RoomCallback?) {
-        roomService.leaveRoom { result in
-            switch result {
-            case .success():
-                ZegoExpressEngine.shared().stopPublishingStream()
-                self.sendPeerMesssage(userID, callType: .audio, commandType: .end, responseType: nil,callback: callback)
-            case .failure(let code):
-                break
+        sendPeerMesssage(userID, callType: .audio, commandType: .end, responseType: nil) { result in
+            if result.isSuccess {
+                self.roomService.leaveRoom { result in
+                    ZegoExpressEngine.shared().stopPublishingStream()
+                    guard let callback = callback else { return }
+                    callback(.success(()))
+                }
+            } else {
+                
             }
         }
     }
@@ -244,9 +233,6 @@ class UserService: NSObject {
             var result: ZegoResult
             if error.code == .ZIMErrorCodeSuccess {
                 result = .success(())
-//                if let user = self.userList.getObj(userID) {
-//                    user.hasInvited = true
-//                }
             } else {
                 result = .failure(.other(Int32(error.code.rawValue)))
             }
@@ -337,13 +323,12 @@ extension UserService : ZIMEventHandler {
                 guard let delegate = delegate as? UserServiceDelegate else { continue }
                 switch command.type {
                 case .call:
-                    delegate.receiveCall(userInfo, type: .audio)
+                    delegate.receiveCall(userInfo, type: callType)
                 case .cancel:
                     delegate.receiveCancelCall(userInfo)
-                    break
                 case .reply:
                     if command.content?.response_type == 1 {
-                        let streamID = String.getStreamID(localUserInfo?.userID, roomID: userInfo.userID, isVideo: callType == .video)
+                        let streamID = String.getStreamID(localUserInfo?.userID, roomID: roomService.roomInfo.roomID, isVideo: callType == .video)
                         ZegoExpressEngine.shared().startPublishingStream(streamID)
                         delegate.receiveCallResponse(userInfo, responseType: .accept)
                     } else {
@@ -351,14 +336,11 @@ extension UserService : ZIMEventHandler {
                             if result.isSuccess {
                                 delegate.receiveCallResponse(userInfo, responseType: .reject)
                             } else {
-                                
                             }
                         }
                     }
-                    break
                 case .end:
                     delegate.receiveEndCall()
-                    break
                 }
             }
         }

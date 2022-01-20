@@ -38,6 +38,7 @@ class CallAcceptTipView: UIView {
         tipView.layer.cornerRadius = 8
         tipView.callUserInfo = userInfo
         tipView.headImage.image = UIImage(named: String.getHeadImageName(userName: userInfo.userName))
+        tipView.tipType = type
         switch type {
         case .audio:
             tipView.messageLabel.text = "ZEGO Voice Call"

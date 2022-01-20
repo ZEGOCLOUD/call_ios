@@ -23,6 +23,9 @@ class UserInfo: NSObject, Codable {
     /// camera
     var camera: Bool = true
     
+    /// voice
+    var voice: Bool = true
+    
     override init() {
         
     }

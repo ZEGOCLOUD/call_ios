@@ -31,6 +31,9 @@ class CallMainVC: UIViewController {
     @IBOutlet weak var toBottomDistance: NSLayoutConstraint!
     
     var bgImage: UIImage?
+    
+    let timer = ZegoTimer(1000)
+    var callTime: Int = 0
 
     lazy var takeView: CallingTakeView = {
         let view: CallingTakeView = UINib(nibName: "CallingTakeView", bundle: nil).instantiate(withOwner: nil, options: nil).first as! CallingTakeView
@@ -105,6 +108,7 @@ class CallMainVC: UIViewController {
             backGroundImage.isHidden = false
         }
         self.callStatusLabel.isHidden = true
+        self.timeLabel.isHidden = true
         self.bottomViewHeight.constant = 60
         self.toBottomDistance.constant = 52.5
         switch statusType {
@@ -115,6 +119,7 @@ class CallMainVC: UIViewController {
             self.acceptView.isHidden = true
             self.phoneView.isHidden = true
             self.videoView.isHidden = true
+            self.headImage.isHidden = false
         case .accept:
             self.bottomViewHeight.constant = 85
             self.toBottomDistance.constant = 28
@@ -124,18 +129,31 @@ class CallMainVC: UIViewController {
             self.acceptView.isHidden = false
             self.phoneView.isHidden = true
             self.videoView.isHidden = true
+            self.headImage.isHidden = false
         case .calling:
             self.takeView.isHidden = true
             self.acceptView.isHidden = true
+            self.timeLabel.isHidden = false
             if vcType == .audio {
                 self.phoneView.isHidden = false
                 self.videoView.isHidden = true
+                self.headImage.isHidden = false
+                CallBusiness.shared.startPlaying(callUser?.userID, streamView: nil, type: vcType)
             } else {
                 self.phoneView.isHidden = true
                 self.videoView.isHidden = false
+                self.headImage.isHidden = true
+                CallBusiness.shared.startPlaying(callUser?.userID, streamView: mainPreviewView, type: vcType)
+                CallBusiness.shared.startPlaying(localUserID, streamView: previewView, type: vcType)
             }
-            
-            startPlaying(callUser?.userID, streamView: nil, type: vcType)
+            timer.setEventHandler {
+                self.callTime += 1
+                DispatchQueue.main.async {
+                    self.timeLabel.text = String.getTimeFormate(self.callTime)
+                }
+            }
+            timer.start()
+//            startPlaying(callUser?.userID, streamView: nil, type: vcType)
         }
     }
     

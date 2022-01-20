@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -121,14 +122,13 @@
                             <constraint firstItem="mRA-1m-3Bq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="GdJ-Ko-sbX"/>
                             <constraint firstItem="U2d-lP-hMz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Jop-4M-op1"/>
                             <constraint firstItem="U2d-lP-hMz" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="VPt-HD-NPf"/>
-                            <constraint firstItem="mRA-1m-3Bq" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="X8A-jn-aB6"/>
                             <constraint firstItem="2qp-Qo-T50" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="18" id="ZH9-Py-2LP"/>
+                            <constraint firstItem="mRA-1m-3Bq" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="bqi-Wn-BcK"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="mRA-1m-3Bq" secondAttribute="trailing" id="mpU-aU-s5f"/>
                             <constraint firstAttribute="bottom" secondItem="U2d-lP-hMz" secondAttribute="bottom" id="odT-3L-0ve"/>
                             <constraint firstItem="U2d-lP-hMz" firstAttribute="top" secondItem="2qp-Qo-T50" secondAttribute="bottom" constant="36.5" id="uqv-0q-O6Y"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="cfo-SS-NQM"/>
                     <connections>
                         <outlet property="inputNameTipLabel" destination="sk9-Z8-NL5" id="QSx-hs-cxG"/>
                         <outlet property="loginButton" destination="oo2-Zg-kus" id="k6e-sj-QgA"/>

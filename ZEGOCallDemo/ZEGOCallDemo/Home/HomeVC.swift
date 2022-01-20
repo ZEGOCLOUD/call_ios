@@ -20,7 +20,7 @@ class HomeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        RoomManager.shared.userService.addUserServiceDelegate(CallUIBusiness.shared)
+        RoomManager.shared.userService.addUserServiceDelegate(CallBusiness.shared)
         let tapClick:UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(tap))
         backView.addGestureRecognizer(tapClick)
         configUI()
