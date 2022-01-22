@@ -16,8 +16,8 @@ enum CustomCommandType : Int, Codable {
 
 struct CustomCommandContent : Codable {
     var user_info = Dictionary<String, String>() ///
-    var response_type : Int = 1 /// 1:agree  2:refused
-    var call_type : Int = 1 /// 1:voice 2:video
+    var response_type : Int?  /// 1:agree  2:refused
+    var call_type : Int? /// 1:voice 2:video
 }
 
 class CustomCommand : NSObject, Codable {

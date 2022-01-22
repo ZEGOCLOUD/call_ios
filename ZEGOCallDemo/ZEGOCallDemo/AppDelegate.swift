@@ -28,28 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("[*] Call Init Success.")
             }
         };
-
-        let center = UNUserNotificationCenter.current()
-        center.delegate = self;
-        center.requestAuthorization(options: (UNAuthorizationOptions(rawValue: UNAuthorizationOptions.RawValue(UInt8(UNAuthorizationOptions.badge.rawValue) | UInt8(UNAuthorizationOptions.alert.rawValue) | UInt8(UNAuthorizationOptions.sound.rawValue)))), completionHandler: { (granted, error) in
-            if error != nil {
-                print("成功了")
-            }
-        })
-        application.registerForRemoteNotifications()
         
         return true
-    }
-    
-    func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
-        
-        application.registerForRemoteNotifications()
-    }
-    
-    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
-        if let userInfo = notification.userInfo {
-            NSLog("%@", userInfo)
-        }
     }
 
     // MARK: UISceneSession Lifecycle
@@ -73,19 +53,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
 
-}
-
-// MARK: UNUserNotificationCenterDelegate
-extension AppDelegate: UNUserNotificationCenterDelegate {
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Swift.Void) {
-        
-        completionHandler(UNNotificationPresentationOptions(rawValue: UNNotificationPresentationOptions.RawValue(UInt8(UNNotificationPresentationOptions.badge.rawValue) | UInt8(UNNotificationPresentationOptions.alert.rawValue) | UInt8(UNNotificationPresentationOptions.sound.rawValue))))
-    }
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        completionHandler()
-    }
-    
 }
 

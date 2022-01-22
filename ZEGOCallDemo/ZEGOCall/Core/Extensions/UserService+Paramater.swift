@@ -27,7 +27,10 @@ extension UserService {
             return nil
         }
         
-        let attributes:[String : String] = ["id": myUserID, "name": myUserName, "mic": userInfo.mic.description, "camera": userInfo.camera.description]
+        var attributes: [String: String] = [:]
+        if let userJson = ZegoJsonTool.modelToJson(toString: userInfo) {
+            attributes[myUserID] = userJson
+        }
         
         let config = ZIMRoomAttributesSetConfig()
         config.isDeleteAfterOwnerLeft = false

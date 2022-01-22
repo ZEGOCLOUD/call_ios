@@ -74,7 +74,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         self.window?.rootViewController = nav
                         let homeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
                         rootVC.navigationController?.pushViewController(homeVC, animated: false)
-                    case .failure(let code):
+                    case .failure(_):
                         break
                     }
                 }

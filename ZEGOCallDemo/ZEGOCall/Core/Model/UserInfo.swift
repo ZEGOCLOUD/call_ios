@@ -24,15 +24,17 @@ class UserInfo: NSObject, Codable {
     var camera: Bool = true
     
     /// voice
-    var voice: Bool = true
+    var voice: Bool = false
     
     override init() {
         
     }
     
-    init(_ userID: String, _ userName: String) {
+    init(_ userID: String, _ userName: String, _ mic: Bool = true, _ camera: Bool = true) {
         self.userID = userID
         self.userName = userName
+        self.mic = mic
+        self.camera = camera
     }
     
     init(json: Dictionary<String, Any>) {

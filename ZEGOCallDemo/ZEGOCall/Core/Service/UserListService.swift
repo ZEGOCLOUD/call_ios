@@ -25,6 +25,9 @@ class UserListService: NSObject {
             } else {
                 self.userList = userInfoList.userInfoArray
             }
+            self.userList = self.userList.filter({ userInfo in
+                return userInfo.userID != RoomManager.shared.userService.localUserInfo?.userID
+            })
             guard let callback = callback else { return }
             callback(.success(userInfoList.userInfoArray))
         } failure: { roomInfoList in

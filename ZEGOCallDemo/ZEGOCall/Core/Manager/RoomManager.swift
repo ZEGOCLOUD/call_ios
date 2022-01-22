@@ -114,18 +114,6 @@ extension RoomManager {
 
 extension RoomManager: ZegoEventHandler {
     
-    func onCapturedSoundLevelUpdate(_ soundLevel: NSNumber) {
-        for delegate in rtcEventDelegates.allObjects {
-            delegate.onCapturedSoundLevelUpdate?(soundLevel)
-        }
-    }
-    
-    func onRemoteSoundLevelUpdate(_ soundLevels: [String : NSNumber]) {
-        for delegate in rtcEventDelegates.allObjects {
-            delegate.onRemoteSoundLevelUpdate?(soundLevels)
-        }
-    }
-    
     func onRoomStreamUpdate(_ updateType: ZegoUpdateType, streamList: [ZegoStream], extendedData: [AnyHashable : Any]?, roomID: String) {
         
         for stream in streamList {

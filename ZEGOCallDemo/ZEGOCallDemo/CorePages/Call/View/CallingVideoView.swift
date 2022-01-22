@@ -49,9 +49,9 @@ class CallingVideoView: CallBaseView {
     @IBAction func voiceButtonClick(_ sender: UIButton) {
         guard let userInfo = RoomManager.shared.userService.localUserInfo else { return }
         if !userInfo.voice {
-            voiceButton.setImage(UIImage(named: "call_voice_close_selected_icon"), for: .normal)
+            voiceButton.setImage(UIImage(named: "call_voice_close_icon"), for: .normal)
         } else {
-            voiceButton.setImage(UIImage(named: "call_voice_open_selected_icon"), for: .normal)
+            voiceButton.setImage(UIImage(named: "call_voice_open_icon"), for: .normal)
         }
         delegate?.callOpenVoice(self, isOpen: !userInfo.voice)
         RoomManager.shared.userService.localUserInfo?.voice = !userInfo.voice

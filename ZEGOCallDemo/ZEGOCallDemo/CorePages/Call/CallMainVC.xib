@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -18,6 +19,7 @@
                 <outlet property="callStatusLabel" destination="7wa-uL-Azy" id="DhR-H6-6iD"/>
                 <outlet property="headImage" destination="5G2-Zx-Cu3" id="lXu-y6-jq6"/>
                 <outlet property="mainPreviewView" destination="k3E-XM-kJs" id="btB-6D-ZEB"/>
+                <outlet property="previewNameLabel" destination="PPJ-4l-tMg" id="XXr-Zb-F5N"/>
                 <outlet property="previewView" destination="X9Y-cC-uIR" id="V3v-uP-5yF"/>
                 <outlet property="timeLabel" destination="hhF-a9-GgM" id="oEf-0M-AOr"/>
                 <outlet property="toBottomDistance" destination="xXE-Kk-AW1" id="ZIF-d7-ybd"/>
@@ -98,9 +100,33 @@
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X9Y-cC-uIR">
                             <rect key="frame" x="311" y="37" width="95" height="169"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ONC-Jv-Oj0">
+                                    <rect key="frame" x="0.0" y="143" width="95" height="26"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PPJ-4l-tMg">
+                                            <rect key="frame" x="6" y="0.0" width="83" height="26"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="26" id="9pb-y7-1Xj"/>
+                                        <constraint firstItem="PPJ-4l-tMg" firstAttribute="leading" secondItem="ONC-Jv-Oj0" secondAttribute="leading" constant="6" id="SdK-kH-Jth"/>
+                                        <constraint firstItem="PPJ-4l-tMg" firstAttribute="top" secondItem="ONC-Jv-Oj0" secondAttribute="top" id="cH7-ew-Q5d"/>
+                                        <constraint firstAttribute="trailing" secondItem="PPJ-4l-tMg" secondAttribute="trailing" constant="6" id="nB6-VG-w6T"/>
+                                        <constraint firstAttribute="bottom" secondItem="PPJ-4l-tMg" secondAttribute="bottom" id="wej-6S-sMh"/>
+                                    </constraints>
+                                </view>
+                            </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
+                                <constraint firstAttribute="trailing" secondItem="ONC-Jv-Oj0" secondAttribute="trailing" id="DH1-jI-PFU"/>
                                 <constraint firstAttribute="height" constant="169" id="JDQ-o8-3RK"/>
+                                <constraint firstItem="ONC-Jv-Oj0" firstAttribute="leading" secondItem="X9Y-cC-uIR" secondAttribute="leading" id="c2s-tl-ksN"/>
+                                <constraint firstAttribute="bottom" secondItem="ONC-Jv-Oj0" secondAttribute="bottom" id="fLd-Ot-T9P"/>
                                 <constraint firstAttribute="width" constant="95" id="y27-Ku-ehq"/>
                             </constraints>
                         </view>

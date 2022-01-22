@@ -81,8 +81,10 @@ class AuthorizedCheck: NSObject {
     static func showMicrophoneUnauthorizedAlert(_ viewController: UIViewController) {
         let title: String = ZGLocalizedString("room_page_mic_cant_open")
         let message: String = ZGLocalizedString("room_page_grant_mic_permission")
-        showAlert(title, message, viewController) {
-            openAppSettings()
+        DispatchQueue.main.async {
+            showAlert(title, message, viewController) {
+                openAppSettings()
+            }
         }
     }
     
@@ -90,8 +92,10 @@ class AuthorizedCheck: NSObject {
         // TODO: - need add localized string
         let title: String = "Cannot use Camera！"
         let message: String = "Please enable camera access in the system settings!"
-        showAlert(title, message, viewController) {
-            openAppSettings()
+        DispatchQueue.main.async {
+            showAlert(title, message, viewController) {
+                openAppSettings()
+            }
         }
     }
     

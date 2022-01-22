@@ -9,16 +9,24 @@ import UIKit
 import ZIM
 import ZegoExpressEngine
 
+enum callStatus: Int {
+    case free
+    case wait
+    case calling
+}
+
 class CallBusiness: NSObject {
     
     static let shared = CallBusiness()
-    
+
     let appDelegate = (UIApplication.shared.delegate) as! AppDelegate
     
     var currentCallVC: CallMainVC?
-    
-    var callKitUserInfo: UserInfo?
+    var currentCallUserInfo: UserInfo?
     var callKitCallType: CallType = .audio
+    var currentCallStatus: callStatus = .free
+    var appIsActive: Bool = true
+    var currentTipView: CallAcceptTipView?
     
     // MARK: - Private
     private override init() {
@@ -26,37 +34,53 @@ class CallBusiness: NSObject {
         NotificationCenter.default.addObserver(self, selector: #selector(callKitStart), name: Notification.Name("callStart"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(callKitEnd), name: Notification.Name("callEnd"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(muteSpeaker), name: Notification.Name("muteSpeaker"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackGround), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
+
     
     func startCall(_ userInfo: UserInfo, callType: CallType) {
         let vc: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .take)
         currentCallVC = vc
+        currentCallStatus = .wait
+        currentCallUserInfo = userInfo
         getCurrentViewController()?.present(vc, animated: true, completion: nil)
     }
     
-    private func acceptCall(_ userInfo: UserInfo, callType: CallType, isCallKit: Bool = false) {
-//        if isCallKit {
-//
-//        }
-//
-//
-//        } else {
-//            guard let userID = userInfo.userID else { return }
-//            RoomManager.shared.userService.responseCall(userID, callType: callType,responseType: .accept) { result in
-//                switch result {
-//                case .success():
-//                    let callVC: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .calling)
-//                    self.currentCallVC = callVC
-//                    if let controller = self.getCurrentViewController() {
-//                        controller.present(callVC, animated: true) {
-//                            self.startPlayingStream(userID)
-//                        }
-//                    }
-//                case .failure(_):
-//                    break
-//                }
-//            }
-//        }
+    
+    private func acceptCall(_ userInfo: UserInfo, callType: CallType) {
+        guard let userID = userInfo.userID else { return }
+        RoomManager.shared.userService.responseCall(userID, callType: callType,responseType: .accept) { result in
+            switch result {
+            case .success():
+                let callVC: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .calling)
+                self.currentCallVC = callVC
+                self.currentCallStatus = .calling
+                self.currentCallUserInfo = userInfo
+                if let controller = self.getCurrentViewController() {
+                    controller.present(callVC, animated: true) {
+                        self.startPlayingStream(userID)
+                    }
+                }
+            case .failure(_):
+                break
+            }
+        }
+        
+    }
+    
+    func endCall(_ userID: String, callType: CallType) {
+        if currentCallUserInfo?.userID == userID {
+            currentCallStatus = .free
+            currentCallUserInfo = nil
+        }
+        let deviceID: String = UIDevice.current.identifierForVendor!.uuidString
+        if let uuid = UUID(uuidString: deviceID) {
+            appDelegate.providerDelegate?.endCall(uuids: [uuid], completion: { uuid in
+                
+            })
+        }
+        RoomManager.shared.userService.responseCall(userID, callType: callType, responseType: .reject, callback: nil)
     }
     
     deinit {
@@ -72,11 +96,23 @@ extension CallBusiness: UserServiceDelegate {
     }
     
     func receiveCall(_ userInfo: UserInfo, type: CallType) {
+        if currentCallStatus == .calling || currentCallStatus == .wait {
+            guard let userID = userInfo.userID else { return }
+            if let currentCallUserInfo = currentCallUserInfo {
+                if userID != currentCallUserInfo.userID {
+                    endCall(userID, callType: type)
+                }
+            }
+            return
+        }
+        
+        currentCallStatus = .wait
+        currentCallUserInfo = userInfo
         if UIApplication.shared.applicationState == .active {
             let callTipView: CallAcceptTipView = CallAcceptTipView.showTipView(type, userInfo: userInfo)
+            currentTipView = callTipView
             callTipView.delegate = self
         } else {
-            callKitUserInfo = userInfo
             callKitCallType = type
             let deviceID: String = UIDevice.current.identifierForVendor!.uuidString
             if let uuid = UUID(uuidString: deviceID) {
@@ -86,30 +122,63 @@ extension CallBusiness: UserServiceDelegate {
     }
     
     func receiveCancelCall(_ userInfo: UserInfo) {
-        
+        currentCallStatus = .free
+        currentCallUserInfo = nil
+        guard let currentTipView = currentTipView else { return }
+        currentTipView.removeFromSuperview()
+        let deviceID: String = UIDevice.current.identifierForVendor!.uuidString
+        if let uuid = UUID(uuidString: deviceID) {
+            appDelegate.providerDelegate?.endCall(uuids: [uuid], completion: { uuid in
+                
+            })
+        }
     }
     
     func receiveCallResponse(_ userInfo: UserInfo, responseType: CallResponseType) {
         guard let vc = self.currentCallVC else { return }
         if responseType == .accept {
+            currentCallUserInfo = userInfo
+            currentCallStatus = .calling
             vc.updateCallType(vc.vcType, userInfo: userInfo, status: .calling)
             startPlayingStream(userInfo.userID)
         } else {
-            RoomManager.shared.userService.endCall(userInfo.userID ?? "", callback: nil)
-            vc.dismiss(animated: true, completion: nil)
+            currentCallUserInfo = nil
+            currentCallStatus = .free
+            RoomManager.shared.userService.endCall(userInfo.userID ?? "") { result in
+                if result.isSuccess {
+                    HUDHelper.showMessage(message: "Decline")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        vc.dismiss(animated: true, completion: nil)
+                    }
+                }
+            }
         }
     }
     
-    func receiveEndCall() {
+    func receiveEndCall(_ userInfo: UserInfo) {
+        if userInfo.userID != currentCallUserInfo?.userID {
+            return
+        }
+        currentCallUserInfo = nil
         RoomManager.shared.userService.roomService.leaveRoom { result in
             switch result {
             case .success():
-                self.currentCallVC?.dismiss(animated: true, completion: nil)
-                let deviceID: String = UIDevice.current.identifierForVendor!.uuidString
-                if let uuid = UUID(uuidString: deviceID) {
-                    self.appDelegate.providerDelegate?.endCall(uuids: [uuid], completion: { uuuid in
-                        
-                    })
+                self.currentCallStatus = .free
+                HUDHelper.showMessage(message: "complete")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    let deviceID: String = UIDevice.current.identifierForVendor!.uuidString
+                    if let uuid = UUID(uuidString: deviceID) {
+                        self.appDelegate.providerDelegate?.endCall(uuids: [uuid], completion: { uuid in
+                            
+                        })
+                    }
+//                    let deviceID: String = UIDevice.current.identifierForVendor!.uuidString
+//                    if let uuid = UUID(uuidString: deviceID) {
+//                        self.appDelegate.providerDelegate?.endCall(uuids: [uuid], completion: { uuuid in
+//
+//                        })
+//                    }
+                    self.currentCallVC?.dismiss(animated: true, completion: nil)
                 }
             case .failure(_):
                 break
@@ -138,27 +207,14 @@ extension CallBusiness: UserServiceDelegate {
 extension CallBusiness: CallAcceptTipViewDelegate {
     func tipViewDeclineCall(_ userInfo: UserInfo, callType: CallType) {
         if let userID = userInfo.userID {
-            RoomManager.shared.userService.responseCall(userID, callType: callType, responseType: .reject, callback: nil)
+            endCall(userID, callType: callType)
         }
+        currentTipView = nil
     }
     
     func tipViewAcceptCall(_ userInfo: UserInfo, callType: CallType) {
-        if let userID = userInfo.userID {
-            RoomManager.shared.userService.responseCall(userID, callType: callType,responseType: .accept) { result in
-                switch result {
-                case .success():
-                    let callVC: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .calling)
-                    self.currentCallVC = callVC
-                    if let controller = self.getCurrentViewController() {
-                        controller.present(callVC, animated: true) {
-                            self.startPlayingStream(userID)
-                        }
-                    }
-                case .failure(_):
-                    break
-                }
-            }
-        }
+        acceptCall(userInfo, callType: callType)
+        currentTipView = nil
     }
     
     func getCurrentViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {

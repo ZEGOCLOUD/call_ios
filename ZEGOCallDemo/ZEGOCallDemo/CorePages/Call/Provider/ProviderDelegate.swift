@@ -41,7 +41,7 @@ class ProviderDelegate: NSObject,CXProviderDelegate {
     
     func call(handle:String) {
         let startCallAction = CXStartCallAction(call: UUID(),handle: CXHandle(type: .generic, value: handle))
-        
+
         let transaction = CXTransaction()
         transaction.addAction(startCallAction)
         
@@ -127,10 +127,17 @@ class ProviderDelegate: NSObject,CXProviderDelegate {
         NotificationCenter.default.post(name: Notification.Name("muteSpeaker"), object: self, userInfo: ["uuid":action.uuid.uuidString])
     }
     
+    func provider(_ provider: CXProvider, perform action: CXSetGroupCallAction) {
+        
+    }
+    
+    func provider(_ provider: CXProvider, perform action: CXPlayDTMFCallAction) {
+        
+    }
+    
     func provider(_ provider: CXProvider, timedOutPerforming action: CXAction) {
         action.fulfill()
         print("Timed out \(#function)")
-        
         // React to the action timeout if necessary, such as showing an error UI.
     }
     
@@ -144,7 +151,6 @@ class ProviderDelegate: NSObject,CXProviderDelegate {
     
     func provider(_ provider: CXProvider, didDeactivate audioSession: AVAudioSession) {
         print("Received \(#function)")
-        
         /*
          Restart any non-call related audio now that the app's audio session has been
          de-activated after having its priority restored to normal.

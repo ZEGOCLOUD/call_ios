@@ -45,24 +45,37 @@ class LoginVC: UIViewController {
     private func applicationHasMicAndCameraAccess() {
         // not determined
         if !AuthorizedCheck.isCameraAuthorizationDetermined(){
-            AuthorizedCheck.takeCameraAuthorityStatus(completion: nil)
-            cameraPermissions = false
-        }
-        // determined but not authorized
-        if !AuthorizedCheck.isCameraAuthorized() {
-            AuthorizedCheck.showCameraUnauthorizedAlert(self)
-            cameraPermissions = false
+            AuthorizedCheck.takeCameraAuthorityStatus { result in
+                if result {
+                    self.cameraPermissions = true
+                } else {
+                    AuthorizedCheck.showCameraUnauthorizedAlert(self)
+                }
+            }
+        } else {
+            // determined but not authorized
+            if !AuthorizedCheck.isCameraAuthorized() {
+                cameraPermissions = false
+                AuthorizedCheck.showCameraUnauthorizedAlert(self)
+            }
         }
         
         // not determined
         if !AuthorizedCheck.isMicrophoneAuthorizationDetermined(){
-            AuthorizedCheck.takeMicPhoneAuthorityStatus(completion: nil)
-            micPermissions = false
-        }
-        // determined but not authorized
-        if !AuthorizedCheck.isMicrophoneAuthorized() {
-            AuthorizedCheck.showMicrophoneUnauthorizedAlert(self)
-            micPermissions = false
+            AuthorizedCheck.takeMicPhoneAuthorityStatus { result in
+                if result {
+                    self.micPermissions = true
+                } else {
+                    self.micPermissions = false
+                    AuthorizedCheck.showMicrophoneUnauthorizedAlert(self)
+                }
+            }
+        } else {
+            // determined but not authorized
+            if !AuthorizedCheck.isMicrophoneAuthorized() {
+                AuthorizedCheck.showMicrophoneUnauthorizedAlert(self)
+                micPermissions = false
+            }
         }
     }
     
@@ -111,51 +124,43 @@ class LoginVC: UIViewController {
     
     //MARK: -Action
     @IBAction func loginClick(_ sender: Any) {
-        // if !micPermissions || !cameraPermissions {return}
+        if !cameraPermissions {
+            AuthorizedCheck.showCameraUnauthorizedAlert(self)
+            return
+        }
+        if !micPermissions {
+            AuthorizedCheck.showMicrophoneUnauthorizedAlert(self)
+            return
+        }
         let userInfo = UserInfo()
         userInfo.userName = myUserName
+        HUDHelper.showNetworkLoading()
         RoomManager.shared.userService.requestUserID { result in
+            HUDHelper.hideNetworkLoading()
             switch result {
             case .success(let newUserID):
                 userInfo.userID = newUserID
                 if let token = AppToken.getZIMToken(withUserID: newUserID) {
                     self.userLogin(userInfo, token: token)
                 }
-            case .failure(let code):
-                break
+            case .failure(let error):
+                let message = String(format: ZGLocalizedString("toast_login_fail"), error.code)
+                TipView.showWarn(message)
             }
         }
-//        let oldUserInfo: UserInfo? = UserDefaults.standard.object(forKey: USERID_KEY) as? UserInfo
-//        if let oldUserInfo = oldUserInfo {
-//            if let token = AppToken.getZIMToken(withUserID: oldUserInfo.userID) {
-//                userLogin(oldUserInfo, token: token)
-//            }
-//        } else {
-//            RoomManager.shared.userService.requestUserID { result in
-//                switch result {
-//                case .success(let newUserID):
-//                    userInfo.userID = newUserID
-//                    if let token = AppToken.getZIMToken(withUserID: userID) {
-//                        self.userLogin(userInfo, token: token)
-//                    }
-//                case .failure(let code):
-//                    break
-//                }
-//            }
-//        }
     }
     
     func userLogin(_ userInfo: UserInfo, token: String) {
-        
         RoomManager.shared.userService.login(userInfo, token) { result in
             switch result {
             case .success():
+                self.userNameTextField.text = ""
                 UserDefaults.standard.set(["userID":userInfo.userID, "userName":userInfo.userName], forKey: USERID_KEY)
-                let deviceID: String = UIDevice.current.identifierForVendor!.uuidString
                 let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
                 self.navigationController?.pushViewController(vc, animated: true)
-            case .failure(_):
-                break
+            case .failure(let error):
+                let message = String(format: ZGLocalizedString("toast_login_fail"), error.code)
+                TipView.showWarn(message)
             }
         }
     }

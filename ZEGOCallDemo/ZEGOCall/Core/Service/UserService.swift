@@ -31,7 +31,7 @@ protocol UserServiceDelegate : AnyObject  {
     /// reveive call response
     func receiveCallResponse(_ userInfo: UserInfo, responseType: CallResponseType)
     /// reveive end call
-    func receiveEndCall()
+    func receiveEndCall(_ userInfo: UserInfo)
 }
 
 // default realized
@@ -40,7 +40,7 @@ extension UserServiceDelegate {
     func receiveCall(_ userInfo: UserInfo , type: CallType) { }
     func receiveCancelCall(_ userInfo: UserInfo) { }
     func receiveCallResponse(_ userInfo: UserInfo , responseType: CallResponseType) { }
-    func receiveEndCall() { }
+    func receiveEndCall(_ userInfo: UserInfo) { }
 }
 
 class UserService: NSObject {
@@ -194,17 +194,22 @@ class UserService: NSObject {
     
     
     func endCall(_ userID: String, callback: RoomCallback?) {
-        sendPeerMesssage(userID, callType: .audio, commandType: .end, responseType: nil) { result in
-            if result.isSuccess {
-                self.roomService.leaveRoom { result in
-                    ZegoExpressEngine.shared().stopPublishingStream()
-                    guard let callback = callback else { return }
-                    callback(.success(()))
-                }
-            } else {
-                
-            }
+        self.roomService.leaveRoom { result in
+            ZegoExpressEngine.shared().stopPublishingStream()
+            guard let callback = callback else { return }
+            callback(.success(()))
         }
+//        sendPeerMesssage(userID, callType: .audio, commandType: .end, responseType: nil) { result in
+//            if result.isSuccess {
+//                self.roomService.leaveRoom { result in
+//                    ZegoExpressEngine.shared().stopPublishingStream()
+//                    guard let callback = callback else { return }
+//                    callback(.success(()))
+//                }
+//            } else {
+//
+//            }
+//        }
     }
     
     private func sendPeerMesssage(_ userID: String, callType: CallType, commandType: CustomCommandType, responseType: CallResponseType?, callback: RoomCallback?) {
@@ -303,6 +308,33 @@ extension UserService : ZIMEventHandler {
         }
     }
     
+    func zim(_ zim: ZIM, roomMemberJoined memberList: [ZIMUserInfo], roomID: String) {
+        var addUsers: [UserInfo] = []
+        for zimUser in memberList {
+            let user = UserInfo(zimUser.userID, zimUser.userName)
+            addUsers.append(user)
+            guard let userID = user.userID else { continue }
+            userList.addObj(userID, user)
+        }
+    }
+    
+    func zim(_ zim: ZIM, roomMemberLeft memberList: [ZIMUserInfo], roomID: String) {
+        var leftUsers: [UserInfo] = []
+        for zimUser in memberList {
+            let user = UserInfo(zimUser.userID, zimUser.userName)
+            leftUsers.append(user)
+            guard let userID = user.userID else { continue }
+            userList.removeObj(userID)
+        }
+        
+        for obj in delegates.allObjects {
+            if let delegate = obj as? UserServiceDelegate {
+                if let userInfo = leftUsers.first {
+                    delegate.receiveEndCall(userInfo)
+                }
+            }
+        }
+    }
 
     // recevie a invitation via this method
     func zim(_ zim: ZIM, receivePeerMessage messageList: [ZIMMessage], fromUserID: String) {
@@ -317,7 +349,9 @@ extension UserService : ZIMEventHandler {
             userInfo.userName = command.content?.user_info["name"]
             var callType: CallType = .audio
             if let content = command.content {
-                callType = CallType(rawValue: content.call_type) ?? .audio
+                if let type = content.call_type {
+                    callType = CallType(rawValue: type) ?? .audio
+                }
             }
             for delegate in delegates.allObjects {
                 guard let delegate = delegate as? UserServiceDelegate else { continue }
@@ -340,7 +374,7 @@ extension UserService : ZIMEventHandler {
                         }
                     }
                 case .end:
-                    delegate.receiveEndCall()
+                    delegate.receiveEndCall(userInfo)
                 }
             }
         }

@@ -12,14 +12,49 @@ extension CallMainVC: CallActionDelegate {
     func callhandUp(_ callView: CallBaseView) {
         if let userID = self.callUser?.userID {
             if self.statusType == .calling {
-                RoomManager.shared.userService.endCall(userID, callback: nil)
-            } else {
-                RoomManager.shared.userService.cancelCallToUser(userID: userID, callType: self.vcType) { result in
-            
+                RoomManager.shared.userService.endCall(userID) { result in
+                    switch result {
+                    case .success():
+                        CallBusiness.shared.currentCallStatus = .free
+                        HUDHelper.showMessage(message: "Complete")
+                        let deviceID: String = UIDevice.current.identifierForVendor!.uuidString
+                        if let uuid = UUID(uuidString: deviceID) {
+                            self.appDelegate.providerDelegate?.endCall(uuids: [uuid], completion: { uuid in
+                                
+                            })
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            self.dismiss(animated: true, completion: nil)
+                        }
+                    case .failure(let error):
+                        //HUDHelper.showMessage(message: "")
+                        break
+                    }
                 }
+            } else {
+                cancelCall(userID, callType: self.vcType)
             }
         }
-        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func cancelCall(_ userID: String, callType: CallType, isTimeout: Bool = false) {
+        RoomManager.shared.userService.cancelCallToUser(userID: userID, callType: self.vcType) { result in
+            switch result {
+            case .success():
+                CallBusiness.shared.currentCallStatus = .free
+                if isTimeout {
+                    HUDHelper.showMessage(message: "Miss")
+                } else {
+                    HUDHelper.showMessage(message: "Canceled")
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.dismiss(animated: true, completion: nil)
+                }
+            case .failure(let error):
+                //HUDHelper.showMessage(message: "")
+                break
+            }
+        }
     }
     
     func callAccept(_ callView: CallBaseView) {
@@ -41,9 +76,7 @@ extension CallMainVC: CallActionDelegate {
     }
     
     func callOpenMic(_ callView: CallBaseView, isOpen: Bool) {
-        RoomManager.shared.userService.micOperation(isOpen) { result in
-            
-        }
+        RoomManager.shared.userService.micOperation(isOpen, callback: nil)
     }
     
     func callOpenVoice(_ callView: CallBaseView, isOpen: Bool) {
@@ -51,9 +84,7 @@ extension CallMainVC: CallActionDelegate {
     }
     
     func callOpenVideo(_ callView: CallBaseView, isOpen: Bool) {
-        RoomManager.shared.userService.cameraOpen(isOpen) { result in
-            
-        }
+        RoomManager.shared.userService.cameraOpen(isOpen, callback: nil)
     }
     
     func callFlipCamera(_ callView: CallBaseView) {
