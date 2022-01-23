@@ -15,14 +15,14 @@ class CallingPhoneView: CallBaseView {
     
     
     @IBAction func micButtonClick(_ sender: UIButton) {
-        guard let userInfo = RoomManager.shared.userService.localUserInfo else { return }
-        delegate?.callOpenMic(self, isOpen: !userInfo.mic)
-        if !userInfo.mic {
+        guard let userInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
+        userInfo.mic = !userInfo.mic
+        delegate?.callOpenMic(self, isOpen: userInfo.mic)
+        if userInfo.mic {
             micButton.setImage(UIImage(named: "call_mic_selected_open"), for: .normal)
         } else {
             micButton.setImage(UIImage(named: "call_mic_selected_close"), for: .normal)
         }
-        RoomManager.shared.userService.localUserInfo?.mic = !userInfo.mic
     }
     
     @IBAction func handUpButtonClick(_ sender: UIButton) {
@@ -30,14 +30,15 @@ class CallingPhoneView: CallBaseView {
     }
     
     @IBAction func voiceButtonClick(_ sender: UIButton) {
-        guard let userInfo = RoomManager.shared.userService.localUserInfo else { return }
-        if !userInfo.voice {
+        guard let userInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
+        let voice = userInfo.voice ?? false
+        userInfo.voice = !voice
+        if userInfo.voice! {
             voiceButton.setImage(UIImage(named: "call_voice_close_selected_icon"), for: .normal)
         } else {
             voiceButton.setImage(UIImage(named: "call_voice_open_selected_icon"), for: .normal)
         }
-        delegate?.callOpenVoice(self, isOpen: !userInfo.voice)
-        RoomManager.shared.userService.localUserInfo?.voice = !userInfo.voice
+        delegate?.callOpenVoice(self, isOpen: userInfo.voice!)
     }
 
 }

@@ -16,9 +16,9 @@ extension CallMainVC {
     }
     
     func startPlaying(_ userID: String?, streamView: UIView?, type: CallType) {
+        let streamID = String.getStreamID(userID, roomID: getRoomID())
         if type == .video {
             guard let streamView = streamView else { return }
-            let streamID = String.getStreamID(userID, roomID: getRoomID(), isVideo: true)
             let canvas = ZegoCanvas(view: streamView)
             canvas.viewMode = .aspectFill
             if isUserMyself(userID) {
@@ -27,7 +27,6 @@ extension CallMainVC {
                 ZegoExpressEngine.shared().startPlayingStream(streamID, canvas: canvas)
             }
         } else {
-            let streamID = String.getStreamID(userID, roomID: getRoomID())
             ZegoExpressEngine.shared().startPlayingStream(streamID, canvas: nil)
         }
     }

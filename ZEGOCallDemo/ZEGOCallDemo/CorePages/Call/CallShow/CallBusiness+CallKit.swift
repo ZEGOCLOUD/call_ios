@@ -31,12 +31,13 @@ extension CallBusiness {
             }
         }
         appIsActive = true
+        endSystemCall()
     }
     
     @objc func applicationDidEnterBackGround(notification: NSNotification) {
         // Application is back in the foreground
         if appIsActive && currentCallStatus != .free {
-            self.appDelegate.providerDelegate?.call(handle: "")
+            //appDelegate.providerDelegate?.call(myUUID, handle: "")
         }
         appIsActive = false
     }
@@ -68,31 +69,21 @@ extension CallBusiness {
                                 }
                             }
                         }
-                        let deviceID: String = UIDevice.current.identifierForVendor!.uuidString
-                        if let uuid = UUID(uuidString: deviceID) {
-                            self.appDelegate.providerDelegate?.endCall(uuids: [uuid], completion: { uuuid in
-    
-                            })
-                        }
+                        self.endSystemCall()
                     } else {
-                        if self.callKitCallType == .video {
-                            let streamID = String.getStreamID(userID, roomID: RoomManager.shared.userService.roomService.roomInfo.roomID, isVideo: true)
-                            ZegoExpressEngine.shared().startPlayingStream(streamID, canvas: nil)
-                        } else {
-                            let streamID = String.getStreamID(userID, roomID: RoomManager.shared.userService.roomService.roomInfo.roomID)
-                            ZegoExpressEngine.shared().startPlayingStream(streamID, canvas: nil)
-                        }
+                        let streamID = String.getStreamID(userID, roomID: RoomManager.shared.userService.roomService.roomInfo.roomID)
+                        ZegoExpressEngine.shared().startPlayingStream(streamID, canvas: nil)
                     }
                 case .failure(_):
                     break
                 }
-                
             }
         }
         
     }
         
     @objc func callKitEnd() {
+        if appIsActive { return }
         if currentCallStatus == .calling {
             guard let userID = currentCallUserInfo?.userID else { return }
             RoomManager.shared.userService.endCall(userID) { result in
@@ -101,9 +92,6 @@ extension CallBusiness {
                     self.currentCallStatus = .free
                     self.currentCallUserInfo = nil
                     HUDHelper.showMessage(message: "Complete")
-                    self.appDelegate.providerDelegate?.endCall(uuids: [UUID()], completion: { uuid in
-                        
-                    })
                 case .failure(let error):
                     //HUDHelper.showMessage(message: "")
                     break
@@ -117,10 +105,17 @@ extension CallBusiness {
     }
     
     @objc func muteSpeaker() {
-        if let localUserInfo = RoomManager.shared.userService.localUserInfo {
-            localUserInfo.voice = !localUserInfo.voice
-            ZegoExpressEngine.shared().muteSpeaker(localUserInfo.voice)
+        if let localUserInfo = RoomManager.shared.userService.localUserRoomInfo {
+            let voice = localUserInfo.voice ?? false
+            localUserInfo.voice = !voice
+            ZegoExpressEngine.shared().muteSpeaker(voice)
         }
+    }
+    
+    func endSystemCall() {
+        appDelegate.providerDelegate?.endCall(uuids: [myUUID], completion: { uuid in
+            
+        })
     }
     
     

@@ -15,13 +15,13 @@ extension UserService {
     
     func getDeviceChangeParameters(_ enable: Bool, flag: Int) -> ParametersResult? {
         
-        guard let userInfo = localUserInfo else {
+        guard let userInfo = localUserRoomInfo else {
             return nil
         }
         
         guard let roomID = RoomManager.shared.userService.roomService.roomInfo.roomID,
-              let myUserID = localUserInfo?.userID,
-              let myUserName = localUserInfo?.userName
+              let myUserID = userInfo.userID,
+              let myUserName = userInfo.userName
         else {
             assert(false, "roomID cannot be nil")
             return nil

@@ -26,6 +26,7 @@
 		86AC134427997B5C00607277 /* CallBusiness+Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC134327997B5C00607277 /* CallBusiness+Stream.swift */; };
 		86AC134627997D7F00607277 /* CallBusiness+CallKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC134527997D7F00607277 /* CallBusiness+CallKit.swift */; };
 		86AC134827998A4000607277 /* String+Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC134727998A4000607277 /* String+Time.swift */; };
+		86AC134A279D4AF500607277 /* UserRoomInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC1349279D4AF500607277 /* UserRoomInfo.swift */; };
 		86B19892278BDD7D0004C997 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19891278BDD7D0004C997 /* AppDelegate.swift */; };
 		86B19894278BDD7E0004C997 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19893278BDD7E0004C997 /* SceneDelegate.swift */; };
 		86B19896278BDD7E0004C997 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19895278BDD7E0004C997 /* LoginVC.swift */; };
@@ -47,7 +48,6 @@
 		86B198DB278BE2600004C997 /* Define.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198BC278BE25F0004C997 /* Define.swift */; };
 		86B198DC278BE2600004C997 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198BE278BE25F0004C997 /* UserInfo.swift */; };
 		86B198DE278BE2600004C997 /* CustomCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198C0278BE25F0004C997 /* CustomCommand.swift */; };
-		86B198DF278BE2600004C997 /* RoomInfoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198C1278BE25F0004C997 /* RoomInfoList.swift */; };
 		86B198E0278BE2600004C997 /* RoomInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198C2278BE25F0004C997 /* RoomInfo.swift */; };
 		86B198E4278BE2600004C997 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198C7278BE25F0004C997 /* UserService.swift */; };
 		86B198E6278BE2600004C997 /* RoomService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198C9278BE25F0004C997 /* RoomService.swift */; };
@@ -123,6 +123,7 @@
 		86AC134327997B5C00607277 /* CallBusiness+Stream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallBusiness+Stream.swift"; sourceTree = "<group>"; };
 		86AC134527997D7F00607277 /* CallBusiness+CallKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallBusiness+CallKit.swift"; sourceTree = "<group>"; };
 		86AC134727998A4000607277 /* String+Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Time.swift"; sourceTree = "<group>"; };
+		86AC1349279D4AF500607277 /* UserRoomInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRoomInfo.swift; sourceTree = "<group>"; };
 		86B1988E278BDD7D0004C997 /* ZEGOCallDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZEGOCallDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86B19891278BDD7D0004C997 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		86B19893278BDD7E0004C997 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -146,7 +147,6 @@
 		86B198BC278BE25F0004C997 /* Define.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Define.swift; sourceTree = "<group>"; };
 		86B198BE278BE25F0004C997 /* UserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		86B198C0278BE25F0004C997 /* CustomCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCommand.swift; sourceTree = "<group>"; };
-		86B198C1278BE25F0004C997 /* RoomInfoList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomInfoList.swift; sourceTree = "<group>"; };
 		86B198C2278BE25F0004C997 /* RoomInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomInfo.swift; sourceTree = "<group>"; };
 		86B198C7278BE25F0004C997 /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		86B198C9278BE25F0004C997 /* RoomService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomService.swift; sourceTree = "<group>"; };
@@ -430,10 +430,10 @@
 			children = (
 				86B198BE278BE25F0004C997 /* UserInfo.swift */,
 				86B198C0278BE25F0004C997 /* CustomCommand.swift */,
-				86B198C1278BE25F0004C997 /* RoomInfoList.swift */,
 				86B198C2278BE25F0004C997 /* RoomInfo.swift */,
 				86B198ED278D27A80004C997 /* OperationCommand.swift */,
 				86718CDC2795401B00CEA8A0 /* UserInfoList.swift */,
+				86AC1349279D4AF500607277 /* UserRoomInfo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -895,7 +895,6 @@
 				86B198DE278BE2600004C997 /* CustomCommand.swift in Sources */,
 				86718CA627915A5D00CEA8A0 /* RefreshViewAnimator.swift in Sources */,
 				86B1995C278D63440004C997 /* StringTool.swift in Sources */,
-				86B198DF278BE2600004C997 /* RoomInfoList.swift in Sources */,
 				86B198D5278BE2600004C997 /* Result+Zego.swift in Sources */,
 				86B1995E278D63440004C997 /* AppToken.swift in Sources */,
 				86B19996278EC1050004C997 /* CallAcceptTipView.swift in Sources */,
@@ -911,6 +910,7 @@
 				86B198DC278BE2600004C997 /* UserInfo.swift in Sources */,
 				86B19972278D71820004C997 /* GeneralWebVC.swift in Sources */,
 				86B1995F278D63440004C997 /* String+Head.swift in Sources */,
+				86AC134A279D4AF500607277 /* UserRoomInfo.swift in Sources */,
 				86B198DA278BE2600004C997 /* ZIMManager.swift in Sources */,
 				86DE03C727981B3D000EE3C5 /* CallBusiness.swift in Sources */,
 				86B19964278D63E30004C997 /* AppDefine.swift in Sources */,

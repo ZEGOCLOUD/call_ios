@@ -22,6 +22,7 @@ enum CallType: Int {
 
 protocol UserServiceDelegate : AnyObject  {
     func connectionStateChanged(_ state: ZIMConnectionState, _ event: ZIMConnectionEvent)
+    func onNetworkQuality(_ userID: String, upstreamQuality: ZegoStreamQualityLevel)
     /// reveive user info update
     func userInfoUpdate(_ userInfo: UserInfo)
     /// reveive call
@@ -32,6 +33,7 @@ protocol UserServiceDelegate : AnyObject  {
     func receiveCallResponse(_ userInfo: UserInfo, responseType: CallResponseType)
     /// reveive end call
     func receiveEndCall(_ userInfo: UserInfo)
+    func receiveUserRoomInfo(_ userRoomInfo: UserRoomInfo)
 }
 
 // default realized
@@ -41,12 +43,15 @@ extension UserServiceDelegate {
     func receiveCancelCall(_ userInfo: UserInfo) { }
     func receiveCallResponse(_ userInfo: UserInfo , responseType: CallResponseType) { }
     func receiveEndCall(_ userInfo: UserInfo) { }
+    func receiveUserRoomInfo(_ userRoomInfo: UserRoomInfo){ }
 }
 
 class UserService: NSObject {
+    
     // MARK: - Public
     var delegates = NSHashTable<AnyObject>.weakObjects()
     var localUserInfo: UserInfo?
+    var localUserRoomInfo: UserRoomInfo?
     var userList = DictionaryArray<String, UserInfo>()
     var roomService: RoomService = RoomService()
     let timer = ZegoTimer(30000)
@@ -58,6 +63,7 @@ class UserService: NSObject {
         DispatchQueue.main.async {
             RoomManager.shared.addZIMEventHandler(self)
         }
+        roomService.delegate = self
     }
     
     func addUserServiceDelegate(_ delegate: UserServiceDelegate) {
@@ -138,6 +144,7 @@ class UserService: NSObject {
         guard let myUserID = localUserInfo?.userID else { return }
         roomService.createRoom(myUserID, localUserInfo?.userName ?? "", rtcToken) { [self] result in
             HUDHelper.hideNetworkLoading()
+            localUserRoomInfo = UserRoomInfo(myUserID,localUserInfo?.userName ?? "")
             switch result {
             case .success():
                 sendPeerMesssage(userID, callType: type, commandType: .call, responseType: nil) { result in
@@ -179,7 +186,8 @@ class UserService: NSObject {
                 case .success():
                     ///start publish
                     guard let myUserID = self.localUserInfo?.userID else { return }
-                    let streamID = String.getStreamID(myUserID, roomID: userID, isVideo: callType == .video)
+                    self.localUserRoomInfo = UserRoomInfo(myUserID,self.localUserInfo?.userName ?? "")
+                    let streamID = String.getStreamID(myUserID, roomID: userID)
                     ZegoExpressEngine.shared().startPublishingStream(streamID)
                     ///send peer message
                     self.sendPeerMesssage(userID, callType: callType, commandType: .reply, responseType: responseType, callback: callback)
@@ -199,17 +207,6 @@ class UserService: NSObject {
             guard let callback = callback else { return }
             callback(.success(()))
         }
-//        sendPeerMesssage(userID, callType: .audio, commandType: .end, responseType: nil) { result in
-//            if result.isSuccess {
-//                self.roomService.leaveRoom { result in
-//                    ZegoExpressEngine.shared().stopPublishingStream()
-//                    guard let callback = callback else { return }
-//                    callback(.success(()))
-//                }
-//            } else {
-//
-//            }
-//        }
     }
     
     private func sendPeerMesssage(_ userID: String, callType: CallType, commandType: CustomCommandType, responseType: CallResponseType?, callback: RoomCallback?) {
@@ -362,7 +359,7 @@ extension UserService : ZIMEventHandler {
                     delegate.receiveCancelCall(userInfo)
                 case .reply:
                     if command.content?.response_type == 1 {
-                        let streamID = String.getStreamID(localUserInfo?.userID, roomID: roomService.roomInfo.roomID, isVideo: callType == .video)
+                        let streamID = String.getStreamID(localUserInfo?.userID, roomID: roomService.roomInfo.roomID)
                         ZegoExpressEngine.shared().startPublishingStream(streamID)
                         delegate.receiveCallResponse(userInfo, responseType: .accept)
                     } else {
@@ -380,3 +377,37 @@ extension UserService : ZIMEventHandler {
         }
     }
 }
+
+extension UserService: ZegoEventHandler {
+    func onNetworkQuality(_ userID: String, upstreamQuality: ZegoStreamQualityLevel, downstreamQuality: ZegoStreamQualityLevel) {
+        for obj in delegates.allObjects {
+            if let delegate = obj as? UserServiceDelegate {
+                delegate.onNetworkQuality(userID, upstreamQuality: upstreamQuality)
+            }
+        }
+    }
+}
+
+extension UserService: RoomServiceDelegate {
+    func receiveRoomInfoUpdate(_ roomAttributes: [String : String]?) {
+        guard let roomAttributes = roomAttributes else { return }
+        let keys = roomAttributes.keys
+        for key in keys {
+            if let json = roomAttributes[key] {
+                let userRoomInfo = ZegoJsonTool.jsonToModel(type: UserRoomInfo.self, json: json)
+                guard let userRoomInfo = userRoomInfo else { return }
+                if key == localUserRoomInfo?.userID {
+                    localUserRoomInfo?.userName = userRoomInfo.userName
+                    localUserRoomInfo?.camera = userRoomInfo.camera
+                    localUserRoomInfo?.mic = userRoomInfo.mic
+                }
+                for obj in delegates.allObjects {
+                    if let delegate = obj as? UserServiceDelegate {
+                        delegate.receiveUserRoomInfo(userRoomInfo)
+                    }
+                }
+            }
+        }
+    }
+}
+

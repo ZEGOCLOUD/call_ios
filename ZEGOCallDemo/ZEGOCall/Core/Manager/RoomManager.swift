@@ -99,7 +99,7 @@ extension RoomManager {
             userService = UserService()
         }
         userService.userList = DictionaryArray<String, UserInfo>()
-        UserDefaults.standard.removeObject(forKey: USERID_KEY)
+        userService.localUserRoomInfo = nil
     }
     
     // MARK: - event handler

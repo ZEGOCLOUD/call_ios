@@ -134,6 +134,17 @@ class LoginVC: UIViewController {
         }
         let userInfo = UserInfo()
         userInfo.userName = myUserName
+        if let oldUser = UserDefaults.standard.object(forKey: USERID_KEY) as? Dictionary<String, String> {
+            userInfo.userID = oldUser["userID"]
+            if let token = AppToken.getZIMToken(withUserID: oldUser["userID"]) {
+                userLogin(userInfo, token: token)
+            }
+        } else {
+            requestUserID(userInfo)
+        }
+    }
+    
+    func requestUserID(_ userInfo: UserInfo) {
         HUDHelper.showNetworkLoading()
         RoomManager.shared.userService.requestUserID { result in
             HUDHelper.hideNetworkLoading()

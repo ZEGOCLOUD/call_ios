@@ -30,7 +30,7 @@ class UserListService: NSObject {
             })
             guard let callback = callback else { return }
             callback(.success(userInfoList.userInfoArray))
-        } failure: { roomInfoList in
+        } failure: { userInfoList in
             guard let callback = callback else { return }
             callback(.failure(.failed))
         }

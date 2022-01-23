@@ -13,12 +13,28 @@ enum CallStatusType: Int {
     case calling
 }
 
+enum NetWorkStatus: Int {
+    case unknow
+    case low
+    case middle
+    case good
+}
+
+enum ConnectStatus: Int {
+    case connecting
+    case connected
+    case disConnected
+}
+
 class CallMainVC: UIViewController {
     
+    @IBOutlet weak var bottomViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var toBottomDistance: NSLayoutConstraint!
     @IBOutlet weak var backGroundView: UIView!
     @IBOutlet weak var backGroundImage: UIImageView!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var headImage: UIImageView!
+    @IBOutlet weak var smallHeadImage: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var callStatusLabel: UILabel!
     @IBOutlet weak var bottomView: UIView!
@@ -33,8 +49,8 @@ class CallMainVC: UIViewController {
     
     @IBOutlet weak var previewNameLabel: UILabel! {
         didSet {
-            if streamUserID == localUserInfo?.userID {
-                previewNameLabel.text = localUserInfo?.userName
+            if streamUserID == localUserInfo.userID {
+                previewNameLabel.text = localUserInfo.userName
             } else {
                 previewNameLabel.text = callUser?.userName
             }
@@ -48,18 +64,42 @@ class CallMainVC: UIViewController {
         streamUserID = tempID
         setPreviewUserName()
         CallBusiness.shared.startPlaying(streamUserID, streamView: previewView, type: vcType)
+        setCallBgImage()
     }
     
-    @IBOutlet weak var bottomViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var toBottomDistance: NSLayoutConstraint!
+    func setCallBgImage() {
+        if localUserInfo.userID == mainStreamUserID {
+            bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: localUserInfo.userName)))
+            backGroundImage.image = bgImage
+            guard let callUser = callUser else { return }
+            smallBgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: callUser.userName)))
+            smallHeadImage.image = smallBgImage
+        } else  {
+            smallBgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: localUserInfo.userName)))
+            smallHeadImage.image = smallBgImage
+            guard let callUser = callUser else { return }
+            bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: callUser.userName)))
+            backGroundImage.image = bgImage
+        }
+        let hiddenStatus = backGroundImage.isHidden
+        backGroundImage.isHidden = smallHeadImage.isHidden
+        smallHeadImage.isHidden = hiddenStatus
+    }
     
     let appDelegate = (UIApplication.shared.delegate) as! AppDelegate
-    
     var bgImage: UIImage?
-    
+    var smallBgImage: UIImage?
     let timer = ZegoTimer(1000)
     var callTime: Int = 0
     var callWaitTime: Int = 0
+    var netWorkStatus: NetWorkStatus = .good
+    var callConnected: ConnectStatus = .connected
+    var roomID: String = {
+        return RoomManager.shared.userService.roomService.roomInfo.roomID ?? ""
+    }()
+    var localUserInfo: UserInfo = {
+        return RoomManager.shared.userService.localUserInfo ?? UserInfo()
+    }()
 
     lazy var takeView: CallingTakeView = {
         let view: CallingTakeView = UINib(nibName: "CallingTakeView", bundle: nil).instantiate(withOwner: nil, options: nil).first as! CallingTakeView
@@ -103,9 +143,6 @@ class CallMainVC: UIViewController {
     var mainStreamUserID: String?
     var streamUserID: String?
     var callUser: UserInfo?
-    var localUserInfo: UserInfo? = {
-        return RoomManager.shared.userService.localUserInfo
-    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -121,11 +158,12 @@ class CallMainVC: UIViewController {
         vc.statusType = status
         switch type {
         case .audio:
-            vc.bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: userInfo.userName)))
+            vc.bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: vc.localUserInfo.userName)))
         case .video:
-            vc.bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: userInfo.userName)))
-            vc.mainStreamUserID = userInfo.userID
-            vc.streamUserID = vc.localUserInfo?.userID
+            vc.bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: vc.localUserInfo.userName)))
+            vc.smallBgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: userInfo.userName)))
+            vc.mainStreamUserID = vc.localUserInfo.userID
+            vc.streamUserID = userInfo.userID
             //vc.setPreviewUserName()
         }
         
@@ -149,12 +187,12 @@ class CallMainVC: UIViewController {
             
         }
         vc.timer.start()
-        
         return vc
     }
     
     func configUI() {
         backGroundImage.image = bgImage
+        smallHeadImage.image = smallBgImage
         headImage.image = UIImage(named: String.getHeadImageName(userName: callUser?.userName))
         userNameLabel.text = callUser?.userName
         if vcType == .audio {
@@ -162,48 +200,50 @@ class CallMainVC: UIViewController {
         } else {
             backGroundImage.isHidden = false
         }
-        self.callStatusLabel.isHidden = true
-        self.timeLabel.isHidden = true
-        self.bottomViewHeight.constant = 60
-        self.toBottomDistance.constant = 52.5
-        self.previewView.isHidden = true
-        self.callTime = 0
-        self.callWaitTime = 0
+        smallHeadImage.isHidden = false
+        callQualityChange(netWorkStatus, connectedStatus: callConnected)
+        timeLabel.isHidden = true
+        callStatusLabel.isHidden = true
+        bottomViewHeight.constant = 60
+        toBottomDistance.constant = 52.5
+        previewView.isHidden = true
+        callTime = 0
+        callWaitTime = 0
         switch statusType {
         case .take:
-            self.callStatusLabel.text = "Calling..."
-            self.callStatusLabel.isHidden = false
-            self.takeView.isHidden = false
-            self.acceptView.isHidden = true
-            self.phoneView.isHidden = true
-            self.videoView.isHidden = true
-            self.headImage.isHidden = false
+            callStatusLabel.text = "Calling..."
+            callStatusLabel.isHidden = false
+            takeView.isHidden = false
+            acceptView.isHidden = true
+            phoneView.isHidden = true
+            videoView.isHidden = true
+            headImage.isHidden = false
             timer.start()
         case .accept:
-            self.bottomViewHeight.constant = 85
-            self.toBottomDistance.constant = 28
-            self.callStatusLabel.text = "Calling..."
-            self.callStatusLabel.isHidden = false
-            self.takeView.isHidden = true
-            self.acceptView.isHidden = false
-            self.phoneView.isHidden = true
-            self.videoView.isHidden = true
-            self.headImage.isHidden = false
+            bottomViewHeight.constant = 85
+            toBottomDistance.constant = 28
+            callStatusLabel.text = "Calling..."
+            callStatusLabel.isHidden = false
+            takeView.isHidden = true
+            acceptView.isHidden = false
+            phoneView.isHidden = true
+            videoView.isHidden = true
+            headImage.isHidden = false
         case .calling:
-            self.takeView.isHidden = true
-            self.acceptView.isHidden = true
-            self.timeLabel.isHidden = false
+            takeView.isHidden = true
+            acceptView.isHidden = true
+            timeLabel.isHidden = false
             if vcType == .audio {
-                self.phoneView.isHidden = false
-                self.videoView.isHidden = true
-                self.headImage.isHidden = false
+                phoneView.isHidden = false
+                videoView.isHidden = true
+                headImage.isHidden = false
                 CallBusiness.shared.startPlaying(callUser?.userID, streamView: nil, type: vcType)
             } else {
-                self.phoneView.isHidden = true
-                self.videoView.isHidden = false
-                self.headImage.isHidden = true
-                self.userNameLabel.isHidden = true
-                self.previewView.isHidden = false
+                phoneView.isHidden = true
+                videoView.isHidden = false
+                headImage.isHidden = true
+                userNameLabel.isHidden = true
+                previewView.isHidden = false
                 CallBusiness.shared.startPlaying(callUser?.userID, streamView: mainPreviewView, type: vcType)
                 CallBusiness.shared.startPlaying(localUserID, streamView: previewView, type: vcType)
             }
@@ -219,21 +259,60 @@ class CallMainVC: UIViewController {
         
         switch type {
         case .audio:
-            bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: userInfo.userName)))
+            bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: localUserInfo.userName)))
         case .video:
-            bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: userInfo.userName)))
-            mainStreamUserID = userInfo.userID
-            streamUserID = localUserInfo?.userID
+            bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: localUserInfo.userName)))
+            mainStreamUserID = localUserInfo.userID
+            streamUserID = userInfo.userID
             setPreviewUserName()
         }
         configUI()
     }
     
+    func callQualityChange(_ netWorkQuality: NetWorkStatus, connectedStatus: ConnectStatus) {
+        callConnected = connectedStatus
+        netWorkStatus = netWorkQuality
+        if netWorkQuality == .low || netWorkQuality == .unknow {
+            self.callQualityLabel.isHidden = false
+            self.callQualityLabel.text = "The call quality is poor…"
+        } else {
+            self.callQualityLabel.isHidden = true
+        }
+        if connectedStatus == .disConnected || connectedStatus == .connecting {
+            self.callQualityLabel.isHidden = false
+            self.callQualityLabel.text = "The call has been disconnected, please wait"
+        } else {
+            self.callQualityLabel.isHidden = true
+        }
+    }
+    
+    func userRoomInfoUpdate(_ userRoomInfo: UserRoomInfo) {
+        if statusType != .calling { return }
+        if !userRoomInfo.camera {
+            if userRoomInfo.userID == mainStreamUserID {
+                backGroundImage.isHidden = false
+                bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: userRoomInfo.userName)))
+                backGroundImage.image = bgImage
+            } else if userRoomInfo.userID == streamUserID {
+                smallHeadImage.isHidden = false
+                smallBgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: userRoomInfo.userName)))
+                smallHeadImage.image = smallBgImage
+            }
+        } else {
+            if userRoomInfo.userID == mainStreamUserID {
+                backGroundImage.isHidden = true
+            } else if userRoomInfo.userID == streamUserID {
+                smallHeadImage.isHidden = true
+            }
+        }
+    }
+    
     func setPreviewUserName() {
-        if streamUserID == localUserInfo?.userID {
-            previewNameLabel.text = localUserInfo?.userName
+        if streamUserID == localUserInfo.userID {
+            previewNameLabel.text = localUserInfo.userName
         } else {
             previewNameLabel.text = callUser?.userName
         }
     }
+    
 }

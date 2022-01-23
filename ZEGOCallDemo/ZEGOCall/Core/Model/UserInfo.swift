@@ -17,24 +17,13 @@ class UserInfo: NSObject, Codable {
     /// user order
     var order: String?
     
-    /// mic
-    var mic: Bool = true
-    
-    /// camera
-    var camera: Bool = true
-    
-    /// voice
-    var voice: Bool = false
-    
     override init() {
         
     }
     
-    init(_ userID: String, _ userName: String, _ mic: Bool = true, _ camera: Bool = true) {
+    init(_ userID: String, _ userName: String) {
         self.userID = userID
         self.userName = userName
-        self.mic = mic
-        self.camera = camera
     }
     
     init(json: Dictionary<String, Any>) {
@@ -46,13 +35,6 @@ class UserInfo: NSObject, Codable {
         }
         if let order = json["order"] as? String {
             self.order = order
-        }
-        if let mic = json["mic"] as? Bool {
-            self.mic = mic
-        }
-        
-        if let camera = json["camera"] as? Bool {
-            self.camera = camera
         }
     }
 }

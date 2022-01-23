@@ -16,25 +16,25 @@ class CallingVideoView: CallBaseView {
     
     
     @IBAction func videoButtonClick(_ sender: UIButton) {
-        guard let userInfo = RoomManager.shared.userService.localUserInfo else { return }
-        delegate?.callOpenVideo(self, isOpen: !userInfo.camera)
-        if !userInfo.camera {
+        guard let userInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
+        userInfo.camera = !userInfo.camera
+        delegate?.callOpenVideo(self, isOpen: userInfo.camera)
+        if userInfo.camera {
             videoButton.setImage(UIImage(named: "call_camera_open_icon"), for: .normal)
         } else {
             videoButton.setImage(UIImage(named: "call_camera_close_icon"), for: .normal)
         }
-        RoomManager.shared.userService.localUserInfo?.camera = !userInfo.camera
     }
     
     @IBAction func micButtonClick(_ sender: UIButton) {
-        guard let userInfo = RoomManager.shared.userService.localUserInfo else { return }
-        delegate?.callOpenMic(self, isOpen: !userInfo.mic)
-        if !userInfo.mic {
+        guard let userInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
+        userInfo.mic = !userInfo.mic
+        delegate?.callOpenMic(self, isOpen: userInfo.mic)
+        if userInfo.mic {
             micButton.setImage(UIImage(named: "call_mic_selected_open"), for: .normal)
         } else {
             micButton.setImage(UIImage(named: "call_mic_selected_close"), for: .normal)
         }
-        RoomManager.shared.userService.localUserInfo?.mic = !userInfo.mic
     }
     
     @IBAction func handUpButtonClick(_ sender: UIButton) {
@@ -47,14 +47,15 @@ class CallingVideoView: CallBaseView {
     
     
     @IBAction func voiceButtonClick(_ sender: UIButton) {
-        guard let userInfo = RoomManager.shared.userService.localUserInfo else { return }
-        if !userInfo.voice {
+        guard let userInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
+        let voice = userInfo.voice ?? false
+        userInfo.voice = !voice
+        if userInfo.voice! {
             voiceButton.setImage(UIImage(named: "call_voice_close_icon"), for: .normal)
         } else {
             voiceButton.setImage(UIImage(named: "call_voice_open_icon"), for: .normal)
         }
-        delegate?.callOpenVoice(self, isOpen: !userInfo.voice)
-        RoomManager.shared.userService.localUserInfo?.voice = !userInfo.voice
+        delegate?.callOpenVoice(self, isOpen: userInfo.voice!)
     }
     
     

@@ -16,17 +16,25 @@ enum callStatus: Int {
 }
 
 class CallBusiness: NSObject {
-    
-    static let shared = CallBusiness()
 
-    let appDelegate = (UIApplication.shared.delegate) as! AppDelegate
-    
     var currentCallVC: CallMainVC?
     var currentCallUserInfo: UserInfo?
     var callKitCallType: CallType = .audio
     var currentCallStatus: callStatus = .free
     var appIsActive: Bool = true
     var currentTipView: CallAcceptTipView?
+    
+    static let shared = CallBusiness()
+    
+    let appDelegate = (UIApplication.shared.delegate) as! AppDelegate
+    
+    lazy var myUUID: UUID = {
+        let deviceID: String = UIDevice.current.identifierForVendor!.uuidString
+        if let uuid = UUID(uuidString: deviceID) {
+            return uuid
+        }
+        return UUID()
+    }()
     
     // MARK: - Private
     private override init() {
@@ -74,12 +82,7 @@ class CallBusiness: NSObject {
             currentCallStatus = .free
             currentCallUserInfo = nil
         }
-        let deviceID: String = UIDevice.current.identifierForVendor!.uuidString
-        if let uuid = UUID(uuidString: deviceID) {
-            appDelegate.providerDelegate?.endCall(uuids: [uuid], completion: { uuid in
-                
-            })
-        }
+        endSystemCall()
         RoomManager.shared.userService.responseCall(userID, callType: callType, responseType: .reject, callback: nil)
     }
     
@@ -90,10 +93,38 @@ class CallBusiness: NSObject {
 }
 
 extension CallBusiness: UserServiceDelegate {
+    func onNetworkQuality(_ userID: String, upstreamQuality: ZegoStreamQualityLevel) {
+        if userID == localUserID {
+            if let currentCallVC = currentCallVC {
+                currentCallVC.callQualityChange(setNetWorkQuality(upstreamQuality: upstreamQuality), connectedStatus: currentCallVC.callConnected)
+            }
+        }
+    }
+    
+    private func setNetWorkQuality(upstreamQuality: ZegoStreamQualityLevel) -> NetWorkStatus {
+        if upstreamQuality == .excellent || upstreamQuality == .good {
+            return .good
+        } else if upstreamQuality == .medium {
+            return.middle
+        } else if upstreamQuality == .unknown {
+            return .unknow
+        } else {
+            return .low
+        }
+    }
     
     func connectionStateChanged(_ state: ZIMConnectionState, _ event: ZIMConnectionEvent) {
-        
+        if state == .disconnected || state == .connecting || state == .reconnecting {
+            if let currentCallVC = currentCallVC {
+                currentCallVC.callQualityChange(currentCallVC.netWorkStatus, connectedStatus: .disConnected)
+            }
+        } else {
+            if let currentCallVC = currentCallVC {
+                currentCallVC.callQualityChange(currentCallVC.netWorkStatus, connectedStatus: .connected)
+            }
+        }
     }
+    
     
     func receiveCall(_ userInfo: UserInfo, type: CallType) {
         if currentCallStatus == .calling || currentCallStatus == .wait {
@@ -114,10 +145,7 @@ extension CallBusiness: UserServiceDelegate {
             callTipView.delegate = self
         } else {
             callKitCallType = type
-            let deviceID: String = UIDevice.current.identifierForVendor!.uuidString
-            if let uuid = UUID(uuidString: deviceID) {
-                self.appDelegate.displayIncomingCall(uuid: uuid, handle: "2222")
-            }
+            self.appDelegate.displayIncomingCall(uuid: myUUID, handle:"")
         }
     }
     
@@ -126,12 +154,7 @@ extension CallBusiness: UserServiceDelegate {
         currentCallUserInfo = nil
         guard let currentTipView = currentTipView else { return }
         currentTipView.removeFromSuperview()
-        let deviceID: String = UIDevice.current.identifierForVendor!.uuidString
-        if let uuid = UUID(uuidString: deviceID) {
-            appDelegate.providerDelegate?.endCall(uuids: [uuid], completion: { uuid in
-                
-            })
-        }
+        endSystemCall()
     }
     
     func receiveCallResponse(_ userInfo: UserInfo, responseType: CallResponseType) {
@@ -156,9 +179,7 @@ extension CallBusiness: UserServiceDelegate {
     }
     
     func receiveEndCall(_ userInfo: UserInfo) {
-        if userInfo.userID != currentCallUserInfo?.userID {
-            return
-        }
+        if userInfo.userID != currentCallUserInfo?.userID { return }
         currentCallUserInfo = nil
         RoomManager.shared.userService.roomService.leaveRoom { result in
             switch result {
@@ -166,18 +187,7 @@ extension CallBusiness: UserServiceDelegate {
                 self.currentCallStatus = .free
                 HUDHelper.showMessage(message: "complete")
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    let deviceID: String = UIDevice.current.identifierForVendor!.uuidString
-                    if let uuid = UUID(uuidString: deviceID) {
-                        self.appDelegate.providerDelegate?.endCall(uuids: [uuid], completion: { uuid in
-                            
-                        })
-                    }
-//                    let deviceID: String = UIDevice.current.identifierForVendor!.uuidString
-//                    if let uuid = UUID(uuidString: deviceID) {
-//                        self.appDelegate.providerDelegate?.endCall(uuids: [uuid], completion: { uuuid in
-//
-//                        })
-//                    }
+                    self.endSystemCall()
                     self.currentCallVC?.dismiss(animated: true, completion: nil)
                 }
             case .failure(_):
@@ -195,11 +205,15 @@ extension CallBusiness: UserServiceDelegate {
             } else {
                 RoomManager.shared.userService.micOperation(true, callback: nil)
                 RoomManager.shared.userService.cameraOpen(true, callback: nil)
-                self.startPlaying(userID, streamView: vc.mainPreviewView, type: .video)
-                self.startPlaying(RoomManager.shared.userService.localUserInfo?.userID, streamView: vc.previewView, type: .video)
+                self.startPlaying(userID, streamView: vc.previewView, type: .video)
+                self.startPlaying(RoomManager.shared.userService.localUserInfo?.userID, streamView: vc.mainPreviewView, type: .video)
             }
-            ZegoExpressEngine.shared().muteSpeaker(RoomManager.shared.userService.localUserInfo?.voice ?? true)
+            ZegoExpressEngine.shared().muteSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? false)
         }
+    }
+    
+    func receiveUserRoomInfo(_ userRoomInfo: UserRoomInfo) {
+        currentCallVC?.userRoomInfoUpdate(userRoomInfo)
     }
     
 }

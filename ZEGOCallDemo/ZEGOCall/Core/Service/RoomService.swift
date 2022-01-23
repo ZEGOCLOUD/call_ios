@@ -9,7 +9,7 @@ import Foundation
 import ZIM
 
 protocol RoomServiceDelegate: AnyObject {
-    func receiveRoomInfoUpdate(_ info: RoomInfo?)
+    func receiveRoomInfoUpdate(_ roomAttributes: [String: String]?)
 }
 
 class RoomService: NSObject {
@@ -103,7 +103,6 @@ class RoomService: NSObject {
                 result = .failure(.other(Int32(error.code.rawValue)))
             }
             RoomManager.shared.logoutRtcRoom()
-            
 
             guard let callback = callback else { return }
             callback(result)
@@ -172,3 +171,5 @@ extension RoomService: ZIMEventHandler {
         roomAttributesUpdated(updateInfo.roomAttributes)
     }
 }
+
+

@@ -39,12 +39,10 @@ class ProviderDelegate: NSObject,CXProviderDelegate {
     }
     //MARK: - Call
     
-    func call(handle:String) {
-        let startCallAction = CXStartCallAction(call: UUID(),handle: CXHandle(type: .generic, value: handle))
-
+    func call(_ uuid: UUID,handle:String) {
+        let startCallAction = CXStartCallAction(call: uuid,handle: CXHandle(type: .generic, value: handle))
         let transaction = CXTransaction()
         transaction.addAction(startCallAction)
-        
         callController.request(transaction) { (err) in
             print(err)
         }
