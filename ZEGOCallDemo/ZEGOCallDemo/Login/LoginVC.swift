@@ -28,6 +28,10 @@ class LoginVC: UIViewController {
         applicationHasMicAndCameraAccess()
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+      return .lightContent
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
@@ -36,6 +40,11 @@ class LoginVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.isNavigationBarHidden = false
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        clipRoundCorners()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

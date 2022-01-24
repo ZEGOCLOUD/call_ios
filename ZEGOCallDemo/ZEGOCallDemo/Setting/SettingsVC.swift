@@ -131,9 +131,9 @@ class SettingsVC: UITableViewController {
                 }
             };
         } else if model.type == .terms {
-            pushToWeb("https://www.zegocloud.com/policy?index=0")
-        } else if model.type == .privacy {
             pushToWeb("https://www.zegocloud.com/policy?index=1")
+        } else if model.type == .privacy {
+            pushToWeb("https://www.zegocloud.com/policy?index=0")
         }
     }
     
