@@ -36,6 +36,18 @@ class HomeVC: UIViewController {
         self.navigationController?.navigationBar.isHidden = false
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIApplication.shared.isIdleTimerDisabled = true
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false;
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        UIApplication.shared.isIdleTimerDisabled = false
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true;
+    }
+    
     func configUI() {
         userNameLabel.text = RoomManager.shared.userService.localUserInfo?.userName ?? ""
         userIDLabel.text = "ID:\(RoomManager.shared.userService.localUserInfo?.userID ?? "")"
