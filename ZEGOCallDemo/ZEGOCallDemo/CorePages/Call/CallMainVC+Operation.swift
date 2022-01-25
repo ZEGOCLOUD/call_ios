@@ -12,7 +12,7 @@ extension CallMainVC: CallActionDelegate {
     func callhandUp(_ callView: CallBaseView) {
         if let userID = self.callUser?.userID {
             if self.statusType == .calling {
-                RoomManager.shared.userService.endCall(userID) { result in
+                RoomManager.shared.userService.endCall() { result in
                     switch result {
                     case .success():
                         CallBusiness.shared.currentCallStatus = .free
@@ -38,7 +38,7 @@ extension CallMainVC: CallActionDelegate {
     }
     
     func cancelCall(_ userID: String, callType: CallType, isTimeout: Bool = false) {
-        RoomManager.shared.userService.cancelCallToUser(userID: userID, callType: self.vcType) { result in
+        RoomManager.shared.userService.cancelCallToUser(userID: userID) { result in
             switch result {
             case .success():
                 CallBusiness.shared.currentCallStatus = .free
@@ -60,7 +60,9 @@ extension CallMainVC: CallActionDelegate {
     func callAccept(_ callView: CallBaseView) {
         updateCallType(self.vcType, userInfo: self.callUser ?? UserInfo(), status: .calling)
         if let userID = self.callUser?.userID {
-            RoomManager.shared.userService.responseCall(userID, callType: self.vcType, responseType: .accept) { result in
+            let rtcToken = AppToken.getRtcToken(withRoomID: userID)
+            guard let rtcToken = rtcToken else { return }
+            RoomManager.shared.userService.responseCall(userID, token:rtcToken, responseType: .accept) { result in
                 self.startPlayingStream(userID)
             }
         }
@@ -91,7 +93,9 @@ extension CallMainVC: CallActionDelegate {
     
     func callDecline(_ callView: CallBaseView) {
         if let userID = self.callUser?.userID {
-            RoomManager.shared.userService.responseCall(userID, callType: self.vcType, responseType: .reject) { result in
+            let rtcToken = AppToken.getRtcToken(withRoomID: userID)
+            guard let rtcToken = rtcToken else { return }
+            RoomManager.shared.userService.responseCall(userID, token: rtcToken ,responseType: .reject) { result in
                 
             }
         }

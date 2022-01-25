@@ -13,7 +13,9 @@ extension OnlineUserListVC: OnlineUserListCellDelegate {
         switch type {
         case .audio:
             if let userID = userInfo.userID {
-                RoomManager.shared.userService.callToUser(userID, type: .audio) { result in
+                let rtcToken = AppToken.getRtcToken(withRoomID: userID)
+                guard let rtcToken = rtcToken else { return }
+                RoomManager.shared.userService.callToUser(userID, token:rtcToken, type: .audio) { result in
                     switch result {
                     case .success():
                         CallBusiness.shared.startCall(userInfo, callType: .audio)
@@ -24,7 +26,9 @@ extension OnlineUserListVC: OnlineUserListCellDelegate {
             }
         case .video:
             if let userID = userInfo.userID {
-                RoomManager.shared.userService.callToUser(userID, type: .video) { result in
+                let rtcToken = AppToken.getRtcToken(withRoomID: userID)
+                guard let rtcToken = rtcToken else { return }
+                RoomManager.shared.userService.callToUser(userID, token:rtcToken, type: .video) { result in
                     switch result {
                     case .success():
                         CallBusiness.shared.startCall(userInfo, callType: .video)

@@ -59,7 +59,9 @@ class CallBusiness: NSObject {
     
     private func acceptCall(_ userInfo: UserInfo, callType: CallType) {
         guard let userID = userInfo.userID else { return }
-        RoomManager.shared.userService.responseCall(userID, callType: callType,responseType: .accept) { result in
+        let rtcToken = AppToken.getRtcToken(withRoomID: userID)
+        guard let rtcToken = rtcToken else { return }
+        RoomManager.shared.userService.responseCall(userID, token: rtcToken, responseType:.accept) { result in
             switch result {
             case .success():
                 let callVC: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .calling)
@@ -84,7 +86,9 @@ class CallBusiness: NSObject {
             currentCallUserInfo = nil
         }
         endSystemCall()
-        RoomManager.shared.userService.responseCall(userID, callType: callType, responseType: .reject, callback: nil)
+        let rtcToken = AppToken.getRtcToken(withRoomID: userID)
+        guard let rtcToken = rtcToken else { return }
+        RoomManager.shared.userService.responseCall(userID, token: rtcToken, responseType: .reject, callback: nil)
     }
     
     func closeCallVC() {
@@ -180,7 +184,7 @@ extension CallBusiness: UserServiceDelegate {
         } else {
             currentCallUserInfo = nil
             currentCallStatus = .free
-            RoomManager.shared.userService.endCall(userInfo.userID ?? "") { result in
+            RoomManager.shared.userService.endCall() { result in
                 if result.isSuccess {
                     self.currentCallVC?.changeCallStatusText(.decline)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
