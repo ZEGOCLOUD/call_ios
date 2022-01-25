@@ -12,6 +12,7 @@ import ZegoExpressEngine
 enum callStatus: Int {
     case free
     case wait
+    case waitAccept
     case calling
 }
 
@@ -50,7 +51,7 @@ class CallBusiness: NSObject {
     func startCall(_ userInfo: UserInfo, callType: CallType) {
         let vc: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .take)
         currentCallVC = vc
-        currentCallStatus = .wait
+        currentCallStatus = .waitAccept
         currentCallUserInfo = userInfo
         getCurrentViewController()?.present(vc, animated: true, completion: nil)
     }
@@ -134,7 +135,7 @@ extension CallBusiness: UserServiceDelegate {
     
     
     func receiveCall(_ userInfo: UserInfo, type: CallType) {
-        if currentCallStatus == .calling || currentCallStatus == .wait {
+        if currentCallStatus == .calling || currentCallStatus == .wait || currentCallStatus == .waitAccept {
             guard let userID = userInfo.userID else { return }
             if let currentCallUserInfo = currentCallUserInfo {
                 if userID != currentCallUserInfo.userID {
@@ -145,12 +146,12 @@ extension CallBusiness: UserServiceDelegate {
         }
         currentCallStatus = .wait
         currentCallUserInfo = userInfo
+        callKitCallType = type
         if UIApplication.shared.applicationState == .active {
             let callTipView: CallAcceptTipView = CallAcceptTipView.showTipView(type, userInfo: userInfo)
             currentTipView = callTipView
             callTipView.delegate = self
         } else {
-            callKitCallType = type
             self.appDelegate.displayIncomingCall(uuid: myUUID, handle:"")
         }
     }

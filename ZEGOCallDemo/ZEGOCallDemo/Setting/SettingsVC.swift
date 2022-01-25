@@ -84,6 +84,7 @@ class SettingsVC: UITableViewController {
             cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell1", for: indexPath)
             cell.textLabel?.text = model.title
             cell.detailTextLabel?.text = model.subTitle
+            cell.detailTextLabel?.textColor = ZegoColor("A4A4A4")
         }
         
         if model.type == .express || model.type == .zim || model.type == .terms {

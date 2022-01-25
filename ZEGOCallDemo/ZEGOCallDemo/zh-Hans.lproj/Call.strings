@@ -13,6 +13,8 @@
 "toast_login_fail" = "登录失败，错误码：%d";
 "login_page_input_user_name_tip" = "用户名应该是英文字符或数字";
 
+"call_back_title" = "返回";
+
 "setting_page_settings" = "设置";
 "setting_page_sdk_version" = "Express SDK 版本号";
 "setting_page_zim_sdk_version" = "ZIM SDK 版本号";

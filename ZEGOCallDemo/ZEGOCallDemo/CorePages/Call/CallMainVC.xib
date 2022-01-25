@@ -20,6 +20,7 @@
                 <outlet property="callStatusLabel" destination="7wa-uL-Azy" id="DhR-H6-6iD"/>
                 <outlet property="headImage" destination="5G2-Zx-Cu3" id="lXu-y6-jq6"/>
                 <outlet property="mainPreviewView" destination="k3E-XM-kJs" id="btB-6D-ZEB"/>
+                <outlet property="preciewContentView" destination="X9Y-cC-uIR" id="tkx-TV-Yo4"/>
                 <outlet property="previewNameLabel" destination="PPJ-4l-tMg" id="XXr-Zb-F5N"/>
                 <outlet property="previewView" destination="OQH-C7-3x8" id="xdV-Jk-Nha"/>
                 <outlet property="smallHeadImage" destination="nn1-Dm-67f" id="Ye2-jU-ZKy"/>
@@ -110,7 +111,7 @@
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OQH-C7-3x8">
                                     <rect key="frame" x="0.0" y="0.0" width="95" height="169"/>
-                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nn1-Dm-67f">
                                     <rect key="frame" x="0.0" y="0.0" width="95" height="169"/>

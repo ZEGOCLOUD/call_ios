@@ -114,8 +114,8 @@ class AuthorizedCheck: NSObject {
                                   okCompletion: @escaping () -> Void) {
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: ZGLocalizedString("room_page_cancel"), style: .cancel, handler: nil)
-        let okAction = UIAlertAction(title: ZGLocalizedString("room_page_go_to_settings"), style: .default) { action in
+        let cancelAction = UIAlertAction(title: ZGLocalizedString("dialog_login_page_cancel"), style: .cancel, handler: nil)
+        let okAction = UIAlertAction(title: ZGLocalizedString("dialog_login_page_go_to_settings"), style: .default) { action in
             okCompletion()
         }
         alert.addAction(cancelAction)

@@ -12,6 +12,8 @@ class OnlineUserListVC: UIViewController {
     
     @IBOutlet weak var emptyImage: UIImageView!
     @IBOutlet weak var emptyLabel: UILabel!
+    @IBOutlet weak var backLabel: UILabel!
+    
     
     @IBOutlet weak var userListTableView: UITableView! {
         didSet {
@@ -37,11 +39,18 @@ class OnlineUserListVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        backLabel.text = ZGLocalizedString("call_back_title")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         refreshUserList()
+        self.navigationController?.navigationBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.navigationBar.isHidden = false
     }
     
     // MARK: action
@@ -58,6 +67,11 @@ class OnlineUserListVC: UIViewController {
             self.refreshControl.endRefreshing()
         }
     }
+    
+    @IBAction func backButtonClick(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     
 }
 

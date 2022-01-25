@@ -22,6 +22,8 @@ Copyright © 2020 Shenzhen Zego Technology Company Limited. All rights reserved.
 "toast_login_fail" = "Failed to log in. Error code: %d.";
 "login_page_input_user_name_tip" = "The username should be English characters or number.";
 
+"call_back_title" = "Back";
+
 "setting_page_settings" = "Settings";
 "setting_page_sdk_version" = "Express SDK Version";
 "setting_page_zim_sdk_version" = "ZIM SDK Version";

@@ -61,8 +61,31 @@ extension CallMainVC: CallActionDelegate {
         updateCallType(self.vcType, userInfo: self.callUser ?? UserInfo(), status: .calling)
         if let userID = self.callUser?.userID {
             RoomManager.shared.userService.responseCall(userID, callType: self.vcType, responseType: .accept) { result in
-                
+                self.startPlayingStream(userID)
             }
+        }
+    }
+    
+    func startPlayingStream(_ userID: String) {
+        if let userRoomInfo = RoomManager.shared.userService.localUserRoomInfo {
+            if vcType == .audio {
+                RoomManager.shared.userService.micOperation(userRoomInfo.mic, callback: nil)
+                self.startPlaying(userRoomInfo.userID, streamView: nil, type: .audio)
+            } else {
+                RoomManager.shared.userService.micOperation(userRoomInfo.mic, callback: nil)
+                RoomManager.shared.userService.cameraOpen(userRoomInfo.camera, callback: nil)
+                if let mainStreamID = mainStreamUserID {
+                    self.startPlaying(mainStreamID, streamView: mainPreviewView, type: .video)
+                } else {
+                    self.startPlaying(RoomManager.shared.userService.localUserInfo?.userID, streamView: mainPreviewView, type: .video)
+                }
+                if let streamID = streamUserID {
+                    self.startPlaying(streamID, streamView: previewView, type: .video)
+                } else {
+                    self.startPlaying(userID, streamView: previewView, type: .video)
+                }
+            }
+            ZegoExpressEngine.shared().muteSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? false)
         }
     }
     
