@@ -48,7 +48,6 @@ class ProviderDelegate: NSObject,CXProviderDelegate {
     //MARK: - Ending Call
     func endCall(uuids : [UUID],completion: @escaping (UUID) -> Void) {
         let uuid = uuids.first
-        
         let action = CXEndCallAction(call: uuid!)
         let trans = CXTransaction()
         trans.addAction(action)

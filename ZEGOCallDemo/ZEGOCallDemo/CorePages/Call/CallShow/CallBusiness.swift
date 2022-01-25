@@ -159,9 +159,9 @@ extension CallBusiness: UserServiceDelegate {
     func receiveCancelCall(_ userInfo: UserInfo) {
         currentCallStatus = .free
         currentCallUserInfo = nil
+        endSystemCall()
         guard let currentTipView = currentTipView else { return }
         currentTipView.removeFromSuperview()
-        endSystemCall()
     }
     
     func receiveCallResponse(_ userInfo: UserInfo, responseType: CallResponseType) {
