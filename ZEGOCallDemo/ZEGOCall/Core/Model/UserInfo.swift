@@ -17,9 +17,26 @@ class UserInfo: NSObject, Codable {
     /// user order
     var order: String?
     
+    /// mic
+    var mic: Bool = true
+    
+    /// camera
+    var camera: Bool = true
+    
+    /// voice
+    var voice: Bool?
+    
     override init() {
         
     }
+    
+    enum CodingKeys: String, CodingKey {
+        case userID = "id"
+        case userName = "name"
+        case mic = "mic"
+        case camera = "camera"
+    }
+    
     
     init(_ userID: String, _ userName: String) {
         self.userID = userID

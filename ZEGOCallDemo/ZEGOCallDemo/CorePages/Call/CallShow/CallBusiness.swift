@@ -195,8 +195,8 @@ extension CallBusiness: UserServiceDelegate {
         }
     }
     
-    func receiveEndCall(_ userInfo: UserInfo) {
-        if userInfo.userID != currentCallUserInfo?.userID { return }
+    func receiveEndCall() {
+        //if userInfo.userID != currentCallUserInfo?.userID { return }
         currentCallUserInfo = nil
         RoomManager.shared.userService.roomService.leaveRoom { result in
             switch result {
@@ -239,10 +239,9 @@ extension CallBusiness: UserServiceDelegate {
         }
     }
     
-    func receiveUserRoomInfo(_ userRoomInfo: UserRoomInfo) {
-        currentCallVC?.userRoomInfoUpdate(userRoomInfo)
+    func userInfoUpdate(_ userInfo: UserInfo) {
+        currentCallVC?.userRoomInfoUpdate(userInfo)
     }
-    
 }
 
 extension CallBusiness: CallAcceptTipViewDelegate {

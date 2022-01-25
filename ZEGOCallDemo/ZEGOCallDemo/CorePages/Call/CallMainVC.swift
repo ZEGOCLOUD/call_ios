@@ -95,7 +95,7 @@ class CallMainVC: UIViewController {
     var localUserInfo: UserInfo = {
         return RoomManager.shared.userService.localUserInfo ?? UserInfo()
     }()
-    var otherUserRoomInfo: UserRoomInfo?
+    var otherUserRoomInfo: UserInfo?
 
     lazy var takeView: CallingTakeView = {
         let view: CallingTakeView = UINib(nibName: "CallingTakeView", bundle: nil).instantiate(withOwner: nil, options: nil).first as! CallingTakeView
@@ -297,7 +297,7 @@ class CallMainVC: UIViewController {
         }
     }
     
-    func userRoomInfoUpdate(_ userRoomInfo: UserRoomInfo) {
+    func userRoomInfoUpdate(_ userRoomInfo: UserInfo) {
         if userRoomInfo.userID != localUserID {
             otherUserRoomInfo = userRoomInfo
         }
@@ -367,7 +367,7 @@ class CallMainVC: UIViewController {
                     if let otherUserRoomInfo = otherUserRoomInfo {
                         smallHeadImage.isHidden = otherUserRoomInfo.camera
                     } else {
-                        smallHeadImage.isHidden = false
+                        smallHeadImage.isHidden = true
                     }
                     bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: localUserInfo.userName)))
                     smallBgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: callUser?.userName)))

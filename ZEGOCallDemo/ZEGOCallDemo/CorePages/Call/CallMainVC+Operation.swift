@@ -26,8 +26,7 @@ extension CallMainVC: CallActionDelegate {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             self.dismiss(animated: true, completion: nil)
                         }
-                    case .failure(let error):
-                        //HUDHelper.showMessage(message: "")
+                    case .failure(_):
                         break
                     }
                 }
@@ -50,8 +49,7 @@ extension CallMainVC: CallActionDelegate {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self.dismiss(animated: true, completion: nil)
                 }
-            case .failure(let error):
-                //HUDHelper.showMessage(message: "")
+            case .failure(_):
                 break
             }
         }

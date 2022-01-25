@@ -32,18 +32,18 @@ protocol UserServiceDelegate : AnyObject  {
     /// reveive call response
     func receiveCallResponse(_ userInfo: UserInfo, responseType: CallResponseType)
     /// reveive end call
-    func receiveEndCall(_ userInfo: UserInfo)
-    func receiveUserRoomInfo(_ userRoomInfo: UserRoomInfo)
+    func receiveEndCall()
 }
 
 // default realized
 extension UserServiceDelegate {
+    func connectionStateChanged(_ state: ZIMConnectionState, _ event: ZIMConnectionEvent){ }
+    func onNetworkQuality(_ userID: String, upstreamQuality: ZegoStreamQualityLevel) { }
     func userInfoUpdate(_ userInfo: UserInfo) { }
     func receiveCall(_ userInfo: UserInfo , type: CallType) { }
     func receiveCancelCall(_ userInfo: UserInfo) { }
     func receiveCallResponse(_ userInfo: UserInfo , responseType: CallResponseType) { }
-    func receiveEndCall(_ userInfo: UserInfo) { }
-    func receiveUserRoomInfo(_ userRoomInfo: UserRoomInfo){ }
+    func receiveEndCall() { }
 }
 
 class UserService: NSObject {
@@ -51,7 +51,7 @@ class UserService: NSObject {
     // MARK: - Public
     var delegates = NSHashTable<AnyObject>.weakObjects()
     var localUserInfo: UserInfo?
-    var localUserRoomInfo: UserRoomInfo?
+    var localUserRoomInfo: UserInfo?
     var userList = DictionaryArray<String, UserInfo>()
     var roomService: RoomService = RoomService()
     let timer = ZegoTimer(15000)
@@ -143,7 +143,7 @@ class UserService: NSObject {
         guard let myUserID = localUserInfo?.userID else { return }
         roomService.createRoom(myUserID, localUserInfo?.userName ?? "", token) { [self] result in
             HUDHelper.hideNetworkLoading()
-            localUserRoomInfo = UserRoomInfo(myUserID,localUserInfo?.userName ?? "")
+            localUserRoomInfo = UserInfo(myUserID,localUserInfo?.userName ?? "") //UserRoomInfo(myUserID,localUserInfo?.userName ?? "")
             switch result {
             case .success():
                 sendPeerMesssage(userID, callType: type, commandType: .call, responseType: nil) { result in
@@ -184,7 +184,7 @@ class UserService: NSObject {
                 case .success():
                     ///start publish
                     guard let myUserID = self.localUserInfo?.userID else { return }
-                    self.localUserRoomInfo = UserRoomInfo(myUserID,self.localUserInfo?.userName ?? "")
+                    self.localUserRoomInfo = UserInfo(myUserID,self.localUserInfo?.userName ?? "")
                     let streamID = String.getStreamID(myUserID, roomID: userID)
                     ZegoExpressEngine.shared().startPublishingStream(streamID)
                     ///send peer message
@@ -328,7 +328,7 @@ extension UserService : ZIMEventHandler {
         for obj in delegates.allObjects {
             if let delegate = obj as? UserServiceDelegate {
                 if let userInfo = leftUsers.first {
-                    delegate.receiveEndCall(userInfo)
+                    delegate.receiveEndCall()
                 }
             }
         }
@@ -372,7 +372,7 @@ extension UserService : ZIMEventHandler {
                         }
                     }
                 case .end:
-                    delegate.receiveEndCall(userInfo)
+                    delegate.receiveEndCall()
                 }
             }
         }
@@ -395,7 +395,7 @@ extension UserService: RoomServiceDelegate {
         let keys = roomAttributes.keys
         for key in keys {
             if let json = roomAttributes[key] {
-                let userRoomInfo = ZegoJsonTool.jsonToModel(type: UserRoomInfo.self, json: json)
+                let userRoomInfo = ZegoJsonTool.jsonToModel(type: UserInfo.self, json: json)
                 guard let userRoomInfo = userRoomInfo else { return }
                 if key == localUserRoomInfo?.userID {
                     localUserRoomInfo?.userName = userRoomInfo.userName
@@ -404,7 +404,7 @@ extension UserService: RoomServiceDelegate {
                 }
                 for obj in delegates.allObjects {
                     if let delegate = obj as? UserServiceDelegate {
-                        delegate.receiveUserRoomInfo(userRoomInfo)
+                        delegate.userInfoUpdate(userRoomInfo)
                     }
                 }
             }
