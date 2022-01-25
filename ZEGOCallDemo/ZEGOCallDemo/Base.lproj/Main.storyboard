@@ -258,7 +258,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yAz-eT-6V0">
-                                        <rect key="frame" x="60" y="36" width="38.5" height="21"/>
+                                        <rect key="frame" x="60" y="36" width="264" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="a05-Al-cMm"/>
                                         </constraints>
@@ -267,7 +267,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sFh-Dm-Vq3">
-                                        <rect key="frame" x="60" y="57" width="31" height="16.5"/>
+                                        <rect key="frame" x="60" y="57" width="264" height="16.5"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="16.5" id="TbE-LE-vpI"/>
                                         </constraints>
@@ -297,6 +297,8 @@
                                     <constraint firstItem="sFh-Dm-Vq3" firstAttribute="leading" secondItem="9xP-TC-EkB" secondAttribute="trailing" constant="7" id="dJh-4E-Eoi"/>
                                     <constraint firstItem="9xP-TC-EkB" firstAttribute="leading" secondItem="lhV-Ux-ImW" secondAttribute="leading" constant="16" id="e06-NG-Yis"/>
                                     <constraint firstAttribute="bottom" secondItem="sFh-Dm-Vq3" secondAttribute="bottom" constant="18.5" id="gwn-hw-YvI"/>
+                                    <constraint firstItem="F36-Bm-otn" firstAttribute="leading" secondItem="sFh-Dm-Vq3" secondAttribute="trailing" constant="50" id="uGM-gT-uj0"/>
+                                    <constraint firstItem="F36-Bm-otn" firstAttribute="leading" secondItem="yAz-eT-6V0" secondAttribute="trailing" constant="50" id="uca-9Z-Vem"/>
                                     <constraint firstAttribute="height" constant="92" id="vuF-kc-EaQ"/>
                                     <constraint firstAttribute="bottom" secondItem="9xP-TC-EkB" secondAttribute="bottom" constant="18.5" id="yc7-qh-Pi6"/>
                                 </constraints>
@@ -325,10 +327,11 @@
                             <userDefinedRuntimeAttribute type="boolean" keyPath="keyPath" value="YES"/>
                         </userDefinedRuntimeAttributes>
                     </view>
-                    <navigationItem key="navigationItem" id="jHd-R4-MUc"/>
                     <connections>
                         <outlet property="backView" destination="tKv-bc-wQY" id="6BJ-3O-vXX"/>
+                        <outlet property="contactUsButton" destination="al6-vk-GhU" id="Fjg-mV-K0t"/>
                         <outlet property="headImage" destination="9xP-TC-EkB" id="FXO-bs-boz"/>
+                        <outlet property="moreButton" destination="kJU-Jl-ARF" id="Sec-it-Qfd"/>
                         <outlet property="userIDLabel" destination="sFh-Dm-Vq3" id="zk0-Lq-lfh"/>
                         <outlet property="userNameLabel" destination="yAz-eT-6V0" id="xIY-bu-iGU"/>
                     </connections>
@@ -406,6 +409,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Settings" id="cIP-I3-mIc">
                         <barButtonItem key="leftBarButtonItem" title="Item" image="nav_back" id="zhP-Z3-R8e">
+                            <color key="tintColor" systemColor="labelColor"/>
                             <connections>
                                 <action selector="backItemClick:" destination="N3j-gh-fEx" id="kaf-Lb-NQM"/>
                             </connections>
@@ -428,6 +432,9 @@
         <namedColor name="FFFFFF_50">
             <color red="0.32899999618530273" green="0.32400000095367432" blue="0.4779999852180481" alpha="0.33000001311302185" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

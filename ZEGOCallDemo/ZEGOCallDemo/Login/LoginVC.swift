@@ -11,11 +11,27 @@ import AVFoundation
 class LoginVC: UIViewController {
     
     
-    @IBOutlet weak var topTitleLabel: UILabel!
+    @IBOutlet weak var topTitleLabel: UILabel! {
+        didSet {
+            topTitleLabel.text = ZGLocalizedString("login_page_title")
+        }
+    }
     @IBOutlet weak var whiteBackGroundView: UIView!
-    @IBOutlet weak var userNameTextField: UITextField!
-    @IBOutlet weak var inputNameTipLabel: UILabel!
-    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var userNameTextField: UITextField! {
+        didSet {
+            userNameTextField.placeholder = ZGLocalizedString("login_page_user_name")
+        }
+    }
+    @IBOutlet weak var inputNameTipLabel: UILabel! {
+        didSet {
+            inputNameTipLabel.text = ZGLocalizedString("login_page_input_user_name_tip")
+        }
+    }
+    @IBOutlet weak var loginButton: UIButton! {
+        didSet {
+            loginButton.setTitle(ZGLocalizedString("login_page_login"), for: .normal)
+        }
+    }
     
     var micPermissions: Bool = true
     var cameraPermissions: Bool = true
@@ -105,7 +121,12 @@ class LoginVC: UIViewController {
             sender.text = userName
         }
         myUserName = subStringOfBytes(userName: userName)
-        if userName.count > 0 {
+        setLoginButtonStatus()
+    }
+    
+    func setLoginButtonStatus() {
+        guard let myUserName = myUserName else { return }
+        if myUserName.count > 0 {
             loginButton.isUserInteractionEnabled = true
             loginButton.backgroundColor = ZegoColor("0055FF")
         } else {
@@ -175,6 +196,8 @@ class LoginVC: UIViewController {
             switch result {
             case .success():
                 self.userNameTextField.text = ""
+                self.myUserName = ""
+                self.setLoginButtonStatus()
                 UserDefaults.standard.set(["userID":userInfo.userID, "userName":userInfo.userName], forKey: USERID_KEY)
                 let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
                 self.navigationController?.pushViewController(vc, animated: true)

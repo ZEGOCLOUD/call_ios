@@ -8,7 +8,7 @@
 import UIKit
 
 func ZGLocalizedString(_ key : String) -> String {
-    return Bundle.main.localizedString(forKey: key, value: "", table: "Room")
+    return Bundle.main.localizedString(forKey: key, value: "", table: "Call")
 }
 
 func KeyWindow() -> UIWindow {

@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -60,20 +61,20 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="H6j-KR-a8F">
-                                                    <rect key="frame" x="16" y="21" width="32" height="32"/>
+                                                    <rect key="frame" x="16" y="16" width="42" height="42"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="32" id="LZj-rB-1LI"/>
-                                                        <constraint firstAttribute="height" constant="32" id="RBH-eS-fjc"/>
+                                                        <constraint firstAttribute="width" constant="42" id="LZj-rB-1LI"/>
+                                                        <constraint firstAttribute="height" constant="42" id="RBH-eS-fjc"/>
                                                     </constraints>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                            <integer key="value" value="16"/>
+                                                            <integer key="value" value="21"/>
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BEJ-SN-lFS">
-                                                    <rect key="frame" x="61" y="41.5" width="219" height="16.5"/>
+                                                    <rect key="frame" x="71" y="41.5" width="209" height="16.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="16.5" id="2Ij-9H-6Hd"/>
                                                     </constraints>
@@ -87,6 +88,34 @@
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="0.5" id="FgT-nW-xFg"/>
                                                     </constraints>
+                                                </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4op-VA-MFZ">
+                                                    <rect key="frame" x="298" y="16" width="42" height="42"/>
+                                                    <color key="backgroundColor" red="0.95294117647058818" green="0.95686274509803915" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="42" id="FtU-MV-26u"/>
+                                                        <constraint firstAttribute="width" constant="42" id="QkR-th-L9T"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="21"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xia-YF-HUg">
+                                                    <rect key="frame" x="356" y="16" width="42" height="42"/>
+                                                    <color key="backgroundColor" red="0.95294117647058818" green="0.95686274509803915" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="42" id="XMf-tH-8YI"/>
+                                                        <constraint firstAttribute="width" constant="42" id="prV-mc-m8v"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="21"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gnu-mu-3SI">
                                                     <rect key="frame" x="356" y="16" width="42" height="42"/>
@@ -113,7 +142,7 @@
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kqm-kS-kBR">
-                                                    <rect key="frame" x="61" y="15" width="219" height="22.5"/>
+                                                    <rect key="frame" x="71" y="15" width="209" height="22.5"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22.5" id="pnI-KO-b5e"/>
                                                     </constraints>
@@ -133,6 +162,8 @@
                                                 <constraint firstItem="Kqm-kS-kBR" firstAttribute="leading" secondItem="H6j-KR-a8F" secondAttribute="trailing" constant="13" id="6Y3-pS-akk"/>
                                                 <constraint firstItem="H6j-KR-a8F" firstAttribute="centerY" secondItem="nNC-f1-98X" secondAttribute="centerY" id="ALB-PE-Ajg"/>
                                                 <constraint firstItem="uSq-CT-NJ3" firstAttribute="centerY" secondItem="nNC-f1-98X" secondAttribute="centerY" id="CSc-2b-Yy4"/>
+                                                <constraint firstItem="4op-VA-MFZ" firstAttribute="centerY" secondItem="nNC-f1-98X" secondAttribute="centerY" id="DiV-aq-cIr"/>
+                                                <constraint firstItem="xia-YF-HUg" firstAttribute="centerY" secondItem="nNC-f1-98X" secondAttribute="centerY" id="GdA-mX-EsV"/>
                                                 <constraint firstItem="gnu-mu-3SI" firstAttribute="leading" secondItem="uSq-CT-NJ3" secondAttribute="trailing" constant="16" id="Joq-RV-Ukw"/>
                                                 <constraint firstItem="H6j-KR-a8F" firstAttribute="leading" secondItem="nNC-f1-98X" secondAttribute="leading" constant="16" id="JwX-6n-W02"/>
                                                 <constraint firstItem="BEJ-SN-lFS" firstAttribute="leading" secondItem="H6j-KR-a8F" secondAttribute="trailing" constant="13" id="KJG-H4-QPs"/>
@@ -143,7 +174,9 @@
                                                 <constraint firstAttribute="trailing" secondItem="gnu-mu-3SI" secondAttribute="trailing" constant="16" id="iLg-yc-vrv"/>
                                                 <constraint firstAttribute="bottom" secondItem="aHi-tL-Rf2" secondAttribute="bottom" id="jvH-do-xYI"/>
                                                 <constraint firstItem="aHi-tL-Rf2" firstAttribute="leading" secondItem="nNC-f1-98X" secondAttribute="leading" constant="71" id="mAM-50-38j"/>
+                                                <constraint firstAttribute="trailing" secondItem="xia-YF-HUg" secondAttribute="trailing" constant="16" id="slu-EI-Wdb"/>
                                                 <constraint firstItem="uSq-CT-NJ3" firstAttribute="leading" secondItem="Kqm-kS-kBR" secondAttribute="trailing" constant="18" id="sns-xo-rRc"/>
+                                                <constraint firstItem="xia-YF-HUg" firstAttribute="leading" secondItem="4op-VA-MFZ" secondAttribute="trailing" constant="16" id="zxw-9S-ti7"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>

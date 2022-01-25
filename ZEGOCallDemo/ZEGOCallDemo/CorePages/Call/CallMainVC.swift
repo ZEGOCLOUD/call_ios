@@ -6,11 +6,16 @@
 //
 
 import UIKit
+import ZegoExpressEngine
 
 enum CallStatusType: Int {
     case take
     case accept
     case calling
+    case canceled
+    case decline
+    case miss
+    case completed
 }
 
 enum NetWorkStatus: Int {
@@ -30,6 +35,7 @@ class CallMainVC: UIViewController {
     
     @IBOutlet weak var bottomViewHeight: NSLayoutConstraint!
     @IBOutlet weak var toBottomDistance: NSLayoutConstraint!
+    @IBOutlet weak var takeStatusFlipButton: UIButton!
     @IBOutlet weak var backGroundView: UIView!
     @IBOutlet weak var backGroundImage: UIImageView!
     @IBOutlet weak var timeLabel: UILabel!
@@ -176,14 +182,15 @@ class CallMainVC: UIViewController {
                     vc.callWaitTime = 0
                     vc.timer.stop()
                 }
-            case .accept:
-                break
             case .calling:
                 vc.callTime += 1
                 DispatchQueue.main.async {
                     vc.timeLabel.text = String.getTimeFormate(vc.callTime)
                 }
+            case .accept,.canceled,.decline,.miss,.completed:
+                break
             }
+            
             
         }
         vc.timer.start()
@@ -198,12 +205,13 @@ class CallMainVC: UIViewController {
         if vcType == .audio {
             backGroundImage.isHidden = true
         } else {
-            backGroundImage.isHidden = false
+            backGroundImage.isHidden = statusType == .take ? true : false
         }
         smallHeadImage.isHidden = false
         callQualityChange(netWorkStatus, connectedStatus: callConnected)
         timeLabel.isHidden = true
         callStatusLabel.isHidden = true
+        takeStatusFlipButton.isHidden = true
         bottomViewHeight.constant = 60
         toBottomDistance.constant = 52.5
         previewView.isHidden = true
@@ -211,18 +219,20 @@ class CallMainVC: UIViewController {
         callWaitTime = 0
         switch statusType {
         case .take:
-            callStatusLabel.text = "Calling..."
             callStatusLabel.isHidden = false
+            takeStatusFlipButton.isHidden = false
             takeView.isHidden = false
             acceptView.isHidden = true
             phoneView.isHidden = true
             videoView.isHidden = true
             headImage.isHidden = false
             timer.start()
+            if vcType == .video {
+                CallBusiness.shared.startPlaying(localUserID, streamView: mainPreviewView, type: vcType)
+            }
         case .accept:
             bottomViewHeight.constant = 85
             toBottomDistance.constant = 28
-            callStatusLabel.text = "Calling..."
             callStatusLabel.isHidden = false
             takeView.isHidden = true
             acceptView.isHidden = false
@@ -248,8 +258,10 @@ class CallMainVC: UIViewController {
                 CallBusiness.shared.startPlaying(localUserID, streamView: previewView, type: vcType)
             }
             timer.start()
-//            startPlaying(callUser?.userID, streamView: nil, type: vcType)
+        case .canceled,.decline,.miss,.completed:
+            break
         }
+        changeCallStatusText(statusType)
     }
     
     func updateCallType(_ type: CallType, userInfo: UserInfo, status: CallStatusType) {
@@ -314,5 +326,30 @@ class CallMainVC: UIViewController {
             previewNameLabel.text = callUser?.userName
         }
     }
+    
+    @IBAction func flipButtonClick(_ sender: UIButton) {
+        self.useFrontCamera = !self.useFrontCamera
+        ZegoExpressEngine.shared().useFrontCamera(self.useFrontCamera)
+    }
+    
+    func changeCallStatusText(_ status: CallStatusType) {
+        switch status {
+        case .take:
+            callStatusLabel.text = ZGLocalizedString("call_page_status_calling")
+        case .accept:
+            callStatusLabel.text = ZGLocalizedString("call_page_status_calling")
+        case .calling:
+            callStatusLabel.text = ""
+        case .canceled:
+            callStatusLabel.text = ZGLocalizedString("call_page_status_canceld")
+        case .decline:
+            callStatusLabel.text = ZGLocalizedString("call_page_status_declined")
+        case .miss:
+            callStatusLabel.text = ZGLocalizedString("call_page_status_missed")
+        case .completed:
+            callStatusLabel.text = ZGLocalizedString("call_page_status_completed")
+        }
+    }
+    
     
 }

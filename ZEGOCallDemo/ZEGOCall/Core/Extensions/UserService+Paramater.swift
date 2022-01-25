@@ -20,8 +20,7 @@ extension UserService {
         }
         
         guard let roomID = RoomManager.shared.userService.roomService.roomInfo.roomID,
-              let myUserID = userInfo.userID,
-              let myUserName = userInfo.userName
+              let myUserID = userInfo.userID
         else {
             assert(false, "roomID cannot be nil")
             return nil

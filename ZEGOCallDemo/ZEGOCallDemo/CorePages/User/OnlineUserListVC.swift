@@ -19,13 +19,17 @@ class OnlineUserListVC: UIViewController {
         }
     }
     
+    lazy var userListService: UserListService = {
+        return UserListService()
+    }()
+    
     var userInfoList: Array<UserInfo> {
-        return RoomManager.shared.userListService.userList
+        return userListService.userList
     }
     
     lazy var refreshControl: UIRefreshControl = {
         var refreshControl = UIRefreshControl()
-        refreshControl.attributedTitle = NSAttributedString(string: ZGLocalizedString("room_list_page_refresh"))
+        refreshControl.attributedTitle = NSAttributedString(string: ZGLocalizedString("call_user_list_refresh"))
         refreshControl.addTarget(self, action: #selector(refreshUserList), for: .valueChanged)
         return refreshControl
     }()
@@ -42,7 +46,7 @@ class OnlineUserListVC: UIViewController {
     
     // MARK: action
     @objc func refreshUserList() {
-        RoomManager.shared.userListService.getUserList(nil) { result in
+        userListService.getUserList(nil) { result in
             switch result {
             case .success(_):
                 self.emptyLabel.isHidden = self.userInfoList.count > 0

@@ -29,32 +29,28 @@ class SettingsVC: UITableViewController {
         switch type {
         case .express:
             let version : String = ZegoExpressEngine.getVersion().components(separatedBy: "_")[0]
-            model.title = "Express SDK Version"
+            model.title = ZGLocalizedString("setting_page_sdk_version")
             model.subTitle = "v\(version)"
             model.type = type
-            break
         case .zim:
-            model.title = "ZIM SDK Version"
+            model.title = ZGLocalizedString("setting_page_zim_sdk_version")
             model.subTitle = "v\(ZIM.getVersion())"
             model.type = type
-            break
         case .shareLog:
-            model.title = "Upload Log"
+            model.title = ZGLocalizedString("setting_page_upload_log")
             model.type = type
-            break
         case .logout:
-            model.title = "Log out"
+            model.title = ZGLocalizedString("setting_page_logout")
             model.type = type
-            break
         case .app:
-            model.title = "App Version"
+            model.title = ZGLocalizedString("setting_page_version")
             model.subTitle = versionCheck()
             model.type = type
         case .terms:
-            model.title = "Terms of service"
+            model.title = ZGLocalizedString("setting_page_terms_of_service")
             model.type = type
         case .privacy:
-            model.title = "Privacy Policy"
+            model.title = ZGLocalizedString("setting_page_privacy_policy")
             model.type = type
         }
         return model
