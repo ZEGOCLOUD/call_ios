@@ -7,27 +7,37 @@
 
 import Foundation
 import ZegoExpressEngine
+import UIKit
 
 extension CallBusiness {
     
     @objc func applicationDidBecomeActive(notification: NSNotification) {
         // Application is back in the foreground
-        if !appIsActive && currentCallStatus == .calling {
-            if self.getCurrentViewController() is CallMainVC {
-                self.startPlayingStream(currentCallUserInfo?.userID)
-            } else {
-                if let currentCallVC = self.currentCallVC {
-                    self.getCurrentViewController()?.present(currentCallVC, animated: true, completion: {
-                        self.startPlayingStream(self.currentCallUserInfo?.userID)
-                    })
+        if !appIsActive {
+            if currentCallStatus == .calling {
+                if self.getCurrentViewController() is CallMainVC {
+                    guard let userInfo = currentCallUserInfo else { return }
+                    currentCallVC?.updateCallType(callKitCallType, userInfo: userInfo, status: .calling)
+                    startPlayingStream(currentCallUserInfo?.userID)
                 } else {
-                    guard let userInfo = self.currentCallUserInfo else { return }
-                    let callVC: CallMainVC = CallMainVC.loadCallMainVC(self.callKitCallType, userInfo: userInfo, status: .calling)
-                    self.currentCallVC = callVC
-                    getCurrentViewController()?.present(callVC, animated: true) {
-                        self.startPlayingStream(userInfo.userID)
+                    if let currentCallVC = currentCallVC {
+                        self.getCurrentViewController()?.present(currentCallVC, animated: true, completion: {
+                            self.startPlayingStream(self.currentCallUserInfo?.userID)
+                        })
+                    } else {
+                        guard let userInfo = currentCallUserInfo else { return }
+                        let callVC: CallMainVC = CallMainVC.loadCallMainVC(callKitCallType, userInfo: userInfo, status: .calling)
+                        currentCallVC = callVC
+                        getCurrentViewController()?.present(callVC, animated: true) {
+                            self.startPlayingStream(userInfo.userID)
+                        }
                     }
                 }
+            } else if currentCallStatus == .wait {
+                guard let currentCallUserInfo = currentCallUserInfo else { return }
+                let callTipView: CallAcceptTipView = CallAcceptTipView.showTipView(callKitCallType, userInfo: currentCallUserInfo)
+                currentTipView = callTipView
+                callTipView.delegate = self
             }
         }
         appIsActive = true
@@ -37,7 +47,9 @@ extension CallBusiness {
     @objc func applicationDidEnterBackGround(notification: NSNotification) {
         // Application is back in the foreground
         if appIsActive && currentCallStatus != .free {
-            //appDelegate.providerDelegate?.call(myUUID, handle: "")
+            if let currentCallVC = currentCallVC {
+                callKitCallType = currentCallVC.vcType
+            }
         }
         appIsActive = false
     }
@@ -49,7 +61,6 @@ extension CallBusiness {
             RoomManager.shared.userService.responseCall(userID, callType: callKitCallType,responseType: .accept) { result in
                 switch result {
                 case .success():
-                    //self.startPlaying(userID, streamView: nil, type: self.callKitCallType)
                     if self.appIsActive {
                         if let callVC = self.currentCallVC {
                             guard let userInfo = self.currentCallUserInfo else { return }

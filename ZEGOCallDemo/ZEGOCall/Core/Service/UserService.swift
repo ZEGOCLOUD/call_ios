@@ -54,7 +54,7 @@ class UserService: NSObject {
     var localUserRoomInfo: UserRoomInfo?
     var userList = DictionaryArray<String, UserInfo>()
     var roomService: RoomService = RoomService()
-    let timer = ZegoTimer(30000)
+    let timer = ZegoTimer(15000)
     
     
     override init() {

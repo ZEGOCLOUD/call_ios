@@ -10,6 +10,7 @@ import UIKit
 protocol CallAcceptTipViewDelegate: AnyObject {
     func tipViewDeclineCall(_ userInfo: UserInfo, callType: CallType)
     func tipViewAcceptCall(_ userInfo: UserInfo, callType: CallType)
+    func tipViewDidClik(_ userInfo: UserInfo, callType: CallType)
 }
 
 class CallAcceptTipView: UIView {
@@ -17,12 +18,16 @@ class CallAcceptTipView: UIView {
     @IBOutlet weak var headImage: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var acceptButton: UIButton!
+    
     var tipType: CallType = .audio
     var callUserInfo: UserInfo?
     weak var delegate: CallAcceptTipViewDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        let tapClick: UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(viewTap))
+        self.addGestureRecognizer(tapClick)
     }
     
     static func showTip(_ type:CallType, userInfo: UserInfo) -> CallAcceptTipView {
@@ -42,8 +47,10 @@ class CallAcceptTipView: UIView {
         switch type {
         case .audio:
             tipView.messageLabel.text = "ZEGO Voice Call"
+            tipView.acceptButton.setImage(UIImage(named: "call_accept_icon"), for: .normal)
         case .video:
             tipView.messageLabel.text = "ZEGO Video Call"
+            tipView.acceptButton.setImage(UIImage(named: "call_video_icon"), for: .normal)
         }
         tipView.show()
         return tipView
@@ -75,6 +82,13 @@ class CallAcceptTipView: UIView {
     @IBAction func acceptButtonClick(_ sender: UIButton) {
         if let callUserInfo = callUserInfo {
             delegate?.tipViewAcceptCall(callUserInfo, callType: tipType)
+        }
+        CallAcceptTipView.dismiss()
+    }
+    
+    @objc func viewTap() {
+        if let callUserInfo = callUserInfo {
+            delegate?.tipViewDidClik(callUserInfo, callType: tipType)
         }
         CallAcceptTipView.dismiss()
     }

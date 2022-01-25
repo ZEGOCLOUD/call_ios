@@ -82,6 +82,7 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="acceptButton" destination="uJ8-gi-ZZy" id="g6U-WL-ozN"/>
                 <outlet property="headImage" destination="hNB-VG-TOZ" id="jAS-Ry-S3C"/>
                 <outlet property="messageLabel" destination="DDs-lR-Ix9" id="A1f-aZ-5ys"/>
                 <outlet property="userNameLabel" destination="y5S-6d-exv" id="R5W-hs-qp8"/>

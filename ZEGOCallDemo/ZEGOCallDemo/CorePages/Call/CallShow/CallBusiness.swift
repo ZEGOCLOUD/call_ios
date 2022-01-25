@@ -143,7 +143,6 @@ extension CallBusiness: UserServiceDelegate {
             }
             return
         }
-        
         currentCallStatus = .wait
         currentCallUserInfo = userInfo
         if UIApplication.shared.applicationState == .active {
@@ -160,8 +159,14 @@ extension CallBusiness: UserServiceDelegate {
         currentCallStatus = .free
         currentCallUserInfo = nil
         endSystemCall()
-        guard let currentTipView = currentTipView else { return }
-        currentTipView.removeFromSuperview()
+        if let currentTipView = currentTipView {
+            currentTipView.removeFromSuperview()
+        }
+        if let currentCallVC = currentCallVC {
+            currentCallVC.changeCallStatusText(.decline)
+            currentCallVC.dismiss(animated: true, completion: nil)
+        }
+        
     }
     
     func receiveCallResponse(_ userInfo: UserInfo, responseType: CallResponseType) {
@@ -205,17 +210,27 @@ extension CallBusiness: UserServiceDelegate {
     
     func startPlayingStream(_ userID: String?) {
         guard let userID = userID else { return }
-        if let vc = self.currentCallVC {
-            if vc.vcType == .audio {
-                RoomManager.shared.userService.micOperation(true, callback: nil)
-                self.startPlaying(userID, streamView: nil, type: .audio)
-            } else {
-                RoomManager.shared.userService.micOperation(true, callback: nil)
-                RoomManager.shared.userService.cameraOpen(true, callback: nil)
-                self.startPlaying(userID, streamView: vc.previewView, type: .video)
-                self.startPlaying(RoomManager.shared.userService.localUserInfo?.userID, streamView: vc.mainPreviewView, type: .video)
+        if let vc = currentCallVC {
+            if let userRoomInfo = RoomManager.shared.userService.localUserRoomInfo {
+                if vc.vcType == .audio {
+                    RoomManager.shared.userService.micOperation(userRoomInfo.mic, callback: nil)
+                    self.startPlaying(userID, streamView: nil, type: .audio)
+                } else {
+                    RoomManager.shared.userService.micOperation(userRoomInfo.mic, callback: nil)
+                    RoomManager.shared.userService.cameraOpen(userRoomInfo.camera, callback: nil)
+                    if let mainStreamID = currentCallVC?.mainStreamUserID {
+                        self.startPlaying(mainStreamID, streamView: vc.mainPreviewView, type: .video)
+                    } else {
+                        self.startPlaying(RoomManager.shared.userService.localUserInfo?.userID, streamView: vc.mainPreviewView, type: .video)
+                    }
+                    if let streamID = currentCallVC?.streamUserID {
+                        self.startPlaying(streamID, streamView: vc.previewView, type: .video)
+                    } else {
+                        self.startPlaying(userID, streamView: vc.previewView, type: .video)
+                    }
+                }
+                ZegoExpressEngine.shared().muteSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? false)
             }
-            ZegoExpressEngine.shared().muteSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? false)
         }
     }
     
@@ -226,6 +241,19 @@ extension CallBusiness: UserServiceDelegate {
 }
 
 extension CallBusiness: CallAcceptTipViewDelegate {
+    func tipViewDidClik(_ userInfo: UserInfo, callType: CallType) {
+        if let currentCallVC = currentCallVC {
+            currentCallVC.updateCallType(callType, userInfo: userInfo, status: .accept)
+            getCurrentViewController()?.present(currentCallVC, animated: true, completion: nil)
+        } else {
+            let vc: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .accept)
+            currentCallVC = vc
+            currentCallStatus = .wait
+            currentCallUserInfo = userInfo
+            getCurrentViewController()?.present(vc, animated: true, completion: nil)
+        }
+    }
+    
     func tipViewDeclineCall(_ userInfo: UserInfo, callType: CallType) {
         if let userID = userInfo.userID {
             endCall(userID, callType: callType)
