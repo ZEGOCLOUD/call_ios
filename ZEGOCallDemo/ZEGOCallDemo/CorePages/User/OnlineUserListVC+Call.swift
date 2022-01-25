@@ -9,6 +9,7 @@ import Foundation
 
 extension OnlineUserListVC: OnlineUserListCellDelegate {
     func startCall(_ type: CallType, userInfo: UserInfo) {
+        if CallBusiness.shared.currentCallStatus != .free { return }
         switch type {
         case .audio:
             if let userID = userInfo.userID {

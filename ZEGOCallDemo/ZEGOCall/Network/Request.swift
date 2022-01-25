@@ -32,7 +32,7 @@ protocol RequestSender {
 
 extension RequestSender {
     var host: String {
-        return "http://192.168.100.44:3128"
+        return "https://demo-server-api.zegocloud.com"
     }
 }
 

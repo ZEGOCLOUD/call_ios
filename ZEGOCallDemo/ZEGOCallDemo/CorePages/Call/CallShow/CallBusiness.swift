@@ -86,6 +86,13 @@ class CallBusiness: NSObject {
         RoomManager.shared.userService.responseCall(userID, callType: callType, responseType: .reject, callback: nil)
     }
     
+    func closeCallVC() {
+        guard let currentCallVC = currentCallVC else { return }
+        currentCallVC.dismiss(animated: true, completion: {
+            self.currentCallVC = nil
+        })
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -152,9 +159,9 @@ extension CallBusiness: UserServiceDelegate {
     func receiveCancelCall(_ userInfo: UserInfo) {
         currentCallStatus = .free
         currentCallUserInfo = nil
+        endSystemCall()
         guard let currentTipView = currentTipView else { return }
         currentTipView.removeFromSuperview()
-        endSystemCall()
     }
     
     func receiveCallResponse(_ userInfo: UserInfo, responseType: CallResponseType) {
@@ -169,9 +176,9 @@ extension CallBusiness: UserServiceDelegate {
             currentCallStatus = .free
             RoomManager.shared.userService.endCall(userInfo.userID ?? "") { result in
                 if result.isSuccess {
-                    HUDHelper.showMessage(message: "Decline")
+                    self.currentCallVC?.changeCallStatusText(.decline)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        vc.dismiss(animated: true, completion: nil)
+                        self.closeCallVC()
                     }
                 }
             }
@@ -185,10 +192,10 @@ extension CallBusiness: UserServiceDelegate {
             switch result {
             case .success():
                 self.currentCallStatus = .free
-                HUDHelper.showMessage(message: "complete")
+                self.currentCallVC?.changeCallStatusText(.completed)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self.endSystemCall()
-                    self.currentCallVC?.dismiss(animated: true, completion: nil)
+                    self.closeCallVC()
                 }
             case .failure(_):
                 break

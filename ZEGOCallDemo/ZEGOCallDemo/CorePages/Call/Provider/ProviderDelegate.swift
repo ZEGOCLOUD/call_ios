@@ -18,9 +18,7 @@ class ProviderDelegate: NSObject,CXProviderDelegate {
         let localizedName = "ZEGOCallDemo"
         let providerConfiguration = CXProviderConfiguration(localizedName: localizedName)
         providerConfiguration.supportsVideo = true
-        
         providerConfiguration.maximumCallsPerCallGroup = 1
-        
         providerConfiguration.supportedHandleTypes = [.generic]
         
         if let iconMaskImage = UIImage(named: "IconMask") {
@@ -50,7 +48,6 @@ class ProviderDelegate: NSObject,CXProviderDelegate {
     //MARK: - Ending Call
     func endCall(uuids : [UUID],completion: @escaping (UUID) -> Void) {
         let uuid = uuids.first
-        
         let action = CXEndCallAction(call: uuid!)
         let trans = CXTransaction()
         trans.addAction(action)
@@ -75,6 +72,7 @@ class ProviderDelegate: NSObject,CXProviderDelegate {
         let update = CXCallUpdate()
         update.remoteHandle = CXHandle(type: .generic, value: handle)
         update.hasVideo = hasVideo
+        update.localizedCallerName = CallBusiness.shared.currentCallUserInfo?.userName
         
         // Report the incoming call to the system
         provider.reportNewIncomingCall(with: uuid, update: update) { error in

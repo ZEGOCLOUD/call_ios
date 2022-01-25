@@ -16,7 +16,7 @@ extension CallMainVC: CallActionDelegate {
                     switch result {
                     case .success():
                         CallBusiness.shared.currentCallStatus = .free
-                        HUDHelper.showMessage(message: "Complete")
+                        self.changeCallStatusText(.completed)
                         let deviceID: String = UIDevice.current.identifierForVendor!.uuidString
                         if let uuid = UUID(uuidString: deviceID) {
                             self.appDelegate.providerDelegate?.endCall(uuids: [uuid], completion: { uuid in
@@ -43,9 +43,9 @@ extension CallMainVC: CallActionDelegate {
             case .success():
                 CallBusiness.shared.currentCallStatus = .free
                 if isTimeout {
-                    HUDHelper.showMessage(message: "Miss")
+                    self.changeCallStatusText(.miss)
                 } else {
-                    HUDHelper.showMessage(message: "Canceled")
+                    self.changeCallStatusText(.canceled)
                 }
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self.dismiss(animated: true, completion: nil)

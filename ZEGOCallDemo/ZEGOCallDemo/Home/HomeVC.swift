@@ -14,6 +14,18 @@ class HomeVC: UIViewController {
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var userIDLabel: UILabel!
     @IBOutlet weak var backView: UIView!
+    @IBOutlet weak var contactUsButton: UIButton! {
+        didSet {
+            contactUsButton.setTitle(ZGLocalizedString("welcome_page_contact_us"), for: .normal)
+        }
+    }
+    @IBOutlet weak var moreButton: UIButton! {
+        didSet {
+            moreButton.setTitle(ZGLocalizedString("welcome_page_get_more"), for: .normal)
+        }
+    }
+    
+    
     
     let appDelegate = (UIApplication.shared.delegate) as! AppDelegate
     
@@ -36,6 +48,18 @@ class HomeVC: UIViewController {
         self.navigationController?.navigationBar.isHidden = false
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIApplication.shared.isIdleTimerDisabled = true
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false;
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        UIApplication.shared.isIdleTimerDisabled = false
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true;
+    }
+    
     func configUI() {
         userNameLabel.text = RoomManager.shared.userService.localUserInfo?.userName ?? ""
         userIDLabel.text = "ID:\(RoomManager.shared.userService.localUserInfo?.userID ?? "")"
@@ -45,7 +69,7 @@ class HomeVC: UIViewController {
     
     //MARK: -Action
     @IBAction func signUpClick(_ sender: UIButton) {
-        pushToWeb("")
+        pushToWeb("https://www.zegocloud.com/talk")
     }
     
     

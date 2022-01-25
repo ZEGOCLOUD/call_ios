@@ -23,6 +23,7 @@
 		86718CE5279542E300CEA8A0 /* HeartBeatRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CE4279542E300CEA8A0 /* HeartBeatRequest.swift */; };
 		86718CE727955A0900CEA8A0 /* UserListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CE627955A0900CEA8A0 /* UserListService.swift */; };
 		86718D2D2797E56D00CEA8A0 /* ProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718D2C2797E56D00CEA8A0 /* ProviderDelegate.swift */; };
+		868F6356279E923200D0B5DC /* Call.strings in Resources */ = {isa = PBXBuildFile; fileRef = 868F6358279E923200D0B5DC /* Call.strings */; };
 		86AC134427997B5C00607277 /* CallBusiness+Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC134327997B5C00607277 /* CallBusiness+Stream.swift */; };
 		86AC134627997D7F00607277 /* CallBusiness+CallKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC134527997D7F00607277 /* CallBusiness+CallKit.swift */; };
 		86AC134827998A4000607277 /* String+Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC134727998A4000607277 /* String+Time.swift */; };
@@ -40,7 +41,6 @@
 		86B198D3278BE2600004C997 /* RequestStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198B0278BE25F0004C997 /* RequestStatus.swift */; };
 		86B198D4278BE2600004C997 /* String+Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198B2278BE25F0004C997 /* String+Stream.swift */; };
 		86B198D5278BE2600004C997 /* Result+Zego.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198B3278BE25F0004C997 /* Result+Zego.swift */; };
-		86B198D6278BE2600004C997 /* UserService+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198B6278BE25F0004C997 /* UserService+Util.swift */; };
 		86B198D7278BE2600004C997 /* UserService+Paramater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198B7278BE25F0004C997 /* UserService+Paramater.swift */; };
 		86B198D8278BE2600004C997 /* RoomService+Private.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198B8278BE25F0004C997 /* RoomService+Private.swift */; };
 		86B198D9278BE2600004C997 /* RoomManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198BA278BE25F0004C997 /* RoomManager.swift */; };
@@ -120,6 +120,9 @@
 		86718CE4279542E300CEA8A0 /* HeartBeatRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartBeatRequest.swift; sourceTree = "<group>"; };
 		86718CE627955A0900CEA8A0 /* UserListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListService.swift; sourceTree = "<group>"; };
 		86718D2C2797E56D00CEA8A0 /* ProviderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderDelegate.swift; sourceTree = "<group>"; };
+		868F6353279E913800D0B5DC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		868F6357279E923200D0B5DC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Call.strings; sourceTree = "<group>"; };
+		868F6359279E923400D0B5DC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Call.strings"; sourceTree = "<group>"; };
 		86AC134327997B5C00607277 /* CallBusiness+Stream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallBusiness+Stream.swift"; sourceTree = "<group>"; };
 		86AC134527997D7F00607277 /* CallBusiness+CallKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallBusiness+CallKit.swift"; sourceTree = "<group>"; };
 		86AC134727998A4000607277 /* String+Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Time.swift"; sourceTree = "<group>"; };
@@ -139,7 +142,6 @@
 		86B198B0278BE25F0004C997 /* RequestStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestStatus.swift; sourceTree = "<group>"; };
 		86B198B2278BE25F0004C997 /* String+Stream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Stream.swift"; sourceTree = "<group>"; };
 		86B198B3278BE25F0004C997 /* Result+Zego.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Result+Zego.swift"; sourceTree = "<group>"; };
-		86B198B6278BE25F0004C997 /* UserService+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserService+Util.swift"; sourceTree = "<group>"; };
 		86B198B7278BE25F0004C997 /* UserService+Paramater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserService+Paramater.swift"; sourceTree = "<group>"; };
 		86B198B8278BE25F0004C997 /* RoomService+Private.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RoomService+Private.swift"; sourceTree = "<group>"; };
 		86B198BA278BE25F0004C997 /* RoomManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomManager.swift; sourceTree = "<group>"; };
@@ -335,6 +337,7 @@
 		86B19890278BDD7D0004C997 /* ZEGOCallDemo */ = {
 			isa = PBXGroup;
 			children = (
+				86718CD727953DFA00CEA8A0 /* RequestManager */,
 				86B198FB278D63430004C997 /* Helper */,
 				86B19A15279118210004C997 /* Login */,
 				86B1996A278D711B0004C997 /* WebPages */,
@@ -350,6 +353,7 @@
 				86B1989A278BDD7F0004C997 /* Assets.xcassets */,
 				86B1989C278BDD7F0004C997 /* LaunchScreen.storyboard */,
 				86B1989F278BDD7F0004C997 /* Info.plist */,
+				868F6358279E923200D0B5DC /* Call.strings */,
 			);
 			path = ZEGOCallDemo;
 			sourceTree = "<group>";
@@ -357,7 +361,6 @@
 		86B198A5278BE06A0004C997 /* ZEGOCall */ = {
 			isa = PBXGroup;
 			children = (
-				86718CD727953DFA00CEA8A0 /* RequestManager */,
 				86B198B4278BE25F0004C997 /* Core */,
 				86B198B1278BE25F0004C997 /* Extensions */,
 				86B198AD278BE25F0004C997 /* Network */,
@@ -409,7 +412,6 @@
 		86B198B5278BE25F0004C997 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				86B198B6278BE25F0004C997 /* UserService+Util.swift */,
 				86B198B7278BE25F0004C997 /* UserService+Paramater.swift */,
 				86B198B8278BE25F0004C997 /* RoomService+Private.swift */,
 			);
@@ -442,7 +444,6 @@
 			isa = PBXGroup;
 			children = (
 				86B198C7278BE25F0004C997 /* UserService.swift */,
-				86718CE627955A0900CEA8A0 /* UserListService.swift */,
 				86B198C9278BE25F0004C997 /* RoomService.swift */,
 			);
 			path = Service;
@@ -702,6 +703,7 @@
 				86B1997B278D76E50004C997 /* Cell */,
 				86B19977278D75E00004C997 /* OnlineUserListVC.swift */,
 				86B19A072790034B0004C997 /* OnlineUserListVC+Call.swift */,
+				86718CE627955A0900CEA8A0 /* UserListService.swift */,
 				86B19979278D75F60004C997 /* User.storyboard */,
 			);
 			path = User;
@@ -809,6 +811,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 86B19885278BDD7D0004C997;
 			productRefGroup = 86B1988F278BDD7D0004C997 /* Products */;
@@ -835,6 +838,7 @@
 				86B19899278BDD7E0004C997 /* Main.storyboard in Resources */,
 				86B1998C278EBB8C0004C997 /* CallingPhoneView.xib in Resources */,
 				86B1997A278D75F60004C997 /* User.storyboard in Resources */,
+				868F6356279E923200D0B5DC /* Call.strings in Resources */,
 				86B19990278EBC8E0004C997 /* CallingVideoView.xib in Resources */,
 				86B1997F278D96A80004C997 /* GeneralWebVC.xib in Resources */,
 				86B19994278EBDC10004C997 /* CallingTakeView.xib in Resources */,
@@ -938,7 +942,6 @@
 				86718CDD2795401B00CEA8A0 /* UserInfoList.swift in Sources */,
 				86B198E0278BE2600004C997 /* RoomInfo.swift in Sources */,
 				86B19892278BDD7D0004C997 /* AppDelegate.swift in Sources */,
-				86B198D6278BE2600004C997 /* UserService+Util.swift in Sources */,
 				86718CDB27953E6400CEA8A0 /* UserIDReauest.swift in Sources */,
 				86B198EE278D27A80004C997 /* OperationCommand.swift in Sources */,
 				86718CAA27915AC100CEA8A0 /* State.swift in Sources */,
@@ -975,6 +978,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		868F6358279E923200D0B5DC /* Call.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				868F6357279E923200D0B5DC /* en */,
+				868F6359279E923400D0B5DC /* zh-Hans */,
+			);
+			name = Call.strings;
+			sourceTree = "<group>";
+		};
 		86B19897278BDD7E0004C997 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -987,6 +999,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				86B1989D278BDD7F0004C997 /* Base */,
+				868F6353279E913800D0B5DC /* zh-Hans */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -998,6 +1011,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -1059,6 +1073,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -1121,13 +1136,14 @@
 				DEVELOPMENT_TEAM = B82BHJ5H89;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ZEGOCallDemo/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "是否允许访问摄像头";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "是否允许访问麦克风";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need to use your camera to help you join the live interaction.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need to use your mic to help you join the live interaction.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1154,13 +1170,14 @@
 				DEVELOPMENT_TEAM = B82BHJ5H89;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ZEGOCallDemo/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "是否允许访问摄像头";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "是否允许访问麦克风";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need to use your camera to help you join the live interaction.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We need to use your mic to help you join the live interaction.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

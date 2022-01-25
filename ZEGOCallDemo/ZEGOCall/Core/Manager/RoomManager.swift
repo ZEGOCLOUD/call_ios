@@ -18,13 +18,11 @@ class RoomManager: NSObject {
     
     private override init() {
         userService = UserService()
-        userListService = UserListService()
         super.init()
     }
     
     // MARK: - Public
     var userService: UserService
-    var userListService: UserListService
     
     func initWithAppID(appID: UInt32, appSign: String, callback: RoomCallback?) {
         if appSign.count == 0 {
