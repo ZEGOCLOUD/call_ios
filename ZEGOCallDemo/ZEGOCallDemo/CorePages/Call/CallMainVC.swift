@@ -346,7 +346,8 @@ class CallMainVC: UIViewController {
         case .miss:
             callStatusLabel.text = ZGLocalizedString("call_page_status_missed")
         case .completed:
-            callStatusLabel.text = ZGLocalizedString("call_page_status_completed")
+            callStatusLabel.text = ""
+            HUDHelper.showMessage(message: ZGLocalizedString("call_page_status_completed"))
         }
     }
     

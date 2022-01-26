@@ -142,43 +142,48 @@ class UserService: NSObject {
     
     func callToUser(_ userID: String, token:String, type: CallType, callback: RoomCallback?) {
         guard let myUserID = localUserInfo?.userID else { return }
-        roomService.createRoom(myUserID, localUserInfo?.userName ?? "", token) { [self] result in
-            HUDHelper.hideNetworkLoading()
-            localUserRoomInfo = UserInfo(myUserID,localUserInfo?.userName ?? "")
+        guard let myUserName = localUserInfo?.userName else { return }
+        roomService.createRoom(myUserID, myUserName, token) { [self] result in
+            localUserRoomInfo = UserInfo(myUserID,myUserName)
             switch result {
             case .success():
                 sendPeerMesssage(userID, callType: type, commandType: .call, responseType: nil) { result in
-                    if result.isSuccess {
-                        if let callback = callback {
-                            callback(result)
-                        }
-                    } else {
+                    switch result {
+                    case .success():
+                        guard let callback = callback else { return }
+                        callback(result)
+                    case .failure(let error):
                         self.roomService.leaveRoom(callback: nil)
+                        guard let callback = callback else { return }
+                        let result: ZegoResult = .failure(.other(Int32(error.code)))
+                        callback(result)
                     }
                 }
             case .failure(let error):
-                let message = String(format: ZGLocalizedString("toast_create_room_fail"), error.code)
-                TipView.showWarn(message)
+                guard let callback = callback else { return }
+                let result: ZegoResult = .failure(.other(Int32(error.code)))
+                callback(result)
             }
         }
     }
     
     func cancelCallToUser(userID: String, callback: RoomCallback?) {
         sendPeerMesssage(userID, callType: nil, commandType: .cancel, responseType: .none) { result in
-            if result.isSuccess {
+            switch result {
+            case .success():
                 self.roomService.leaveRoom { result in
-                    if let callback = callback {
-                        callback(result)
-                    }
+                    guard let callback = callback else { return }
+                    callback(result)
                 }
-            } else {
-                
+            case .failure(let error):
+                guard let callback = callback else { return }
+                let result: ZegoResult = .failure(.other(Int32(error.code)))
+                callback(result)
             }
         }
     }
     
     func responseCall(_ userID: String, token:String, responseType: CallResponseType, callback: RoomCallback?) {
-        
         if responseType == .accept {
             self.roomService.joinRoom(userID, token) { result in
                 switch result {
@@ -190,8 +195,10 @@ class UserService: NSObject {
                     ZegoExpressEngine.shared().startPublishingStream(streamID)
                     ///send peer message
                     self.sendPeerMesssage(userID, callType: nil, commandType: .reply, responseType: responseType, callback: callback)
-                case .failure(_):
-                    break
+                case .failure(let error):
+                    guard let callback = callback else { return }
+                    let result: ZegoResult = .failure(.other(Int32(error.code)))
+                    callback(result)
                 }
             }
         } else {
@@ -202,9 +209,16 @@ class UserService: NSObject {
     
     func endCall(callback: RoomCallback?) {
         self.roomService.leaveRoom { result in
-            ZegoExpressEngine.shared().stopPublishingStream()
-            guard let callback = callback else { return }
-            callback(.success(()))
+            switch result {
+            case .success():
+                ZegoExpressEngine.shared().stopPublishingStream()
+                guard let callback = callback else { return }
+                callback(.success(()))
+            case .failure(let error):
+                guard let callback = callback else { return }
+                let result: ZegoResult = .failure(.other(Int32(error.code)))
+                callback(result)
+            }
         }
     }
     
@@ -328,9 +342,7 @@ extension UserService : ZIMEventHandler {
         
         for obj in delegates.allObjects {
             if let delegate = obj as? UserServiceDelegate {
-                if let userInfo = leftUsers.first {
-                    delegate.receiveEndCall()
-                }
+                delegate.receiveEndCall()
             }
         }
     }
@@ -366,9 +378,11 @@ extension UserService : ZIMEventHandler {
                         delegate.receiveCallResponse(userInfo, responseType: .accept)
                     } else {
                         roomService.leaveRoom { result in
-                            if result.isSuccess {
+                            switch result {
+                            case .success():
                                 delegate.receiveCallResponse(userInfo, responseType: .reject)
-                            } else {
+                            case .failure(_):
+                                break
                             }
                         }
                     }
