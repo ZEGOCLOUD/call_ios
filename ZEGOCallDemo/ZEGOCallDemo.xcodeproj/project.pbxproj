@@ -25,6 +25,7 @@
 		86718D2D2797E56D00CEA8A0 /* ProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718D2C2797E56D00CEA8A0 /* ProviderDelegate.swift */; };
 		868F6356279E923200D0B5DC /* Call.strings in Resources */ = {isa = PBXBuildFile; fileRef = 868F6358279E923200D0B5DC /* Call.strings */; };
 		868F635C27A1530400D0B5DC /* CallRing.wav in Resources */ = {isa = PBXBuildFile; fileRef = 868F635B27A1530400D0B5DC /* CallRing.wav */; };
+		868F635F27A1647000D0B5DC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 868F636127A1647000D0B5DC /* InfoPlist.strings */; };
 		86AC134427997B5C00607277 /* CallBusiness+Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC134327997B5C00607277 /* CallBusiness+Stream.swift */; };
 		86AC134627997D7F00607277 /* CallBusiness+CallKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC134527997D7F00607277 /* CallBusiness+CallKit.swift */; };
 		86AC134827998A4000607277 /* String+Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC134727998A4000607277 /* String+Time.swift */; };
@@ -124,6 +125,8 @@
 		868F6357279E923200D0B5DC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Call.strings; sourceTree = "<group>"; };
 		868F6359279E923400D0B5DC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Call.strings"; sourceTree = "<group>"; };
 		868F635B27A1530400D0B5DC /* CallRing.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = CallRing.wav; sourceTree = "<group>"; };
+		868F636027A1647000D0B5DC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		868F636227A1647200D0B5DC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		86AC134327997B5C00607277 /* CallBusiness+Stream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallBusiness+Stream.swift"; sourceTree = "<group>"; };
 		86AC134527997D7F00607277 /* CallBusiness+CallKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallBusiness+CallKit.swift"; sourceTree = "<group>"; };
 		86AC134727998A4000607277 /* String+Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Time.swift"; sourceTree = "<group>"; };
@@ -362,6 +365,7 @@
 				86B1989A278BDD7F0004C997 /* Assets.xcassets */,
 				86B1989C278BDD7F0004C997 /* LaunchScreen.storyboard */,
 				86B1989F278BDD7F0004C997 /* Info.plist */,
+				868F636127A1647000D0B5DC /* InfoPlist.strings */,
 				868F6358279E923200D0B5DC /* Call.strings */,
 			);
 			path = ZEGOCallDemo;
@@ -848,6 +852,7 @@
 				86B1998C278EBB8C0004C997 /* CallingPhoneView.xib in Resources */,
 				86B1997A278D75F60004C997 /* User.storyboard in Resources */,
 				868F6356279E923200D0B5DC /* Call.strings in Resources */,
+				868F635F27A1647000D0B5DC /* InfoPlist.strings in Resources */,
 				86B19990278EBC8E0004C997 /* CallingVideoView.xib in Resources */,
 				86B1997F278D96A80004C997 /* GeneralWebVC.xib in Resources */,
 				86B19994278EBDC10004C997 /* CallingTakeView.xib in Resources */,
@@ -993,6 +998,15 @@
 				868F6359279E923400D0B5DC /* zh-Hans */,
 			);
 			name = Call.strings;
+			sourceTree = "<group>";
+		};
+		868F636127A1647000D0B5DC /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				868F636027A1647000D0B5DC /* en */,
+				868F636227A1647200D0B5DC /* zh-Hans */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		86B19897278BDD7E0004C997 /* Main.storyboard */ = {
