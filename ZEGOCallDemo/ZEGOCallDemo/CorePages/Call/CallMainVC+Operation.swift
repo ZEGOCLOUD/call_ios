@@ -69,6 +69,7 @@ extension CallMainVC: CallActionDelegate {
                 if result.isSuccess {
                     CallBusiness.shared.audioPlayer?.stop()
                     CallBusiness.shared.currentCallStatus = .calling
+                    ZegoExpressEngine.shared().useFrontCamera(true)
                     self.startPlayingStream(userID)
                 }
             }

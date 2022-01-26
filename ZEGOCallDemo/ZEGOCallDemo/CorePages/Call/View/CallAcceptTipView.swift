@@ -37,7 +37,7 @@ class CallAcceptTipView: UIView {
     static func showTipView(_ type: CallType, userInfo: UserInfo) -> CallAcceptTipView {
         let tipView: CallAcceptTipView = UINib(nibName: "CallAcceptTipView", bundle: nil).instantiate(withOwner: nil, options: nil).first as! CallAcceptTipView
         let y = KeyWindow().safeAreaInsets.top
-        tipView.frame = CGRect.init(x: 8, y: y, width: UIScreen.main.bounds.size.width - 16, height: 80)
+        tipView.frame = CGRect.init(x: 8, y: y + 8, width: UIScreen.main.bounds.size.width - 16, height: 80)
         tipView.userNameLabel.text = userInfo.userName
         tipView.layer.masksToBounds = true
         tipView.layer.cornerRadius = 8
