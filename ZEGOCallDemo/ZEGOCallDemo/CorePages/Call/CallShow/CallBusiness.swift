@@ -64,7 +64,6 @@ class CallBusiness: NSObject {
         currentCallStatus = .waitAccept
         currentCallUserInfo = userInfo
         getCurrentViewController()?.present(vc, animated: true, completion: nil)
-        audioPlayer?.play()
     }
     
     
@@ -89,7 +88,6 @@ class CallBusiness: NSObject {
                 break
             }
         }
-        audioPlayer?.play()
     }
     
     func endCall(_ userID: String, callType: CallType) {
@@ -260,6 +258,7 @@ extension CallBusiness: UserServiceDelegate {
                         self.startPlaying(userID, streamView: vc.previewView, type: .video)
                     }
                 }
+               // ZegoExpressEngine.shared().setAudioRouteToSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? false)
                 ZegoExpressEngine.shared().muteSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? false)
             }
         }
@@ -288,6 +287,7 @@ extension CallBusiness: CallAcceptTipViewDelegate {
         if let userID = userInfo.userID {
             endCall(userID, callType: callType)
         }
+        audioPlayer?.stop()
         currentTipView = nil
     }
     
