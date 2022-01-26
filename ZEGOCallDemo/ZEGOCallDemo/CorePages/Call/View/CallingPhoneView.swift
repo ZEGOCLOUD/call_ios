@@ -19,9 +19,9 @@ class CallingPhoneView: CallBaseView {
         userInfo.mic = !userInfo.mic
         delegate?.callOpenMic(self, isOpen: userInfo.mic)
         if userInfo.mic {
-            micButton.setImage(UIImage(named: "call_mic_selected_open"), for: .normal)
+            micButton.setImage(UIImage(named: "call_audio_mic_open"), for: .normal)
         } else {
-            micButton.setImage(UIImage(named: "call_mic_selected_close"), for: .normal)
+            micButton.setImage(UIImage(named: "call_audio_mic_close"), for: .normal)
         }
     }
     
@@ -34,9 +34,9 @@ class CallingPhoneView: CallBaseView {
         let voice = userInfo.voice ?? false
         userInfo.voice = !voice
         if userInfo.voice! {
-            voiceButton.setImage(UIImage(named: "call_voice_close_selected_icon"), for: .normal)
+            voiceButton.setImage(UIImage(named: "call_audio_voice_close"), for: .normal)
         } else {
-            voiceButton.setImage(UIImage(named: "call_voice_open_selected_icon"), for: .normal)
+            voiceButton.setImage(UIImage(named: "call_audio_voice_open"), for: .normal)
         }
         delegate?.callOpenVoice(self, isOpen: userInfo.voice!)
     }

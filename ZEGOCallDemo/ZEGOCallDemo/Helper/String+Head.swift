@@ -62,4 +62,31 @@ extension String {
         return coverImageArray[n]
     }
     
+    static func getMakImageName(userName: String?) -> String {
+        guard let userName = userName else {
+            return ""
+        }
+
+        if userName.count == 0 {
+            return ""
+        }
+        let data = userName.cString(using: String.Encoding.utf8)
+        let len = CC_LONG(userName.lengthOfBytes(using: String.Encoding.utf8))
+        let result = UnsafeMutablePointer<CUnsignedChar>.allocate(capacity: 16)
+        CC_MD5(data!,len, result)
+        let hash = result[0]
+        
+        let headImageArray:Array = [
+            "call_mask_bg_1",
+            "call_mask_bg_2",
+            "call_mask_bg_3",
+            "call_mask_bg_4",
+            "call_mask_bg_5",
+            "call_mask_bg_6",
+        ]
+        
+        let n = (Int(String(hash)) ?? 0) % 6
+        return headImageArray[n]
+    }
+    
 }

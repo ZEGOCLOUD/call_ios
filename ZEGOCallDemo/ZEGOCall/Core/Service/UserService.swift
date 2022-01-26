@@ -148,6 +148,8 @@ class UserService: NSObject {
             case .success():
                 sendPeerMesssage(userID, callType: type, commandType: .call, responseType: nil) { result in
                     if result.isSuccess {
+                        let streamID = String.getStreamID(myUserID, roomID: userID)
+                        ZegoExpressEngine.shared().startPublishingStream(streamID)
                         if let callback = callback {
                             callback(result)
                         }
@@ -194,7 +196,7 @@ class UserService: NSObject {
                 }
             }
         } else {
-            sendPeerMesssage(userID, callType: nil, commandType: .reply, responseType: .reject, callback: nil)
+            sendPeerMesssage(userID, callType: nil, commandType: .reply, responseType: .reject, callback: callback)
         }
     }
     

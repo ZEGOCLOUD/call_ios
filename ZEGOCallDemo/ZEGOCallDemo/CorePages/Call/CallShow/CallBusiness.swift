@@ -24,6 +24,17 @@ class CallBusiness: NSObject {
     var currentCallStatus: callStatus = .free
     var appIsActive: Bool = true
     var currentTipView: CallAcceptTipView?
+    lazy var audioPlayer: AVAudioPlayer? = {
+        let path = Bundle.main.path(forResource: "CallRing", ofType: "wav")!
+        let url = URL(fileURLWithPath: path)
+        do {
+            let player =  try AVAudioPlayer(contentsOf: url)
+            return player
+        } catch {
+          // can't load file
+            return nil
+        }
+    }()
     
     static let shared = CallBusiness()
     
@@ -46,7 +57,6 @@ class CallBusiness: NSObject {
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackGround), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
-
     
     func startCall(_ userInfo: UserInfo, callType: CallType) {
         let vc: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .take)
@@ -54,6 +64,7 @@ class CallBusiness: NSObject {
         currentCallStatus = .waitAccept
         currentCallUserInfo = userInfo
         getCurrentViewController()?.present(vc, animated: true, completion: nil)
+        audioPlayer?.play()
     }
     
     
@@ -64,6 +75,7 @@ class CallBusiness: NSObject {
         RoomManager.shared.userService.responseCall(userID, token: rtcToken, responseType:.accept) { result in
             switch result {
             case .success():
+                self.audioPlayer?.stop()
                 let callVC: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .calling)
                 self.currentCallVC = callVC
                 self.currentCallStatus = .calling
@@ -77,7 +89,7 @@ class CallBusiness: NSObject {
                 break
             }
         }
-        
+        audioPlayer?.play()
     }
     
     func endCall(_ userID: String, callType: CallType) {
@@ -155,8 +167,9 @@ extension CallBusiness: UserServiceDelegate {
             let callTipView: CallAcceptTipView = CallAcceptTipView.showTipView(type, userInfo: userInfo)
             currentTipView = callTipView
             callTipView.delegate = self
+            audioPlayer?.play()
         } else {
-            self.appDelegate.displayIncomingCall(uuid: myUUID, handle:"")
+            self.appDelegate.displayIncomingCall(uuid: myUUID, handle:"" , hasVideo: type == .video)
         }
     }
     
@@ -164,6 +177,7 @@ extension CallBusiness: UserServiceDelegate {
         currentCallStatus = .free
         currentCallUserInfo = nil
         endSystemCall()
+        audioPlayer?.stop()
         if let currentTipView = currentTipView {
             currentTipView.removeFromSuperview()
         }
@@ -175,8 +189,19 @@ extension CallBusiness: UserServiceDelegate {
     }
     
     func receiveCallResponse(_ userInfo: UserInfo, responseType: CallResponseType) {
+        audioPlayer?.stop()
         guard let vc = self.currentCallVC else { return }
         if responseType == .accept {
+            if !appIsActive {
+                if let currentCallVC = currentCallVC,
+                   let userID = userInfo.userID {
+                    if currentCallStatus == .waitAccept {
+                        endCall(userID, callType: currentCallVC.vcType)
+                        closeCallVC()
+                    }
+                }
+                return
+            }
             currentCallUserInfo = userInfo
             currentCallStatus = .calling
             vc.updateCallType(vc.vcType, userInfo: userInfo, status: .calling)
@@ -197,6 +222,7 @@ extension CallBusiness: UserServiceDelegate {
     
     func receiveEndCall() {
         //if userInfo.userID != currentCallUserInfo?.userID { return }
+        audioPlayer?.stop()
         currentCallUserInfo = nil
         RoomManager.shared.userService.roomService.leaveRoom { result in
             switch result {
