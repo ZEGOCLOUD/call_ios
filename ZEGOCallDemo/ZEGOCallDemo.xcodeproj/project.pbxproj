@@ -27,7 +27,6 @@
 		86AC134427997B5C00607277 /* CallBusiness+Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC134327997B5C00607277 /* CallBusiness+Stream.swift */; };
 		86AC134627997D7F00607277 /* CallBusiness+CallKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC134527997D7F00607277 /* CallBusiness+CallKit.swift */; };
 		86AC134827998A4000607277 /* String+Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC134727998A4000607277 /* String+Time.swift */; };
-		86AC134A279D4AF500607277 /* UserRoomInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC1349279D4AF500607277 /* UserRoomInfo.swift */; };
 		86B19892278BDD7D0004C997 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19891278BDD7D0004C997 /* AppDelegate.swift */; };
 		86B19894278BDD7E0004C997 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19893278BDD7E0004C997 /* SceneDelegate.swift */; };
 		86B19896278BDD7E0004C997 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19895278BDD7E0004C997 /* LoginVC.swift */; };
@@ -126,7 +125,6 @@
 		86AC134327997B5C00607277 /* CallBusiness+Stream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallBusiness+Stream.swift"; sourceTree = "<group>"; };
 		86AC134527997D7F00607277 /* CallBusiness+CallKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallBusiness+CallKit.swift"; sourceTree = "<group>"; };
 		86AC134727998A4000607277 /* String+Time.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Time.swift"; sourceTree = "<group>"; };
-		86AC1349279D4AF500607277 /* UserRoomInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRoomInfo.swift; sourceTree = "<group>"; };
 		86B1988E278BDD7D0004C997 /* ZEGOCallDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZEGOCallDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86B19891278BDD7D0004C997 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		86B19893278BDD7E0004C997 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -435,7 +433,6 @@
 				86B198C2278BE25F0004C997 /* RoomInfo.swift */,
 				86B198ED278D27A80004C997 /* OperationCommand.swift */,
 				86718CDC2795401B00CEA8A0 /* UserInfoList.swift */,
-				86AC1349279D4AF500607277 /* UserRoomInfo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -914,7 +911,6 @@
 				86B198DC278BE2600004C997 /* UserInfo.swift in Sources */,
 				86B19972278D71820004C997 /* GeneralWebVC.swift in Sources */,
 				86B1995F278D63440004C997 /* String+Head.swift in Sources */,
-				86AC134A279D4AF500607277 /* UserRoomInfo.swift in Sources */,
 				86B198DA278BE2600004C997 /* ZIMManager.swift in Sources */,
 				86DE03C727981B3D000EE3C5 /* CallBusiness.swift in Sources */,
 				86B19964278D63E30004C997 /* AppDefine.swift in Sources */,
@@ -1132,7 +1128,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = B82BHJ5H89;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ZEGOCallDemo/Info.plist;
@@ -1166,7 +1162,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = B82BHJ5H89;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ZEGOCallDemo/Info.plist;

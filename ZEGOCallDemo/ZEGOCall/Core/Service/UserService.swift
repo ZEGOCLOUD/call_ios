@@ -32,18 +32,18 @@ protocol UserServiceDelegate : AnyObject  {
     /// reveive call response
     func receiveCallResponse(_ userInfo: UserInfo, responseType: CallResponseType)
     /// reveive end call
-    func receiveEndCall(_ userInfo: UserInfo)
-    func receiveUserRoomInfo(_ userRoomInfo: UserRoomInfo)
+    func receiveEndCall()
 }
 
 // default realized
 extension UserServiceDelegate {
+    func connectionStateChanged(_ state: ZIMConnectionState, _ event: ZIMConnectionEvent){ }
+    func onNetworkQuality(_ userID: String, upstreamQuality: ZegoStreamQualityLevel) { }
     func userInfoUpdate(_ userInfo: UserInfo) { }
     func receiveCall(_ userInfo: UserInfo , type: CallType) { }
     func receiveCancelCall(_ userInfo: UserInfo) { }
     func receiveCallResponse(_ userInfo: UserInfo , responseType: CallResponseType) { }
-    func receiveEndCall(_ userInfo: UserInfo) { }
-    func receiveUserRoomInfo(_ userRoomInfo: UserRoomInfo){ }
+    func receiveEndCall() { }
 }
 
 class UserService: NSObject {
@@ -51,7 +51,7 @@ class UserService: NSObject {
     // MARK: - Public
     var delegates = NSHashTable<AnyObject>.weakObjects()
     var localUserInfo: UserInfo?
-    var localUserRoomInfo: UserRoomInfo?
+    var localUserRoomInfo: UserInfo?
     var userList = DictionaryArray<String, UserInfo>()
     var roomService: RoomService = RoomService()
     let timer = ZegoTimer(15000)
@@ -139,12 +139,11 @@ class UserService: NSObject {
         RoomManager.shared.logoutRtcRoom(true)
     }
     
-    func callToUser(_ userID: String, type: CallType, callback: RoomCallback?) {
-        let rtcToken = AppToken.getRtcToken(withRoomID: userID) ?? ""
+    func callToUser(_ userID: String, token:String, type: CallType, callback: RoomCallback?) {
         guard let myUserID = localUserInfo?.userID else { return }
-        roomService.createRoom(myUserID, localUserInfo?.userName ?? "", rtcToken) { [self] result in
+        roomService.createRoom(myUserID, localUserInfo?.userName ?? "", token) { [self] result in
             HUDHelper.hideNetworkLoading()
-            localUserRoomInfo = UserRoomInfo(myUserID,localUserInfo?.userName ?? "")
+            localUserRoomInfo = UserInfo(myUserID,localUserInfo?.userName ?? "")
             switch result {
             case .success():
                 sendPeerMesssage(userID, callType: type, commandType: .call, responseType: nil) { result in
@@ -163,8 +162,8 @@ class UserService: NSObject {
         }
     }
     
-    func cancelCallToUser(userID: String, callType: CallType, callback: RoomCallback?) {
-        sendPeerMesssage(userID, callType: callType, commandType: .cancel, responseType: .none) { result in
+    func cancelCallToUser(userID: String, callback: RoomCallback?) {
+        sendPeerMesssage(userID, callType: nil, commandType: .cancel, responseType: .none) { result in
             if result.isSuccess {
                 self.roomService.leaveRoom { result in
                     if let callback = callback {
@@ -177,31 +176,30 @@ class UserService: NSObject {
         }
     }
     
-    func responseCall(_ userID: String, callType:CallType, responseType: CallResponseType, callback: RoomCallback?) {
+    func responseCall(_ userID: String, token:String, responseType: CallResponseType, callback: RoomCallback?) {
         
         if responseType == .accept {
-            let rtcToken = AppToken.getRtcToken(withRoomID: userID) ?? ""
-            self.roomService.joinRoom(userID, rtcToken) { result in
+            self.roomService.joinRoom(userID, token) { result in
                 switch result {
                 case .success():
                     ///start publish
                     guard let myUserID = self.localUserInfo?.userID else { return }
-                    self.localUserRoomInfo = UserRoomInfo(myUserID,self.localUserInfo?.userName ?? "")
+                    self.localUserRoomInfo = UserInfo(myUserID,self.localUserInfo?.userName ?? "")
                     let streamID = String.getStreamID(myUserID, roomID: userID)
                     ZegoExpressEngine.shared().startPublishingStream(streamID)
                     ///send peer message
-                    self.sendPeerMesssage(userID, callType: callType, commandType: .reply, responseType: responseType, callback: callback)
+                    self.sendPeerMesssage(userID, callType: nil, commandType: .reply, responseType: responseType, callback: callback)
                 case .failure(let code):
                     break
                 }
             }
         } else {
-            sendPeerMesssage(userID, callType: callType, commandType: .reply, responseType: .reject, callback: nil)
+            sendPeerMesssage(userID, callType: nil, commandType: .reply, responseType: .reject, callback: nil)
         }
     }
     
     
-    func endCall(_ userID: String, callback: RoomCallback?) {
+    func endCall(callback: RoomCallback?) {
         self.roomService.leaveRoom { result in
             ZegoExpressEngine.shared().stopPublishingStream()
             guard let callback = callback else { return }
@@ -209,17 +207,20 @@ class UserService: NSObject {
         }
     }
     
-    private func sendPeerMesssage(_ userID: String, callType: CallType, commandType: CustomCommandType, responseType: CallResponseType?, callback: RoomCallback?) {
+    private func sendPeerMesssage(_ userID: String, callType: CallType?, commandType: CustomCommandType, responseType: CallResponseType?, callback: RoomCallback?) {
         
         let invitation = CustomCommand(commandType)
         invitation.targetUserIDs.append(userID)
         
         var content: CustomCommandContent = CustomCommandContent()
         switch commandType {
-        case .call,.end,.cancel:
+        case .call:
+            guard let callType = callType else { return }
             content = CustomCommandContent(user_info: ["id": localUserInfo?.userID ?? "", "name" : localUserInfo?.userName ?? ""], call_type: callType.rawValue)
         case .reply:
-            content = CustomCommandContent(user_info: ["id": localUserInfo?.userID ?? "", "name" : localUserInfo?.userName ?? ""], response_type: responseType?.rawValue ?? 1, call_type: callType.rawValue)
+            content = CustomCommandContent(user_info: ["id": localUserInfo?.userID ?? "", "name" : localUserInfo?.userName ?? ""], response_type: responseType?.rawValue ?? 1)
+        case .cancel,.end:
+            content = CustomCommandContent(user_info: ["id": localUserInfo?.userID ?? "", "name" : localUserInfo?.userName ?? ""])
         }
         invitation.content = content
         
@@ -327,7 +328,7 @@ extension UserService : ZIMEventHandler {
         for obj in delegates.allObjects {
             if let delegate = obj as? UserServiceDelegate {
                 if let userInfo = leftUsers.first {
-                    delegate.receiveEndCall(userInfo)
+                    delegate.receiveEndCall()
                 }
             }
         }
@@ -371,7 +372,7 @@ extension UserService : ZIMEventHandler {
                         }
                     }
                 case .end:
-                    delegate.receiveEndCall(userInfo)
+                    delegate.receiveEndCall()
                 }
             }
         }
@@ -394,7 +395,7 @@ extension UserService: RoomServiceDelegate {
         let keys = roomAttributes.keys
         for key in keys {
             if let json = roomAttributes[key] {
-                let userRoomInfo = ZegoJsonTool.jsonToModel(type: UserRoomInfo.self, json: json)
+                let userRoomInfo = ZegoJsonTool.jsonToModel(type: UserInfo.self, json: json)
                 guard let userRoomInfo = userRoomInfo else { return }
                 if key == localUserRoomInfo?.userID {
                     localUserRoomInfo?.userName = userRoomInfo.userName
@@ -403,7 +404,7 @@ extension UserService: RoomServiceDelegate {
                 }
                 for obj in delegates.allObjects {
                     if let delegate = obj as? UserServiceDelegate {
-                        delegate.receiveUserRoomInfo(userRoomInfo)
+                        delegate.userInfoUpdate(userRoomInfo)
                     }
                 }
             }

@@ -58,7 +58,9 @@ extension CallBusiness {
     @objc func callKitStart() {
         currentCallStatus = .calling
         if let userID = currentCallUserInfo?.userID {
-            RoomManager.shared.userService.responseCall(userID, callType: callKitCallType,responseType: .accept) { result in
+            let rtcToken = AppToken.getRtcToken(withRoomID: userID)
+            guard let rtcToken = rtcToken else { return }
+            RoomManager.shared.userService.responseCall(userID, token: rtcToken, responseType: .accept) { result in
                 switch result {
                 case .success():
                     if self.appIsActive {
@@ -97,7 +99,7 @@ extension CallBusiness {
         if appIsActive { return }
         if currentCallStatus == .calling {
             guard let userID = currentCallUserInfo?.userID else { return }
-            RoomManager.shared.userService.endCall(userID) { result in
+            RoomManager.shared.userService.endCall() { result in
                 switch result {
                 case .success():
                     self.currentCallStatus = .free

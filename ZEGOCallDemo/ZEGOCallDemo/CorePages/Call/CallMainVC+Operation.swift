@@ -12,7 +12,7 @@ extension CallMainVC: CallActionDelegate {
     func callhandUp(_ callView: CallBaseView) {
         if let userID = self.callUser?.userID {
             if self.statusType == .calling {
-                RoomManager.shared.userService.endCall(userID) { result in
+                RoomManager.shared.userService.endCall() { result in
                     switch result {
                     case .success():
                         CallBusiness.shared.currentCallStatus = .free
@@ -26,8 +26,7 @@ extension CallMainVC: CallActionDelegate {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             self.dismiss(animated: true, completion: nil)
                         }
-                    case .failure(let error):
-                        //HUDHelper.showMessage(message: "")
+                    case .failure(_):
                         break
                     }
                 }
@@ -38,7 +37,7 @@ extension CallMainVC: CallActionDelegate {
     }
     
     func cancelCall(_ userID: String, callType: CallType, isTimeout: Bool = false) {
-        RoomManager.shared.userService.cancelCallToUser(userID: userID, callType: self.vcType) { result in
+        RoomManager.shared.userService.cancelCallToUser(userID: userID) { result in
             switch result {
             case .success():
                 CallBusiness.shared.currentCallStatus = .free
@@ -50,8 +49,7 @@ extension CallMainVC: CallActionDelegate {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self.dismiss(animated: true, completion: nil)
                 }
-            case .failure(let error):
-                //HUDHelper.showMessage(message: "")
+            case .failure(_):
                 break
             }
         }
@@ -60,15 +58,42 @@ extension CallMainVC: CallActionDelegate {
     func callAccept(_ callView: CallBaseView) {
         updateCallType(self.vcType, userInfo: self.callUser ?? UserInfo(), status: .calling)
         if let userID = self.callUser?.userID {
-            RoomManager.shared.userService.responseCall(userID, callType: self.vcType, responseType: .accept) { result in
-                
+            let rtcToken = AppToken.getRtcToken(withRoomID: userID)
+            guard let rtcToken = rtcToken else { return }
+            RoomManager.shared.userService.responseCall(userID, token:rtcToken, responseType: .accept) { result in
+                self.startPlayingStream(userID)
             }
+        }
+    }
+    
+    func startPlayingStream(_ userID: String) {
+        if let userRoomInfo = RoomManager.shared.userService.localUserRoomInfo {
+            if vcType == .audio {
+                RoomManager.shared.userService.micOperation(userRoomInfo.mic, callback: nil)
+                self.startPlaying(userRoomInfo.userID, streamView: nil, type: .audio)
+            } else {
+                RoomManager.shared.userService.micOperation(userRoomInfo.mic, callback: nil)
+                RoomManager.shared.userService.cameraOpen(userRoomInfo.camera, callback: nil)
+                if let mainStreamID = mainStreamUserID {
+                    self.startPlaying(mainStreamID, streamView: mainPreviewView, type: .video)
+                } else {
+                    self.startPlaying(RoomManager.shared.userService.localUserInfo?.userID, streamView: mainPreviewView, type: .video)
+                }
+                if let streamID = streamUserID {
+                    self.startPlaying(streamID, streamView: previewView, type: .video)
+                } else {
+                    self.startPlaying(userID, streamView: previewView, type: .video)
+                }
+            }
+            ZegoExpressEngine.shared().muteSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? false)
         }
     }
     
     func callDecline(_ callView: CallBaseView) {
         if let userID = self.callUser?.userID {
-            RoomManager.shared.userService.responseCall(userID, callType: self.vcType, responseType: .reject) { result in
+            let rtcToken = AppToken.getRtcToken(withRoomID: userID)
+            guard let rtcToken = rtcToken else { return }
+            RoomManager.shared.userService.responseCall(userID, token: rtcToken ,responseType: .reject) { result in
                 
             }
         }

@@ -12,6 +12,7 @@ import ZegoExpressEngine
 enum callStatus: Int {
     case free
     case wait
+    case waitAccept
     case calling
 }
 
@@ -50,7 +51,7 @@ class CallBusiness: NSObject {
     func startCall(_ userInfo: UserInfo, callType: CallType) {
         let vc: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .take)
         currentCallVC = vc
-        currentCallStatus = .wait
+        currentCallStatus = .waitAccept
         currentCallUserInfo = userInfo
         getCurrentViewController()?.present(vc, animated: true, completion: nil)
     }
@@ -58,7 +59,9 @@ class CallBusiness: NSObject {
     
     private func acceptCall(_ userInfo: UserInfo, callType: CallType) {
         guard let userID = userInfo.userID else { return }
-        RoomManager.shared.userService.responseCall(userID, callType: callType,responseType: .accept) { result in
+        let rtcToken = AppToken.getRtcToken(withRoomID: userID)
+        guard let rtcToken = rtcToken else { return }
+        RoomManager.shared.userService.responseCall(userID, token: rtcToken, responseType:.accept) { result in
             switch result {
             case .success():
                 let callVC: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .calling)
@@ -83,7 +86,9 @@ class CallBusiness: NSObject {
             currentCallUserInfo = nil
         }
         endSystemCall()
-        RoomManager.shared.userService.responseCall(userID, callType: callType, responseType: .reject, callback: nil)
+        let rtcToken = AppToken.getRtcToken(withRoomID: userID)
+        guard let rtcToken = rtcToken else { return }
+        RoomManager.shared.userService.responseCall(userID, token: rtcToken, responseType: .reject, callback: nil)
     }
     
     func closeCallVC() {
@@ -134,7 +139,7 @@ extension CallBusiness: UserServiceDelegate {
     
     
     func receiveCall(_ userInfo: UserInfo, type: CallType) {
-        if currentCallStatus == .calling || currentCallStatus == .wait {
+        if currentCallStatus == .calling || currentCallStatus == .wait || currentCallStatus == .waitAccept {
             guard let userID = userInfo.userID else { return }
             if let currentCallUserInfo = currentCallUserInfo {
                 if userID != currentCallUserInfo.userID {
@@ -145,12 +150,12 @@ extension CallBusiness: UserServiceDelegate {
         }
         currentCallStatus = .wait
         currentCallUserInfo = userInfo
+        callKitCallType = type
         if UIApplication.shared.applicationState == .active {
             let callTipView: CallAcceptTipView = CallAcceptTipView.showTipView(type, userInfo: userInfo)
             currentTipView = callTipView
             callTipView.delegate = self
         } else {
-            callKitCallType = type
             self.appDelegate.displayIncomingCall(uuid: myUUID, handle:"")
         }
     }
@@ -179,7 +184,7 @@ extension CallBusiness: UserServiceDelegate {
         } else {
             currentCallUserInfo = nil
             currentCallStatus = .free
-            RoomManager.shared.userService.endCall(userInfo.userID ?? "") { result in
+            RoomManager.shared.userService.endCall() { result in
                 if result.isSuccess {
                     self.currentCallVC?.changeCallStatusText(.decline)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -190,8 +195,8 @@ extension CallBusiness: UserServiceDelegate {
         }
     }
     
-    func receiveEndCall(_ userInfo: UserInfo) {
-        if userInfo.userID != currentCallUserInfo?.userID { return }
+    func receiveEndCall() {
+        //if userInfo.userID != currentCallUserInfo?.userID { return }
         currentCallUserInfo = nil
         RoomManager.shared.userService.roomService.leaveRoom { result in
             switch result {
@@ -234,10 +239,9 @@ extension CallBusiness: UserServiceDelegate {
         }
     }
     
-    func receiveUserRoomInfo(_ userRoomInfo: UserRoomInfo) {
-        currentCallVC?.userRoomInfoUpdate(userRoomInfo)
+    func userInfoUpdate(_ userInfo: UserInfo) {
+        currentCallVC?.userRoomInfoUpdate(userInfo)
     }
-    
 }
 
 extension CallBusiness: CallAcceptTipViewDelegate {

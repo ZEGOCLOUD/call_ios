@@ -7,11 +7,13 @@
 */
 
 "app_name" = "ZEGO Call";
-"login_page_title" = "用户 ID";
+"login_page_title" = "欢迎体验\nZEGO Call";
 "login_page_user_name" = "请输入你的用户名";
 "login_page_login" = "登录";
 "toast_login_fail" = "登录失败，错误码：%d";
 "login_page_input_user_name_tip" = "用户名应该是英文字符或数字";
+
+"call_back_title" = "返回";
 
 "setting_page_settings" = "设置";
 "setting_page_sdk_version" = "Express SDK 版本号";

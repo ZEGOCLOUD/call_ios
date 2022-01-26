@@ -53,6 +53,7 @@ class CallMainVC: UIViewController {
             previewView.addGestureRecognizer(tapClick)
         }
     }
+    @IBOutlet weak var preciewContentView: UIView!
     
     @IBOutlet weak var previewNameLabel: UILabel! {
         didSet {
@@ -94,7 +95,7 @@ class CallMainVC: UIViewController {
     var localUserInfo: UserInfo = {
         return RoomManager.shared.userService.localUserInfo ?? UserInfo()
     }()
-    var otherUserRoomInfo: UserRoomInfo?
+    var otherUserRoomInfo: UserInfo?
 
     lazy var takeView: CallingTakeView = {
         let view: CallingTakeView = UINib(nibName: "CallingTakeView", bundle: nil).instantiate(withOwner: nil, options: nil).first as! CallingTakeView
@@ -160,7 +161,6 @@ class CallMainVC: UIViewController {
             vc.smallBgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: userInfo.userName)))
             vc.mainStreamUserID = vc.localUserInfo.userID
             vc.streamUserID = userInfo.userID
-            //vc.setPreviewUserName()
         }
         
         vc.timer.setEventHandler {
@@ -193,24 +193,25 @@ class CallMainVC: UIViewController {
         smallHeadImage.image = smallBgImage
         headImage.image = UIImage(named: String.getHeadImageName(userName: callUser?.userName))
         userNameLabel.text = callUser?.userName
+        setPreviewUserName()
         if vcType == .audio {
             audioMaskView.isHidden = false
+            takeStatusFlipButton.isHidden = true
         } else {
             audioMaskView.isHidden = true
+            takeStatusFlipButton.isHidden = false
         }
         callQualityChange(netWorkStatus, connectedStatus: callConnected)
         timeLabel.isHidden = true
         callStatusLabel.isHidden = true
-        takeStatusFlipButton.isHidden = true
         bottomViewHeight.constant = 60
         toBottomDistance.constant = 52.5
-        previewView.isHidden = true
+        preciewContentView.isHidden = true
         callTime = 0
         callWaitTime = 0
         switch statusType {
         case .take:
             callStatusLabel.isHidden = false
-            takeStatusFlipButton.isHidden = false
             takeView.isHidden = false
             acceptView.isHidden = true
             phoneView.isHidden = true
@@ -229,10 +230,12 @@ class CallMainVC: UIViewController {
             phoneView.isHidden = true
             videoView.isHidden = true
             headImage.isHidden = false
+            takeStatusFlipButton.isHidden = true
         case .calling:
             takeView.isHidden = true
             acceptView.isHidden = true
             timeLabel.isHidden = false
+            takeStatusFlipButton.isHidden = true
             if vcType == .audio {
                 phoneView.isHidden = false
                 videoView.isHidden = true
@@ -243,7 +246,7 @@ class CallMainVC: UIViewController {
                 videoView.isHidden = false
                 headImage.isHidden = true
                 userNameLabel.isHidden = true
-                previewView.isHidden = false
+                preciewContentView.isHidden = false
                 CallBusiness.shared.startPlaying(mainStreamUserID, streamView: mainPreviewView, type: vcType)
                 CallBusiness.shared.startPlaying(streamUserID, streamView: previewView, type: vcType)
             }
@@ -294,7 +297,7 @@ class CallMainVC: UIViewController {
         }
     }
     
-    func userRoomInfoUpdate(_ userRoomInfo: UserRoomInfo) {
+    func userRoomInfoUpdate(_ userRoomInfo: UserInfo) {
         if userRoomInfo.userID != localUserID {
             otherUserRoomInfo = userRoomInfo
         }
@@ -319,8 +322,8 @@ class CallMainVC: UIViewController {
     }
     
     func setPreviewUserName() {
-        if streamUserID == localUserInfo.userID {
-            previewNameLabel.text = localUserInfo.userName
+        if let otherUserRoomInfo = otherUserRoomInfo {
+            previewNameLabel.text = mainStreamUserID == localUserInfo.userID ? otherUserRoomInfo.userName : "me"
         } else {
             previewNameLabel.text = callUser?.userName
         }
@@ -364,7 +367,7 @@ class CallMainVC: UIViewController {
                     if let otherUserRoomInfo = otherUserRoomInfo {
                         smallHeadImage.isHidden = otherUserRoomInfo.camera
                     } else {
-                        smallHeadImage.isHidden = false
+                        smallHeadImage.isHidden = true
                     }
                     bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: localUserInfo.userName)))
                     smallBgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: callUser?.userName)))
@@ -381,7 +384,7 @@ class CallMainVC: UIViewController {
                     bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: callUser?.userName)))
                 }
             } else {
-                backGroundImage.isHidden = false
+                backGroundImage.isHidden = vcType == .video
                 smallHeadImage.isHidden = false
                 bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: localUserInfo.userName)))
                 smallBgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: callUser?.userName)))
