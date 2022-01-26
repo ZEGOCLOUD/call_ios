@@ -1,0 +1,10 @@
+/* 
+  infoPlist.strings
+  ZEGOCallDemo
+
+  Created by zego on 2022/1/26.
+  
+*/
+
+"NSMicrophoneUsageDescription" = "请允许我们使用你的麦克风，以便你能正常进行语音通话。";
+"NSCameraUsageDescription" = "请允许我们使用你的摄像头，以便你能正常进行视频通话。";

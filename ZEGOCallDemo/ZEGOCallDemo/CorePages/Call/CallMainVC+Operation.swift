@@ -15,6 +15,7 @@ extension CallMainVC: CallActionDelegate {
                 RoomManager.shared.userService.endCall() { result in
                     switch result {
                     case .success():
+                        CallBusiness.shared.audioPlayer?.stop()
                         CallBusiness.shared.currentCallStatus = .free
                         self.changeCallStatusText(.completed)
                         let deviceID: String = UIDevice.current.identifierForVendor!.uuidString
@@ -26,8 +27,9 @@ extension CallMainVC: CallActionDelegate {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             self.dismiss(animated: true, completion: nil)
                         }
-                    case .failure(_):
-                        break
+                    case .failure(let error):
+                        let message = String(format: ZGLocalizedString("end_call_failed"), error.code)
+                        TipView.showWarn(message)
                     }
                 }
             } else {
@@ -40,6 +42,8 @@ extension CallMainVC: CallActionDelegate {
         RoomManager.shared.userService.cancelCallToUser(userID: userID) { result in
             switch result {
             case .success():
+                CallBusiness.shared.audioPlayer?.stop()
+                CallBusiness.shared.audioPlayer?.stop()
                 CallBusiness.shared.currentCallStatus = .free
                 if isTimeout {
                     self.changeCallStatusText(.miss)
@@ -49,8 +53,9 @@ extension CallMainVC: CallActionDelegate {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self.dismiss(animated: true, completion: nil)
                 }
-            case .failure(_):
-                break
+            case .failure(let error):
+                let message = String(format: ZGLocalizedString("cancel_call_failed"), error.code)
+                TipView.showWarn(message)
             }
         }
     }
@@ -61,7 +66,11 @@ extension CallMainVC: CallActionDelegate {
             let rtcToken = AppToken.getRtcToken(withRoomID: userID)
             guard let rtcToken = rtcToken else { return }
             RoomManager.shared.userService.responseCall(userID, token:rtcToken, responseType: .accept) { result in
-                self.startPlayingStream(userID)
+                if result.isSuccess {
+                    CallBusiness.shared.audioPlayer?.stop()
+                    CallBusiness.shared.currentCallStatus = .calling
+                    self.startPlayingStream(userID)
+                }
             }
         }
     }
@@ -70,7 +79,8 @@ extension CallMainVC: CallActionDelegate {
         if let userRoomInfo = RoomManager.shared.userService.localUserRoomInfo {
             if vcType == .audio {
                 RoomManager.shared.userService.micOperation(userRoomInfo.mic, callback: nil)
-                self.startPlaying(userRoomInfo.userID, streamView: nil, type: .audio)
+                guard let callUser = callUser else { return }
+                self.startPlaying(callUser.userID, streamView: nil, type: .audio)
             } else {
                 RoomManager.shared.userService.micOperation(userRoomInfo.mic, callback: nil)
                 RoomManager.shared.userService.cameraOpen(userRoomInfo.camera, callback: nil)
@@ -94,10 +104,13 @@ extension CallMainVC: CallActionDelegate {
             let rtcToken = AppToken.getRtcToken(withRoomID: userID)
             guard let rtcToken = rtcToken else { return }
             RoomManager.shared.userService.responseCall(userID, token: rtcToken ,responseType: .reject) { result in
-                
+                if result.isSuccess {
+                    CallBusiness.shared.audioPlayer?.stop()
+                    CallBusiness.shared.currentCallStatus = .free
+                    self.dismiss(animated: true, completion: nil)
+                }
             }
         }
-        self.dismiss(animated: true, completion: nil)
     }
     
     func callOpenMic(_ callView: CallBaseView, isOpen: Bool) {

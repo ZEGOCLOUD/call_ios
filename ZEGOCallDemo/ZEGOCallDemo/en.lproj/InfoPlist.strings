@@ -1,0 +1,10 @@
+/* 
+  infoPlist.strings
+  ZEGOCallDemo
+
+  Created by zego on 2022/1/26.
+  
+*/
+
+"NSMicrophoneUsageDescription" = "We need to use your mic to help you join the voice interaction.";
+"NSCameraUsageDescription" = "We need to use your camera to help you join the live interaction.";

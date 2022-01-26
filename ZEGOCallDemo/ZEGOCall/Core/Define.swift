@@ -27,13 +27,6 @@ enum ZegoError: Error {
         
     /// common failed
     case failed
-    case roomExisted
-    case roomNotFound
-    case takeSeatFailed
-    case setSeatInfoFailed
-    case alreadyOnSeat
-    case noPermission
-    case notOnSeat
     case paramInvalid
     
     /// other error code
@@ -42,14 +35,7 @@ enum ZegoError: Error {
     var code: Int32 {
         switch self {
         case .failed: return 1
-        case .roomExisted: return 1001
-        case .roomNotFound: return 1002
-        case .takeSeatFailed: return 2001
-        case .setSeatInfoFailed: return 2002
-        case .alreadyOnSeat: return 2003
-        case .noPermission: return 2004
-        case .notOnSeat: return 2005
-        case .paramInvalid: return 2006
+        case .paramInvalid: return 2001
         case .other(let rawValue): return rawValue
         }
     }

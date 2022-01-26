@@ -18,7 +18,7 @@ Copyright © 2020 Shenzhen Zego Technology Company Limited. All rights reserved.
 "app_name" = "ZEGO Call";
 "login_page_title" = "Welcome to experience\nZEGO Call";
 "login_page_user_name" = "Please enter your username";
-"login_page_login" = "Log In";
+"login_page_login" = "Log in";
 "toast_login_fail" = "Failed to log in. Error code: %d.";
 "login_page_input_user_name_tip" = "The username should be English characters or number.";
 
@@ -27,8 +27,8 @@ Copyright © 2020 Shenzhen Zego Technology Company Limited. All rights reserved.
 "setting_page_settings" = "Settings";
 "setting_page_sdk_version" = "Express SDK Version";
 "setting_page_zim_sdk_version" = "ZIM SDK Version";
-"setting_page__version" = "APP Version";
-"setting_page_terms_of_service" = "Terms of service";
+"setting_page__version" = "App Version";
+"setting_page_terms_of_service" = "Terms of Use";
 "setting_page_privacy_policy" = "Privacy Policy";
 "setting_page_upload_log" = "Upload logs";
 "toast_upload_log_success" = "Logs uploaded successfully.";
@@ -37,9 +37,10 @@ Copyright © 2020 Shenzhen Zego Technology Company Limited. All rights reserved.
 "toast_logout_fail" = "Failed to log out. Error code: %d.";
 
 "network_reconnect" = "Network error. Reconnecting...";
-"network_connect_failed" = "Network connection failed. Please log out and join again.";
+"network_connect_failed" = "Network connection failed. Please re-login and try again.";
 "network_connect_failed_title" = "Network error.";
 
+"dialog_tips_title" = "Note";
 "dialog_login_page_mic_cant_open" = "The Mic is off.";
 "dialog_login_page_mic_permission" = "Please allow access to your microphone to continue.";
 "dialog_login_page_go_to_settings" = "Go to Settings";
@@ -52,7 +53,7 @@ Copyright © 2020 Shenzhen Zego Technology Company Limited. All rights reserved.
 "welcome_page_get_more" = "Get more";
 "welcome_page_contact_us" = "Contact us";
 
-"call_page_call_fail" = "Failed to call, Error code: %d.";
+"call_page_call_fail" = "Call failed. Error code: %d.";
 "call_page_status_calling" = "Calling…";
 "call_page_status_completed" = "Completed";
 "call_page_status_canceld" = "Canceled";
@@ -64,6 +65,21 @@ Copyright © 2020 Shenzhen Zego Technology Company Limited. All rights reserved.
 "call_page_call_quality_poor" = "The call quality is poor…";
 "call_page_call_disconnected" = "The call has been disconnected, please wait. ";
 
-"call_user_list_refresh" = "user_list_page_refresh";
+"call_user_list_refresh" = "Refreshing";
+
+"banner_call_desc" = "Deliver exceptional real-time voice and video communications regardless of distance";
+
+"zego_call" = "ZEGO Call";
+"online" = "Online";
+"no_online_user" = "No users online";
+"zego_video_call" = "ZEGO Video Call";
+"zego_voice_call" = "ZEGO Voice Call";
+"zego_voice_call" = "ZEGO Voice Call";
+"mic_operate_failed" = "Failed to enable/disable the microphone. Error code: %d";
+"camera_operate_failed" = "Failed to enable/disable the camera. Error code: %d";
+"cancel_call_failed" = "Failed to cancel the call. Error code: %d";
+"end_call_failed" = "Failed to end the call. Error code: %d";
+"me" = "Me";
+"create_user_failed" = "Failed to create user. Error code: %d";
 
 

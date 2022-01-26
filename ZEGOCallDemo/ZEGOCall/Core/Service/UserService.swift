@@ -137,6 +137,7 @@ class UserService: NSObject {
     func logout() {
         ZIMManager.shared.zim?.logout()
         RoomManager.shared.logoutRtcRoom(true)
+        UserDefaults.standard.removeObject(forKey: USERID_KEY)
     }
     
     func callToUser(_ userID: String, token:String, type: CallType, callback: RoomCallback?) {
@@ -189,12 +190,12 @@ class UserService: NSObject {
                     ZegoExpressEngine.shared().startPublishingStream(streamID)
                     ///send peer message
                     self.sendPeerMesssage(userID, callType: nil, commandType: .reply, responseType: responseType, callback: callback)
-                case .failure(let code):
+                case .failure(_):
                     break
                 }
             }
         } else {
-            sendPeerMesssage(userID, callType: nil, commandType: .reply, responseType: .reject, callback: nil)
+            sendPeerMesssage(userID, callType: nil, commandType: .reply, responseType: .reject, callback: callback)
         }
     }
     

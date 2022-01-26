@@ -203,7 +203,6 @@ class CallMainVC: UIViewController {
         }
         callQualityChange(netWorkStatus, connectedStatus: callConnected)
         timeLabel.isHidden = true
-        callStatusLabel.isHidden = true
         bottomViewHeight.constant = 60
         toBottomDistance.constant = 52.5
         preciewContentView.isHidden = true
@@ -211,7 +210,6 @@ class CallMainVC: UIViewController {
         callWaitTime = 0
         switch statusType {
         case .take:
-            callStatusLabel.isHidden = false
             takeView.isHidden = false
             acceptView.isHidden = true
             phoneView.isHidden = true
@@ -224,7 +222,6 @@ class CallMainVC: UIViewController {
         case .accept:
             bottomViewHeight.constant = 85
             toBottomDistance.constant = 28
-            callStatusLabel.isHidden = false
             takeView.isHidden = true
             acceptView.isHidden = false
             phoneView.isHidden = true
@@ -323,7 +320,7 @@ class CallMainVC: UIViewController {
     
     func setPreviewUserName() {
         if let otherUserRoomInfo = otherUserRoomInfo {
-            previewNameLabel.text = mainStreamUserID == localUserInfo.userID ? otherUserRoomInfo.userName : "me"
+            previewNameLabel.text = mainStreamUserID == localUserInfo.userID ? otherUserRoomInfo.userName : ZGLocalizedString("me")
         } else {
             previewNameLabel.text = callUser?.userName
         }
@@ -383,6 +380,10 @@ class CallMainVC: UIViewController {
                     smallBgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: localUserInfo.userName)))
                     bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: callUser?.userName)))
                 }
+            } else if statusType == .accept {
+                backGroundImage.isHidden = false
+                smallHeadImage.isHidden = true
+                bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: callUser?.userName)))
             } else {
                 backGroundImage.isHidden = vcType == .video
                 smallHeadImage.isHidden = false

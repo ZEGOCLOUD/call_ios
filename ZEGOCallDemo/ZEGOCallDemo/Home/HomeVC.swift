@@ -24,6 +24,16 @@ class HomeVC: UIViewController {
             moreButton.setTitle(ZGLocalizedString("welcome_page_get_more"), for: .normal)
         }
     }
+    @IBOutlet weak var bannerDescLabel: UILabel! {
+        didSet {
+            bannerDescLabel.text = ZGLocalizedString("banner_call_desc")
+        }
+    }
+    @IBOutlet weak var bannerNameLabel: UILabel! {
+        didSet {
+            bannerNameLabel.text = ZGLocalizedString("zego_call")
+        }
+    }
     
     
     
@@ -36,6 +46,18 @@ class HomeVC: UIViewController {
         let tapClick:UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(tap))
         backView.addGestureRecognizer(tapClick)
         configUI()
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+    }
+    
+    @objc func applicationDidBecomeActive(notification: NSNotification) {
+        if let oldUser = UserDefaults.standard.object(forKey: USERID_KEY) as? Dictionary<String, String> {
+            let userInfo: UserInfo = UserInfo()
+            userInfo.userID = oldUser["userID"]
+            userInfo.userName = oldUser["userName"]
+            if let token = AppToken.getZIMToken(withUserID: userInfo.userID) {
+                RoomManager.shared.userService.login(userInfo, token, callback: nil)
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

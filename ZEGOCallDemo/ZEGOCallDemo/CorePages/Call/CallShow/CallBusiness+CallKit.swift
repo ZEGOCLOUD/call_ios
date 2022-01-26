@@ -35,6 +35,7 @@ extension CallBusiness {
                 }
             } else if currentCallStatus == .wait {
                 guard let currentCallUserInfo = currentCallUserInfo else { return }
+                if self.getCurrentViewController() is CallMainVC { return }
                 let callTipView: CallAcceptTipView = CallAcceptTipView.showTipView(callKitCallType, userInfo: currentCallUserInfo)
                 currentTipView = callTipView
                 callTipView.delegate = self
@@ -52,6 +53,7 @@ extension CallBusiness {
             }
         }
         appIsActive = false
+        audioPlayer?.stop()
     }
     
     
@@ -98,7 +100,6 @@ extension CallBusiness {
     @objc func callKitEnd() {
         if appIsActive { return }
         if currentCallStatus == .calling {
-            guard let userID = currentCallUserInfo?.userID else { return }
             RoomManager.shared.userService.endCall() { result in
                 switch result {
                 case .success():

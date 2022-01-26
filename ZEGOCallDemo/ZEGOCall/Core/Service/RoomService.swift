@@ -47,11 +47,7 @@ class RoomService: NSObject {
                 RoomManager.shared.loginRtcRoom(with: token)
             }
             else {
-                if error.code == .ZIMErrorCodeCreateExistRoom {
-                    result = .failure(.roomExisted)
-                } else {
-                    result = .failure(.other(Int32(error.code.rawValue)))
-                }
+                result = .failure(.other(Int32(error.code.rawValue)))
             }
             
             guard let callback = callback else { return }
@@ -66,11 +62,7 @@ class RoomService: NSObject {
         ZIMManager.shared.zim?.joinRoom(roomID, callback: { fullRoomInfo, error in
             if error.code != .ZIMErrorCodeSuccess {
                 guard let callback = callback else { return }
-                if error.code == .ZIMErrorCodeRoomNotExist {
-                    callback(.failure(.roomNotFound))
-                } else {
-                    callback(.failure(.other(Int32(error.code.rawValue))))
-                }
+                callback(.failure(.other(Int32(error.code.rawValue))))
                 return
             }
             RoomManager.shared.userService.roomService.roomInfo.roomID = fullRoomInfo.baseInfo.roomID

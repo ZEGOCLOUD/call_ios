@@ -46,10 +46,10 @@ class CallAcceptTipView: UIView {
         tipView.tipType = type
         switch type {
         case .audio:
-            tipView.messageLabel.text = "ZEGO Voice Call"
+            tipView.messageLabel.text = ZGLocalizedString("zego_video_call")
             tipView.acceptButton.setImage(UIImage(named: "call_accept_icon"), for: .normal)
         case .video:
-            tipView.messageLabel.text = "ZEGO Video Call"
+            tipView.messageLabel.text = ZGLocalizedString("zego_voice_call")
             tipView.acceptButton.setImage(UIImage(named: "call_video_icon"), for: .normal)
         }
         tipView.show()
