@@ -320,7 +320,7 @@ class CallMainVC: UIViewController {
     
     func setPreviewUserName() {
         if let otherUserRoomInfo = otherUserRoomInfo {
-            previewNameLabel.text = mainStreamUserID == localUserInfo.userID ? otherUserRoomInfo.userName : "me"
+            previewNameLabel.text = mainStreamUserID == localUserInfo.userID ? otherUserRoomInfo.userName : ZGLocalizedString("me")
         } else {
             previewNameLabel.text = callUser?.userName
         }

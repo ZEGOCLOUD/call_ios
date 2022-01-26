@@ -43,8 +43,8 @@
 
 "call_page_call_fail" = "呼叫失败，错误码：%d";
 "call_page_status_calling" = "呼叫中...";
-"call_page_status_completed" = "完成";
-"call_page_status_canceld" = "取消通话";
+"call_page_status_completed" = "已完成";
+"call_page_status_canceld" = "已取消";
 "call_page_status_missed" = "未接听";
 "call_page_status_declined" = "已拒绝";
 "call_page_action_accept" = "接受";
@@ -54,3 +54,17 @@
 "call_page_call_disconnected" = "当前通话断线,请等待.";
 
 "call_user_list_refresh" = "用户列表刷新";
+
+"banner_call_desc" = "Deliver exceptional real-time voice and video communications regardless of distance";
+
+"zego_call" = "ZEGO Call";
+"online" = "在线";
+"no_online_user" = "没有用户在线";
+"zego_video_call" = "视频呼叫";
+"zego_voice_call" = "音频呼叫";
+"mic_operate_failed" = "开关麦克风失败，错误码：%d";
+"camera_operate_failed" = "开关摄像头失败，错误码：%d";
+"cancel_call_failed" = "取消呼叫失败，错误码: %d";
+"end_call_failed" = "结束通话失败，错误码: %d";
+"me" = "我";
+"create_user_failed" = "创建用户失败,错误码 :%d";

@@ -328,6 +328,8 @@
                     </view>
                     <connections>
                         <outlet property="backView" destination="tKv-bc-wQY" id="6BJ-3O-vXX"/>
+                        <outlet property="bannerDescLabel" destination="pgT-Ib-zfE" id="rUT-zT-m6P"/>
+                        <outlet property="bannerNameLabel" destination="mIu-RC-Sx6" id="Ioo-Ej-9Hd"/>
                         <outlet property="contactUsButton" destination="al6-vk-GhU" id="Fjg-mV-K0t"/>
                         <outlet property="headImage" destination="9xP-TC-EkB" id="FXO-bs-boz"/>
                         <outlet property="moreButton" destination="kJU-Jl-ARF" id="Sec-it-Qfd"/>

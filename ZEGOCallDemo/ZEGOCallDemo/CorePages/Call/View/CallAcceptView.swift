@@ -11,8 +11,16 @@ class CallAcceptView: CallBaseView {
     
     @IBOutlet weak var acceptButton: UIButton!
     @IBOutlet weak var declineButton: UIButton!
-    @IBOutlet weak var acceptLabel: UILabel!
-    @IBOutlet weak var declineLabel: UILabel!
+    @IBOutlet weak var acceptLabel: UILabel! {
+        didSet {
+            acceptLabel.text = ZGLocalizedString("call_page_action_accept")
+        }
+    }
+    @IBOutlet weak var declineLabel: UILabel! {
+        didSet {
+            declineLabel.text = ZGLocalizedString("call_page_action_decline")
+        }
+    }
     
     func setCallAcceptViewType(_ isVideo: Bool = false) {
         if isVideo {

@@ -10,8 +10,18 @@ import UIKit
 class OnlineUserListVC: UIViewController {
     
     
+    
+    @IBOutlet weak var onlineLabel: UILabel!{
+        didSet {
+            onlineLabel.text = ZGLocalizedString("online")
+        }
+    }
     @IBOutlet weak var emptyImage: UIImageView!
-    @IBOutlet weak var emptyLabel: UILabel!
+    @IBOutlet weak var emptyLabel: UILabel! {
+        didSet {
+            emptyLabel.text = ZGLocalizedString("no_online_user")
+        }
+    }
     @IBOutlet weak var backLabel: UILabel!
     
     

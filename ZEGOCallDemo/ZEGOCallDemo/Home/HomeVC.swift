@@ -24,6 +24,16 @@ class HomeVC: UIViewController {
             moreButton.setTitle(ZGLocalizedString("welcome_page_get_more"), for: .normal)
         }
     }
+    @IBOutlet weak var bannerDescLabel: UILabel! {
+        didSet {
+            bannerDescLabel.text = ZGLocalizedString("banner_call_desc")
+        }
+    }
+    @IBOutlet weak var bannerNameLabel: UILabel! {
+        didSet {
+            bannerNameLabel.text = ZGLocalizedString("zego_call")
+        }
+    }
     
     
     

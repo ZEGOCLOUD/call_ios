@@ -191,7 +191,7 @@ class UserService: NSObject {
                     ZegoExpressEngine.shared().startPublishingStream(streamID)
                     ///send peer message
                     self.sendPeerMesssage(userID, callType: nil, commandType: .reply, responseType: responseType, callback: callback)
-                case .failure(let code):
+                case .failure(_):
                     break
                 }
             }

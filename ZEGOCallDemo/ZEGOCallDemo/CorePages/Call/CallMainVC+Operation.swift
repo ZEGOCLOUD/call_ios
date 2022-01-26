@@ -27,8 +27,9 @@ extension CallMainVC: CallActionDelegate {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             self.dismiss(animated: true, completion: nil)
                         }
-                    case .failure(_):
-                        break
+                    case .failure(let error):
+                        let message = String(format: ZGLocalizedString("end_call_failed"), error.code)
+                        TipView.showWarn(message)
                     }
                 }
             } else {
@@ -52,8 +53,9 @@ extension CallMainVC: CallActionDelegate {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self.dismiss(animated: true, completion: nil)
                 }
-            case .failure(_):
-                break
+            case .failure(let error):
+                let message = String(format: ZGLocalizedString("cancel_call_failed"), error.code)
+                TipView.showWarn(message)
             }
         }
     }

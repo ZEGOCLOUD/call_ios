@@ -252,6 +252,7 @@
                         <outlet property="backLabel" destination="sOf-TY-M2s" id="4FS-AO-Xc6"/>
                         <outlet property="emptyImage" destination="OjA-qy-RZJ" id="dRr-wM-LPu"/>
                         <outlet property="emptyLabel" destination="PNa-NN-jw9" id="IzF-7L-phr"/>
+                        <outlet property="onlineLabel" destination="EHj-jB-wYK" id="wdL-0F-G0s"/>
                         <outlet property="userListTableView" destination="vQD-FX-PSW" id="ICx-sC-SdJ"/>
                     </connections>
                 </viewController>
