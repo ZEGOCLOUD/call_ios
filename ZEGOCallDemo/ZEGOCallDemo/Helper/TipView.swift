@@ -39,7 +39,7 @@ class TipView: UIView {
         tipView.autoDismiss = autoDismiss
         switch type {
         case .warn:
-            tipView.backGroundView.backgroundColor = ZegoColor("BD5454")
+            tipView.backGroundView.backgroundColor = ZegoColor("FF4A50")
         case .tip:
             tipView.backGroundView.backgroundColor = ZegoColor("55BC9E")
         }
