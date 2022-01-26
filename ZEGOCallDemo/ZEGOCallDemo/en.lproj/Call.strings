@@ -16,7 +16,7 @@ Copyright © 2020 Shenzhen Zego Technology Company Limited. All rights reserved.
 */
 
 "app_name" = "ZEGO Call";
-"login_page_title" = "Welcome to try\n ZEGO Call";
+"login_page_title" = "Welcome to experience\nZEGO Call";
 "login_page_user_name" = "Please enter your username";
 "login_page_login" = "Log In";
 "toast_login_fail" = "Failed to log in. Error code: %d.";

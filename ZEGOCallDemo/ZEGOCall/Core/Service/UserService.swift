@@ -143,7 +143,7 @@ class UserService: NSObject {
         guard let myUserID = localUserInfo?.userID else { return }
         roomService.createRoom(myUserID, localUserInfo?.userName ?? "", token) { [self] result in
             HUDHelper.hideNetworkLoading()
-            localUserRoomInfo = UserInfo(myUserID,localUserInfo?.userName ?? "") //UserRoomInfo(myUserID,localUserInfo?.userName ?? "")
+            localUserRoomInfo = UserInfo(myUserID,localUserInfo?.userName ?? "")
             switch result {
             case .success():
                 sendPeerMesssage(userID, callType: type, commandType: .call, responseType: nil) { result in
