@@ -43,7 +43,6 @@ extension CallMainVC: CallActionDelegate {
             switch result {
             case .success():
                 CallBusiness.shared.audioPlayer?.stop()
-                CallBusiness.shared.audioPlayer?.stop()
                 CallBusiness.shared.currentCallStatus = .free
                 if isTimeout {
                     self.changeCallStatusText(.miss)

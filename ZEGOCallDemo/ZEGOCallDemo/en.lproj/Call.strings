@@ -74,7 +74,6 @@ Copyright © 2020 Shenzhen Zego Technology Company Limited. All rights reserved.
 "no_online_user" = "No users online";
 "zego_video_call" = "ZEGO Video Call";
 "zego_voice_call" = "ZEGO Voice Call";
-"zego_voice_call" = "ZEGO Voice Call";
 "mic_operate_failed" = "Failed to enable/disable the microphone. Error code: %d";
 "camera_operate_failed" = "Failed to enable/disable the camera. Error code: %d";
 "cancel_call_failed" = "Failed to cancel the call. Error code: %d";
