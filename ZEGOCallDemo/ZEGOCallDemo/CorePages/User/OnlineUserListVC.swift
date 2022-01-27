@@ -74,7 +74,9 @@ class OnlineUserListVC: UIViewController {
             case .failure(_):
                 break
             }
-            self.refreshControl.endRefreshing()
+            DispatchQueue.main.async {
+                self.refreshControl.endRefreshing()
+            }
         }
     }
     

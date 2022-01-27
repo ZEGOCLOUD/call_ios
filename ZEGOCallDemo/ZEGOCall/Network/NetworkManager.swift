@@ -49,11 +49,18 @@ class NetworkManager: NSObject, RequestSender {
             request.setValue(value, forHTTPHeaderField: key)
         }
         let task = session.dataTask(with: request, completionHandler:{(data, res, error) in
-            guard let reponseData = data else { return }
-            guard let responseDic = try? JSONSerialization.jsonObject(with: reponseData, options: .mutableContainers) as? [String : Any] else {
+            guard let reponseData = data else {
+                handler(nil)
                 return
             }
-            guard let response = T.Response.parse(responseDic) else { return }
+            guard let responseDic = try? JSONSerialization.jsonObject(with: reponseData, options: .mutableContainers) as? [String : Any] else {
+                handler(nil)
+                return
+            }
+            guard let response = T.Response.parse(responseDic) else {
+                handler(nil)
+                return
+            }
             
             DispatchQueue.main.async {
                 handler(response)
