@@ -125,9 +125,8 @@ extension CallBusiness {
     
     @objc func muteSpeaker() {
         if let localUserInfo = RoomManager.shared.userService.localUserRoomInfo {
-            let voice = localUserInfo.voice ?? true
-            localUserInfo.voice = !voice
-            RoomManager.shared.userService.enableSpeaker(voice)
+            let mic = localUserInfo.mic
+            localUserInfo.mic = !mic
         }
     }
     
