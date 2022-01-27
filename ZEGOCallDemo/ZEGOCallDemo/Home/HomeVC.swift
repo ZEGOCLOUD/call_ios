@@ -53,7 +53,7 @@ class HomeVC: UIViewController {
     @objc func applicationDidBecomeActive(notification: NSNotification) {
         let nowTime = Int(Date().timeIntervalSince1970)
         if currentTimeStamp > 0 && nowTime - currentTimeStamp > 10 {
-            if let oldUser = UserDefaults.standard.object(forKey: LocalUserID()) as? Dictionary<String, String> {
+            if let oldUser = UserDefaults.standard.object(forKey: USER_ID_KEY) as? Dictionary<String, String> {
                 let userInfo: UserInfo = UserInfo()
                 userInfo.userID = oldUser["userID"]
                 userInfo.userName = oldUser["userName"]

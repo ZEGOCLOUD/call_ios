@@ -63,7 +63,7 @@ Copyright © 2020 Shenzhen Zego Technology Company Limited. All rights reserved.
 "call_page_action_decline" = "Declined";
 "call_page_call_status_fail" = "The call failed, Please try again later.";
 "call_page_call_quality_poor" = "The call quality is poor…";
-"call_page_call_disconnected" = "The call has been disconnected, please wait. ";
+"call_page_call_disconnected" = "The call has dropped. Please wait.";
 
 "call_user_list_refresh" = "Refreshing";
 
