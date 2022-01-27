@@ -13,6 +13,7 @@
             <connections>
                 <outlet property="backGroundImage" destination="jUE-Ex-rtP" id="uEa-G7-nQV"/>
                 <outlet property="backGroundView" destination="UGq-gf-GMi" id="DdN-Ad-c57"/>
+                <outlet property="bottomMaskImageView" destination="y1f-2k-huW" id="SCF-MV-zkv"/>
                 <outlet property="bottomView" destination="WpY-gi-mHI" id="v09-DO-5wM"/>
                 <outlet property="bottomViewHeight" destination="2cQ-s2-tmF" id="yud-RR-4Sy"/>
                 <outlet property="callQualityLabel" destination="FXF-MN-Utr" id="pGW-oM-U2I"/>
@@ -26,6 +27,7 @@
                 <outlet property="takeStatusFlipButton" destination="byE-AS-eJC" id="Zfc-pd-JFW"/>
                 <outlet property="timeLabel" destination="hhF-a9-GgM" id="oEf-0M-AOr"/>
                 <outlet property="toBottomDistance" destination="xXE-Kk-AW1" id="ZIF-d7-ybd"/>
+                <outlet property="topMaksImageView" destination="gnT-4Q-GCD" id="GkG-AX-F9b"/>
                 <outlet property="userNameLabel" destination="BYn-4l-wvv" id="zgt-SF-Ttr"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -44,6 +46,18 @@
                         </view>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pic_haed_1_big" translatesAutoresizingMaskIntoConstraints="NO" id="jUE-Ex-rtP">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        </imageView>
+                        <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="call_top_mask" translatesAutoresizingMaskIntoConstraints="NO" id="gnT-4Q-GCD">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="75"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="75" id="Q8E-cX-3Ip"/>
+                            </constraints>
+                        </imageView>
+                        <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="call_bottom_mask" translatesAutoresizingMaskIntoConstraints="NO" id="y1f-2k-huW">
+                            <rect key="frame" x="0.0" y="762" width="414" height="134"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="134" id="746-jH-aec"/>
+                            </constraints>
                         </imageView>
                         <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hhF-a9-GgM">
                             <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -169,9 +183,11 @@
                         <constraint firstItem="WpY-gi-mHI" firstAttribute="leading" secondItem="UGq-gf-GMi" secondAttribute="leading" id="74c-Zr-6Wd"/>
                         <constraint firstAttribute="trailing" secondItem="jUE-Ex-rtP" secondAttribute="trailing" id="80K-3T-nNk"/>
                         <constraint firstAttribute="bottom" secondItem="jUE-Ex-rtP" secondAttribute="bottom" id="9fH-xt-0Rv"/>
+                        <constraint firstItem="gnT-4Q-GCD" firstAttribute="top" secondItem="UGq-gf-GMi" secondAttribute="top" id="AML-SF-1L8"/>
                         <constraint firstItem="jUE-Ex-rtP" firstAttribute="top" secondItem="UGq-gf-GMi" secondAttribute="top" id="C0i-aJ-lMK"/>
                         <constraint firstItem="X9Y-cC-uIR" firstAttribute="top" secondItem="UGq-gf-GMi" secondAttribute="top" constant="59" id="DUO-0j-hpT"/>
                         <constraint firstAttribute="bottom" secondItem="k3E-XM-kJs" secondAttribute="bottom" id="G4G-wm-Weu"/>
+                        <constraint firstAttribute="trailing" secondItem="y1f-2k-huW" secondAttribute="trailing" id="Gd6-RR-9pI"/>
                         <constraint firstItem="k3E-XM-kJs" firstAttribute="top" secondItem="UGq-gf-GMi" secondAttribute="top" id="HYF-N3-8Bf"/>
                         <constraint firstAttribute="trailing" secondItem="X9Y-cC-uIR" secondAttribute="trailing" constant="8" id="JMb-LE-i06"/>
                         <constraint firstAttribute="trailing" secondItem="FXF-MN-Utr" secondAttribute="trailing" constant="60" id="KSv-Jq-0Wc"/>
@@ -184,13 +200,17 @@
                         <constraint firstAttribute="trailing" secondItem="7wa-uL-Azy" secondAttribute="trailing" constant="37" id="Xca-PI-WcI"/>
                         <constraint firstAttribute="trailing" secondItem="BYn-4l-wvv" secondAttribute="trailing" constant="74" id="YQl-vh-USe"/>
                         <constraint firstAttribute="trailing" secondItem="k3E-XM-kJs" secondAttribute="trailing" id="ZEE-RE-Tde"/>
+                        <constraint firstItem="y1f-2k-huW" firstAttribute="leading" secondItem="UGq-gf-GMi" secondAttribute="leading" id="ZHL-kd-vVx"/>
                         <constraint firstItem="BYn-4l-wvv" firstAttribute="leading" secondItem="UGq-gf-GMi" secondAttribute="leading" constant="74" id="aaa-Rp-ph9"/>
+                        <constraint firstAttribute="bottom" secondItem="y1f-2k-huW" secondAttribute="bottom" id="c5p-It-NcL"/>
+                        <constraint firstAttribute="trailing" secondItem="gnT-4Q-GCD" secondAttribute="trailing" id="dk8-Ig-gJb"/>
                         <constraint firstItem="7wa-uL-Azy" firstAttribute="leading" secondItem="UGq-gf-GMi" secondAttribute="leading" constant="37" id="dvX-Q2-Mfs"/>
                         <constraint firstItem="5G2-Zx-Cu3" firstAttribute="top" secondItem="hhF-a9-GgM" secondAttribute="bottom" constant="70" id="fb9-vb-zDR"/>
                         <constraint firstItem="k3E-XM-kJs" firstAttribute="leading" secondItem="UGq-gf-GMi" secondAttribute="leading" id="hhm-Al-AS6"/>
                         <constraint firstItem="5G2-Zx-Cu3" firstAttribute="centerX" secondItem="UGq-gf-GMi" secondAttribute="centerX" id="ihB-TO-b32"/>
                         <constraint firstItem="byE-AS-eJC" firstAttribute="top" secondItem="UGq-gf-GMi" secondAttribute="top" constant="58" id="no3-7U-hKi"/>
                         <constraint firstAttribute="trailing" secondItem="hhF-a9-GgM" secondAttribute="trailing" id="rDU-NX-bC1"/>
+                        <constraint firstItem="gnT-4Q-GCD" firstAttribute="leading" secondItem="UGq-gf-GMi" secondAttribute="leading" id="um0-p4-rb7"/>
                         <constraint firstItem="7wa-uL-Azy" firstAttribute="top" secondItem="BYn-4l-wvv" secondAttribute="bottom" constant="23.5" id="vtK-s4-p0t"/>
                         <constraint firstAttribute="bottom" secondItem="WpY-gi-mHI" secondAttribute="bottom" constant="52.5" id="xXE-Kk-AW1"/>
                     </constraints>
@@ -208,7 +228,9 @@
         </view>
     </objects>
     <resources>
+        <image name="call_bottom_mask" width="375" height="134"/>
         <image name="call_take_status_flip" width="26" height="26"/>
+        <image name="call_top_mask" width="375" height="75"/>
         <image name="pic_haed_1_big" width="130" height="231.5"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

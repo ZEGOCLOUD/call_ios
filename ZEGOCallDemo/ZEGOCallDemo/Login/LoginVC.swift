@@ -69,7 +69,7 @@ class LoginVC: UIViewController {
         self.view.endEditing(true)
     }
     
-    private func applicationHasMicAndCameraAccess() {
+    func applicationHasMicAndCameraAccess() {
         // not determined
         if !AuthorizedCheck.isCameraAuthorizationDetermined(){
             AuthorizedCheck.takeCameraAuthorityStatus { result in
@@ -166,7 +166,7 @@ class LoginVC: UIViewController {
         }
         let userInfo = UserInfo()
         userInfo.userName = myUserName
-        if let oldUser = UserDefaults.standard.object(forKey: USERID_KEY) as? Dictionary<String, String> {
+        if let oldUser = UserDefaults.standard.object(forKey: LocalUserID()) as? Dictionary<String, String> {
             userInfo.userID = oldUser["userID"]
             if let token = AppToken.getZIMToken(withUserID: oldUser["userID"]) {
                 userLogin(userInfo, token: token)
@@ -200,7 +200,8 @@ class LoginVC: UIViewController {
                 self.userNameTextField.text = ""
                 self.myUserName = ""
                 self.setLoginButtonStatus()
-                UserDefaults.standard.set(["userID":userInfo.userID, "userName":userInfo.userName], forKey: USERID_KEY)
+                UserDefaults.standard.set(false, forKey: AppIsLogout())
+                UserDefaults.standard.set(["userID":userInfo.userID, "userName":userInfo.userName], forKey: LocalUserID())
                 let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
                 self.navigationController?.pushViewController(vc, animated: true)
             case .failure(let error):

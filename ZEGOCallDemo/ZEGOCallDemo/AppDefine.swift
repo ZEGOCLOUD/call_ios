@@ -15,3 +15,12 @@ func KeyWindow() -> UIWindow {
     let window: UIWindow = UIApplication.shared.windows.filter({ $0.isKeyWindow }).last!
     return window
 }
+
+
+func LocalUserID() -> String {
+    return "USER_ID_KEY"
+}
+
+func AppIsLogout() -> String {
+    return "IS_LOGOUT_KEY"
+}

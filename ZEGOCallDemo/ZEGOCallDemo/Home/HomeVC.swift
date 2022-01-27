@@ -36,7 +36,7 @@ class HomeVC: UIViewController {
     }
     
     
-    
+    var currentTimeStamp:Int = 0
     let appDelegate = (UIApplication.shared.delegate) as! AppDelegate
     
     override func viewDidLoad() {
@@ -47,17 +47,32 @@ class HomeVC: UIViewController {
         backView.addGestureRecognizer(tapClick)
         configUI()
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
     
     @objc func applicationDidBecomeActive(notification: NSNotification) {
-        if let oldUser = UserDefaults.standard.object(forKey: USERID_KEY) as? Dictionary<String, String> {
-            let userInfo: UserInfo = UserInfo()
-            userInfo.userID = oldUser["userID"]
-            userInfo.userName = oldUser["userName"]
-            if let token = AppToken.getZIMToken(withUserID: userInfo.userID) {
-                RoomManager.shared.userService.login(userInfo, token, callback: nil)
+        let nowTime = Int(Date().timeIntervalSince1970)
+        if currentTimeStamp > 0 && nowTime - currentTimeStamp > 10 {
+            if let oldUser = UserDefaults.standard.object(forKey: LocalUserID()) as? Dictionary<String, String> {
+                let userInfo: UserInfo = UserInfo()
+                userInfo.userID = oldUser["userID"]
+                userInfo.userName = oldUser["userName"]
+                if let token = AppToken.getZIMToken(withUserID: userInfo.userID) {
+                    RoomManager.shared.userService.login(userInfo, token) { result in
+                        switch result {
+                        case .success():
+                            break
+                        case .failure(let error):
+                            break
+                        }
+                    }
+                }
             }
         }
+    }
+    
+    @objc func applicationDidEnterBackGround(notification: NSNotification) {
+        currentTimeStamp  = Int(Date().timeIntervalSince1970)
     }
     
     override func viewWillAppear(_ animated: Bool) {

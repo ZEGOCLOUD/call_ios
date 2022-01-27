@@ -8,8 +8,6 @@
 import Foundation
 import UIKit
 
-let USERID_KEY = "USERID_KEY"
-
 struct UserIDReauest: Request {
     var path = "/v1/user/create_user"
     var method: HTTPMethod = .POST

@@ -39,7 +39,9 @@ extension CallMainVC: CallActionDelegate {
     }
     
     func cancelCall(_ userID: String, callType: CallType, isTimeout: Bool = false) {
-        RoomManager.shared.userService.cancelCallToUser(userID: userID) { result in
+        var cancelType: CancelType = .intent
+        if isTimeout { cancelType = .timeout}
+        RoomManager.shared.userService.cancelCallToUser(userID: userID, responeType: cancelType) { result in
             switch result {
             case .success():
                 CallBusiness.shared.audioPlayer?.stop()

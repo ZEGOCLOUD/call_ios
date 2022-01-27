@@ -15,7 +15,12 @@ protocol CallAcceptTipViewDelegate: AnyObject {
 
 class CallAcceptTipView: UIView {
     
-    @IBOutlet weak var headImage: UIImageView!
+    @IBOutlet weak var headImage: UIImageView! {
+        didSet {
+            headImage.layer.masksToBounds = true
+            headImage.layer.cornerRadius = 21
+        }
+    }
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var acceptButton: UIButton!

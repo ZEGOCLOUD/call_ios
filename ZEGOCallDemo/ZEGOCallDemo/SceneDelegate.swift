@@ -59,11 +59,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     
     func setRootViewController() {
-        let rootVC: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginVC") as! LoginVC
+        let rootVC: LoginVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginVC") as! LoginVC
         let nav: UINavigationController = UINavigationController.init(rootViewController: rootVC)
-        let userInfoDic: Dictionary? = UserDefaults.standard.object(forKey: USERID_KEY) as? Dictionary<String, String>
+        let userInfoDic: Dictionary? = UserDefaults.standard.object(forKey: LocalUserID()) as? Dictionary<String, String>
+        self.window?.rootViewController = nav
+        let appIsLogOut = UserDefaults.standard.bool(forKey: AppIsLogout())
+        if appIsLogOut { return }
         if let userInfoDic = userInfoDic {
-            self.window?.rootViewController = nav
+            if !AuthorizedCheck.isCameraAuthorized() || !AuthorizedCheck.isMicrophoneAuthorized() { return }
             let homeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
             rootVC.navigationController?.pushViewController(homeVC, animated: false)
             let userInfo = UserInfo()
@@ -71,8 +74,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             userInfo.userName = userInfoDic["userName"]
             RoomManager.shared.userService.localUserInfo = userInfo
             homeVC.startLogin(userInfo)
-        } else {
-            window?.rootViewController = nav
         }
     }
 
