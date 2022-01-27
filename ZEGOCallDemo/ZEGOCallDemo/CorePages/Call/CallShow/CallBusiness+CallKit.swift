@@ -70,8 +70,13 @@ extension CallBusiness {
                             guard let userInfo = self.currentCallUserInfo else { return }
                             callVC.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
                             if let controller = self.getCurrentViewController() {
-                                controller.present(callVC, animated: true) {
+                                if controller is CallMainVC {
+                                    self.currentCallVC?.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
                                     self.startPlayingStream(userID)
+                                } else {
+                                    controller.present(callVC, animated: true) {
+                                        self.startPlayingStream(userID)
+                                    }
                                 }
                             }
                         } else {

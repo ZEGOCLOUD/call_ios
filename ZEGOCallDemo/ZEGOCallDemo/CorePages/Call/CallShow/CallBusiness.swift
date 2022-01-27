@@ -64,6 +64,7 @@ class CallBusiness: NSObject {
         currentCallStatus = .waitAccept
         currentCallUserInfo = userInfo
         getCurrentViewController()?.present(vc, animated: true, completion: nil)
+        ZegoExpressEngine.shared().useFrontCamera(true)
     }
     
     
@@ -81,6 +82,7 @@ class CallBusiness: NSObject {
                 self.currentCallUserInfo = userInfo
                 if let controller = self.getCurrentViewController() {
                     controller.present(callVC, animated: true) {
+                        ZegoExpressEngine.shared().useFrontCamera(true)
                         self.startPlayingStream(userID)
                     }
                 }

@@ -114,9 +114,9 @@ class LoginVC: UIViewController {
 
     @IBAction func userNameTextFieldDidChanged(_ sender: UITextField) {
         var userName = sender.text! as String
-        if userName.count > 32 {
+        if userName.count > 16 {
             let startIndex = userName.index(userName.startIndex, offsetBy: 0)
-            let index = userName.index(userName.startIndex, offsetBy: 32)
+            let index = userName.index(userName.startIndex, offsetBy: 15)
             userName = String(userName[startIndex...index])
             sender.text = userName
         }
