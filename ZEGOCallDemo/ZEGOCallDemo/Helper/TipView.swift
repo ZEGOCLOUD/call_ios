@@ -33,18 +33,20 @@ class TipView: UIView {
     }
     
     static func showTipView(_ type: TipViewType, message: String, autoDismiss: Bool = true) {
-        let tipView: TipView = UINib(nibName: "TipView", bundle: nil).instantiate(withOwner: nil, options: nil).first as! TipView
-        let y = KeyWindow().safeAreaInsets.top
-        tipView.frame = CGRect.init(x: 0, y: y, width: UIScreen.main.bounds.size.width, height: 70)
-        tipView.autoDismiss = autoDismiss
-        switch type {
-        case .warn:
-            tipView.backGroundView.backgroundColor = ZegoColor("FF4A50")
-        case .tip:
-            tipView.backGroundView.backgroundColor = ZegoColor("55BC9E")
+        DispatchQueue.main.async {
+            let tipView: TipView = UINib(nibName: "TipView", bundle: nil).instantiate(withOwner: nil, options: nil).first as! TipView
+            let y = KeyWindow().safeAreaInsets.top
+            tipView.frame = CGRect.init(x: 0, y: y, width: UIScreen.main.bounds.size.width, height: 70)
+            tipView.autoDismiss = autoDismiss
+            switch type {
+            case .warn:
+                tipView.backGroundView.backgroundColor = ZegoColor("FF4A50")
+            case .tip:
+                tipView.backGroundView.backgroundColor = ZegoColor("55BC9E")
+            }
+            tipView.messageLabel.text = message
+            tipView.show()
         }
-        tipView.messageLabel.text = message
-        tipView.show()
     }
         
     static func dismiss() {
