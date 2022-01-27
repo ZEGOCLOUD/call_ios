@@ -19,7 +19,9 @@ class LoginVC: UIViewController {
     @IBOutlet weak var whiteBackGroundView: UIView!
     @IBOutlet weak var userNameTextField: UITextField! {
         didSet {
-            userNameTextField.placeholder = ZGLocalizedString("login_page_user_name")
+            let attributed: [NSAttributedString.Key: Any] = [.foregroundColor: ZegoColor("BCBCC0")]
+            userNameTextField.attributedPlaceholder = NSAttributedString(string: ZGLocalizedString("login_page_user_name"),
+                                                                         attributes: attributed)
         }
     }
     @IBOutlet weak var inputNameTipLabel: UILabel! {
