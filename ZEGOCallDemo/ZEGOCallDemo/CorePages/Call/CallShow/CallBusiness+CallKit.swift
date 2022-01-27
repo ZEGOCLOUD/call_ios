@@ -125,9 +125,9 @@ extension CallBusiness {
     
     @objc func muteSpeaker() {
         if let localUserInfo = RoomManager.shared.userService.localUserRoomInfo {
-            let voice = localUserInfo.voice ?? false
+            let voice = localUserInfo.voice ?? true
             localUserInfo.voice = !voice
-            ZegoExpressEngine.shared().muteSpeaker(voice)
+            RoomManager.shared.userService.enableSpeaker(voice)
         }
     }
     

@@ -95,7 +95,7 @@ extension CallMainVC: CallActionDelegate {
                     startPlaying(userID, streamView: previewView, type: .video)
                 }
             }
-            ZegoExpressEngine.shared().muteSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? false)
+            RoomManager.shared.userService.enableSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? true)
         }
     }
     
@@ -115,11 +115,12 @@ extension CallMainVC: CallActionDelegate {
     }
     
     func callOpenMic(_ callView: CallBaseView, isOpen: Bool) {
+        
         RoomManager.shared.userService.micOperation(isOpen, callback: nil)
     }
     
     func callOpenVoice(_ callView: CallBaseView, isOpen: Bool) {
-        ZegoExpressEngine.shared().muteSpeaker(isOpen)
+        RoomManager.shared.userService.enableSpeaker(isOpen)
     }
     
     func callOpenVideo(_ callView: CallBaseView, isOpen: Bool) {
@@ -128,7 +129,7 @@ extension CallMainVC: CallActionDelegate {
     
     func callFlipCamera(_ callView: CallBaseView) {
         self.useFrontCamera = !self.useFrontCamera
-        ZegoExpressEngine.shared().useFrontCamera(self.useFrontCamera)
+        RoomManager.shared.userService.useFrontCamera(self.useFrontCamera)
     }
     
     func callDelayDismiss() {

@@ -59,6 +59,7 @@ class UserService: NSObject {
     var localUserRoomInfo: UserInfo?
     var userList = DictionaryArray<String, UserInfo>()
     var roomService: RoomService = RoomService()
+    var deviceService: DeviceService = DeviceService()
     let timer = ZegoTimer(15000)
     
     
@@ -149,6 +150,7 @@ class UserService: NSObject {
         guard let myUserName = localUserInfo?.userName else { return }
         roomService.createRoom(myUserID, myUserName, token) { [self] result in
             localUserRoomInfo = UserInfo(myUserID,myUserName)
+            localUserRoomInfo?.voice = true
             switch result {
             case .success():
                 sendPeerMesssage(userID, callType: type, cancelType: nil, commandType: .call, responseType: nil) { result in
@@ -276,7 +278,7 @@ class UserService: NSObject {
         setRoomAttributes(parameters.0, parameters.1, parameters.2, nil)
         
         // open mic
-        ZegoExpressEngine.shared().muteMicrophone(!open)
+        deviceService.muteMicrophone(!open)
     }
     
     /// camera operation
@@ -289,7 +291,17 @@ class UserService: NSObject {
         setRoomAttributes(parameters.0, parameters.1, parameters.2, nil)
         
         // open camera
-        ZegoExpressEngine.shared().enableCamera(open)
+        deviceService.enableCamera(open)
+    }
+    
+    func enableSpeaker(_ enable: Bool) {
+        /// open voice
+        deviceService.enableSpeaker(enable)
+    }
+    
+    func useFrontCamera(_ enable: Bool) {
+        /// use front camera
+        deviceService.useFrontCamera(enable)
     }
     
     // MARK: private method

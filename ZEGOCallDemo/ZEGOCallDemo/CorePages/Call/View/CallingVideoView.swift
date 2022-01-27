@@ -50,12 +50,12 @@ class CallingVideoView: CallBaseView {
         guard let userInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
         let voice = userInfo.voice ?? false
         userInfo.voice = !voice
-        if userInfo.voice! {
+        if voice {
             voiceButton.setImage(UIImage(named: "call_voice_close_icon"), for: .normal)
         } else {
             voiceButton.setImage(UIImage(named: "call_voice_open_icon"), for: .normal)
         }
-        delegate?.callOpenVoice(self, isOpen: userInfo.voice!)
+        delegate?.callOpenVoice(self, isOpen: !voice)
     }
     
     

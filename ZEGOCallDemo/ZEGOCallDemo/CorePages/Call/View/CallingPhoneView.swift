@@ -31,14 +31,14 @@ class CallingPhoneView: CallBaseView {
     
     @IBAction func voiceButtonClick(_ sender: UIButton) {
         guard let userInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
-        let voice = userInfo.voice ?? false
+        let voice = userInfo.voice ?? true
         userInfo.voice = !voice
-        if userInfo.voice! {
+        if voice {
             voiceButton.setImage(UIImage(named: "call_audio_voice_close"), for: .normal)
         } else {
             voiceButton.setImage(UIImage(named: "call_audio_voice_open"), for: .normal)
         }
-        delegate?.callOpenVoice(self, isOpen: userInfo.voice!)
+        delegate?.callOpenVoice(self, isOpen: !voice)
     }
 
 }

@@ -265,8 +265,7 @@ extension CallBusiness: UserServiceDelegate {
                         self.startPlaying(userID, streamView: vc.previewView, type: .video)
                     }
                 }
-               // ZegoExpressEngine.shared().setAudioRouteToSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? false)
-                ZegoExpressEngine.shared().muteSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? false)
+                RoomManager.shared.userService.enableSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? true)
             }
         }
     }
