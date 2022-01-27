@@ -175,6 +175,9 @@ extension CallBusiness: UserServiceDelegate {
     }
     
     func receiveCancelCall(_ userInfo: UserInfo, type: CancelType) {
+        if (currentCallStatus == .calling || currentCallStatus == .wait) && userInfo.userID != currentCallUserInfo?.userID {
+            return
+        }
         currentCallStatus = .free
         currentCallUserInfo = nil
         endSystemCall()
