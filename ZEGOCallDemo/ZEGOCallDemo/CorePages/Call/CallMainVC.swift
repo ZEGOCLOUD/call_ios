@@ -46,7 +46,6 @@ class CallMainVC: UIViewController {
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var callQualityLabel: UILabel!
     @IBOutlet weak var mainPreviewView: UIView!
-    @IBOutlet weak var audioMaskView: UIView!
     @IBOutlet weak var previewView: UIView! {
         didSet {
             let tapClick = UITapGestureRecognizer.init(target: self, action: #selector(ExchangeVideoStream))
@@ -154,11 +153,11 @@ class CallMainVC: UIViewController {
         vc.statusType = status
         switch type {
         case .audio:
-            vc.bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: vc.localUserInfo.userName)))
+            vc.bgImage = UIImage(named: String.getMakImageName(userName: vc.localUserInfo.userName))
             vc.mainStreamUserID = vc.localUserInfo.userID
         case .video:
-            vc.bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: vc.localUserInfo.userName)))
-            vc.smallBgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: userInfo.userName)))
+            vc.bgImage = UIImage(named: String.getMakImageName(userName: vc.localUserInfo.userName))
+            vc.smallBgImage = UIImage(named: String.getMakImageName(userName: userInfo.userName))
             vc.mainStreamUserID = vc.localUserInfo.userID
             vc.streamUserID = userInfo.userID
         }
@@ -195,10 +194,8 @@ class CallMainVC: UIViewController {
         userNameLabel.text = callUser?.userName
         setPreviewUserName()
         if vcType == .audio {
-            audioMaskView.isHidden = false
             takeStatusFlipButton.isHidden = true
         } else {
-            audioMaskView.isHidden = true
             takeStatusFlipButton.isHidden = false
         }
         callQualityChange(netWorkStatus, connectedStatus: callConnected)
@@ -228,6 +225,7 @@ class CallMainVC: UIViewController {
             videoView.isHidden = true
             headImage.isHidden = false
             takeStatusFlipButton.isHidden = true
+            acceptView.setCallAcceptViewType(vcType == .video)
         case .calling:
             takeView.isHidden = true
             acceptView.isHidden = true
@@ -262,9 +260,13 @@ class CallMainVC: UIViewController {
         switch type {
         case .audio:
             mainStreamUserID = localUserInfo.userID
-            bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: localUserInfo.userName)))
+            bgImage = UIImage(named: String.getMakImageName(userName: localUserInfo.userName))
         case .video:
-            bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: localUserInfo.userName)))
+            if status == .accept || status == .take {
+                bgImage = UIImage(named: String.getMakImageName(userName: localUserInfo.userName))
+            } else {
+                bgImage = UIImage(named: String.getCallCoverImageName(userName: localUserInfo.userName))
+            }
             if statusType != status {
                 mainStreamUserID = localUserInfo.userID
                 streamUserID = userInfo.userID
@@ -302,16 +304,16 @@ class CallMainVC: UIViewController {
         if !userRoomInfo.camera {
             if userRoomInfo.userID == mainStreamUserID {
                 backGroundImage.isHidden = false
-                bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: userRoomInfo.userName)))
+                bgImage = UIImage(named: String.getCallCoverImageName(userName: userRoomInfo.userName))
                 backGroundImage.image = bgImage
             } else if userRoomInfo.userID == streamUserID {
                 smallHeadImage.isHidden = false
-                smallBgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: userRoomInfo.userName)))
+                smallBgImage = UIImage(named: String.getCallCoverImageName(userName: userRoomInfo.userName))
                 smallHeadImage.image = smallBgImage
             }
         } else {
             if userRoomInfo.userID == mainStreamUserID {
-                backGroundImage.isHidden = true
+                backGroundImage.isHidden = vcType == .audio ? false : true
             } else if userRoomInfo.userID == streamUserID {
                 smallHeadImage.isHidden = true
             }
@@ -355,7 +357,7 @@ class CallMainVC: UIViewController {
         if vcType == .audio {
             backGroundImage.isHidden = false
             smallHeadImage.isHidden = true
-            bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: callUser?.userName)))
+            bgImage = UIImage(named: String.getMakImageName(userName: callUser?.userName))
         } else {
             if statusType == .calling {
                 if localUserID == mainStreamUserID {
@@ -367,8 +369,8 @@ class CallMainVC: UIViewController {
                     } else {
                         smallHeadImage.isHidden = true
                     }
-                    bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: localUserInfo.userName)))
-                    smallBgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: callUser?.userName)))
+                    bgImage = UIImage(named: String.getCallCoverImageName(userName: localUserInfo.userName))
+                    smallBgImage = UIImage(named: String.getCallCoverImageName(userName: callUser?.userName))
                 } else {
                     if let localUserRoomInfo = RoomManager.shared.userService.localUserRoomInfo {
                         smallHeadImage.isHidden = localUserRoomInfo.camera
@@ -378,18 +380,18 @@ class CallMainVC: UIViewController {
                     } else {
                         backGroundImage.isHidden = false
                     }
-                    smallBgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: localUserInfo.userName)))
-                    bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: callUser?.userName)))
+                    smallBgImage = UIImage(named: String.getCallCoverImageName(userName: localUserInfo.userName))
+                    bgImage = UIImage(named: String.getCallCoverImageName(userName: callUser?.userName))
                 }
             } else if statusType == .accept {
                 backGroundImage.isHidden = false
                 smallHeadImage.isHidden = true
-                bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: callUser?.userName)))
+                bgImage =  UIImage(named: String.getMakImageName(userName: callUser?.userName))
             } else {
                 backGroundImage.isHidden = vcType == .video
                 smallHeadImage.isHidden = false
-                bgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: localUserInfo.userName)))
-                smallBgImage = UIImage.getBlurImage(UIImage(named: String.getCallCoverImageName(userName: callUser?.userName)))
+                bgImage = UIImage(named: String.getMakImageName(userName: localUserInfo.userName))
+                smallBgImage = UIImage(named: String.getMakImageName(userName: callUser?.userName))
             }
         }
     }
