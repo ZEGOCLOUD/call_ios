@@ -51,9 +51,7 @@ extension CallMainVC: CallActionDelegate {
                 } else {
                     self.changeCallStatusText(.canceled)
                 }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.dismiss(animated: true, completion: nil)
-                }
+                self.callDelayDismiss()
             case .failure(let error):
                 let message = String(format: ZGLocalizedString("cancel_call_failed"), error.code)
                 TipView.showWarn(message)
@@ -82,19 +80,19 @@ extension CallMainVC: CallActionDelegate {
             if vcType == .audio {
                 RoomManager.shared.userService.micOperation(userRoomInfo.mic, callback: nil)
                 guard let callUser = callUser else { return }
-                self.startPlaying(callUser.userID, streamView: nil, type: .audio)
+                startPlaying(callUser.userID, streamView: nil, type: .audio)
             } else {
                 RoomManager.shared.userService.micOperation(userRoomInfo.mic, callback: nil)
                 RoomManager.shared.userService.cameraOpen(userRoomInfo.camera, callback: nil)
                 if let mainStreamID = mainStreamUserID {
-                    self.startPlaying(mainStreamID, streamView: mainPreviewView, type: .video)
+                    startPlaying(mainStreamID, streamView: mainPreviewView, type: .video)
                 } else {
-                    self.startPlaying(RoomManager.shared.userService.localUserInfo?.userID, streamView: mainPreviewView, type: .video)
+                    startPlaying(RoomManager.shared.userService.localUserInfo?.userID, streamView: mainPreviewView, type: .video)
                 }
                 if let streamID = streamUserID {
-                    self.startPlaying(streamID, streamView: previewView, type: .video)
+                    startPlaying(streamID, streamView: previewView, type: .video)
                 } else {
-                    self.startPlaying(userID, streamView: previewView, type: .video)
+                    startPlaying(userID, streamView: previewView, type: .video)
                 }
             }
             ZegoExpressEngine.shared().muteSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? false)
@@ -109,7 +107,8 @@ extension CallMainVC: CallActionDelegate {
                 if result.isSuccess {
                     CallBusiness.shared.audioPlayer?.stop()
                     CallBusiness.shared.currentCallStatus = .free
-                    self.dismiss(animated: true, completion: nil)
+                    self.changeCallStatusText(.decline)
+                    self.callDelayDismiss()
                 }
             }
         }
@@ -130,5 +129,11 @@ extension CallMainVC: CallActionDelegate {
     func callFlipCamera(_ callView: CallBaseView) {
         self.useFrontCamera = !self.useFrontCamera
         ZegoExpressEngine.shared().useFrontCamera(self.useFrontCamera)
+    }
+    
+    func callDelayDismiss() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 }

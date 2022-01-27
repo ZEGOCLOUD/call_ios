@@ -29,6 +29,7 @@ class CallBusiness: NSObject {
         let url = URL(fileURLWithPath: path)
         do {
             let player =  try AVAudioPlayer(contentsOf: url)
+            player.numberOfLoops = -1
             return player
         } catch {
           // can't load file
@@ -183,7 +184,7 @@ extension CallBusiness: UserServiceDelegate {
         }
         guard let currentCallVC = currentCallVC else { return }
         if type == .intent {
-            currentCallVC.changeCallStatusText(.decline)
+            currentCallVC.changeCallStatusText(.canceled)
         } else {
             currentCallVC.changeCallStatusText(.miss)
         }
