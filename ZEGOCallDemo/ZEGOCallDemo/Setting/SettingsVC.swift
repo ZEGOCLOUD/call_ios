@@ -115,6 +115,7 @@ class SettingsVC: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let model = dataSource[indexPath.section][indexPath.row]
         if model.type == .logout {
+            UserDefaults.standard.set(true, forKey: AppIsLogout())
             RoomManager.shared.userService.logout()
             self.navigationController?.popToRootViewController(animated: true)
         } else if model.type == .shareLog {

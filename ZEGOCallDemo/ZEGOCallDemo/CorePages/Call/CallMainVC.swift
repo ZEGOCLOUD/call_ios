@@ -63,6 +63,8 @@ class CallMainVC: UIViewController {
             }
         }
     }
+    @IBOutlet weak var topMaksImageView: UIImageView!
+    @IBOutlet weak var bottomMaskImageView: UIImageView!
     
     @objc func ExchangeVideoStream() {
         let tempID = mainStreamUserID
@@ -203,6 +205,8 @@ class CallMainVC: UIViewController {
         bottomViewHeight.constant = 60
         toBottomDistance.constant = 52.5
         preciewContentView.isHidden = true
+        topMaksImageView.isHidden = false
+        bottomMaskImageView.isHidden = false
         callTime = 0
         callWaitTime = 0
         switch statusType {
@@ -242,6 +246,8 @@ class CallMainVC: UIViewController {
                 headImage.isHidden = true
                 userNameLabel.isHidden = true
                 preciewContentView.isHidden = false
+                topMaksImageView.isHidden = false
+                bottomMaskImageView.isHidden = false
                 CallBusiness.shared.startPlaying(mainStreamUserID, streamView: mainPreviewView, type: vcType)
                 CallBusiness.shared.startPlaying(streamUserID, streamView: previewView, type: vcType)
             }

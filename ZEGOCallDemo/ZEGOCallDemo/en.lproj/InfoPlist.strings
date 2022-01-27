@@ -6,5 +6,5 @@
   
 */
 
-"NSMicrophoneUsageDescription" = "We need to use your mic to help you join the voice interaction.";
-"NSCameraUsageDescription" = "We need to use your camera to help you join the live interaction.";
+"NSMicrophoneUsageDescription" = "Please allow access to your microphone to make voice calls.";
+"NSCameraUsageDescription" = "Please allow access to your camera to make video calls.";

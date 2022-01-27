@@ -15,6 +15,11 @@ enum CallResponseType: Int {
     case reject = 2
 }
 
+enum CancelType: Int {
+    case intent = 1
+    case timeout = 2
+}
+
 enum CallType: Int {
     case audio = 1
     case video = 2
@@ -28,7 +33,7 @@ protocol UserServiceDelegate : AnyObject  {
     /// reveive call
     func receiveCall(_ userInfo: UserInfo, type: CallType)
     /// reveive cancel call
-    func receiveCancelCall(_ userInfo: UserInfo)
+    func receiveCancelCall(_ userInfo: UserInfo, type: CancelType)
     /// reveive call response
     func receiveCallResponse(_ userInfo: UserInfo, responseType: CallResponseType)
     /// reveive end call
@@ -41,7 +46,7 @@ extension UserServiceDelegate {
     func onNetworkQuality(_ userID: String, upstreamQuality: ZegoStreamQualityLevel) { }
     func userInfoUpdate(_ userInfo: UserInfo) { }
     func receiveCall(_ userInfo: UserInfo , type: CallType) { }
-    func receiveCancelCall(_ userInfo: UserInfo) { }
+    func receiveCancelCall(_ userInfo: UserInfo, type: CancelType) { }
     func receiveCallResponse(_ userInfo: UserInfo , responseType: CallResponseType) { }
     func receiveEndCall() { }
 }
@@ -137,7 +142,6 @@ class UserService: NSObject {
     func logout() {
         ZIMManager.shared.zim?.logout()
         RoomManager.shared.logoutRtcRoom(true)
-        UserDefaults.standard.removeObject(forKey: USERID_KEY)
     }
     
     func callToUser(_ userID: String, token:String, type: CallType, callback: RoomCallback?) {
@@ -147,7 +151,7 @@ class UserService: NSObject {
             localUserRoomInfo = UserInfo(myUserID,myUserName)
             switch result {
             case .success():
-                sendPeerMesssage(userID, callType: type, commandType: .call, responseType: nil) { result in
+                sendPeerMesssage(userID, callType: type, cancelType: nil, commandType: .call, responseType: nil) { result in
                     switch result {
                     case .success():
                         guard let callback = callback else { return }
@@ -167,8 +171,8 @@ class UserService: NSObject {
         }
     }
     
-    func cancelCallToUser(userID: String, callback: RoomCallback?) {
-        sendPeerMesssage(userID, callType: nil, commandType: .cancel, responseType: .none) { result in
+    func cancelCallToUser(userID: String, responeType: CancelType, callback: RoomCallback?) {
+        sendPeerMesssage(userID, callType: nil, cancelType: responeType, commandType: .cancel, responseType: .none) { result in
             switch result {
             case .success():
                 self.roomService.leaveRoom { result in
@@ -194,7 +198,7 @@ class UserService: NSObject {
                     let streamID = String.getStreamID(myUserID, roomID: userID)
                     ZegoExpressEngine.shared().startPublishingStream(streamID)
                     ///send peer message
-                    self.sendPeerMesssage(userID, callType: nil, commandType: .reply, responseType: responseType, callback: callback)
+                    self.sendPeerMesssage(userID, callType: nil, cancelType: nil, commandType: .reply, responseType: responseType, callback: callback)
                 case .failure(let error):
                     guard let callback = callback else { return }
                     let result: ZegoResult = .failure(.other(Int32(error.code)))
@@ -202,7 +206,7 @@ class UserService: NSObject {
                 }
             }
         } else {
-            sendPeerMesssage(userID, callType: nil, commandType: .reply, responseType: .reject, callback: callback)
+            sendPeerMesssage(userID, callType: nil, cancelType: nil, commandType: .reply, responseType: .reject, callback: callback)
         }
     }
     
@@ -222,7 +226,7 @@ class UserService: NSObject {
         }
     }
     
-    private func sendPeerMesssage(_ userID: String, callType: CallType?, commandType: CustomCommandType, responseType: CallResponseType?, callback: RoomCallback?) {
+    private func sendPeerMesssage(_ userID: String, callType: CallType?, cancelType: CancelType?, commandType: CustomCommandType, responseType: CallResponseType?, callback: RoomCallback?) {
         
         let invitation = CustomCommand(commandType)
         invitation.targetUserIDs.append(userID)
@@ -234,7 +238,9 @@ class UserService: NSObject {
             content = CustomCommandContent(user_info: ["id": localUserInfo?.userID ?? "", "name" : localUserInfo?.userName ?? ""], call_type: callType.rawValue)
         case .reply:
             content = CustomCommandContent(user_info: ["id": localUserInfo?.userID ?? "", "name" : localUserInfo?.userName ?? ""], response_type: responseType?.rawValue ?? 1)
-        case .cancel,.end:
+        case .cancel:
+            content = CustomCommandContent(user_info: ["id": localUserInfo?.userID ?? "", "name" : localUserInfo?.userName ?? ""],cancel_type: cancelType?.rawValue ?? 1)
+        case .end:
             content = CustomCommandContent(user_info: ["id": localUserInfo?.userID ?? "", "name" : localUserInfo?.userName ?? ""])
         }
         invitation.content = content
@@ -370,7 +376,12 @@ extension UserService : ZIMEventHandler {
                 case .call:
                     delegate.receiveCall(userInfo, type: callType)
                 case .cancel:
-                    delegate.receiveCancelCall(userInfo)
+                    guard let cancelType = command.content?.cancel_type else { return }
+                    if cancelType == 1 {
+                        delegate.receiveCancelCall(userInfo, type: CancelType(rawValue: 1) ?? .intent)
+                    } else {
+                        delegate.receiveCancelCall(userInfo, type: CancelType(rawValue: cancelType) ?? .timeout)
+                    }
                 case .reply:
                     if command.content?.response_type == 1 {
                         let streamID = String.getStreamID(localUserInfo?.userID, roomID: roomService.roomInfo.roomID)

@@ -173,7 +173,7 @@ extension CallBusiness: UserServiceDelegate {
         }
     }
     
-    func receiveCancelCall(_ userInfo: UserInfo) {
+    func receiveCancelCall(_ userInfo: UserInfo, type: CancelType) {
         currentCallStatus = .free
         currentCallUserInfo = nil
         endSystemCall()
@@ -181,11 +181,15 @@ extension CallBusiness: UserServiceDelegate {
         if let currentTipView = currentTipView {
             currentTipView.removeFromSuperview()
         }
-        if let currentCallVC = currentCallVC {
+        guard let currentCallVC = currentCallVC else { return }
+        if type == .intent {
             currentCallVC.changeCallStatusText(.decline)
+        } else {
+            currentCallVC.changeCallStatusText(.miss)
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             currentCallVC.dismiss(animated: true, completion: nil)
         }
-        
     }
     
     func receiveCallResponse(_ userInfo: UserInfo, responseType: CallResponseType) {
