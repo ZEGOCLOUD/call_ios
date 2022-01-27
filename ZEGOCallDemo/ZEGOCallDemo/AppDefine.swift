@@ -16,11 +16,6 @@ func KeyWindow() -> UIWindow {
     return window
 }
 
+let USER_ID_KEY = "USER_ID_KEY"
 
-func LocalUserID() -> String {
-    return "USER_ID_KEY"
-}
-
-func AppIsLogout() -> String {
-    return "IS_LOGOUT_KEY"
-}
+let App_IS_LOGOUT_KEY = "IS_LOGOUT_KEY"
