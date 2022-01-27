@@ -10,7 +10,9 @@ import Foundation
 class NetworkManager: NSObject, RequestSender {
     static let shareManage: NetworkManager = NetworkManager()
     lazy var session: URLSession = {
-        return URLSession(configuration: URLSessionConfiguration.default, delegate: self, delegateQueue: OperationQueue())
+        let config = URLSessionConfiguration.default
+        config.timeoutIntervalForRequest = 10
+        return URLSession(configuration: config, delegate: self, delegateQueue: OperationQueue())
     }()
     
     /// Get and Post request
@@ -21,7 +23,7 @@ class NetworkManager: NSObject, RequestSender {
         }
         let url = URL(string: hostPath.appending(req.path))!
         var request = URLRequest(url: url)
-        
+        request.timeoutInterval = 10
         request.httpMethod = req.method.rawValue
         var parameterDic = self.mergeParameter(req)
         parameterDic.removeValue(forKey: "host")

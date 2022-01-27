@@ -63,22 +63,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let nav: UINavigationController = UINavigationController.init(rootViewController: rootVC)
         let userInfoDic: Dictionary? = UserDefaults.standard.object(forKey: USERID_KEY) as? Dictionary<String, String>
         if let userInfoDic = userInfoDic {
+            self.window?.rootViewController = nav
+            let homeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
+            rootVC.navigationController?.pushViewController(homeVC, animated: false)
             let userInfo = UserInfo()
             userInfo.userID = userInfoDic["userID"]
             userInfo.userName = userInfoDic["userName"]
             RoomManager.shared.userService.localUserInfo = userInfo
-            if let token = AppToken.getZIMToken(withUserID: userInfo.userID) {
-                RoomManager.shared.userService.login(userInfo, token) { result in
-                    switch result {
-                    case .success():
-                        self.window?.rootViewController = nav
-                        let homeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
-                        rootVC.navigationController?.pushViewController(homeVC, animated: false)
-                    case .failure(_):
-                        break
-                    }
-                }
-            }
+            homeVC.startLogin(userInfo)
         } else {
             window?.rootViewController = nav
         }

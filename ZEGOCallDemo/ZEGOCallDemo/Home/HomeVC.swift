@@ -88,6 +88,21 @@ class HomeVC: UIViewController {
         headImage.image = UIImage(named: String.getHeadImageName(userName: RoomManager.shared.userService.localUserInfo?.userName ?? ""))
     }
     
+    func startLogin(_ userInfo: UserInfo) {
+        if let token = AppToken.getZIMToken(withUserID: userInfo.userID) {
+            HUDHelper.showNetworkLoading()
+            RoomManager.shared.userService.login(userInfo, token) { result in
+                HUDHelper.hideNetworkLoading()
+                switch result {
+                case .success():
+                    break
+                case .failure(let error):
+                    TipView.showWarn(String(format: ZGLocalizedString("toast_login_fail"), error.code))
+                }
+            }
+        }
+    }
+    
     
     //MARK: -Action
     @IBAction func signUpClick(_ sender: UIButton) {
