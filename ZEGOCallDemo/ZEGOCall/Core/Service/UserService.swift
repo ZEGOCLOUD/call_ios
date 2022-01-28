@@ -11,17 +11,56 @@ import ZegoExpressEngine
 import AVFoundation
 
 protocol UserServiceDelegate : AnyObject  {
+    
+    /// Callbacks related to the user connection status
+    ///
+    /// Description: This callback will be triggered when user gets disconnected due to network error, or gets offline due to the operations in other clients.
+    ///
+    /// - Parameter state: refers to the current connection state.
+    /// - Parameter event: refers to the the event that causes the connection status changes.
     func connectionStateChanged(_ state: ZIMConnectionState, _ event: ZIMConnectionEvent)
+    
+    /// Callback for the network quality
+    ///
+    /// Description: Callback for the network quality, and this callback will be triggered after the stream publishing or stream playing.     ///
+    /// - Parameter userID: Refers to the user ID of the stream publisher or stream subscriber.
+    /// - Parameter upstreamQuality: Refers to the stream quality level.
     func onNetworkQuality(_ userID: String, upstreamQuality: ZegoStreamQualityLevel)
-    /// reveive user info update
+    
+    /// Callback for changes on user state
+    ///
+    /// Description: This callback will be triggered when the state of the user's microphone/camera changes.
+    ///
+    /// - Parameter userInfo: refers to the changes on user state information
     func userInfoUpdate(_ userInfo: UserInfo)
-    /// reveive call
+    
+    /// Callback for receive an incoming call
+    ///
+    /// Description: This callback will be triggered when receiving an incoming call.
+    ///
+    /// - Parameter userInfo: refers to the caller information.
+    /// - Parameter type: indicates the call type.  ZegoCallTypeVoice: Voice call.  ZegoCallTypeVideo: Video call.
     func receiveCall(_ userInfo: UserInfo, type: CallType)
-    /// reveive cancel call
-    func receiveCancelCall(_ userInfo: UserInfo, type: CancelType)
-    /// reveive call response
+    
+    /// Callback for receive a canceled call
+    ///
+    /// Description: This callback will be triggered when the caller cancel the outbound call.
+    ///
+    /// - Parameter userInfo: refers to the caller information.
+    /// - Parameter type: cancel type.
+    func receiveCallCanceled(_ userInfo: UserInfo, type: CancelType)
+    
+    /// Callback for respond to an incoming call
+    ///
+    /// Description: This callback will be triggered when the called user responds to an incoming call.
+    ///
+    /// - Parameter userInfo: refers to the called user information.
+    /// - Parameter responseType: indicates to the answer of the incoming call. ZegoResponseTypeAccept: Accept. ZegoResponseTypeDecline: Decline.
     func receiveCallResponse(_ userInfo: UserInfo, responseType: CallResponseType)
-    /// reveive end call
+    
+    /// Callback for end a call
+    ///
+    /// - Description: This callback will be triggered when the caller or called user ends the call.
     func receiveEndCall()
 }
 
@@ -31,18 +70,28 @@ extension UserServiceDelegate {
     func onNetworkQuality(_ userID: String, upstreamQuality: ZegoStreamQualityLevel) { }
     func userInfoUpdate(_ userInfo: UserInfo) { }
     func receiveCall(_ userInfo: UserInfo , type: CallType) { }
-    func receiveCancelCall(_ userInfo: UserInfo, type: CancelType) { }
+    func receiveCallCanceled(_ userInfo: UserInfo, type: CancelType) { }
     func receiveCallResponse(_ userInfo: UserInfo , responseType: CallResponseType) { }
     func receiveEndCall() { }
 }
 
+
+/// Class user information management
+///
+/// Description: This class contains the user information management logic, such as the logic of log in, log out, get the logged-in user info, get the in-room user list, and add co-hosts, etc.
 class UserService: NSObject {
     
     // MARK: - Public
+    /// The delegate related to user status
     var delegates = NSHashTable<AnyObject>.weakObjects()
+    
+    /// The local logged-in user information.
     var localUserInfo: UserInfo?
-    var localUserRoomInfo: UserInfo?
+    
+    /// In-room user list, can be used when displaying the user list in the room.
     var userList = DictionaryArray<String, UserInfo>()
+    
+    var localUserRoomInfo: UserInfo?
     var roomService: RoomService = RoomService()
     let timer = ZegoTimer(15000)
     
@@ -72,7 +121,16 @@ class UserService: NSObject {
         }
     }
     
-    /// user login with user info and `ZIM token`
+    
+    /// User to log in
+    ///
+    /// Description: Call this method with user ID and username to log in to the LiveAudioRoom service.
+    ///
+    /// Call this method at: After the SDK initialization
+    ///
+    /// - Parameter userInfo: refers to the user information. You only need to enter the user ID and username.
+    /// - Parameter token: refers to the authentication token. To get this, refer to the documentation: https://doc-en.zego.im/article/11648
+    /// - Parameter callback: refers to the callback for log in.
     func login(_ user: UserInfo, _ token: String, callback: RoomCallback?) {
         guard let userID = user.userID else {
             guard let callback = callback else { return }
@@ -122,13 +180,28 @@ class UserService: NSObject {
         }
     }
     
-    /// user logout
+    
+    /// User to log out
+    ///
+    /// - Description: This method can be used to log out from the current user account.
+    ///
+    /// Call this method at: After the user login
     func logout() {
         ZIMManager.shared.zim?.logout()
         RoomManager.shared.logoutRtcRoom(true)
     }
     
-    func callToUser(_ userID: String, token:String, type: CallType, callback: RoomCallback?) {
+    
+    /// Make an outbound call
+    ///
+    /// Description: This method can be used to initiate a call to a online user. The called user receives a notification once this method gets called. And if the call is not answered in 60 seconds, you will need to call a method to cancel the call.
+    ///
+    /// Call this method at: After the user login
+    /// - Parameter userID: refers to the ID of the user you want call.
+    /// - Parameter token: refers to the authentication token. To get this, see the documentation: https://docs.zegocloud.com/article/11648
+    /// - Parameter type: refers to the call type.  ZegoCallTypeVoice: Voice call.  ZegoCallTypeVideo: Video call.
+    /// - Parameter callback: refers to the callback for make a outbound call.
+    func callToUser(_ userID: String, token: String, type: CallType, callback: RoomCallback?) {
         guard let myUserID = localUserInfo?.userID else { return }
         guard let myUserName = localUserInfo?.userName else { return }
         roomService.createRoom(myUserID, myUserName, token) { [self] result in
@@ -156,8 +229,16 @@ class UserService: NSObject {
         }
     }
     
-    func cancelCallToUser(userID: String, responeType: CancelType, callback: RoomCallback?) {
-        sendPeerMesssage(userID, callType: nil, cancelType: responeType, commandType: .cancel, responseType: .none) { result in
+    /// Cancel a call
+    ///
+    /// Description: This method can be used to cancel a call. And the called user receives a notification through callback that the call has been canceled.
+    ///
+    /// Call this method at: After the user login
+    /// - Parameter userID: refers to the ID of the user you are calling.
+    /// - Parameter cancelType: cancel type
+    /// - Parameter callback: refers to the callback for cancel a call.
+    func cancelCallToUser(userID: String, cancelType: CancelType, callback: RoomCallback?) {
+        sendPeerMesssage(userID, callType: nil, cancelType: cancelType, commandType: .cancel, responseType: .none) { result in
             switch result {
             case .success():
                 self.roomService.leaveRoom { result in
@@ -172,6 +253,14 @@ class UserService: NSObject {
         }
     }
     
+    /// Respond to an incoming call
+    ///
+    /// Description: This method can be used to accept or decline an incoming call. You will need to call this method to respond to the call within 60 seconds upon receiving.
+    ///
+    /// Call this method at: After the user login
+    /// - Parameter userID: refers to the ID of the caller.
+    /// - Parameter responseType: refers to the answer of the incoming call.  ZegoResponseTypeAccept: Accept. ZegoResponseTypeDecline: Decline.
+    /// - Parameter callback: refers to the callback for respond to an incoming call.
     func responseCall(_ userID: String, token:String, responseType: CallResponseType, callback: RoomCallback?) {
         if responseType == .accept {
             self.roomService.joinRoom(userID, token) { result in
@@ -196,6 +285,12 @@ class UserService: NSObject {
     }
     
     
+    /// End a call
+    ///
+    /// Description: This method can be used to end a call. After the call is ended, both the caller and called user will be logged out from the room, and the stream publishing and playing stop upon ending.
+    ///
+    /// Call this method at: After the user login
+    /// - Parameter callback refers to the callback for end a call.
     func endCall(callback: RoomCallback?) {
         self.roomService.leaveRoom { result in
             switch result {
@@ -210,6 +305,50 @@ class UserService: NSObject {
             }
         }
     }
+    
+    /// Microphone related operation
+    ///
+    /// Description: This method can be used to enable and disable the microphone. When the microphone is enabled, the SDK automatically publishes audio streams to remote users. When the microphone is disabled, the audio stream publishing stops automatically.
+    ///
+    /// Call this method at: After the call is connected
+    ///
+    /// - Parameter enable: indicates whether to enable or disable the microphone. true: Enable. false: Disable.
+    /// - Parameter callback: refers to the callback for enable or disable the microphone.
+    func enableMic(_ enable: Bool, callback: RoomCallback?) {
+        
+        guard let parameters = getDeviceChangeParameters(enable, flag: 0) else {
+            return
+        }
+        
+        setRoomAttributes(parameters.0, parameters.1, parameters.2, nil)
+        
+        // open mic
+        muteMicrophone(!enable)
+    }
+    
+    /// Camera related operation
+    ///
+    /// Description: This method can be used to enable and disable the camera. When the camera is enabled, the SDK automatically publishes video streams to remote users. When the camera is disabled, the video stream publishing stops automatically.
+    ///
+    /// Call this method at:  After the call is connected
+    ///
+    /// - Parameter enable: indicates whether to enable or disable the camera. true: Enable. false: Disable.
+    /// - Parameter callback: refers to the callback for enable or disable the camera.
+    func enableCamera(_ enable: Bool, callback: RoomCallback?) {
+        
+        guard let parameters = getDeviceChangeParameters(enable, flag: 1) else {
+            return
+        }
+        
+        setRoomAttributes(parameters.0, parameters.1, parameters.2, nil)
+        
+        // open camera
+        enableCamera(enable)
+    }
+}
+
+// MARK: - Private
+extension UserService {
     
     private func sendPeerMesssage(_ userID: String, callType: CallType?, cancelType: CancelType?, commandType: CustomCommandType, responseType: CallResponseType?, callback: RoomCallback?) {
         
@@ -249,38 +388,7 @@ class UserService: NSObject {
             callback(result)
         })
     }
-
     
-    /// mic operation
-    func micOperation(_ open: Bool, callback: RoomCallback?) {
-        
-        guard let parameters = getDeviceChangeParameters(open, flag: 0) else {
-            return
-        }
-
-        setRoomAttributes(parameters.0, parameters.1, parameters.2, nil)
-        
-        // open mic
-        muteMicrophone(!open)
-    }
-    
-    /// camera operation
-    func cameraOpen(_ open: Bool, callback: RoomCallback?) {
-        
-        guard let parameters = getDeviceChangeParameters(open, flag: 1) else {
-            return
-        }
-        
-        setRoomAttributes(parameters.0, parameters.1, parameters.2, nil)
-        
-        // open camera
-        enableCamera(open)
-    }
-}
-
-// MARK: - Private
-extension UserService {
-    // MARK: private method
     private func heartBeatRequest() {
         var request = HeartBeatRequest()
         request.userID = RoomManager.shared.userService.localUserInfo?.userID ?? ""
@@ -363,9 +471,9 @@ extension UserService : ZIMEventHandler {
                 case .cancel:
                     guard let cancelType = command.content?.cancel_type else { return }
                     if cancelType == 1 {
-                        delegate.receiveCancelCall(userInfo, type: CancelType(rawValue: 1) ?? .intent)
+                        delegate.receiveCallCanceled(userInfo, type: CancelType(rawValue: 1) ?? .intent)
                     } else {
-                        delegate.receiveCancelCall(userInfo, type: CancelType(rawValue: cancelType) ?? .timeout)
+                        delegate.receiveCallCanceled(userInfo, type: CancelType(rawValue: cancelType) ?? .timeout)
                     }
                 case .reply:
                     if command.content?.response_type == 1 {

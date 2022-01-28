@@ -12,6 +12,10 @@ protocol RoomServiceDelegate: AnyObject {
     func receiveRoomInfoUpdate(_ roomAttributes: [String: String]?)
 }
 
+
+/// Class LiveAudioRoom information management
+///
+/// Description: This class contains the room information management logic, such as the logic of create a room, join a room, leave a room, disable the text chat in room, etc.
 class RoomService: NSObject {
     
     // MARK: - Private
@@ -27,10 +31,22 @@ class RoomService: NSObject {
     // MARK: - Public
     
     var roomInfo: RoomInfo = RoomInfo()
+    
+    /// The delegate related to the room status
     weak var delegate: RoomServiceDelegate?
+    
     var operation: OperationCommand = OperationCommand()
-    /// Create a chat room
-    /// You need to enter a generated `rtc token`
+    
+    /// Create a room
+    ///
+    /// Description: This method can be used to create a room. The room creator will be the Host by default when the room is created successfully.
+    ///
+    /// Call this method at: After user logs in
+    ///
+    /// - Parameter roomID: refers to the room ID, the unique identifier of the room. This is required to join a room and cannot be null.
+    /// - Parameter roomName: refers to the room name. This is used for display in the room and cannot be null.
+    /// - Parameter token: refers to the authentication token. To get this, see the documentation: https://doc-en.zego.im/article/11648
+    /// - Parameter callback: refers to the callback for create a room.
     func createRoom(_ roomID: String, _ roomName: String, _ token: String, callback: RoomCallback?) {
         guard roomID.count != 0 else {
             guard let callback = callback else { return }
@@ -56,8 +72,16 @@ class RoomService: NSObject {
         
     }
     
-    /// Join a chat room
-    /// You need to enter a generated `rtc token`
+    
+    /// Join a room
+    ///
+    /// Description: This method can be used to join a room, the room must be an existing room.
+    ///
+    /// Call this method at: After user logs in
+    ///
+    /// - Parameter roomID: refers to the ID of the room you want to join, and cannot be null.
+    /// - Parameter token: refers to the authentication token. To get this, see the documentation: https://doc-en.zego.im/article/11648
+    /// - Parameter callback: refers to the callback for join a room.
     func joinRoom(_ roomID: String, _ token: String, callback: RoomCallback?) {
         ZIMManager.shared.zim?.joinRoom(roomID, callback: { fullRoomInfo, error in
             if error.code != .ZIMErrorCodeSuccess {
@@ -79,7 +103,13 @@ class RoomService: NSObject {
         })
     }
     
-    /// Leave the chat room
+    /// Leave the room
+    ///
+    /// Description: This method can be used to leave the room you joined. The room will be ended when the Host leaves, and all users in the room will be forced to leave the room.
+    ///
+    /// Call this method at: After joining a room
+    ///
+    /// - Parameter callback: refers to the callback for leave a room.
     func leaveRoom(callback: RoomCallback?) {
         // if call the leave room api, just logout rtc room
         guard let roomID = RoomManager.shared.userService.roomService.roomInfo.roomID else {
@@ -100,6 +130,7 @@ class RoomService: NSObject {
             callback(result)
         })
     }
+    
     
     func getRoomStatus(callback: RoomCallback?) {
         guard let roomID = RoomManager.shared.userService.roomService.roomInfo.roomID else {

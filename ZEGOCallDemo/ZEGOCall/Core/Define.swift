@@ -8,7 +8,16 @@
 import Foundation
 
 typealias ZegoResult = Result<Void, ZegoError>
-/// common room callback
+
+/// Callback methods
+///
+/// Description: When the called method is asynchronous processing, If you are making and processing asynchronous calls,
+/// the following callbacks will be triggered when a method has finished its execution and returns the execution result.
+///
+/// @param error refers to the operation status code.
+///            0: Operation successful.
+///            100xxxx: The Express SDK error code. For details, refer to the error code documentation. [iOS]: https://doc-en.zego.im/article/5547 [Android]: https://doc-en.zego.im/article/5548
+///            600xxxx: The ZIM SDK error code. For details, refer to the error code documentation. [iOS]: https://docs.zegocloud.com/article/13791 [Android]: https://docs.zegocloud.com/article/13792
 typealias RoomCallback = (ZegoResult) -> Void
 
 typealias UserIDCallBack = (Result<String, ZegoError>) -> Void
