@@ -35,10 +35,17 @@ extension CallBusiness {
                 }
             } else if currentCallStatus == .wait {
                 guard let currentCallUserInfo = currentCallUserInfo else { return }
-                if self.getCurrentViewController() is CallMainVC { return }
-                let callTipView: CallAcceptTipView = CallAcceptTipView.showTipView(callKitCallType, userInfo: currentCallUserInfo)
-                currentTipView = callTipView
-                callTipView.delegate = self
+                let currentTimeStamp = Int(Date().timeIntervalSince1970)
+                if startTimeIdentify > 0 && currentTimeStamp - startTimeIdentify > 60 {
+                    CallAcceptTipView.dismiss()
+                    tipViewDeclineCall(currentCallUserInfo, callType: callKitCallType)
+                    startTimeIdentify = 0
+                } else {
+                    if self.getCurrentViewController() is CallMainVC { return }
+                    let callTipView: CallAcceptTipView = CallAcceptTipView.showTipView(callKitCallType, userInfo: currentCallUserInfo)
+                    currentTipView = callTipView
+                    callTipView.delegate = self
+                }
             }
         }
         appIsActive = true

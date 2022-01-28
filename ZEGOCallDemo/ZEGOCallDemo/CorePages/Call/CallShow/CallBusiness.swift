@@ -24,6 +24,9 @@ class CallBusiness: NSObject {
     var currentCallStatus: callStatus = .free
     var appIsActive: Bool = true
     var currentTipView: CallAcceptTipView?
+    let timer = ZegoTimer(1000)
+    var startTimeIdentify: Int = 0
+    
     lazy var audioPlayer: AVAudioPlayer? = {
         let path = Bundle.main.path(forResource: "CallRing", ofType: "wav")!
         let url = URL(fileURLWithPath: path)
@@ -65,7 +68,7 @@ class CallBusiness: NSObject {
         currentCallStatus = .waitAccept
         currentCallUserInfo = userInfo
         getCurrentViewController()?.present(vc, animated: true, completion: nil)
-        ZegoExpressEngine.shared().useFrontCamera(true)
+        RoomManager.shared.userService.useFrontCamera(true)
     }
     
     
@@ -83,7 +86,7 @@ class CallBusiness: NSObject {
                 self.currentCallUserInfo = userInfo
                 if let controller = self.getCurrentViewController() {
                     controller.present(callVC, animated: true) {
-                        ZegoExpressEngine.shared().useFrontCamera(true)
+                        RoomManager.shared.userService.useFrontCamera(true)
                         self.startPlayingStream(userID)
                     }
                 }
@@ -161,6 +164,7 @@ extension CallBusiness: UserServiceDelegate {
             }
             return
         }
+        startTimeIdentify = Int(Date().timeIntervalSince1970)
         currentCallStatus = .wait
         currentCallUserInfo = userInfo
         callKitCallType = type
@@ -229,7 +233,6 @@ extension CallBusiness: UserServiceDelegate {
     }
     
     func receiveEndCall() {
-        //if userInfo.userID != currentCallUserInfo?.userID { return }
         audioPlayer?.stop()
         currentCallUserInfo = nil
         RoomManager.shared.userService.roomService.leaveRoom { result in
