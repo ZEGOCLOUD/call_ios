@@ -142,7 +142,7 @@ extension CallBusiness {
         if let localUserInfo = RoomManager.shared.userService.localUserRoomInfo {
             let mic = localUserInfo.mic
             localUserInfo.mic = !mic
-            RoomManager.shared.userService.micOperation(localUserInfo.mic, callback: nil)
+            RoomManager.shared.userService.enableMic(localUserInfo.mic, callback: nil)
         }
     }
     

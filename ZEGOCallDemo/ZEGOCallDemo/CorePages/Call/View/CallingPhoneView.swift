@@ -31,7 +31,7 @@ class CallingPhoneView: CallBaseView {
     
     @IBAction func voiceButtonClick(_ sender: UIButton) {
         guard let userInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
-        let voice = userInfo.voice ?? true
+        let voice = userInfo.voice ?? false
         userInfo.voice = !voice
         if voice {
             voiceButton.setImage(UIImage(named: "call_audio_voice_close"), for: .normal)

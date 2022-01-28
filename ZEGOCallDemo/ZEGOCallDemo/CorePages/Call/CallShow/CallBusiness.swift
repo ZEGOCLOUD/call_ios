@@ -61,6 +61,17 @@ class CallBusiness: NSObject {
         NotificationCenter.default.addObserver(self, selector: #selector(muteSpeaker), name: Notification.Name("muteSpeaker"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackGround), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        
+        timer.setEventHandler {
+            let currentTime = Int(Date().timeIntervalSince1970)
+            if self.currentCallStatus == .wait && currentTime - self.startTimeIdentify > 60 {
+                CallAcceptTipView.dismiss()
+                self.currentCallStatus = .free
+                self.currentCallUserInfo = nil
+                self.audioPlayer?.stop()
+            }
+        }
+        timer.start()
     }
     
     func startCall(_ userInfo: UserInfo, callType: CallType) {
@@ -274,7 +285,7 @@ extension CallBusiness: UserServiceDelegate {
                         RoomManager.shared.userService.startPlaying(userID, streamView: vc.previewView, type: .video)
                     }
                 }
-                RoomManager.shared.userService.enableSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? true)
+                RoomManager.shared.userService.enableSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? false)
             }
         }
     }

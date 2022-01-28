@@ -95,7 +95,7 @@ extension CallMainVC: CallActionDelegate {
                     startPlaying(userID, streamView: previewView, type: .video)
                 }
             }
-            RoomManager.shared.userService.enableSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? true)
+            RoomManager.shared.userService.enableSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? false)
         }
     }
     

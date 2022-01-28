@@ -122,7 +122,12 @@ class HomeVC: UIViewController {
                 case .success():
                     break
                 case .failure(let error):
-                    TipView.showWarn(String(format: ZGLocalizedString("toast_login_fail"), error.code))
+                    UserDefaults.standard.set(true, forKey: App_IS_LOGOUT_KEY)
+                    RoomManager.shared.userService.logout()
+                    DispatchQueue.main.async {
+                        TipView.showWarn(String(format: ZGLocalizedString("toast_login_fail"), error.code))
+                        self.navigationController?.popViewController(animated: true)
+                    }
                 }
             }
         }

@@ -175,7 +175,7 @@ class UserService: NSObject {
             
         } failure: { requestStatus in
             guard let callback = callback else { return }
-            let result: ZegoResult = .failure(.other(Int32(requestStatus?.code ?? 0)))
+            let result: ZegoResult = .failure(.other(Int32(requestStatus?.code ?? -2)))
             callback(result)
         }
     }
@@ -206,7 +206,7 @@ class UserService: NSObject {
         guard let myUserName = localUserInfo?.userName else { return }
         roomService.createRoom(myUserID, myUserName, token) { [self] result in
             localUserRoomInfo = UserInfo(myUserID,myUserName)
-            localUserRoomInfo?.voice = true
+            localUserRoomInfo?.voice = false
             switch result {
             case .success():
                 sendPeerMesssage(userID, callType: type, cancelType: nil, commandType: .call, responseType: nil) { result in

@@ -179,6 +179,7 @@ class CallMainVC: UIViewController {
                 if currentTime - vc.callWaitTime > 60 {
                     vc.cancelCall(vc.callUser?.userID ?? "", callType: vc.vcType, isTimeout: true)
                     vc.timer.stop()
+                    vc.callDelayDismiss()
                 }
             case .calling:
                 let currentTime = Int(Date().timeIntervalSince1970)
