@@ -299,7 +299,7 @@
 			path = Refresh;
 			sourceTree = "<group>";
 		};
-		86718CD727953DFA00CEA8A0 /* RequestManager */ = {
+		86718CD727953DFA00CEA8A0 /* Request */ = {
 			isa = PBXGroup;
 			children = (
 				86718CD827953E1700CEA8A0 /* RequestMananger.swift */,
@@ -309,7 +309,7 @@
 				86718CE2279542B100CEA8A0 /* LogoutRequest.swift */,
 				86718CE4279542E300CEA8A0 /* HeartBeatRequest.swift */,
 			);
-			path = RequestManager;
+			path = Request;
 			sourceTree = "<group>";
 		};
 		86718D2B2797E54800CEA8A0 /* Provider */ = {
@@ -350,13 +350,10 @@
 		86B19890278BDD7D0004C997 /* ZEGOCallDemo */ = {
 			isa = PBXGroup;
 			children = (
+				86B198AD278BE25F0004C997 /* Network */,
+				86718CD727953DFA00CEA8A0 /* Request */,
 				868F635A27A1530400D0B5DC /* RingResource */,
-				86718CD727953DFA00CEA8A0 /* RequestManager */,
 				86B198FB278D63430004C997 /* Helper */,
-				86B19A15279118210004C997 /* Login */,
-				86B1996A278D711B0004C997 /* WebPages */,
-				86B198F3278D62420004C997 /* Setting */,
-				86B198F0278D57530004C997 /* Home */,
 				86B198EF278D28B20004C997 /* CorePages */,
 				86B198A6278BE1C60004C997 /* AppCenter */,
 				86B19891278BDD7D0004C997 /* AppDelegate.swift */,
@@ -378,7 +375,6 @@
 			children = (
 				86B198B4278BE25F0004C997 /* Core */,
 				86B198B1278BE25F0004C997 /* Extensions */,
-				86B198AD278BE25F0004C997 /* Network */,
 				86B198CE278BE2600004C997 /* Tool */,
 			);
 			path = ZEGOCall;
@@ -476,6 +472,10 @@
 		86B198EF278D28B20004C997 /* CorePages */ = {
 			isa = PBXGroup;
 			children = (
+				86B1996A278D711B0004C997 /* WebPages */,
+				86B19A15279118210004C997 /* Login */,
+				86B198F3278D62420004C997 /* Setting */,
+				86B198F0278D57530004C997 /* Home */,
 				86B19976278D75930004C997 /* Call */,
 				86B19975278D756C0004C997 /* User */,
 			);
