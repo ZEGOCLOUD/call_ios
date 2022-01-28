@@ -40,3 +40,18 @@ enum ZegoError: Error {
         }
     }
 }
+
+enum CallResponseType: Int {
+    case accept = 1
+    case reject = 2
+}
+
+enum CancelType: Int {
+    case intent = 1
+    case timeout = 2
+}
+
+enum CallType: Int {
+    case audio = 1
+    case video = 2
+}
