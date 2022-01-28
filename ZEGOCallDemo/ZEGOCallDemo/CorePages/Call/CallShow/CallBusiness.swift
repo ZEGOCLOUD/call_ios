@@ -26,6 +26,7 @@ class CallBusiness: NSObject {
     var currentTipView: CallAcceptTipView?
     let timer = ZegoTimer(1000)
     var startTimeIdentify: Int = 0
+    var startCallTime: Int = 0
     
     lazy var audioPlayer: AVAudioPlayer? = {
         let path = Bundle.main.path(forResource: "CallRing", ofType: "wav")!
@@ -258,19 +259,19 @@ extension CallBusiness: UserServiceDelegate {
             if let userRoomInfo = RoomManager.shared.userService.localUserRoomInfo {
                 if vc.vcType == .audio {
                     RoomManager.shared.userService.micOperation(userRoomInfo.mic, callback: nil)
-                    self.startPlaying(userID, streamView: nil, type: .audio)
+                    RoomManager.shared.userService.startPlaying(userID, streamView: nil, type: .audio)
                 } else {
                     RoomManager.shared.userService.micOperation(userRoomInfo.mic, callback: nil)
                     RoomManager.shared.userService.cameraOpen(userRoomInfo.camera, callback: nil)
                     if let mainStreamID = currentCallVC?.mainStreamUserID {
-                        self.startPlaying(mainStreamID, streamView: vc.mainPreviewView, type: .video)
+                        RoomManager.shared.userService.startPlaying(mainStreamID, streamView: vc.mainPreviewView, type: .video)
                     } else {
-                        self.startPlaying(RoomManager.shared.userService.localUserInfo?.userID, streamView: vc.mainPreviewView, type: .video)
+                        RoomManager.shared.userService.startPlaying(RoomManager.shared.userService.localUserInfo?.userID, streamView: vc.mainPreviewView, type: .video)
                     }
                     if let streamID = currentCallVC?.streamUserID {
-                        self.startPlaying(streamID, streamView: vc.previewView, type: .video)
+                        RoomManager.shared.userService.startPlaying(streamID, streamView: vc.previewView, type: .video)
                     } else {
-                        self.startPlaying(userID, streamView: vc.previewView, type: .video)
+                        RoomManager.shared.userService.startPlaying(userID, streamView: vc.previewView, type: .video)
                     }
                 }
                 RoomManager.shared.userService.enableSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? true)

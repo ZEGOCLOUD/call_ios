@@ -18,18 +18,21 @@ extension CallBusiness {
                 if self.getCurrentViewController() is CallMainVC {
                     guard let userInfo = currentCallUserInfo else { return }
                     currentCallVC?.updateCallType(callKitCallType, userInfo: userInfo, status: .calling)
+                    currentCallVC?.callTime = startCallTime
                     startPlayingStream(currentCallUserInfo?.userID)
                 } else {
                     if let currentCallVC = currentCallVC {
                         guard let userInfo = currentCallUserInfo else { return }
                         self.getCurrentViewController()?.present(currentCallVC, animated: true, completion: {
                             currentCallVC.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
+                            currentCallVC.callTime = self.startCallTime
                             self.startPlayingStream(self.currentCallUserInfo?.userID)
                         })
                     } else {
                         guard let userInfo = currentCallUserInfo else { return }
                         let callVC: CallMainVC = CallMainVC.loadCallMainVC(callKitCallType, userInfo: userInfo, status: .calling)
                         currentCallVC = callVC
+                        callVC.callTime = startCallTime
                         getCurrentViewController()?.present(callVC, animated: true) {
                             self.startPlayingStream(userInfo.userID)
                         }
@@ -74,10 +77,12 @@ extension CallBusiness {
             RoomManager.shared.userService.responseCall(userID, token: rtcToken, responseType: .accept) { result in
                 switch result {
                 case .success():
+                    self.startCallTime = Int(Date().timeIntervalSince1970)
                     if self.appIsActive {
                         if let callVC = self.currentCallVC {
                             guard let userInfo = self.currentCallUserInfo else { return }
                             callVC.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
+                            callVC.callTime = self.startCallTime
                             if let controller = self.getCurrentViewController() {
                                 if controller is CallMainVC {
                                     self.currentCallVC?.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
@@ -92,6 +97,7 @@ extension CallBusiness {
                             guard let userInfo = self.currentCallUserInfo else { return }
                             let callVC: CallMainVC = CallMainVC.loadCallMainVC(self.callKitCallType, userInfo: userInfo, status: .calling)
                             self.currentCallVC = callVC
+                            callVC.callTime = self.startCallTime
                             if let controller = self.getCurrentViewController() {
                                 controller.present(callVC, animated: true) {
                                     self.startPlayingStream(userID)
@@ -136,6 +142,7 @@ extension CallBusiness {
         if let localUserInfo = RoomManager.shared.userService.localUserRoomInfo {
             let mic = localUserInfo.mic
             localUserInfo.mic = !mic
+            RoomManager.shared.userService.micOperation(localUserInfo.mic, callback: nil)
         }
     }
     

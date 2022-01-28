@@ -10,21 +10,6 @@ import ZIM
 import ZegoExpressEngine
 import AVFoundation
 
-enum CallResponseType: Int {
-    case accept = 1
-    case reject = 2
-}
-
-enum CancelType: Int {
-    case intent = 1
-    case timeout = 2
-}
-
-enum CallType: Int {
-    case audio = 1
-    case video = 2
-}
-
 protocol UserServiceDelegate : AnyObject  {
     func connectionStateChanged(_ state: ZIMConnectionState, _ event: ZIMConnectionEvent)
     func onNetworkQuality(_ userID: String, upstreamQuality: ZegoStreamQualityLevel)
@@ -59,7 +44,6 @@ class UserService: NSObject {
     var localUserRoomInfo: UserInfo?
     var userList = DictionaryArray<String, UserInfo>()
     var roomService: RoomService = RoomService()
-    var deviceService: DeviceService = DeviceService()
     let timer = ZegoTimer(15000)
     
     
@@ -86,7 +70,6 @@ class UserService: NSObject {
             guard let callback = callback else { return }
             callback(.failure(.failed))
         }
-
     }
     
     /// user login with user info and `ZIM token`
@@ -278,7 +261,7 @@ class UserService: NSObject {
         setRoomAttributes(parameters.0, parameters.1, parameters.2, nil)
         
         // open mic
-        deviceService.muteMicrophone(!open)
+        muteMicrophone(!open)
     }
     
     /// camera operation
@@ -287,23 +270,16 @@ class UserService: NSObject {
         guard let parameters = getDeviceChangeParameters(open, flag: 1) else {
             return
         }
-
+        
         setRoomAttributes(parameters.0, parameters.1, parameters.2, nil)
         
         // open camera
-        deviceService.enableCamera(open)
+        enableCamera(open)
     }
-    
-    func enableSpeaker(_ enable: Bool) {
-        /// open voice
-        deviceService.enableSpeaker(enable)
-    }
-    
-    func useFrontCamera(_ enable: Bool) {
-        /// use front camera
-        deviceService.useFrontCamera(enable)
-    }
-    
+}
+
+// MARK: - Private
+extension UserService {
     // MARK: private method
     private func heartBeatRequest() {
         var request = HeartBeatRequest()
@@ -312,10 +288,7 @@ class UserService: NSObject {
         } failure: { requestStatus in
         }
     }
-}
-
-// MARK: - Private
-extension UserService {
+    
     private func setRoomAttributes(_ attributes: [String : String],
                                    _ roomID: String,
                                    _ config: ZIMRoomAttributesSetConfig, _ callback: RoomCallback?) {

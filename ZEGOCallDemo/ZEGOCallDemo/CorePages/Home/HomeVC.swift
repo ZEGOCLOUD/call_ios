@@ -36,6 +36,7 @@ class HomeVC: UIViewController {
     }
     
     
+    var appIsActive: Bool = true
     var currentTimeStamp:Int = 0
     let appDelegate = (UIApplication.shared.delegate) as! AppDelegate
     
@@ -43,6 +44,7 @@ class HomeVC: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         RoomManager.shared.userService.addUserServiceDelegate(CallBusiness.shared)
+        RoomManager.shared.userService.addUserServiceDelegate(self)
         let tapClick:UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(tap))
         backView.addGestureRecognizer(tapClick)
         configUI()
@@ -51,20 +53,27 @@ class HomeVC: UIViewController {
     }
     
     @objc func applicationDidBecomeActive(notification: NSNotification) {
+        appIsActive = true
         let nowTime = Int(Date().timeIntervalSince1970)
         if currentTimeStamp > 0 && nowTime - currentTimeStamp > 10 {
-            if let oldUser = UserDefaults.standard.object(forKey: USER_ID_KEY) as? Dictionary<String, String> {
-                let userInfo: UserInfo = UserInfo()
-                userInfo.userID = oldUser["userID"]
-                userInfo.userName = oldUser["userName"]
-                if let token = AppToken.getZIMToken(withUserID: userInfo.userID) {
-                    RoomManager.shared.userService.login(userInfo, token) { result in
-                        switch result {
-                        case .success():
-                            break
-                        case .failure(let error):
-                            break
-                        }
+            //loginAgain()
+        }
+    }
+    
+    func loginAgain() {
+        if let oldUser = UserDefaults.standard.object(forKey: USER_ID_KEY) as? Dictionary<String, String> {
+            let userInfo: UserInfo = UserInfo()
+            userInfo.userID = oldUser["userID"]
+            userInfo.userName = oldUser["userName"]
+            if let token = AppToken.getZIMToken(withUserID: userInfo.userID) {
+                RoomManager.shared.userService.login(userInfo, token) { result in
+                    switch result {
+                    case .success():
+                        break
+                    case .failure(_):
+                        UserDefaults.standard.set(true, forKey: App_IS_LOGOUT_KEY)
+                        RoomManager.shared.userService.logout()
+                        self.navigationController?.popToRootViewController(animated: true)
                     }
                 }
             }
@@ -73,6 +82,7 @@ class HomeVC: UIViewController {
     
     @objc func applicationDidEnterBackGround(notification: NSNotification) {
         currentTimeStamp  = Int(Date().timeIntervalSince1970)
+        appIsActive = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -140,4 +150,21 @@ class HomeVC: UIViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
+}
+
+extension HomeVC: UserServiceDelegate {
+    func connectionStateChanged(_ state: ZIMConnectionState, _ event: ZIMConnectionEvent) {
+        if state == .connected {
+            var request = HeartBeatRequest()
+            guard let userID = RoomManager.shared.userService.localUserInfo?.userID else { return }
+            request.userID = userID
+            RequestManager.shared.heartBeatRequest(request: request) { requestStatus in
+                if requestStatus?.code != 0 {
+                    self.loginAgain()
+                }
+            } failure: { requestStatus in
+                self.loginAgain()
+            }
+        }
+    }
 }

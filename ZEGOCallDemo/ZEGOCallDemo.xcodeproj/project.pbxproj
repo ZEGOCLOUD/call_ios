@@ -103,6 +103,7 @@
 		86B19A1727911D740004C997 /* CallMainVC+Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19A1627911D740004C997 /* CallMainVC+Operation.swift */; };
 		86DE03C727981B3D000EE3C5 /* CallBusiness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE03C627981B3D000EE3C5 /* CallBusiness.swift */; };
 		86DE03C927983D98000EE3C5 /* CallMainVC+Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */; };
+		8E0C8C7E27A3C93A00B60495 /* UserService+Express.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C8C7D27A3C93A00B60495 /* UserService+Express.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -256,6 +257,7 @@
 		86B19A1627911D740004C997 /* CallMainVC+Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallMainVC+Operation.swift"; sourceTree = "<group>"; };
 		86DE03C627981B3D000EE3C5 /* CallBusiness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallBusiness.swift; sourceTree = "<group>"; };
 		86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallMainVC+Stream.swift"; sourceTree = "<group>"; };
+		8E0C8C7D27A3C93A00B60495 /* UserService+Express.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserService+Express.swift"; sourceTree = "<group>"; };
 		95F1BBF3114F32302EC88A9C /* Pods-ZEGOCallDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZEGOCallDemo.debug.xcconfig"; path = "Target Support Files/Pods-ZEGOCallDemo/Pods-ZEGOCallDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -458,8 +460,8 @@
 			isa = PBXGroup;
 			children = (
 				86B198C7278BE25F0004C997 /* UserService.swift */,
+				8E0C8C7D27A3C93A00B60495 /* UserService+Express.swift */,
 				86B198C9278BE25F0004C997 /* RoomService.swift */,
-				868F636327A27F1200D0B5DC /* DeviceService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -942,7 +944,6 @@
 				86B198D7278BE2600004C997 /* UserService+Paramater.swift in Sources */,
 				86B19A1427901FAF0004C997 /* CallBaseView.swift in Sources */,
 				86B19896278BDD7E0004C997 /* LoginVC.swift in Sources */,
-				868F636427A27F1200D0B5DC /* DeviceService.swift in Sources */,
 				86718CAC27915ADE00CEA8A0 /* PullToRefresh.swift in Sources */,
 				86B19962278D63440004C997 /* UIImage+Zego.swift in Sources */,
 				86718CE3279542B100CEA8A0 /* LogoutRequest.swift in Sources */,
@@ -955,6 +956,7 @@
 				86B19953278D63440004C997 /* ZegoServerAssistant.cpp in Sources */,
 				86B198F6278D625F0004C997 /* SettingsVC.swift in Sources */,
 				86B19957278D63440004C997 /* Base64.cc in Sources */,
+				8E0C8C7E27A3C93A00B60495 /* UserService+Express.swift in Sources */,
 				86B19961278D63440004C997 /* AuthorizedCheck.swift in Sources */,
 				86B198D1278BE2600004C997 /* NetworkManager.swift in Sources */,
 				86B19978278D75E00004C997 /* OnlineUserListVC.swift in Sources */,

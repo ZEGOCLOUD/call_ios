@@ -69,10 +69,10 @@ class CallMainVC: UIViewController {
     @objc func ExchangeVideoStream() {
         let tempID = mainStreamUserID
         mainStreamUserID = streamUserID
-        CallBusiness.shared.startPlaying(mainStreamUserID, streamView: mainPreviewView, type: vcType)
+        RoomManager.shared.userService.startPlaying(mainStreamUserID, streamView: mainPreviewView, type: vcType)
         streamUserID = tempID
         setPreviewUserName()
-        CallBusiness.shared.startPlaying(streamUserID, streamView: previewView, type: vcType)
+        RoomManager.shared.userService.startPlaying(streamUserID, streamView: previewView, type: vcType)
         setCallBgImage()
     }
     
@@ -223,7 +223,7 @@ class CallMainVC: UIViewController {
             headImage.isHidden = false
             timer.start()
             if vcType == .video {
-                CallBusiness.shared.startPlaying(mainStreamUserID, streamView: mainPreviewView, type: vcType)
+                RoomManager.shared.userService.startPlaying(mainStreamUserID, streamView: mainPreviewView, type: vcType)
             }
         case .accept:
             bottomViewHeight.constant = 85
@@ -244,7 +244,9 @@ class CallMainVC: UIViewController {
                 phoneView.isHidden = false
                 videoView.isHidden = true
                 headImage.isHidden = false
-                CallBusiness.shared.startPlaying(mainStreamUserID, streamView: nil, type: vcType)
+                if mainStreamUserID != localUserID{
+                    RoomManager.shared.userService.startPlaying(mainStreamUserID, streamView: nil, type: vcType)
+                }
             } else {
                 phoneView.isHidden = true
                 videoView.isHidden = false
@@ -253,8 +255,8 @@ class CallMainVC: UIViewController {
                 preciewContentView.isHidden = false
                 topMaksImageView.isHidden = false
                 bottomMaskImageView.isHidden = false
-                CallBusiness.shared.startPlaying(mainStreamUserID, streamView: mainPreviewView, type: vcType)
-                CallBusiness.shared.startPlaying(streamUserID, streamView: previewView, type: vcType)
+                RoomManager.shared.userService.startPlaying(mainStreamUserID, streamView: mainPreviewView, type: vcType)
+                RoomManager.shared.userService.startPlaying(streamUserID, streamView: previewView, type: vcType)
             }
             timer.start()
         case .canceled,.decline,.miss,.completed:
