@@ -8,19 +8,19 @@
 import Foundation
 
 class UserInfo: NSObject, Codable {
-    /// user ID
+    /// User ID, refers to the user unique ID, can only contains numbers and letters.
     var userID: String?
     
-    /// user name
+    /// User name, cannot be null.
     var userName: String?
     
     /// user order
     var order: String?
     
-    /// mic
+    /// The microphone state
     var mic: Bool = true
     
-    /// camera
+    /// The camera state
     var camera: Bool = true
     
     /// voice

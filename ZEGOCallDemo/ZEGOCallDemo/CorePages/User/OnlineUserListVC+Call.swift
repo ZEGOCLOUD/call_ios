@@ -33,7 +33,8 @@ extension OnlineUserListVC: OnlineUserListCellDelegate {
                     switch result {
                     case .success():
                         CallBusiness.shared.startCall(userInfo, callType: .video)
-                    case .failure(let code):
+                    case .failure(let error):
+                        TipView.showWarn(String(format: ZGLocalizedString("call_page_call_fail"), error.code))
                         break
                     }
                 }
