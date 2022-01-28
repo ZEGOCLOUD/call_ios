@@ -294,8 +294,9 @@ class CallMainVC: UIViewController {
         if status != .take {
             callWaitTime = Int(Date().timeIntervalSince1970)
         }
-        statusType = status
         
+        let currentTime = Int(Date().timeIntervalSince1970)
+        statusType = status
         configUI()
     }
     
@@ -376,6 +377,13 @@ class CallMainVC: UIViewController {
             callStatusLabel.text = ""
             HUDHelper.showMessage(message: ZGLocalizedString("call_page_status_completed"))
         }
+    }
+    
+    func resetTime() {
+        timer.stop()
+        timeLabel.text = ""
+        callTime = 0
+        callWaitTime = 0
     }
     
     func setBackGroundImageHidden() {

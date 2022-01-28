@@ -18,7 +18,6 @@ extension CallBusiness {
                 if self.getCurrentViewController() is CallMainVC {
                     guard let userInfo = currentCallUserInfo else { return }
                     currentCallVC?.updateCallType(callKitCallType, userInfo: userInfo, status: .calling)
-                    currentCallVC?.callTime = startCallTime
                     startPlayingStream(currentCallUserInfo?.userID)
                 } else {
                     if let currentCallVC = currentCallVC {
