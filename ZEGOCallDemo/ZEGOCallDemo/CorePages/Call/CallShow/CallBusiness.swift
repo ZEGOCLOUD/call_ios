@@ -110,6 +110,7 @@ class CallBusiness: NSObject {
     func closeCallVC() {
         guard let currentCallVC = currentCallVC else { return }
         currentCallVC.dismiss(animated: true, completion: {
+            self.currentCallVC?.statusType = .completed
             self.currentCallVC = nil
         })
     }
@@ -196,6 +197,7 @@ extension CallBusiness: UserServiceDelegate {
             currentCallVC.changeCallStatusText(.miss)
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            currentCallVC.statusType = .completed
             currentCallVC.dismiss(animated: true, completion: nil)
         }
     }

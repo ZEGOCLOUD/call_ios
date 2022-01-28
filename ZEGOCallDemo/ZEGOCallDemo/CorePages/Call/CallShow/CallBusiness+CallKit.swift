@@ -21,7 +21,9 @@ extension CallBusiness {
                     startPlayingStream(currentCallUserInfo?.userID)
                 } else {
                     if let currentCallVC = currentCallVC {
+                        guard let userInfo = currentCallUserInfo else { return }
                         self.getCurrentViewController()?.present(currentCallVC, animated: true, completion: {
+                            currentCallVC.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
                             self.startPlayingStream(self.currentCallUserInfo?.userID)
                         })
                     } else {
