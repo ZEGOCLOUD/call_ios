@@ -7,7 +7,6 @@
 
 import Foundation
 import ZIM
-import ZegoExpressEngine
 
 extension RoomService {
     
