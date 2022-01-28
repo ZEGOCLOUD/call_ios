@@ -9,7 +9,16 @@ import Foundation
 import ZIM
 import ZegoExpressEngine
 
+/// Class ZEGOLive business logic management
+///
+/// Description: This class contains the ZEGOLive business logic, manages the service instances of different modules, and also distributing the data delivered by the SDK.
 class RoomManager: NSObject {
+    
+    /// Get the ZegoRoomManager singleton instance
+    ///
+    /// Description: This method can be used to get the RoomManager singleton instance.
+    ///
+    /// Call this method at: Any time
     static let shared = RoomManager()
     
     // MARK: - Private
@@ -21,9 +30,17 @@ class RoomManager: NSObject {
         super.init()
     }
     
-    // MARK: - Public
+    /// The user information management instance, contains the in-room user information management, logged-in user information and other business logic.
     var userService: UserService
     
+    /// Initialize the SDK
+    ///
+    /// Description: This method can be used to initialize the ZIM SDK and the Express-Audio SDK.
+    ///
+    /// Call this method at: Before you log in. We recommend you call this method when the application starts.
+    ///
+    /// - Parameter appID: refers to the project ID. To get this, go to ZEGOCLOUD Admin Console: https://console.zego.im/dashboard?lang=en
+    /// - Parameter appSign: refers to the secret key for authentication. To get this, go to ZEGOCLOUD Admin Console: https://console.zego.im/dashboard?lang=en
     func initWithAppID(appID: UInt32, appSign: String, callback: RoomCallback?) {
         if appSign.count == 0 {
             guard let callback = callback else { return }
@@ -48,12 +65,26 @@ class RoomManager: NSObject {
         callback(result)
     }
     
+    
+    /// The method to deinitialize the SDK
+    ///
+    /// Description: This method can be used to deinitialize the SDK and release the resources it occupies.
+    ///
+    /// Call this method at: When the SDK is no longer be used. We recommend you call this method when the application exits.
     func uninit() {
         logoutRtcRoom(true)
         ZIMManager.shared.destoryZIM()
         ZegoExpressEngine.destroy(nil)
     }
     
+    /// Upload local logs to the ZEGOCLOUD Server
+    ///
+    /// Description: You can call this method to upload the local logs to the ZEGOCLOUD Server for troubleshooting when exception occurs.
+    ///
+    /// Call this method at: When exceptions occur
+    ///
+    /// - Parameter fileName: refers to the name of the file you upload. We recommend you name the file in the format of "appid_platform_timestamp".
+    /// - Parameter callback: refers to the callback that be triggered when the logs are upload successfully or failed to upload logs.
     func uploadLog(callback: RoomCallback?) {
         ZIMManager.shared.zim?.uploadLog({ errorCode in
             guard let callback = callback else { return }

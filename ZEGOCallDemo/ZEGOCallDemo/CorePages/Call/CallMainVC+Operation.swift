@@ -41,7 +41,7 @@ extension CallMainVC: CallActionDelegate {
     func cancelCall(_ userID: String, callType: CallType, isTimeout: Bool = false) {
         var cancelType: CancelType = .intent
         if isTimeout { cancelType = .timeout}
-        RoomManager.shared.userService.cancelCallToUser(userID: userID, responeType: cancelType) { result in
+        RoomManager.shared.userService.cancelCallToUser(userID: userID, cancelType: cancelType) { result in
             switch result {
             case .success():
                 CallBusiness.shared.audioPlayer?.stop()
@@ -78,12 +78,12 @@ extension CallMainVC: CallActionDelegate {
     func startPlayingStream(_ userID: String) {
         if let userRoomInfo = RoomManager.shared.userService.localUserRoomInfo {
             if vcType == .audio {
-                RoomManager.shared.userService.micOperation(userRoomInfo.mic, callback: nil)
+                RoomManager.shared.userService.enableMic(userRoomInfo.mic, callback: nil)
                 guard let callUser = callUser else { return }
                 startPlaying(callUser.userID, streamView: nil, type: .audio)
             } else {
-                RoomManager.shared.userService.micOperation(userRoomInfo.mic, callback: nil)
-                RoomManager.shared.userService.cameraOpen(userRoomInfo.camera, callback: nil)
+                RoomManager.shared.userService.enableMic(userRoomInfo.mic, callback: nil)
+                RoomManager.shared.userService.enableCamera(userRoomInfo.camera, callback: nil)
                 if let mainStreamID = mainStreamUserID {
                     startPlaying(mainStreamID, streamView: mainPreviewView, type: .video)
                 } else {
@@ -116,7 +116,7 @@ extension CallMainVC: CallActionDelegate {
     
     func callOpenMic(_ callView: CallBaseView, isOpen: Bool) {
         
-        RoomManager.shared.userService.micOperation(isOpen, callback: nil)
+        RoomManager.shared.userService.enableMic(isOpen, callback: nil)
     }
     
     func callOpenVoice(_ callView: CallBaseView, isOpen: Bool) {
@@ -124,7 +124,7 @@ extension CallMainVC: CallActionDelegate {
     }
     
     func callOpenVideo(_ callView: CallBaseView, isOpen: Bool) {
-        RoomManager.shared.userService.cameraOpen(isOpen, callback: nil)
+        RoomManager.shared.userService.enableCamera(isOpen, callback: nil)
     }
     
     func callFlipCamera(_ callView: CallBaseView) {

@@ -11,7 +11,7 @@ Before getting started with the ZEGOCLOUD Call application, **contact us to acti
 * [Xcode 12 or later](https://developer.apple.com/xcode/download)
 * [CocoaPods](https://guides.cocoapods.org/using/getting-started.html#installation)
 * An iOS device or Simulator that is running on iOS 13.0 or later and supports audio and video. We recommend you use a real device.
-* Create a project in [ZEGO Admin Console](https://console.zegocloud.com/). For details, see [ZEGO Admin Console - Project management](https://docs.zegocloud.com/article/1271).
+* Create a project in [ZEGOCLOUD Admin Console](https://console.zegocloud.com/). For details, see [ZEGO Admin Console - Project management](https://docs.zegocloud.com/article/1271).
 
 ###  Install Pods
 
@@ -57,7 +57,7 @@ The project consists of two modules: **ZEGOCall** and **ZEGOCallDemo**.
 
 ### ZEGOCall
 
-The ZEGOCall improves reusability and further encapsulates the RTC and IM for you to integrate easier. The following shows the structure:
+The ZEGOCall module improves reusability and further encapsulates the RTC and IM for you to integrate easier. The following shows the structure:
 
 Directory path: 
 
@@ -81,11 +81,9 @@ Directory path:
 └── Tool
 ```
 
-### ZEGOCall Demo
+### ZEGOCallDemo
 
-The Demo module implements the business and UI interaction logic, including login, contact list, calling, and more. The following shows the structure:
-
-
+The ZEGOCallDemo module implements the business and UI interaction logic, including login, contact list, calling, and more. The following shows the structure:
 
 Directory path: 
 
@@ -95,14 +93,14 @@ Directory path:
 
 ```
 .
-├── AppCenter            --- AppID, AppSign,ServerSecret and more
+├── AppCenter            --- AppID, AppSign, ServerSecret and more
 ├── Assets.xcassets      --- Images, colors, and more resources
 ├── CorePages            --- UI and business logic of core features 
-│   ├── Call             --- 呼叫界面
+│   ├── Call             --- The showing page when making calls
 │   ├── Home             --- Homepage
 │   ├── Login            --- Login
 │   ├── Setting          --- The Settings page
-│   ├── User             --- 在线联系人界面
+│   ├── User             --- The online contacts page
 │   └── WebPages         --- The Web page
 ├── Helper               --- Utilities
 ├── Network

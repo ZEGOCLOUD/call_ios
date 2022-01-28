@@ -180,7 +180,7 @@ extension CallBusiness: UserServiceDelegate {
         }
     }
     
-    func receiveCancelCall(_ userInfo: UserInfo, type: CancelType) {
+    func receiveCallCanceled(_ userInfo: UserInfo, type: CancelType) {
         if (currentCallStatus == .calling || currentCallStatus == .wait) && userInfo.userID != currentCallUserInfo?.userID {
             return
         }
@@ -258,11 +258,11 @@ extension CallBusiness: UserServiceDelegate {
         if let vc = currentCallVC {
             if let userRoomInfo = RoomManager.shared.userService.localUserRoomInfo {
                 if vc.vcType == .audio {
-                    RoomManager.shared.userService.micOperation(userRoomInfo.mic, callback: nil)
+                    RoomManager.shared.userService.enableMic(userRoomInfo.mic, callback: nil)
                     RoomManager.shared.userService.startPlaying(userID, streamView: nil, type: .audio)
                 } else {
-                    RoomManager.shared.userService.micOperation(userRoomInfo.mic, callback: nil)
-                    RoomManager.shared.userService.cameraOpen(userRoomInfo.camera, callback: nil)
+                    RoomManager.shared.userService.enableMic(userRoomInfo.mic, callback: nil)
+                    RoomManager.shared.userService.enableCamera(userRoomInfo.camera, callback: nil)
                     if let mainStreamID = currentCallVC?.mainStreamUserID {
                         RoomManager.shared.userService.startPlaying(mainStreamID, streamView: vc.mainPreviewView, type: .video)
                     } else {
