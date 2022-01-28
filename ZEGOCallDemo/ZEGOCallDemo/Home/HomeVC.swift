@@ -47,7 +47,7 @@ class HomeVC: UIViewController {
         backView.addGestureRecognizer(tapClick)
         configUI()
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackGround), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
     
     @objc func applicationDidBecomeActive(notification: NSNotification) {

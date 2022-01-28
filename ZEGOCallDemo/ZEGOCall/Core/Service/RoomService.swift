@@ -131,7 +131,6 @@ extension RoomService {
         zimRoomInfo.roomName = roomName
         
         let roomInfo = RoomInfo()
-        roomInfo.hostID = RoomManager.shared.userService.localUserInfo?.userID
         roomInfo.roomID = roomID
         roomInfo.roomName = roomName.count > 0 ? roomName : roomID
         

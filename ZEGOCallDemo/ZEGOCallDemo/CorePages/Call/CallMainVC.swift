@@ -153,6 +153,14 @@ class CallMainVC: UIViewController {
         vc.callUser = userInfo
         vc.vcType = type
         vc.statusType = status
+        
+        if status == .calling {
+            vc.callTime = Int(Date().timeIntervalSince1970)
+        } else if status == .take {
+            vc.callWaitTime = Int(Date().timeIntervalSince1970)
+        }
+        
+        
         switch type {
         case .audio:
             vc.bgImage = UIImage(named: String.getMakImageName(userName: vc.localUserInfo.userName))
@@ -167,16 +175,15 @@ class CallMainVC: UIViewController {
         vc.timer.setEventHandler {
             switch vc.statusType {
             case .take:
-                vc.callWaitTime += 1
-                if vc.callWaitTime > 60 {
+                let currentTime = Int(Date().timeIntervalSince1970)
+                if currentTime - vc.callWaitTime > 60 {
                     vc.cancelCall(vc.callUser?.userID ?? "", callType: vc.vcType, isTimeout: true)
-                    vc.callWaitTime = 0
                     vc.timer.stop()
                 }
             case .calling:
-                vc.callTime += 1
+                let currentTime = Int(Date().timeIntervalSince1970)
                 DispatchQueue.main.async {
-                    vc.timeLabel.text = String.getTimeFormate(vc.callTime)
+                    vc.timeLabel.text = String.getTimeFormate(currentTime - vc.callTime)
                 }
             case .accept,.canceled,.decline,.miss,.completed:
                 break
@@ -207,8 +214,6 @@ class CallMainVC: UIViewController {
         preciewContentView.isHidden = true
         topMaksImageView.isHidden = false
         bottomMaskImageView.isHidden = false
-        callTime = 0
-        callWaitTime = 0
         switch statusType {
         case .take:
             takeView.isHidden = false
@@ -280,6 +285,12 @@ class CallMainVC: UIViewController {
             setPreviewUserName()
         }
         
+        if statusType != .calling {
+            callTime = Int(Date().timeIntervalSince1970)
+        }
+        if status != .take {
+            callWaitTime = Int(Date().timeIntervalSince1970)
+        }
         statusType = status
         
         configUI()
@@ -295,14 +306,19 @@ class CallMainVC: UIViewController {
             self.callQualityLabel.isHidden = true
         }
         if connectedStatus == .disConnected || connectedStatus == .connecting {
+            bottomView.isUserInteractionEnabled = false
+            previewView.isUserInteractionEnabled = false
             self.callQualityLabel.isHidden = false
             self.callQualityLabel.text = ZGLocalizedString("call_page_call_disconnected")
         } else {
+            bottomView.isUserInteractionEnabled = true
+            previewView.isUserInteractionEnabled = true
             self.callQualityLabel.isHidden = true
         }
     }
     
     func userRoomInfoUpdate(_ userRoomInfo: UserInfo) {
+        print("userRoomInfoUpdate: userID == %@, localUserID == %@",userRoomInfo.userID, localUserID)
         if userRoomInfo.userID != localUserID {
             otherUserRoomInfo = userRoomInfo
         }
