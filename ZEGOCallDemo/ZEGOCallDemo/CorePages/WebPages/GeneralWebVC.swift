@@ -24,5 +24,8 @@ class GeneralWebVC: UIViewController {
             webview.load(NSURLRequest(url: webUrl) as URLRequest)
         }
     }
-
+    
+    @IBAction func backItemClick(_ sender: UIBarButtonItem) {
+        self.navigationController?.popViewController(animated: true)
+    }
 }
