@@ -207,6 +207,7 @@ class UserService: NSObject {
         roomService.createRoom(myUserID, myUserName, token) { [self] result in
             localUserRoomInfo = UserInfo(myUserID,myUserName)
             localUserRoomInfo?.voice = false
+            self.enableSpeaker(false)
             switch result {
             case .success():
                 sendPeerMesssage(userID, callType: type, cancelType: nil, commandType: .call, responseType: nil) { result in
@@ -269,8 +270,10 @@ class UserService: NSObject {
                     ///start publish
                     guard let myUserID = self.localUserInfo?.userID else { return }
                     self.localUserRoomInfo = UserInfo(myUserID,self.localUserInfo?.userName ?? "")
+                    self.localUserRoomInfo?.voice = false
                     let streamID = String.getStreamID(myUserID, roomID: userID)
                     ZegoExpressEngine.shared().startPublishingStream(streamID)
+                    self.enableSpeaker(false)
                     ///send peer message
                     self.sendPeerMesssage(userID, callType: nil, cancelType: nil, commandType: .reply, responseType: responseType, callback: callback)
                 case .failure(let error):

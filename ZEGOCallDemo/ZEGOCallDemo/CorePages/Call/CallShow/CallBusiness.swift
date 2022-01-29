@@ -56,9 +56,9 @@ class CallBusiness: NSObject {
     // MARK: - Private
     private override init() {
         super.init()
-        NotificationCenter.default.addObserver(self, selector: #selector(callKitStart), name: Notification.Name("callStart"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(callKitEnd), name: Notification.Name("callEnd"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(muteSpeaker), name: Notification.Name("muteSpeaker"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(callKitStart), name: Notification.Name(CALL_NOTI_START), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(callKitEnd), name: Notification.Name(CALL_NOTI_END), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(muteSpeaker), name: Notification.Name(CALL_NOTI_MUTE), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackGround), name: UIApplication.didEnterBackgroundNotification, object: nil)
         
@@ -270,27 +270,29 @@ extension CallBusiness: UserServiceDelegate {
     
     func startPlayingStream(_ userID: String?) {
         guard let userID = userID else { return }
+        guard let userRoomInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
         if let vc = currentCallVC {
-            if let userRoomInfo = RoomManager.shared.userService.localUserRoomInfo {
-                if vc.vcType == .audio {
-                    RoomManager.shared.userService.enableMic(userRoomInfo.mic, callback: nil)
-                    RoomManager.shared.userService.startPlaying(userID, streamView: nil, type: .audio)
+            if vc.vcType == .audio {
+                RoomManager.shared.userService.enableMic(userRoomInfo.mic, callback: nil)
+                RoomManager.shared.userService.startPlaying(userID, streamView: nil, type: .audio)
+            } else {
+                RoomManager.shared.userService.enableMic(userRoomInfo.mic, callback: nil)
+                RoomManager.shared.userService.enableCamera(userRoomInfo.camera, callback: nil)
+                if let mainStreamID = currentCallVC?.mainStreamUserID {
+                    RoomManager.shared.userService.startPlaying(mainStreamID, streamView: vc.mainPreviewView, type: .video)
                 } else {
-                    RoomManager.shared.userService.enableMic(userRoomInfo.mic, callback: nil)
-                    RoomManager.shared.userService.enableCamera(userRoomInfo.camera, callback: nil)
-                    if let mainStreamID = currentCallVC?.mainStreamUserID {
-                        RoomManager.shared.userService.startPlaying(mainStreamID, streamView: vc.mainPreviewView, type: .video)
-                    } else {
-                        RoomManager.shared.userService.startPlaying(RoomManager.shared.userService.localUserInfo?.userID, streamView: vc.mainPreviewView, type: .video)
-                    }
-                    if let streamID = currentCallVC?.streamUserID {
-                        RoomManager.shared.userService.startPlaying(streamID, streamView: vc.previewView, type: .video)
-                    } else {
-                        RoomManager.shared.userService.startPlaying(userID, streamView: vc.previewView, type: .video)
-                    }
+                    RoomManager.shared.userService.startPlaying(RoomManager.shared.userService.localUserInfo?.userID, streamView: vc.mainPreviewView, type: .video)
                 }
-                RoomManager.shared.userService.enableSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? false)
+                if let streamID = currentCallVC?.streamUserID {
+                    RoomManager.shared.userService.startPlaying(streamID, streamView: vc.previewView, type: .video)
+                } else {
+                    RoomManager.shared.userService.startPlaying(userID, streamView: vc.previewView, type: .video)
+                }
             }
+            RoomManager.shared.userService.enableSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? false)
+        } else {
+            RoomManager.shared.userService.enableMic(userRoomInfo.mic, callback: nil)
+            RoomManager.shared.userService.startPlaying(userID, streamView: nil, type: .audio)
         }
     }
     

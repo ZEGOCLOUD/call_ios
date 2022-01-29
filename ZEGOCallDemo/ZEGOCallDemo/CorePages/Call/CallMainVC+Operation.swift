@@ -131,6 +131,7 @@ extension CallMainVC: CallActionDelegate {
     }
     
     func callDelayDismiss() {
+        CallBusiness.shared.currentCallStatus = .free
         UIApplication.shared.isIdleTimerDisabled = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.resetTime()

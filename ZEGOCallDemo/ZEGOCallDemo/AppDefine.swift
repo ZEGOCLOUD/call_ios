@@ -17,5 +17,7 @@ func KeyWindow() -> UIWindow {
 }
 
 let USER_ID_KEY = "USER_ID_KEY"
-
 let App_IS_LOGOUT_KEY = "IS_LOGOUT_KEY"
+let CALL_NOTI_START = "callStart"
+let CALL_NOTI_END = "callEnd"
+let CALL_NOTI_MUTE = "muteSpeaker"

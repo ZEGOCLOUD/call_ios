@@ -19,22 +19,14 @@ class CallingVideoView: CallBaseView {
         guard let userInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
         userInfo.camera = !userInfo.camera
         delegate?.callOpenVideo(self, isOpen: userInfo.camera)
-        if userInfo.camera {
-            videoButton.setImage(UIImage(named: "call_camera_open_icon"), for: .normal)
-        } else {
-            videoButton.setImage(UIImage(named: "call_camera_close_icon"), for: .normal)
-        }
+        changeDisplayStatus()
     }
     
     @IBAction func micButtonClick(_ sender: UIButton) {
         guard let userInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
         userInfo.mic = !userInfo.mic
         delegate?.callOpenMic(self, isOpen: userInfo.mic)
-        if userInfo.mic {
-            micButton.setImage(UIImage(named: "call_mic_selected_open"), for: .normal)
-        } else {
-            micButton.setImage(UIImage(named: "call_mic_selected_close"), for: .normal)
-        }
+        changeDisplayStatus()
     }
     
     @IBAction func handUpButtonClick(_ sender: UIButton) {
@@ -50,13 +42,21 @@ class CallingVideoView: CallBaseView {
         guard let userInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
         let voice = userInfo.voice ?? false
         userInfo.voice = !voice
-        if voice {
-            voiceButton.setImage(UIImage(named: "call_voice_close_icon"), for: .normal)
-        } else {
-            voiceButton.setImage(UIImage(named: "call_voice_open_icon"), for: .normal)
-        }
         delegate?.callOpenVoice(self, isOpen: !voice)
+        changeDisplayStatus()
     }
     
+    override func changeDisplayStatus() {
+        guard let userInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
+        
+        let cameraImage = userInfo.camera ? "call_camera_open_icon" : "call_camera_close_icon"
+        videoButton.setImage(UIImage(named: cameraImage), for: .normal)
+        
+        let micImage = userInfo.mic ? "call_audio_mic_open" : "call_audio_mic_close"
+        micButton.setImage(UIImage(named: micImage), for: .normal)
+        
+        let  voiceImage = (userInfo.voice ?? false) ? "call_audio_voice_open" : "call_audio_voice_close"
+        voiceButton.setImage(UIImage(named: voiceImage), for: .normal)
+    }
     
 }

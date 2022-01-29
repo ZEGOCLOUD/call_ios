@@ -170,6 +170,11 @@ class CallMainVC: UIViewController {
         configUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        changeBottomButtonDisplayStatus()
+    }
+    
     static func loadCallMainVC(_ type: CallType, userInfo: UserInfo, status: CallStatusType) -> CallMainVC {
         let vc: CallMainVC = CallMainVC(nibName :"CallMainVC",bundle : nil)
         vc.modalPresentationStyle = .fullScreen;
@@ -179,7 +184,7 @@ class CallMainVC: UIViewController {
         
         if status == .calling {
             vc.callTime = Int(Date().timeIntervalSince1970)
-        } else if status == .take {
+        } else if status == .take || status == .accept {
             vc.callWaitTime = Int(Date().timeIntervalSince1970)
         }
         
@@ -201,6 +206,7 @@ class CallMainVC: UIViewController {
                 let currentTime = Int(Date().timeIntervalSince1970)
                 if currentTime - vc.callWaitTime > 60 {
                     vc.cancelCall(vc.callUser?.userID ?? "", callType: vc.vcType, isTimeout: true)
+                    vc.changeCallStatusText(.miss)
                     vc.timer.stop()
                     vc.callDelayDismiss()
                 }
@@ -209,11 +215,17 @@ class CallMainVC: UIViewController {
                 DispatchQueue.main.async {
                     vc.timeLabel.text = String.getTimeFormate(currentTime - vc.callTime)
                 }
-            case .accept,.canceled,.decline,.miss,.completed:
+            case .accept:
+                let currentTime = Int(Date().timeIntervalSince1970)
+                if currentTime - vc.callWaitTime > 60 {
+                    CallBusiness.shared.audioPlayer?.stop()
+                    vc.changeCallStatusText(.miss)
+                    vc.timer.stop()
+                    vc.callDelayDismiss()
+                }
+            case .canceled,.decline,.miss,.completed:
                 break
             }
-            
-            
         }
         vc.timer.start()
         return vc
@@ -318,8 +330,6 @@ class CallMainVC: UIViewController {
         if status != .take {
             callWaitTime = Int(Date().timeIntervalSince1970)
         }
-        
-        let currentTime = Int(Date().timeIntervalSince1970)
         statusType = status
         configUI()
     }
@@ -346,7 +356,6 @@ class CallMainVC: UIViewController {
     }
     
     func userRoomInfoUpdate(_ userRoomInfo: UserInfo) {
-        print("userRoomInfoUpdate: userID == %@, localUserID == %@",userRoomInfo.userID, localUserID)
         if userRoomInfo.userID != localUserID {
             otherUserRoomInfo = userRoomInfo
         }
@@ -451,5 +460,10 @@ class CallMainVC: UIViewController {
                 smallBgImage = UIImage(named: String.getMakImageName(userName: callUser?.userName))
             }
         }
+    }
+    
+    func changeBottomButtonDisplayStatus() {
+        phoneView.changeDisplayStatus()
+        videoView.changeDisplayStatus()
     }
 }

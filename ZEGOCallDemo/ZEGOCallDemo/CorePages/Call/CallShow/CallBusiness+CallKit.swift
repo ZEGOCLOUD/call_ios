@@ -106,7 +106,7 @@ extension CallBusiness {
                         self.endSystemCall()
                     } else {
                         let streamID = String.getStreamID(userID, roomID: RoomManager.shared.userService.roomService.roomInfo.roomID)
-                        ZegoExpressEngine.shared().startPlayingStream(streamID, canvas: nil)
+                        self.startPlayingStream(streamID)
                     }
                 case .failure(_):
                     break

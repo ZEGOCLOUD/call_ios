@@ -18,11 +18,7 @@ class CallingPhoneView: CallBaseView {
         guard let userInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
         userInfo.mic = !userInfo.mic
         delegate?.callOpenMic(self, isOpen: userInfo.mic)
-        if userInfo.mic {
-            micButton.setImage(UIImage(named: "call_audio_mic_open"), for: .normal)
-        } else {
-            micButton.setImage(UIImage(named: "call_audio_mic_close"), for: .normal)
-        }
+        changeDisplayStatus()
     }
     
     @IBAction func handUpButtonClick(_ sender: UIButton) {
@@ -33,12 +29,18 @@ class CallingPhoneView: CallBaseView {
         guard let userInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
         let voice = userInfo.voice ?? false
         userInfo.voice = !voice
-        if voice {
-            voiceButton.setImage(UIImage(named: "call_audio_voice_close"), for: .normal)
-        } else {
-            voiceButton.setImage(UIImage(named: "call_audio_voice_open"), for: .normal)
-        }
+        changeDisplayStatus()
         delegate?.callOpenVoice(self, isOpen: !voice)
     }
+    
+    func changeDisplayStatus() {
+        guard let userInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
+        let micImage = userInfo.mic ? "call_audio_mic_open" : "call_audio_mic_close"
+        micButton.setImage(UIImage(named: micImage), for: .normal)
+        
+        let  voiceImage = (userInfo.voice ?? false) ? "call_audio_voice_open" : "call_audio_voice_close"
+        voiceButton.setImage(UIImage(named: voiceImage), for: .normal)
+    }
+    
 
 }
