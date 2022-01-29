@@ -50,8 +50,31 @@ class CallMainVC: UIViewController {
         didSet {
             let tapClick = UITapGestureRecognizer.init(target: self, action: #selector(ExchangeVideoStream))
             previewView.addGestureRecognizer(tapClick)
+            previewView.layer.masksToBounds = true
+            previewView.layer.cornerRadius = 6
         }
     }
+    
+    @IBOutlet weak var nameMaskView: UIView! {
+        didSet {
+            
+            nameMaskView.layer.masksToBounds = true
+            nameMaskView.layer.cornerRadius = 6
+            
+            let gradienLayer = CAGradientLayer()
+            gradienLayer.masksToBounds = true
+            gradienLayer.cornerRadius = 6
+            gradienLayer.frame = nameMaskView.bounds
+            gradienLayer.colors = [
+                UIColor(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 0).cgColor,
+                UIColor(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 0.5).cgColor
+            ]
+            gradienLayer.locations = [(0),(1.0)]
+            nameMaskView.layer.addSublayer(gradienLayer)
+        }
+    }
+    
+    
     @IBOutlet weak var preciewContentView: UIView!
     
     @IBOutlet weak var previewNameLabel: UILabel! {
@@ -215,6 +238,7 @@ class CallMainVC: UIViewController {
         preciewContentView.isHidden = true
         topMaksImageView.isHidden = false
         bottomMaskImageView.isHidden = false
+        UIApplication.shared.isIdleTimerDisabled = true
         switch statusType {
         case .take:
             takeView.isHidden = false

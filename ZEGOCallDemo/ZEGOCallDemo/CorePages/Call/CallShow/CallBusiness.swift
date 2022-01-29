@@ -123,6 +123,7 @@ class CallBusiness: NSObject {
         guard let currentCallVC = currentCallVC else { return }
         currentCallVC.resetTime()
         currentCallVC.dismiss(animated: true, completion: {
+            UIApplication.shared.isIdleTimerDisabled = false
             self.currentCallVC?.statusType = .completed
             self.currentCallVC = nil
         })
@@ -210,6 +211,7 @@ extension CallBusiness: UserServiceDelegate {
             currentCallVC.changeCallStatusText(.miss)
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            UIApplication.shared.isIdleTimerDisabled = false
             currentCallVC.statusType = .completed
             currentCallVC.resetTime()
             currentCallVC.dismiss(animated: true, completion: nil)
