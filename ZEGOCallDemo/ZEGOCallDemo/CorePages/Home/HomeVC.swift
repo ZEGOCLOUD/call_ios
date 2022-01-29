@@ -50,6 +50,10 @@ class HomeVC: UIViewController {
         configUI()
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackGround), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        
+        self.navigationController?.navigationBar.standardAppearance.configureWithOpaqueBackground()
+        self.navigationController?.navigationBar.standardAppearance.backgroundColor = UIColor.white
+        self.navigationController?.navigationBar.standardAppearance.shadowColor = UIColor.clear
     }
     
     @objc func applicationDidBecomeActive(notification: NSNotification) {
