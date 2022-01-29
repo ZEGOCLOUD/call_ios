@@ -156,6 +156,7 @@ class LoginVC: UIViewController {
     
     //MARK: -Action
     @IBAction func loginClick(_ sender: Any) {
+        loginButton.backgroundColor = ZegoColor("0055FF")
         if !cameraPermissions {
             AuthorizedCheck.showCameraUnauthorizedAlert(self)
             return
@@ -175,6 +176,12 @@ class LoginVC: UIViewController {
             requestUserID(userInfo)
         }
     }
+    
+    @IBAction func loginTouchDown(_ sender: Any) {
+        loginButton.backgroundColor = ZegoColor("0D52DB")
+    }
+    
+    
     
     func requestUserID(_ userInfo: UserInfo) {
         HUDHelper.showNetworkLoading()

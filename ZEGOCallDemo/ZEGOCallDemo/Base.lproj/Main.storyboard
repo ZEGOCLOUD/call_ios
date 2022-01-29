@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -62,7 +62,7 @@
                                         <color key="textColor" red="1" green="0.29019607843137252" blue="0.31372549019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oo2-Zg-kus">
+                                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oo2-Zg-kus">
                                         <rect key="frame" x="37" y="126" width="340" height="50"/>
                                         <color key="backgroundColor" red="0.0" green="0.33333333333333331" blue="1" alpha="0.40000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -81,6 +81,7 @@
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="loginClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="adQ-Dj-zwn"/>
+                                            <action selector="loginTouchDown:" destination="BYZ-38-t0r" eventType="touchDown" id="upN-Pd-hLy"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -196,7 +197,7 @@
                                     <constraint firstItem="mIu-RC-Sx6" firstAttribute="leading" secondItem="tKv-bc-wQY" secondAttribute="centerX" id="ub6-eq-fu9"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="al6-vk-GhU">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="al6-vk-GhU">
                                 <rect key="frame" x="22" y="765" width="180" height="49"/>
                                 <color key="backgroundColor" red="0.9529411792755127" green="0.95686274766921997" blue="0.9686274528503418" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -218,7 +219,7 @@
                                     <action selector="signUpClick:" destination="rTD-bi-Xal" eventType="touchUpInside" id="e8n-kA-WkL"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kJU-Jl-ARF">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kJU-Jl-ARF">
                                 <rect key="frame" x="212" y="765" width="180" height="49"/>
                                 <color key="backgroundColor" red="0.9529411792755127" green="0.95686274766921997" blue="0.9686274528503418" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -274,7 +275,7 @@
                                         <color key="textColor" red="0.64313725490196072" green="0.64313725490196072" blue="0.64313725490196072" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F36-Bm-otn">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F36-Bm-otn">
                                         <rect key="frame" x="374" y="66" width="22" height="22"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="22" id="KmK-bi-6fO"/>
