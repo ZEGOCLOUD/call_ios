@@ -46,7 +46,7 @@ class CallingVideoView: CallBaseView {
         changeDisplayStatus()
     }
     
-    override func changeDisplayStatus() {
+    func changeDisplayStatus() {
         guard let userInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
         
         let cameraImage = userInfo.camera ? "call_camera_open_icon" : "call_camera_close_icon"
