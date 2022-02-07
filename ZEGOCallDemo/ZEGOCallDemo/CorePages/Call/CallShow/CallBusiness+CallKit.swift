@@ -73,7 +73,7 @@ extension CallBusiness {
         if let userID = currentCallUserInfo?.userID {
             let rtcToken = AppToken.getRtcToken(withRoomID: userID)
             guard let rtcToken = rtcToken else { return }
-            RoomManager.shared.userService.responseCall(userID, token: rtcToken, responseType: .accept) { result in
+            RoomManager.shared.userService.respondCall(userID, token: rtcToken, responseType: .accept) { result in
                 switch result {
                 case .success():
                     self.startCallTime = Int(Date().timeIntervalSince1970)

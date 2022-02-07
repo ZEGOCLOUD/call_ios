@@ -20,7 +20,7 @@ class CallBusiness: NSObject {
 
     var currentCallVC: CallMainVC?
     var currentCallUserInfo: UserInfo?
-    var callKitCallType: CallType = .audio
+    var callKitCallType: CallType = .voice
     var currentCallStatus: callStatus = .free
     var appIsActive: Bool = true
     var currentTipView: CallAcceptTipView?
@@ -82,7 +82,7 @@ class CallBusiness: NSObject {
         guard let userID = userInfo.userID else { return }
         let rtcToken = AppToken.getRtcToken(withRoomID: userID)
         guard let rtcToken = rtcToken else { return }
-        RoomManager.shared.userService.responseCall(userID, token: rtcToken, responseType:.accept) { result in
+        RoomManager.shared.userService.respondCall(userID, token: rtcToken, responseType:.accept) { result in
             switch result {
             case .success():
                 self.audioPlayer?.stop()
@@ -110,7 +110,7 @@ class CallBusiness: NSObject {
         endSystemCall()
         let rtcToken = AppToken.getRtcToken(withRoomID: userID)
         guard let rtcToken = rtcToken else { return }
-        RoomManager.shared.userService.responseCall(userID, token: rtcToken, responseType: .reject, callback: nil)
+        RoomManager.shared.userService.respondCall(userID, token: rtcToken, responseType: .decline, callback: nil)
     }
     
     func closeCallVC() {
@@ -163,7 +163,7 @@ extension CallBusiness: UserServiceDelegate {
     }
     
     
-    func receiveCall(_ userInfo: UserInfo, type: CallType) {
+    func receiveCallInvite(_ userInfo: UserInfo, type: CallType) {
         if currentCallStatus == .calling || currentCallStatus == .wait || currentCallStatus == .waitAccept {
             guard let userID = userInfo.userID else { return }
             if let currentCallUserInfo = currentCallUserInfo {
@@ -246,7 +246,7 @@ extension CallBusiness: UserServiceDelegate {
         }
     }
     
-    func receiveEndCall() {
+    func receiveCallEnded() {
         audioPlayer?.stop()
         currentCallUserInfo = nil
         RoomManager.shared.userService.roomService.leaveRoom { result in
@@ -268,9 +268,9 @@ extension CallBusiness: UserServiceDelegate {
         guard let userID = userID else { return }
         guard let userRoomInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
         if let vc = currentCallVC {
-            if vc.vcType == .audio {
+            if vc.vcType == .voice {
                 RoomManager.shared.userService.enableMic(userRoomInfo.mic, callback: nil)
-                RoomManager.shared.userService.startPlaying(userID, streamView: nil, type: .audio)
+                RoomManager.shared.userService.startPlaying(userID, streamView: nil, type: .voice)
             } else {
                 RoomManager.shared.userService.enableMic(userRoomInfo.mic, callback: nil)
                 RoomManager.shared.userService.enableCamera(userRoomInfo.camera, callback: nil)
@@ -288,7 +288,7 @@ extension CallBusiness: UserServiceDelegate {
             RoomManager.shared.userService.enableSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? false)
         } else {
             RoomManager.shared.userService.enableMic(userRoomInfo.mic, callback: nil)
-            RoomManager.shared.userService.startPlaying(userID, streamView: nil, type: .audio)
+            RoomManager.shared.userService.startPlaying(userID, streamView: nil, type: .voice)
         }
     }
     

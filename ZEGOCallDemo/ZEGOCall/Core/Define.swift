@@ -52,7 +52,7 @@ enum ZegoError: Error {
 
 enum CallResponseType: Int {
     case accept = 1
-    case reject = 2
+    case decline = 2
 }
 
 enum CancelType: Int {
@@ -61,6 +61,6 @@ enum CancelType: Int {
 }
 
 enum CallType: Int {
-    case audio = 1
+    case voice = 1
     case video = 2
 }
