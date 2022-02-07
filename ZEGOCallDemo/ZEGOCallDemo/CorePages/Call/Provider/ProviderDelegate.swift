@@ -37,7 +37,7 @@ class ProviderDelegate: NSObject,CXProviderDelegate {
     }
     //MARK: - Call
     
-    func call(_ uuid: UUID,handle:String) {
+    func call(_ uuid: UUID, handle:String) {
         let startCallAction = CXStartCallAction(call: uuid,handle: CXHandle(type: .generic, value: handle))
         let transaction = CXTransaction()
         transaction.addAction(startCallAction)
@@ -46,14 +46,14 @@ class ProviderDelegate: NSObject,CXProviderDelegate {
         }
     }
     //MARK: - Ending Call
-    func endCall(uuids : [UUID],completion: @escaping (UUID) -> Void) {
-        let uuid = uuids.first
-        let action = CXEndCallAction(call: uuid!)
+    func endCall(uuid : UUID, completion: @escaping (UUID) -> Void) {
         let trans = CXTransaction()
+        let action = CXEndCallAction(call: uuid)
         trans.addAction(action)
+        
         callController.request(trans, completion: { (err) in
             print(err)
-            completion(action.uuid)
+            completion(uuid)
         })
         
     }

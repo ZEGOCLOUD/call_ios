@@ -45,13 +45,7 @@ class CallBusiness: NSObject {
     
     let appDelegate = (UIApplication.shared.delegate) as! AppDelegate
     
-    lazy var myUUID: UUID = {
-        let deviceID: String = UIDevice.current.identifierForVendor!.uuidString
-        if let uuid = UUID(uuidString: deviceID) {
-            return uuid
-        }
-        return UUID()
-    }()
+    var myUUID: UUID = UUID()
     
     // MARK: - Private
     private override init() {
@@ -189,7 +183,9 @@ extension CallBusiness: UserServiceDelegate {
             callTipView.delegate = self
             audioPlayer?.play()
         } else {
-            self.appDelegate.displayIncomingCall(uuid: myUUID, handle:"" , hasVideo: type == .video)
+            let uuid = UUID()
+            myUUID = uuid
+            self.appDelegate.displayIncomingCall(uuid: uuid, handle:"" , hasVideo: type == .video)
         }
     }
     

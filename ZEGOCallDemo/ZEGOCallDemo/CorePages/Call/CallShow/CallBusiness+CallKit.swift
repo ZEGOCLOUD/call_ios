@@ -146,7 +146,7 @@ extension CallBusiness {
     }
     
     func endSystemCall() {
-        appDelegate.providerDelegate?.endCall(uuids: [myUUID], completion: { uuid in
+        appDelegate.providerDelegate?.endCall(uuid: myUUID, completion: { uuid in
             
         })
     }

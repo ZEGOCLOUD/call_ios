@@ -18,12 +18,6 @@ extension CallMainVC: CallActionDelegate {
                         CallBusiness.shared.audioPlayer?.stop()
                         CallBusiness.shared.currentCallStatus = .free
                         self.changeCallStatusText(.completed)
-                        let deviceID: String = UIDevice.current.identifierForVendor!.uuidString
-                        if let uuid = UUID(uuidString: deviceID) {
-                            self.appDelegate.providerDelegate?.endCall(uuids: [uuid], completion: { uuid in
-                                
-                            })
-                        }
                         self.callDelayDismiss()
                     case .failure(let error):
                         let message = String(format: ZGLocalizedString("end_call_failed"), error.code)
