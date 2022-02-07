@@ -17,7 +17,7 @@
 "setting_page_settings" = "Settings";
 "setting_page_sdk_version" = "Express SDK Version";
 "setting_page_zim_sdk_version" = "ZIM SDK Version";
-"setting_page__version" = "App Version";
+"setting_page_version" = "App Version";
 "setting_page_terms_of_service" = "Terms of Use";
 "setting_page_privacy_policy" = "Privacy Policy";
 "setting_page_upload_log" = "Upload logs";

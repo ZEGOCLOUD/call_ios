@@ -50,8 +50,31 @@ class CallMainVC: UIViewController {
         didSet {
             let tapClick = UITapGestureRecognizer.init(target: self, action: #selector(ExchangeVideoStream))
             previewView.addGestureRecognizer(tapClick)
+            previewView.layer.masksToBounds = true
+            previewView.layer.cornerRadius = 6
         }
     }
+    
+    @IBOutlet weak var nameMaskView: UIView! {
+        didSet {
+            
+            nameMaskView.layer.masksToBounds = true
+            nameMaskView.layer.cornerRadius = 6
+            
+            let gradienLayer = CAGradientLayer()
+            gradienLayer.masksToBounds = true
+            gradienLayer.cornerRadius = 6
+            gradienLayer.frame = nameMaskView.bounds
+            gradienLayer.colors = [
+                UIColor(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 0).cgColor,
+                UIColor(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 0.5).cgColor
+            ]
+            gradienLayer.locations = [(0),(1.0)]
+            nameMaskView.layer.addSublayer(gradienLayer)
+        }
+    }
+    
+    
     @IBOutlet weak var preciewContentView: UIView!
     
     @IBOutlet weak var previewNameLabel: UILabel! {
@@ -147,6 +170,11 @@ class CallMainVC: UIViewController {
         configUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        changeBottomButtonDisplayStatus()
+    }
+    
     static func loadCallMainVC(_ type: CallType, userInfo: UserInfo, status: CallStatusType) -> CallMainVC {
         let vc: CallMainVC = CallMainVC(nibName :"CallMainVC",bundle : nil)
         vc.modalPresentationStyle = .fullScreen;
@@ -156,7 +184,7 @@ class CallMainVC: UIViewController {
         
         if status == .calling {
             vc.callTime = Int(Date().timeIntervalSince1970)
-        } else if status == .take {
+        } else if status == .take || status == .accept {
             vc.callWaitTime = Int(Date().timeIntervalSince1970)
         }
         
@@ -178,18 +206,26 @@ class CallMainVC: UIViewController {
                 let currentTime = Int(Date().timeIntervalSince1970)
                 if currentTime - vc.callWaitTime > 60 {
                     vc.cancelCall(vc.callUser?.userID ?? "", callType: vc.vcType, isTimeout: true)
+                    vc.changeCallStatusText(.miss)
                     vc.timer.stop()
+                    vc.callDelayDismiss()
                 }
             case .calling:
                 let currentTime = Int(Date().timeIntervalSince1970)
                 DispatchQueue.main.async {
                     vc.timeLabel.text = String.getTimeFormate(currentTime - vc.callTime)
                 }
-            case .accept,.canceled,.decline,.miss,.completed:
+            case .accept:
+                let currentTime = Int(Date().timeIntervalSince1970)
+                if currentTime - vc.callWaitTime > 60 {
+                    CallBusiness.shared.audioPlayer?.stop()
+                    vc.changeCallStatusText(.miss)
+                    vc.timer.stop()
+                    vc.callDelayDismiss()
+                }
+            case .canceled,.decline,.miss,.completed:
                 break
             }
-            
-            
         }
         vc.timer.start()
         return vc
@@ -214,6 +250,7 @@ class CallMainVC: UIViewController {
         preciewContentView.isHidden = true
         topMaksImageView.isHidden = false
         bottomMaskImageView.isHidden = false
+        UIApplication.shared.isIdleTimerDisabled = true
         switch statusType {
         case .take:
             takeView.isHidden = false
@@ -244,7 +281,9 @@ class CallMainVC: UIViewController {
                 phoneView.isHidden = false
                 videoView.isHidden = true
                 headImage.isHidden = false
-                RoomManager.shared.userService.startPlaying(mainStreamUserID, streamView: nil, type: vcType)
+                if mainStreamUserID != localUserID{
+                    RoomManager.shared.userService.startPlaying(mainStreamUserID, streamView: nil, type: vcType)
+                }
             } else {
                 phoneView.isHidden = true
                 videoView.isHidden = false
@@ -292,7 +331,6 @@ class CallMainVC: UIViewController {
             callWaitTime = Int(Date().timeIntervalSince1970)
         }
         statusType = status
-        
         configUI()
     }
     
@@ -318,7 +356,6 @@ class CallMainVC: UIViewController {
     }
     
     func userRoomInfoUpdate(_ userRoomInfo: UserInfo) {
-        print("userRoomInfoUpdate: userID == %@, localUserID == %@",userRoomInfo.userID, localUserID)
         if userRoomInfo.userID != localUserID {
             otherUserRoomInfo = userRoomInfo
         }
@@ -375,6 +412,13 @@ class CallMainVC: UIViewController {
         }
     }
     
+    func resetTime() {
+        timer.stop()
+        timeLabel.text = ""
+        callTime = 0
+        callWaitTime = 0
+    }
+    
     func setBackGroundImageHidden() {
         if vcType == .audio {
             backGroundImage.isHidden = false
@@ -416,5 +460,10 @@ class CallMainVC: UIViewController {
                 smallBgImage = UIImage(named: String.getMakImageName(userName: callUser?.userName))
             }
         }
+    }
+    
+    func changeBottomButtonDisplayStatus() {
+        phoneView.changeDisplayStatus()
+        videoView.changeDisplayStatus()
     }
 }

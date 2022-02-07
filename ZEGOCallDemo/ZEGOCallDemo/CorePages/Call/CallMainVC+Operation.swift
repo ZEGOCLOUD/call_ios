@@ -24,9 +24,7 @@ extension CallMainVC: CallActionDelegate {
                                 
                             })
                         }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            self.dismiss(animated: true, completion: nil)
-                        }
+                        self.callDelayDismiss()
                     case .failure(let error):
                         let message = String(format: ZGLocalizedString("end_call_failed"), error.code)
                         TipView.showWarn(message)
@@ -95,7 +93,7 @@ extension CallMainVC: CallActionDelegate {
                     startPlaying(userID, streamView: previewView, type: .video)
                 }
             }
-            RoomManager.shared.userService.enableSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? true)
+            RoomManager.shared.userService.enableSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? false)
         }
     }
     
@@ -133,7 +131,10 @@ extension CallMainVC: CallActionDelegate {
     }
     
     func callDelayDismiss() {
+        CallBusiness.shared.currentCallStatus = .free
+        UIApplication.shared.isIdleTimerDisabled = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.resetTime()
             self.dismiss(animated: true, completion: nil)
         }
     }

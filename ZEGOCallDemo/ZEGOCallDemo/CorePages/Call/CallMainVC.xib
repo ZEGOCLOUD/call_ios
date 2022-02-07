@@ -20,6 +20,7 @@
                 <outlet property="callStatusLabel" destination="7wa-uL-Azy" id="DhR-H6-6iD"/>
                 <outlet property="headImage" destination="5G2-Zx-Cu3" id="lXu-y6-jq6"/>
                 <outlet property="mainPreviewView" destination="k3E-XM-kJs" id="btB-6D-ZEB"/>
+                <outlet property="nameMaskView" destination="ONC-Jv-Oj0" id="c5C-cW-a5O"/>
                 <outlet property="preciewContentView" destination="X9Y-cC-uIR" id="tkx-TV-Yo4"/>
                 <outlet property="previewNameLabel" destination="PPJ-4l-tMg" id="XXr-Zb-F5N"/>
                 <outlet property="previewView" destination="OQH-C7-3x8" id="xdV-Jk-Nha"/>
@@ -135,7 +136,6 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
-                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="26" id="9pb-y7-1Xj"/>
                                         <constraint firstItem="PPJ-4l-tMg" firstAttribute="leading" secondItem="ONC-Jv-Oj0" secondAttribute="leading" constant="6" id="SdK-kH-Jth"/>

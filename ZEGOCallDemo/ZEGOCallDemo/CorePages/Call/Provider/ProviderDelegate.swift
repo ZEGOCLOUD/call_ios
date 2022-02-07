@@ -97,21 +97,20 @@ class ProviderDelegate: NSObject,CXProviderDelegate {
         let update = CXCallUpdate()
         update.remoteHandle = action.handle
         provider.reportOutgoingCall(with: action.uuid, startedConnectingAt: Date())
-        NotificationCenter.default.post(name: Notification.Name("callStart"), object: self, userInfo: ["uuid":action.uuid])
+//        NotificationCenter.default.post(name: Notification.Name(CALL_NOTI_START), object: self, userInfo: ["uuid":action.uuid])
         action.fulfill(withDateStarted: Date())
         
     }
     
     func provider(_ provider: CXProvider, perform action: CXAnswerCallAction) {
-        NotificationCenter.default.post(name: Notification.Name("callStart"), object: self, userInfo: ["uuid":action.uuid])
+        NotificationCenter.default.post(name: Notification.Name(CALL_NOTI_START), object: self, userInfo: ["uuid":action.uuid])
         action.fulfill(withDateConnected: Date())
-        
     }
     
     
     func provider(_ provider: CXProvider, perform action: CXEndCallAction) {
-        action.fulfill()
-        NotificationCenter.default.post(name: Notification.Name("callEnd"), object: self, userInfo: ["uuid":action.uuid.uuidString])
+        NotificationCenter.default.post(name: Notification.Name(CALL_NOTI_END), object: self, userInfo: ["uuid":action.uuid.uuidString])
+        action.fulfill(withDateEnded: Date())
     }
     
     func provider(_ provider: CXProvider, perform action: CXSetHeldCallAction) {
@@ -120,7 +119,7 @@ class ProviderDelegate: NSObject,CXProviderDelegate {
     
     func provider(_ provider: CXProvider, perform action: CXSetMutedCallAction) {
         action.fulfill()
-        NotificationCenter.default.post(name: Notification.Name("muteSpeaker"), object: self, userInfo: ["uuid":action.uuid.uuidString])
+        NotificationCenter.default.post(name: Notification.Name(CALL_NOTI_MUTE), object: self, userInfo: ["uuid":action.uuid.uuidString])
     }
     
     func provider(_ provider: CXProvider, perform action: CXSetGroupCallAction) {
