@@ -157,7 +157,7 @@ class CallMainVC: UIViewController {
         return view
     }()
     
-    var vcType: CallType = .audio
+    var vcType: CallType = .voice
     var statusType: CallStatusType = .take
     var useFrontCamera: Bool = true
     var mainStreamUserID: String?
@@ -190,7 +190,7 @@ class CallMainVC: UIViewController {
         
         
         switch type {
-        case .audio:
+        case .voice:
             vc.bgImage = UIImage(named: String.getMakImageName(userName: vc.localUserInfo.userName))
             vc.mainStreamUserID = vc.localUserInfo.userID
         case .video:
@@ -238,7 +238,7 @@ class CallMainVC: UIViewController {
         headImage.image = UIImage(named: String.getHeadImageName(userName: callUser?.userName))
         userNameLabel.text = callUser?.userName
         setPreviewUserName()
-        if vcType == .audio {
+        if vcType == .voice {
             takeStatusFlipButton.isHidden = true
         } else {
             takeStatusFlipButton.isHidden = false
@@ -277,7 +277,7 @@ class CallMainVC: UIViewController {
             acceptView.isHidden = true
             timeLabel.isHidden = false
             takeStatusFlipButton.isHidden = true
-            if vcType == .audio {
+            if vcType == .voice {
                 phoneView.isHidden = false
                 videoView.isHidden = true
                 headImage.isHidden = false
@@ -308,7 +308,7 @@ class CallMainVC: UIViewController {
         vcType = type
         
         switch type {
-        case .audio:
+        case .voice:
             mainStreamUserID = localUserInfo.userID
             bgImage = UIImage(named: String.getMakImageName(userName: localUserInfo.userName))
         case .video:
@@ -372,7 +372,7 @@ class CallMainVC: UIViewController {
             }
         } else {
             if userRoomInfo.userID == mainStreamUserID {
-                backGroundImage.isHidden = vcType == .audio ? false : true
+                backGroundImage.isHidden = vcType == .voice ? false : true
             } else if userRoomInfo.userID == streamUserID {
                 smallHeadImage.isHidden = true
             }
@@ -420,7 +420,7 @@ class CallMainVC: UIViewController {
     }
     
     func setBackGroundImageHidden() {
-        if vcType == .audio {
+        if vcType == .voice {
             backGroundImage.isHidden = false
             smallHeadImage.isHidden = true
             bgImage = UIImage(named: String.getMakImageName(userName: callUser?.userName))

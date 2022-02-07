@@ -18,12 +18,6 @@ extension CallMainVC: CallActionDelegate {
                         CallBusiness.shared.audioPlayer?.stop()
                         CallBusiness.shared.currentCallStatus = .free
                         self.changeCallStatusText(.completed)
-                        let deviceID: String = UIDevice.current.identifierForVendor!.uuidString
-                        if let uuid = UUID(uuidString: deviceID) {
-                            self.appDelegate.providerDelegate?.endCall(uuids: [uuid], completion: { uuid in
-                                
-                            })
-                        }
                         self.callDelayDismiss()
                     case .failure(let error):
                         let message = String(format: ZGLocalizedString("end_call_failed"), error.code)
@@ -39,7 +33,7 @@ extension CallMainVC: CallActionDelegate {
     func cancelCall(_ userID: String, callType: CallType, isTimeout: Bool = false) {
         var cancelType: CancelType = .intent
         if isTimeout { cancelType = .timeout}
-        RoomManager.shared.userService.cancelCallToUser(userID: userID, cancelType: cancelType) { result in
+        RoomManager.shared.userService.cancelCall(userID: userID, cancelType: cancelType) { result in
             switch result {
             case .success():
                 CallBusiness.shared.audioPlayer?.stop()
@@ -62,7 +56,7 @@ extension CallMainVC: CallActionDelegate {
         if let userID = self.callUser?.userID {
             let rtcToken = AppToken.getRtcToken(withRoomID: userID)
             guard let rtcToken = rtcToken else { return }
-            RoomManager.shared.userService.responseCall(userID, token:rtcToken, responseType: .accept) { result in
+            RoomManager.shared.userService.respondCall(userID, token:rtcToken, responseType: .accept) { result in
                 if result.isSuccess {
                     CallBusiness.shared.audioPlayer?.stop()
                     CallBusiness.shared.currentCallStatus = .calling
@@ -75,10 +69,10 @@ extension CallMainVC: CallActionDelegate {
     
     func startPlayingStream(_ userID: String) {
         if let userRoomInfo = RoomManager.shared.userService.localUserRoomInfo {
-            if vcType == .audio {
+            if vcType == .voice {
                 RoomManager.shared.userService.enableMic(userRoomInfo.mic, callback: nil)
                 guard let callUser = callUser else { return }
-                startPlaying(callUser.userID, streamView: nil, type: .audio)
+                startPlaying(callUser.userID, streamView: nil, type: .voice)
             } else {
                 RoomManager.shared.userService.enableMic(userRoomInfo.mic, callback: nil)
                 RoomManager.shared.userService.enableCamera(userRoomInfo.camera, callback: nil)
@@ -101,7 +95,7 @@ extension CallMainVC: CallActionDelegate {
         if let userID = self.callUser?.userID {
             let rtcToken = AppToken.getRtcToken(withRoomID: userID)
             guard let rtcToken = rtcToken else { return }
-            RoomManager.shared.userService.responseCall(userID, token: rtcToken ,responseType: .reject) { result in
+            RoomManager.shared.userService.respondCall(userID, token: rtcToken ,responseType: .decline) { result in
                 if result.isSuccess {
                     CallBusiness.shared.audioPlayer?.stop()
                     CallBusiness.shared.currentCallStatus = .free

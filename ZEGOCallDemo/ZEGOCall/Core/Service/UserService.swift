@@ -40,7 +40,7 @@ protocol UserServiceDelegate : AnyObject  {
     ///
     /// - Parameter userInfo: refers to the caller information.
     /// - Parameter type: indicates the call type.  ZegoCallTypeVoice: Voice call.  ZegoCallTypeVideo: Video call.
-    func receiveCall(_ userInfo: UserInfo, type: CallType)
+    func receiveCallInvite(_ userInfo: UserInfo, type: CallType)
     
     /// Callback for receive a canceled call
     ///
@@ -61,7 +61,7 @@ protocol UserServiceDelegate : AnyObject  {
     /// Callback for end a call
     ///
     /// - Description: This callback will be triggered when the caller or called user ends the call.
-    func receiveEndCall()
+    func receiveCallEnded()
 }
 
 // default realized
@@ -69,10 +69,10 @@ extension UserServiceDelegate {
     func connectionStateChanged(_ state: ZIMConnectionState, _ event: ZIMConnectionEvent){ }
     func onNetworkQuality(_ userID: String, upstreamQuality: ZegoStreamQualityLevel) { }
     func userInfoUpdate(_ userInfo: UserInfo) { }
-    func receiveCall(_ userInfo: UserInfo , type: CallType) { }
+    func receiveCallInvite(_ userInfo: UserInfo , type: CallType) { }
     func receiveCallCanceled(_ userInfo: UserInfo, type: CancelType) { }
     func receiveCallResponse(_ userInfo: UserInfo , responseType: CallResponseType) { }
-    func receiveEndCall() { }
+    func receiveCallEnded() { }
 }
 
 
@@ -201,7 +201,7 @@ class UserService: NSObject {
     /// - Parameter token: refers to the authentication token. To get this, see the documentation: https://docs.zegocloud.com/article/11648
     /// - Parameter type: refers to the call type.  ZegoCallTypeVoice: Voice call.  ZegoCallTypeVideo: Video call.
     /// - Parameter callback: refers to the callback for make a outbound call.
-    func callToUser(_ userID: String, token: String, type: CallType, callback: RoomCallback?) {
+    func callUser(_ userID: String, token: String, type: CallType, callback: RoomCallback?) {
         guard let myUserID = localUserInfo?.userID else { return }
         guard let myUserName = localUserInfo?.userName else { return }
         roomService.createRoom(myUserID, myUserName, token) { [self] result in
@@ -238,7 +238,7 @@ class UserService: NSObject {
     /// - Parameter userID: refers to the ID of the user you are calling.
     /// - Parameter cancelType: cancel type
     /// - Parameter callback: refers to the callback for cancel a call.
-    func cancelCallToUser(userID: String, cancelType: CancelType, callback: RoomCallback?) {
+    func cancelCall(userID: String, cancelType: CancelType, callback: RoomCallback?) {
         sendPeerMesssage(userID, callType: nil, cancelType: cancelType, commandType: .cancel, responseType: .none) { result in
             switch result {
             case .success():
@@ -262,7 +262,7 @@ class UserService: NSObject {
     /// - Parameter userID: refers to the ID of the caller.
     /// - Parameter responseType: refers to the answer of the incoming call.  ZegoResponseTypeAccept: Accept. ZegoResponseTypeDecline: Decline.
     /// - Parameter callback: refers to the callback for respond to an incoming call.
-    func responseCall(_ userID: String, token:String, responseType: CallResponseType, callback: RoomCallback?) {
+    func respondCall(_ userID: String, token:String, responseType: CallResponseType, callback: RoomCallback?) {
         if responseType == .accept {
             self.roomService.joinRoom(userID, token) { result in
                 switch result {
@@ -283,7 +283,7 @@ class UserService: NSObject {
                 }
             }
         } else {
-            sendPeerMesssage(userID, callType: nil, cancelType: nil, commandType: .reply, responseType: .reject, callback: callback)
+            sendPeerMesssage(userID, callType: nil, cancelType: nil, commandType: .reply, responseType: .decline, callback: callback)
         }
     }
     
@@ -444,7 +444,7 @@ extension UserService : ZIMEventHandler {
         
         for obj in delegates.allObjects {
             if let delegate = obj as? UserServiceDelegate {
-                delegate.receiveEndCall()
+                delegate.receiveCallEnded()
             }
         }
     }
@@ -460,17 +460,17 @@ extension UserService : ZIMEventHandler {
             let userInfo: UserInfo = UserInfo()
             userInfo.userID = command.content?.user_info["id"]
             userInfo.userName = command.content?.user_info["name"]
-            var callType: CallType = .audio
+            var callType: CallType = .voice
             if let content = command.content {
                 if let type = content.call_type {
-                    callType = CallType(rawValue: type) ?? .audio
+                    callType = CallType(rawValue: type) ?? .voice
                 }
             }
             for delegate in delegates.allObjects {
                 guard let delegate = delegate as? UserServiceDelegate else { continue }
                 switch command.type {
                 case .call:
-                    delegate.receiveCall(userInfo, type: callType)
+                    delegate.receiveCallInvite(userInfo, type: callType)
                 case .cancel:
                     guard let cancelType = command.content?.cancel_type else { return }
                     if cancelType == 1 {
@@ -487,14 +487,14 @@ extension UserService : ZIMEventHandler {
                         roomService.leaveRoom { result in
                             switch result {
                             case .success():
-                                delegate.receiveCallResponse(userInfo, responseType: .reject)
+                                delegate.receiveCallResponse(userInfo, responseType: .decline)
                             case .failure(_):
                                 break
                             }
                         }
                     }
                 case .end:
-                    delegate.receiveEndCall()
+                    delegate.receiveCallEnded()
                 }
             }
         }

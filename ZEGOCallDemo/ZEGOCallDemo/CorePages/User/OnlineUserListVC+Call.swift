@@ -11,14 +11,14 @@ extension OnlineUserListVC: OnlineUserListCellDelegate {
     func startCall(_ type: CallType, userInfo: UserInfo) {
         if CallBusiness.shared.currentCallStatus != .free { return }
         switch type {
-        case .audio:
+        case .voice:
             if let userID = userInfo.userID {
                 let rtcToken = AppToken.getRtcToken(withRoomID: userID)
                 guard let rtcToken = rtcToken else { return }
-                RoomManager.shared.userService.callToUser(userID, token:rtcToken, type: .audio) { result in
+                RoomManager.shared.userService.callUser(userID, token:rtcToken, type: .voice) { result in
                     switch result {
                     case .success():
-                        CallBusiness.shared.startCall(userInfo, callType: .audio)
+                        CallBusiness.shared.startCall(userInfo, callType: .voice)
                     case .failure(let error):
                         TipView.showWarn(String(format: ZGLocalizedString("call_page_call_fail"), error.code))
                         break
@@ -29,7 +29,7 @@ extension OnlineUserListVC: OnlineUserListCellDelegate {
             if let userID = userInfo.userID {
                 let rtcToken = AppToken.getRtcToken(withRoomID: userID)
                 guard let rtcToken = rtcToken else { return }
-                RoomManager.shared.userService.callToUser(userID, token:rtcToken, type: .video) { result in
+                RoomManager.shared.userService.callUser(userID, token:rtcToken, type: .video) { result in
                     switch result {
                     case .success():
                         CallBusiness.shared.startCall(userInfo, callType: .video)

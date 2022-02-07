@@ -25,7 +25,7 @@ class CallAcceptTipView: UIView {
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var acceptButton: UIButton!
     
-    var tipType: CallType = .audio
+    var tipType: CallType = .voice
     var callUserInfo: UserInfo?
     weak var delegate: CallAcceptTipViewDelegate?
     
@@ -50,7 +50,7 @@ class CallAcceptTipView: UIView {
         tipView.headImage.image = UIImage(named: String.getHeadImageName(userName: userInfo.userName))
         tipView.tipType = type
         switch type {
-        case .audio:
+        case .voice:
             tipView.messageLabel.text = ZGLocalizedString("zego_voice_call")
             tipView.acceptButton.setImage(UIImage(named: "call_accept_icon"), for: .normal)
         case .video:

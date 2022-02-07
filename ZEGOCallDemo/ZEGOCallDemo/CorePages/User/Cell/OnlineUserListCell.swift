@@ -48,7 +48,7 @@ class OnlineUserListCell: UITableViewCell {
     }
     
     @IBAction func startPhoneClick(_ sender: UIButton) {
-        delegate?.startCall(.audio, userInfo: cellModel ?? UserInfo())
+        delegate?.startCall(.voice, userInfo: cellModel ?? UserInfo())
     }
 
 }
