@@ -92,10 +92,10 @@ class CallMainVC: UIViewController {
     @objc func ExchangeVideoStream() {
         let tempID = mainStreamUserID
         mainStreamUserID = streamUserID
-        RoomManager.shared.userService.startPlaying(mainStreamUserID, streamView: mainPreviewView, type: vcType)
+        RoomManager.shared.userService.startPlaying(mainStreamUserID, streamView: mainPreviewView)
         streamUserID = tempID
         setPreviewUserName()
-        RoomManager.shared.userService.startPlaying(streamUserID, streamView: previewView, type: vcType)
+        RoomManager.shared.userService.startPlaying(streamUserID, streamView: previewView)
         setCallBgImage()
     }
     
@@ -260,7 +260,7 @@ class CallMainVC: UIViewController {
             headImage.isHidden = false
             timer.start()
             if vcType == .video {
-                RoomManager.shared.userService.startPlaying(mainStreamUserID, streamView: mainPreviewView, type: vcType)
+                RoomManager.shared.userService.startPlaying(mainStreamUserID, streamView: mainPreviewView)
             }
         case .accept:
             bottomViewHeight.constant = 85
@@ -282,7 +282,7 @@ class CallMainVC: UIViewController {
                 videoView.isHidden = true
                 headImage.isHidden = false
                 if mainStreamUserID != localUserID{
-                    RoomManager.shared.userService.startPlaying(mainStreamUserID, streamView: nil, type: vcType)
+                    RoomManager.shared.userService.startPlaying(mainStreamUserID, streamView: nil)
                 }
             } else {
                 phoneView.isHidden = true
@@ -292,8 +292,8 @@ class CallMainVC: UIViewController {
                 preciewContentView.isHidden = false
                 topMaksImageView.isHidden = false
                 bottomMaskImageView.isHidden = false
-                RoomManager.shared.userService.startPlaying(mainStreamUserID, streamView: mainPreviewView, type: vcType)
-                RoomManager.shared.userService.startPlaying(streamUserID, streamView: previewView, type: vcType)
+                RoomManager.shared.userService.startPlaying(mainStreamUserID, streamView: mainPreviewView)
+                RoomManager.shared.userService.startPlaying(streamUserID, streamView: previewView)
             }
             timer.start()
         case .canceled,.decline,.miss,.completed:

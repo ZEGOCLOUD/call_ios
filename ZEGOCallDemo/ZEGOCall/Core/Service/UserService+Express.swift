@@ -26,10 +26,10 @@ extension UserService {
         ZegoExpressEngine.shared().setAudioRouteToSpeaker(enable)
     }
     
-    func startPlaying(_ userID: String?, streamView: UIView?, type: CallType) {
+    func startPlaying(_ userID: String?, streamView: UIView?) {
         guard let roomID = RoomManager.shared.userService.roomService.roomInfo.roomID else { return }
         let streamID = String.getStreamID(userID, roomID: roomID)
-        if type == .video {
+        if streamView != nil {
             guard let streamView = streamView else { return }
             let canvas = ZegoCanvas(view: streamView)
             canvas.viewMode = .aspectFill
