@@ -76,6 +76,7 @@ class LoginVC: UIViewController {
                 if result {
                     self.cameraPermissions = true
                 } else {
+                    self.cameraPermissions = false
                     AuthorizedCheck.showCameraUnauthorizedAlert(self)
                 }
             }
