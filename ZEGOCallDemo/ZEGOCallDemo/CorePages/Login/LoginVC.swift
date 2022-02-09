@@ -169,9 +169,7 @@ class LoginVC: UIViewController {
         userInfo.userName = myUserName
         if let oldUser = UserDefaults.standard.object(forKey: USER_ID_KEY) as? Dictionary<String, String> {
             userInfo.userID = oldUser["userID"]
-            if let token = AppToken.getZIMToken(withUserID: oldUser["userID"]) {
-                userLogin(userInfo, token: token)
-            }
+            userLogin(userInfo)
         } else {
             requestUserID(userInfo)
         }
@@ -185,14 +183,12 @@ class LoginVC: UIViewController {
     
     func requestUserID(_ userInfo: UserInfo) {
         HUDHelper.showNetworkLoading()
-        RoomManager.shared.userService.requestUserID { result in
+        LoginManager.shared.requestUserID { result in
             HUDHelper.hideNetworkLoading()
             switch result {
             case .success(let newUserID):
                 userInfo.userID = newUserID
-                if let token = AppToken.getZIMToken(withUserID: newUserID) {
-                    self.userLogin(userInfo, token: token)
-                }
+                self.userLogin(userInfo)
             case .failure(let error):
                 let message = String(format: ZGLocalizedString("toast_login_fail"), error.code)
                 TipView.showWarn(message)
@@ -200,8 +196,10 @@ class LoginVC: UIViewController {
         }
     }
     
-    func userLogin(_ userInfo: UserInfo, token: String) {
-        RoomManager.shared.userService.login(userInfo, token) { result in
+    func userLogin(_ userInfo: UserInfo) {
+        HUDHelper.showNetworkLoading()
+        LoginManager.shared.login(userInfo) { result in
+            HUDHelper.hideNetworkLoading()
             switch result {
             case .success():
                 self.userNameTextField.text = ""

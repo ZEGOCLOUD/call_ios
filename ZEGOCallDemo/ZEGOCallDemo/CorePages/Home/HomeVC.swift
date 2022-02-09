@@ -69,16 +69,14 @@ class HomeVC: UIViewController {
             let userInfo: UserInfo = UserInfo()
             userInfo.userID = oldUser["userID"]
             userInfo.userName = oldUser["userName"]
-            if let token = AppToken.getZIMToken(withUserID: userInfo.userID) {
-                RoomManager.shared.userService.login(userInfo, token) { result in
-                    switch result {
-                    case .success():
-                        break
-                    case .failure(_):
-                        UserDefaults.standard.set(true, forKey: App_IS_LOGOUT_KEY)
-                        RoomManager.shared.userService.logout()
-                        self.navigationController?.popToRootViewController(animated: true)
-                    }
+            LoginManager.shared.login(userInfo) { result in
+                switch result {
+                case .success():
+                    break
+                case .failure(_):
+                    UserDefaults.standard.set(true, forKey: App_IS_LOGOUT_KEY)
+                    LoginManager.shared.logout()
+                    self.navigationController?.popToRootViewController(animated: true)
                 }
             }
         }
@@ -118,20 +116,18 @@ class HomeVC: UIViewController {
     }
     
     func startLogin(_ userInfo: UserInfo) {
-        if let token = AppToken.getZIMToken(withUserID: userInfo.userID) {
-            HUDHelper.showNetworkLoading()
-            RoomManager.shared.userService.login(userInfo, token) { result in
-                HUDHelper.hideNetworkLoading()
-                switch result {
-                case .success():
-                    break
-                case .failure(let error):
-                    UserDefaults.standard.set(true, forKey: App_IS_LOGOUT_KEY)
-                    RoomManager.shared.userService.logout()
-                    DispatchQueue.main.async {
-                        TipView.showWarn(String(format: ZGLocalizedString("toast_login_fail"), error.code))
-                        self.navigationController?.popViewController(animated: true)
-                    }
+        HUDHelper.showNetworkLoading()
+        LoginManager.shared.login(userInfo) { result in
+            HUDHelper.hideNetworkLoading()
+            switch result {
+            case .success():
+                break
+            case .failure(let error):
+                UserDefaults.standard.set(true, forKey: App_IS_LOGOUT_KEY)
+                LoginManager.shared.logout()
+                DispatchQueue.main.async {
+                    TipView.showWarn(String(format: ZGLocalizedString("toast_login_fail"), error.code))
+                    self.navigationController?.popViewController(animated: true)
                 }
             }
         }

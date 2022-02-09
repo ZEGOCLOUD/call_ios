@@ -47,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-        RoomManager.shared.userService.logout()
+        LoginManager.shared.logout()
     }
     
     /// Display the incoming call to the user
