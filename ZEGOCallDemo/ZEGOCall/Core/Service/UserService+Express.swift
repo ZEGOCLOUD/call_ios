@@ -26,6 +26,13 @@ extension UserService {
         ZegoExpressEngine.shared().setAudioRouteToSpeaker(enable)
     }
     
+    func enableCallKit(_ enable: Bool) {
+        let config = ZegoEngineConfig()
+        let enableStr = enable ? "true" : "false"
+        config.advancedConfig = ["support_apple_callkit" : enableStr]
+        ZegoExpressEngine.setEngineConfig(config)
+    }
+    
     func startPlaying(_ userID: String?, streamView: UIView?) {
         guard let roomID = RoomManager.shared.userService.roomService.roomInfo.roomID else { return }
         let streamID = String.getStreamID(userID, roomID: roomID)
