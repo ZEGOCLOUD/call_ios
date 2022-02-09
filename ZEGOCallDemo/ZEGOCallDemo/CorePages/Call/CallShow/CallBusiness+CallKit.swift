@@ -130,7 +130,7 @@ extension CallBusiness {
                 }
             }
         } else {
-            endCall(currentCallUserInfo?.userID ?? "", callType: callKitCallType)
+            endCall(currentCallUserInfo?.userID ?? "")
             currentCallStatus = .free
             currentCallUserInfo = nil
         }
