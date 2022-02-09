@@ -76,7 +76,16 @@ class HomeVC: UIViewController {
                 case .failure(_):
                     UserDefaults.standard.set(true, forKey: App_IS_LOGOUT_KEY)
                     LoginManager.shared.logout()
-                    self.navigationController?.popToRootViewController(animated: true)
+                    DispatchQueue.main.async {
+                        if self.presentedViewController != nil {
+                            self.dismiss(animated: true) {
+                                self.navigationController?.popToRootViewController(animated: true)
+                            }
+                        } else {
+                            self.navigationController?.popToRootViewController(animated: true)
+                        }
+                        
+                    }
                 }
             }
         }
