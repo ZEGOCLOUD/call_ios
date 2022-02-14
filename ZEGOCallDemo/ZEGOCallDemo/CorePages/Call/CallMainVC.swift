@@ -272,6 +272,7 @@ class CallMainVC: UIViewController {
             headImage.isHidden = false
             takeStatusFlipButton.isHidden = true
             acceptView.setCallAcceptViewType(vcType == .video)
+            timer.start()
         case .calling:
             takeView.isHidden = true
             acceptView.isHidden = true

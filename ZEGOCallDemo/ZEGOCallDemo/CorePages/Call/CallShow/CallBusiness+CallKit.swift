@@ -58,17 +58,23 @@ extension CallBusiness {
     
     @objc func applicationDidEnterBackGround(notification: NSNotification) {
         // Application is back in the foreground
+        audioPlayer?.stop()
         if appIsActive && currentCallStatus != .free {
             if let currentCallVC = currentCallVC {
                 callKitCallType = currentCallVC.vcType
             }
         }
         appIsActive = false
-        audioPlayer?.stop()
     }
     
     
     @objc func callKitStart() {
+        if !isConnected {
+            if let userID = currentCallUserInfo?.userID {
+                endCall(userID)
+            }
+            return
+        }
         currentCallStatus = .calling
         if let userID = currentCallUserInfo?.userID {
             let rtcToken = AppToken.getRtcToken(withRoomID: userID)
@@ -136,11 +142,11 @@ extension CallBusiness {
         }
     }
     
-    @objc func muteSpeaker() {
+    @objc func muteSpeaker(notif:NSNotification) {
         if let localUserInfo = RoomManager.shared.userService.localUserRoomInfo {
-            let mic = localUserInfo.mic
-            localUserInfo.mic = !mic
+            localUserInfo.mic = !(notif.userInfo!["isMute"] as? Bool)!
             RoomManager.shared.userService.enableMic(localUserInfo.mic, callback: nil)
+            currentCallVC?.changeBottomButtonDisplayStatus()
         }
     }
     

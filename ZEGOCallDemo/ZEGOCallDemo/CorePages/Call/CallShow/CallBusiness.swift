@@ -27,6 +27,8 @@ class CallBusiness: NSObject {
     let timer = ZegoTimer(1000)
     var startTimeIdentify: Int = 0
     var startCallTime: Int = 0
+    var otherUserRoomInfo: UserInfo?
+    var isConnected: Bool = true
     
     lazy var audioPlayer: AVAudioPlayer? = {
         let path = Bundle.main.path(forResource: "CallRing", ofType: "wav")!
@@ -52,7 +54,7 @@ class CallBusiness: NSObject {
         super.init()
         NotificationCenter.default.addObserver(self, selector: #selector(callKitStart), name: Notification.Name(CALL_NOTI_START), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(callKitEnd), name: Notification.Name(CALL_NOTI_END), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(muteSpeaker), name: Notification.Name(CALL_NOTI_MUTE), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(muteSpeaker(notif:)), name: Notification.Name(CALL_NOTI_MUTE), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackGround), name: UIApplication.didEnterBackgroundNotification, object: nil)
         
@@ -63,6 +65,7 @@ class CallBusiness: NSObject {
                 self.currentCallStatus = .free
                 self.currentCallUserInfo = nil
                 self.audioPlayer?.stop()
+                self.endSystemCall()
             }
         }
         timer.start()
@@ -91,6 +94,7 @@ class CallBusiness: NSObject {
             case .success():
                 self.audioPlayer?.stop()
                 let callVC: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .calling)
+                callVC.otherUserRoomInfo = self.otherUserRoomInfo
                 self.currentCallVC = callVC
                 self.currentCallStatus = .calling
                 self.currentCallUserInfo = userInfo
@@ -106,15 +110,48 @@ class CallBusiness: NSObject {
         }
     }
     
+    func refusedCall(_ userID: String) {
+        if currentCallUserInfo?.userID == userID {
+            currentCallStatus = .free
+            currentCallUserInfo = nil
+            otherUserRoomInfo = nil
+        }
+        let rtcToken = AppToken.getRtcToken(withRoomID: userID)
+        guard let rtcToken = rtcToken else { return }
+        RoomManager.shared.userService.respondCall(userID, token: rtcToken, responseType: .decline, callback: nil)
+    }
+    
     func endCall(_ userID: String) {
         if currentCallUserInfo?.userID == userID {
             currentCallStatus = .free
             currentCallUserInfo = nil
+            otherUserRoomInfo = nil
         }
         endSystemCall()
-        let rtcToken = AppToken.getRtcToken(withRoomID: userID)
-        guard let rtcToken = rtcToken else { return }
-        RoomManager.shared.userService.respondCall(userID, token: rtcToken, responseType: .decline, callback: nil)
+        if RoomManager.shared.userService.roomService.roomInfo.roomID != nil {
+            RoomManager.shared.userService.endCall(callback: nil)
+        }
+    }
+    
+    func cancelCall(_ userID: String, callType: CallType, isTimeout: Bool = false) {
+        var cancelType: CancelType = .intent
+        if isTimeout { cancelType = .timeout}
+        RoomManager.shared.userService.cancelCall(userID: userID, cancelType: cancelType) { result in
+            switch result {
+            case .success():
+                CallBusiness.shared.audioPlayer?.stop()
+                CallBusiness.shared.currentCallStatus = .free
+                if isTimeout {
+                    self.currentCallVC?.changeCallStatusText(.miss)
+                } else {
+                    self.currentCallVC?.changeCallStatusText(.canceled)
+                }
+                self.currentCallVC?.callDelayDismiss()
+            case .failure(let error):
+                let message = String(format: ZGLocalizedString("cancel_call_failed"), error.code)
+                TipView.showWarn(message)
+            }
+        }
     }
     
     func closeCallVC() {
@@ -155,14 +192,16 @@ extension CallBusiness: UserServiceDelegate {
     }
     
     func connectionStateChanged(_ state: ZIMConnectionState, _ event: ZIMConnectionEvent) {
-        if state == .disconnected || state == .connecting || state == .reconnecting {
-            if let currentCallVC = currentCallVC {
-                currentCallVC.callQualityChange(currentCallVC.netWorkStatus, connectedStatus: .disConnected)
-            }
+        if state == .connected {
+            isConnected = true
+            currentTipView?.isUserInteractionEnabled = true
+            guard let currentCallVC = currentCallVC else { return }
+            currentCallVC.callQualityChange(currentCallVC.netWorkStatus, connectedStatus: .connected)
         } else {
-            if let currentCallVC = currentCallVC {
-                currentCallVC.callQualityChange(currentCallVC.netWorkStatus, connectedStatus: .connected)
-            }
+            isConnected = false
+            currentTipView?.isUserInteractionEnabled = false
+            guard let currentCallVC = currentCallVC else { return }
+            currentCallVC.callQualityChange(currentCallVC.netWorkStatus, connectedStatus: .disConnected)
         }
     }
     
@@ -170,7 +209,7 @@ extension CallBusiness: UserServiceDelegate {
     func receiveCallInvite(_ userInfo: UserInfo, type: CallType) {
         if currentCallStatus == .calling || currentCallStatus == .wait || currentCallStatus == .waitAccept {
             guard let userID = userInfo.userID else { return }
-            endCall(userID)
+            refusedCall(userID)
             return
         }
         startTimeIdentify = Int(Date().timeIntervalSince1970)
@@ -193,14 +232,14 @@ extension CallBusiness: UserServiceDelegate {
         if (currentCallStatus == .calling || currentCallStatus == .wait) && userInfo.userID != currentCallUserInfo?.userID {
             return
         }
-        RoomManager.shared.userService.roomService.leaveRoom(callback: nil)
+        if RoomManager.shared.userService.roomService.roomInfo.roomID != nil {
+            RoomManager.shared.userService.roomService.leaveRoom(callback: nil)
+        }
         currentCallStatus = .free
         currentCallUserInfo = nil
         endSystemCall()
         audioPlayer?.stop()
-        if let currentTipView = currentTipView {
-            currentTipView.removeFromSuperview()
-        }
+        CallAcceptTipView.dismiss()
         guard let currentCallVC = currentCallVC else { return }
         if type == .intent {
             currentCallVC.changeCallStatusText(.canceled)
@@ -220,8 +259,7 @@ extension CallBusiness: UserServiceDelegate {
         guard let vc = self.currentCallVC else { return }
         if responseType == .accept {
             if !appIsActive {
-                if let currentCallVC = currentCallVC,
-                   let userID = userInfo.userID {
+                if let userID = userInfo.userID {
                     if currentCallStatus == .waitAccept {
                         endCall(userID)
                         closeCallVC()
@@ -254,6 +292,7 @@ extension CallBusiness: UserServiceDelegate {
             switch result {
             case .success():
                 self.currentCallStatus = .free
+                self.otherUserRoomInfo = nil
                 self.currentCallVC?.changeCallStatusText(.completed)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self.endSystemCall()
@@ -294,7 +333,12 @@ extension CallBusiness: UserServiceDelegate {
     }
     
     func userInfoUpdate(_ userInfo: UserInfo) {
-        currentCallVC?.userRoomInfoUpdate(userInfo)
+        if userInfo.userID != localUserID {
+            otherUserRoomInfo = userInfo
+        }
+        guard let currentCallVC = currentCallVC else { return }
+        currentCallVC.userRoomInfoUpdate(userInfo)
+        
     }
 }
 
@@ -314,7 +358,7 @@ extension CallBusiness: CallAcceptTipViewDelegate {
     
     func tipViewDeclineCall(_ userInfo: UserInfo, callType: CallType) {
         if let userID = userInfo.userID {
-            endCall(userID)
+            refusedCall(userID)
         }
         audioPlayer?.stop()
         currentTipView = nil
