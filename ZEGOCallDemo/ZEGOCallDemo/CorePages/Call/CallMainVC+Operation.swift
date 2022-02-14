@@ -17,6 +17,7 @@ extension CallMainVC: CallActionDelegate {
                     case .success():
                         CallBusiness.shared.audioPlayer?.stop()
                         CallBusiness.shared.currentCallStatus = .free
+                        CallBusiness.shared.closeCallVC()
                         self.changeCallStatusText(.completed)
                         self.callDelayDismiss()
                     case .failure(let error):
@@ -72,20 +73,15 @@ extension CallMainVC: CallActionDelegate {
             if vcType == .voice {
                 RoomManager.shared.userService.enableMic(userRoomInfo.mic, callback: nil)
                 guard let callUser = callUser else { return }
-                startPlaying(callUser.userID, streamView: nil, type: .voice)
+                RoomManager.shared.userService.startPlaying(callUser.userID, streamView: nil)
             } else {
                 RoomManager.shared.userService.enableMic(userRoomInfo.mic, callback: nil)
                 RoomManager.shared.userService.enableCamera(userRoomInfo.camera, callback: nil)
-                if let mainStreamID = mainStreamUserID {
-                    startPlaying(mainStreamID, streamView: mainPreviewView, type: .video)
-                } else {
-                    startPlaying(RoomManager.shared.userService.localUserInfo?.userID, streamView: mainPreviewView, type: .video)
-                }
-                if let streamID = streamUserID {
-                    startPlaying(streamID, streamView: previewView, type: .video)
-                } else {
-                    startPlaying(userID, streamView: previewView, type: .video)
-                }
+                let mainUserID = mainStreamUserID != nil ? mainStreamUserID : RoomManager.shared.userService.localUserInfo?.userID
+                RoomManager.shared.userService.startPlaying(mainUserID, streamView: mainPreviewView)
+                
+                let previewUserID = streamUserID != nil ? streamUserID : userID
+                RoomManager.shared.userService.startPlaying(previewUserID, streamView: previewView)
             }
             RoomManager.shared.userService.enableSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? false)
         }

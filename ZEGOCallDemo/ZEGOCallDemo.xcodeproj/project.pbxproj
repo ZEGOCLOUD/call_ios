@@ -103,6 +103,7 @@
 		86DE03C727981B3D000EE3C5 /* CallBusiness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE03C627981B3D000EE3C5 /* CallBusiness.swift */; };
 		86DE03C927983D98000EE3C5 /* CallMainVC+Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */; };
 		8E0C8C7E27A3C93A00B60495 /* UserService+Express.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C8C7D27A3C93A00B60495 /* UserService+Express.swift */; };
+		8EE5264727B364B200158BBE /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5264627B364B200158BBE /* LoginManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -256,6 +257,7 @@
 		86DE03C627981B3D000EE3C5 /* CallBusiness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallBusiness.swift; sourceTree = "<group>"; };
 		86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallMainVC+Stream.swift"; sourceTree = "<group>"; };
 		8E0C8C7D27A3C93A00B60495 /* UserService+Express.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserService+Express.swift"; sourceTree = "<group>"; };
+		8EE5264627B364B200158BBE /* LoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
 		95F1BBF3114F32302EC88A9C /* Pods-ZEGOCallDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZEGOCallDemo.debug.xcconfig"; path = "Target Support Files/Pods-ZEGOCallDemo/Pods-ZEGOCallDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -308,6 +310,7 @@
 			children = (
 				86718CD827953E1700CEA8A0 /* RequestMananger.swift */,
 				86718CDA27953E6400CEA8A0 /* UserIDReauest.swift */,
+				86718CDC2795401B00CEA8A0 /* UserInfoList.swift */,
 				86718CDE279540EB00CEA8A0 /* UserListRequest.swift */,
 				86718CE02795421200CEA8A0 /* LoginRequest.swift */,
 				86718CE2279542B100CEA8A0 /* LogoutRequest.swift */,
@@ -449,7 +452,6 @@
 				86B198C0278BE25F0004C997 /* CustomCommand.swift */,
 				86B198C2278BE25F0004C997 /* RoomInfo.swift */,
 				86B198ED278D27A80004C997 /* OperationCommand.swift */,
-				86718CDC2795401B00CEA8A0 /* UserInfoList.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -772,6 +774,7 @@
 			isa = PBXGroup;
 			children = (
 				86B19895278BDD7E0004C997 /* LoginVC.swift */,
+				8EE5264627B364B200158BBE /* LoginManager.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -921,6 +924,7 @@
 				86718CA627915A5D00CEA8A0 /* RefreshViewAnimator.swift in Sources */,
 				86B1995C278D63440004C997 /* StringTool.swift in Sources */,
 				86B198D5278BE2600004C997 /* Result+Zego.swift in Sources */,
+				8EE5264727B364B200158BBE /* LoginManager.swift in Sources */,
 				86B1995E278D63440004C997 /* AppToken.swift in Sources */,
 				86B19996278EC1050004C997 /* CallAcceptTipView.swift in Sources */,
 				86B19A082790034B0004C997 /* OnlineUserListVC+Call.swift in Sources */,
@@ -1162,7 +1166,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = B82BHJ5H89;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ZEGOCallDemo/Info.plist;
@@ -1198,7 +1202,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = B82BHJ5H89;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ZEGOCallDemo/Info.plist;

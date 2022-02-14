@@ -93,8 +93,6 @@ class UserService: NSObject {
     
     var localUserRoomInfo: UserInfo?
     var roomService: RoomService = RoomService()
-    let timer = ZegoTimer(15000)
-    
     
     override init() {
         super.init()
@@ -108,19 +106,6 @@ class UserService: NSObject {
     func addUserServiceDelegate(_ delegate: UserServiceDelegate) {
         self.delegates.add(delegate)
     }
-    
-    func requestUserID(_ callback: UserIDCallBack?) {
-        let request = UserIDReauest()
-        RequestManager.shared.getUserIDRequest(request: request) { requestStatus in
-            guard let callback = callback else { return }
-            let userID: String = requestStatus?.data["id"] as? String ?? ""
-            callback(.success(userID))
-        } failure: { requestStatus in
-            guard let callback = callback else { return }
-            callback(.failure(.failed))
-        }
-    }
-    
     
     /// User to log in
     ///
@@ -144,40 +129,21 @@ class UserService: NSObject {
             return
         }
         
-        var request = LoginRequest()
-        request.userID = userID
-        request.name = userName
-        RequestManager.shared.loginRequest(request: request) { requestStatus in
-            
-            user.order = requestStatus?.data["order"] as? String ?? ""
-            
-            self.timer.setEventHandler {
-                self.heartBeatRequest()
+        let zimUser = ZIMUserInfo()
+        zimUser.userID = userID
+        zimUser.userName = userName
+        
+        ZIMManager.shared.zim?.login(zimUser, token: token, callback: { error in
+            var result: ZegoResult
+            if error.code == .ZIMErrorCodeSuccess {
+                self.localUserInfo = user
+                result = .success(())
+            } else {
+                result = .failure(.other(Int32(error.code.rawValue)))
             }
-            self.timer.start()
-            
-            let zimUser = ZIMUserInfo()
-            zimUser.userID = userID
-            zimUser.userName = userName
-            
-            ZIMManager.shared.zim?.login(zimUser, token: token, callback: { error in
-                var result: ZegoResult
-                if error.code == .ZIMErrorCodeSuccess {
-                    self.localUserInfo = user
-                    result = .success(())
-                } else {
-                    result = .failure(.other(Int32(error.code.rawValue)))
-                }
-                guard let callback = callback else { return }
-                callback(result)
-            })
-            
-            
-        } failure: { requestStatus in
             guard let callback = callback else { return }
-            let result: ZegoResult = .failure(.other(Int32(requestStatus?.code ?? -2)))
             callback(result)
-        }
+        })
     }
     
     
@@ -391,15 +357,7 @@ extension UserService {
             callback(result)
         })
     }
-    
-    private func heartBeatRequest() {
-        var request = HeartBeatRequest()
-        request.userID = RoomManager.shared.userService.localUserInfo?.userID ?? ""
-        RequestManager.shared.heartBeatRequest(request: request) { requestStatus in
-        } failure: { requestStatus in
-        }
-    }
-    
+        
     private func setRoomAttributes(_ attributes: [String : String],
                                    _ roomID: String,
                                    _ config: ZIMRoomAttributesSetConfig, _ callback: RoomCallback?) {

@@ -105,8 +105,7 @@ extension CallBusiness {
                         }
                         self.endSystemCall()
                     } else {
-                        let streamID = String.getStreamID(userID, roomID: RoomManager.shared.userService.roomService.roomInfo.roomID)
-                        self.startPlayingStream(streamID)
+                        self.startPlayingStream(userID)
                     }
                 case .failure(_):
                     break
@@ -131,7 +130,7 @@ extension CallBusiness {
                 }
             }
         } else {
-            endCall(currentCallUserInfo?.userID ?? "", callType: callKitCallType)
+            endCall(currentCallUserInfo?.userID ?? "")
             currentCallStatus = .free
             currentCallUserInfo = nil
         }
