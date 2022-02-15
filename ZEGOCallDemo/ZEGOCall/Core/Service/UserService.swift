@@ -475,10 +475,8 @@ extension UserService: RoomServiceDelegate {
         let keys = roomAttributes.keys
         for key in keys {
             if let json = roomAttributes[key] {
-                print("receiveRoomInfoUpdate == %@",json)
                 let userRoomInfo = ZegoJsonTool.jsonToModel(type: UserInfo.self, json: json)
                 guard let userRoomInfo = userRoomInfo else { return }
-                print(" == receiveRoomInfoUpdate == %@",json)
                 if key == localUserRoomInfo?.userID {
                     localUserRoomInfo?.userName = userRoomInfo.userName
                     localUserRoomInfo?.camera = userRoomInfo.camera

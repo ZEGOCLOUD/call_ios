@@ -255,7 +255,6 @@ extension CallBusiness: UserServiceDelegate {
     }
     
     func receiveCallResponse(_ userInfo: UserInfo, responseType: CallResponseType) {
-//        audioPlayer?.stop()
         guard let vc = self.currentCallVC else { return }
         if responseType == .accept {
             if !appIsActive {

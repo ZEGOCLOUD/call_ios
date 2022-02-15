@@ -17,7 +17,6 @@ extension CallMainVC: CallActionDelegate {
                     case .success():
                         CallBusiness.shared.audioPlayer?.stop()
                         CallBusiness.shared.currentCallStatus = .free
-                        CallBusiness.shared.closeCallVC()
                         self.changeCallStatusText(.completed)
                         self.callDelayDismiss()
                     case .failure(let error):
