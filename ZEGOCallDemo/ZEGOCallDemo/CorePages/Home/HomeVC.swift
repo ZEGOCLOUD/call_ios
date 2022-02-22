@@ -94,7 +94,9 @@ class HomeVC: UIViewController {
     func logout() {
         UserDefaults.standard.set(true, forKey: App_IS_LOGOUT_KEY)
         LoginManager.shared.logout()
-        self.navigationController?.popToRootViewController(animated: true)
+        DispatchQueue.main.async {
+            self.navigationController?.popToRootViewController(animated: true)
+        }
     }
     
     @objc func applicationDidEnterBackGround(notification: NSNotification) {
