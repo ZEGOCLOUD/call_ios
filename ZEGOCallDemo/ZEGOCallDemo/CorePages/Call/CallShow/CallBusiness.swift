@@ -288,11 +288,15 @@ extension CallBusiness: UserServiceDelegate {
     
     func receiveCallEnded() {
         audioPlayer?.stop()
-        currentCallUserInfo = nil
         RoomManager.shared.userService.roomService.leaveRoom(callback: nil)
+        if currentCallStatus != .calling {
+            currentCallVC?.changeCallStatusText(.completed,showHud: false)
+        } else {
+            currentCallVC?.changeCallStatusText(.completed,showHud: true)
+        }
+        currentCallUserInfo = nil
         self.currentCallStatus = .free
         self.otherUserRoomInfo = nil
-        self.currentCallVC?.changeCallStatusText(.completed)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.endSystemCall()
             self.closeCallVC()

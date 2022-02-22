@@ -395,7 +395,7 @@ class CallMainVC: UIViewController {
         ZegoExpressEngine.shared().useFrontCamera(self.useFrontCamera)
     }
     
-    func changeCallStatusText(_ status: CallStatusType) {
+    func changeCallStatusText(_ status: CallStatusType, showHud:Bool = true) {
         switch status {
         case .take:
             callStatusLabel.text = ZGLocalizedString("call_page_status_calling")
@@ -411,7 +411,9 @@ class CallMainVC: UIViewController {
             callStatusLabel.text = ZGLocalizedString("call_page_status_missed")
         case .completed:
             callStatusLabel.text = ""
-            HUDHelper.showMessage(message: ZGLocalizedString("call_page_status_completed"))
+            if showHud {
+                HUDHelper.showMessage(message: ZGLocalizedString("call_page_status_completed"))
+            }
         }
     }
     
