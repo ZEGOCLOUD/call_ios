@@ -184,8 +184,10 @@ class CallMainVC: UIViewController {
         
         if status == .calling {
             vc.callTime = Int(Date().timeIntervalSince1970)
-        } else if status == .take || status == .accept {
+        } else if status == .take {
             vc.callWaitTime = Int(Date().timeIntervalSince1970)
+        } else if status == .accept {
+            
         }
         
         
@@ -217,7 +219,7 @@ class CallMainVC: UIViewController {
                 }
             case .accept:
                 let currentTime = Int(Date().timeIntervalSince1970)
-                if currentTime - vc.callWaitTime > 60 {
+                if currentTime - CallBusiness.shared.startTimeIdentify > 60 {
                     CallBusiness.shared.audioPlayer?.stop()
                     vc.changeCallStatusText(.miss)
                     vc.timer.stop()

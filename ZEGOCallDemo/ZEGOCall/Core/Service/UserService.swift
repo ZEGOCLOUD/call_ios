@@ -357,6 +357,7 @@ extension UserService {
             callback(result)
         })
     }
+
         
     private func setRoomAttributes(_ attributes: [String : String],
                                    _ roomID: String,
@@ -471,7 +472,14 @@ extension UserService: ZegoEventHandler {
 
 extension UserService: RoomServiceDelegate {
     func receiveRoomInfoUpdate(_ roomAttributes: [String : String]?) {
-        guard let roomAttributes = roomAttributes else { return }
+        guard let roomAttributes = roomAttributes else {
+            for obj in delegates.allObjects {
+                if let delegate = obj as? UserServiceDelegate {
+                    delegate.receiveCallEnded()
+                }
+            }
+            return
+        }
         let keys = roomAttributes.keys
         for key in keys {
             if let json = roomAttributes[key] {

@@ -90,8 +90,10 @@ class HomeVC: UIViewController {
             }
         }
     }
+    
 
     func logout() {
+        CallBusiness.shared.receiveCallEnded()
         UserDefaults.standard.set(true, forKey: App_IS_LOGOUT_KEY)
         LoginManager.shared.logout()
         DispatchQueue.main.async {

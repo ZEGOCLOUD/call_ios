@@ -130,6 +130,8 @@ class CallBusiness: NSObject {
         endSystemCall()
         if RoomManager.shared.userService.roomService.roomInfo.roomID != nil {
             RoomManager.shared.userService.endCall(callback: nil)
+        } else {
+            refusedCall(userID)
         }
     }
     
@@ -287,19 +289,13 @@ extension CallBusiness: UserServiceDelegate {
     func receiveCallEnded() {
         audioPlayer?.stop()
         currentCallUserInfo = nil
-        RoomManager.shared.userService.roomService.leaveRoom { result in
-            switch result {
-            case .success():
-                self.currentCallStatus = .free
-                self.otherUserRoomInfo = nil
-                self.currentCallVC?.changeCallStatusText(.completed)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.endSystemCall()
-                    self.closeCallVC()
-                }
-            case .failure(_):
-                break
-            }
+        RoomManager.shared.userService.roomService.leaveRoom(callback: nil)
+        self.currentCallStatus = .free
+        self.otherUserRoomInfo = nil
+        self.currentCallVC?.changeCallStatusText(.completed)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.endSystemCall()
+            self.closeCallVC()
         }
     }
     
