@@ -1,0 +1,73 @@
+/* 
+  Call.strings
+  ZEGOCallDemo
+
+  Created by zego on 2022/1/24.
+  
+*/
+
+"app_name" = "ZEGO Call";
+"login_page_title" = "欢迎体验\nZEGO Call";
+"login_page_user_name" = "请输入你的用户名";
+"login_page_login" = "登录";
+"toast_login_fail" = "登录失败，错误码：%d";
+"login_page_input_user_name_tip" = "用户名应该是英文字符或数字";
+
+"call_back_title" = "返回";
+
+"setting_page_settings" = "设置";
+"setting_page_sdk_version" = "Express SDK 版本号";
+"setting_page_zim_sdk_version" = "ZIM SDK 版本号";
+"setting_page_version" = "App 版本号";
+"setting_page_terms_of_service" = "服务条款";
+"setting_page_privacy_policy" = "隐私政策";
+"setting_page__version" = "应用版本号";
+"setting_page_upload_log" = "上传日志";
+"toast_upload_log_success" = "日志上传成功";
+"toast_upload_log_fail" = "日志上传失败，错误码：%d";
+"setting_page_logout" = "退出登录";
+"toast_logout_fail" = "退出登录失败，错误码：%d";
+
+"network_reconnect" = "网络发生了错误，正在重连中...";
+"network_connect_failed" = "网络连接失败，请重新登录后再试";
+"network_connect_failed_title" = "网络错误";
+
+"dialog_login_page_mic_cant_open" = "麦克风无法开启";
+"dialog_login_page_mic_permission" = "你还未授权我们使用麦克风";
+"dialog_login_page_go_to_settings" = "去设置";
+"dialog_login_page_title_cannot_use_camera" = "摄像头无法开启";
+"dialog_login_page_massage_cannot_use_camera" = "你还未授权我们使用摄像头";
+"dialog_login_page_cancel" = "取消";
+
+"welcome_page_user_name" = "用户名称";
+"welcome_page_user_id" = "用户 ID";
+"welcome_page_get_more" = "更多";
+"welcome_page_contact_us" = "联系我们";
+
+"call_page_call_fail" = "呼叫失败，错误码：%d";
+"call_page_status_calling" = "呼叫中...";
+"call_page_status_completed" = "已完成";
+"call_page_status_canceld" = "已取消";
+"call_page_status_missed" = "未接听";
+"call_page_status_declined" = "已拒绝";
+"call_page_action_accept" = "接受";
+"call_page_action_decline" = "拒绝";
+"call_page_call_status_fail" = "呼叫失败, 请稍后再试.";
+"call_page_call_quality_poor" = "当前通话质量差...";
+"call_page_call_disconnected" = "当前通话断线,请等待.";
+
+"call_user_list_refresh" = "用户列表刷新";
+
+"banner_call_desc" = "Deliver exceptional real-time voice and video communications regardless of distance";
+
+"zego_call" = "ZEGO Call";
+"online" = "在线";
+"no_online_user" = "没有用户在线";
+"zego_video_call" = "视频呼叫";
+"zego_voice_call" = "音频呼叫";
+"mic_operate_failed" = "开关麦克风失败，错误码：%d";
+"camera_operate_failed" = "开关摄像头失败，错误码：%d";
+"cancel_call_failed" = "取消呼叫失败，错误码: %d";
+"end_call_failed" = "结束通话失败，错误码: %d";
+"me" = "我";
+"create_user_failed" = "创建用户失败,错误码 :%d";

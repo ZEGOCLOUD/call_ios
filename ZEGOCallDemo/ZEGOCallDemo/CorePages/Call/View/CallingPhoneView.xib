@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CallingPhoneView" customModule="ZEGOCallDemo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z9v-Lh-jzC">
+                    <rect key="frame" x="63.5" y="0.0" width="60" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="EiM-Jo-sR6"/>
+                        <constraint firstAttribute="width" constant="60" id="Fy0-K7-ART"/>
+                    </constraints>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" image="call_audio_mic_open"/>
+                    <connections>
+                        <action selector="micButtonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="cHj-aC-p0S"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fKd-3f-Tpb">
+                    <rect key="frame" x="290.5" y="0.0" width="60" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="60" id="8gl-pi-xel"/>
+                        <constraint firstAttribute="height" constant="60" id="KYS-MW-HPA"/>
+                    </constraints>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" image="call_audio_voice_close"/>
+                    <connections>
+                        <action selector="voiceButtonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="IhE-K5-TS0"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TP8-Uk-nCe">
+                    <rect key="frame" x="177" y="0.0" width="60" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="60" id="Rf5-QN-uao"/>
+                        <constraint firstAttribute="height" constant="60" id="gGQ-qK-o7I"/>
+                    </constraints>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="Button" image="call_hand_up_icon"/>
+                    <connections>
+                        <action selector="handUpButtonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="wlS-bu-4ZO"/>
+                    </connections>
+                </button>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="Z9v-Lh-jzC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="2MT-Gr-uQ2"/>
+                <constraint firstItem="TP8-Uk-nCe" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="EHc-8z-kdr"/>
+                <constraint firstItem="fKd-3f-Tpb" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="I3Y-kd-3lp"/>
+                <constraint firstItem="TP8-Uk-nCe" firstAttribute="leading" secondItem="Z9v-Lh-jzC" secondAttribute="trailing" constant="53.5" id="aad-MY-ax7"/>
+                <constraint firstItem="TP8-Uk-nCe" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="mKg-47-gkG"/>
+                <constraint firstItem="fKd-3f-Tpb" firstAttribute="leading" secondItem="TP8-Uk-nCe" secondAttribute="trailing" constant="53.5" id="yG6-qm-KUd"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="handUpButton" destination="TP8-Uk-nCe" id="waL-kj-hOf"/>
+                <outlet property="micButton" destination="Z9v-Lh-jzC" id="nWq-Cp-dlk"/>
+                <outlet property="voiceButton" destination="fKd-3f-Tpb" id="NtE-9w-hYg"/>
+            </connections>
+            <point key="canvasLocation" x="170" y="169"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="call_audio_mic_open" width="60" height="60"/>
+        <image name="call_audio_voice_close" width="60" height="60"/>
+        <image name="call_hand_up_icon" width="60" height="60"/>
+    </resources>
+</document>

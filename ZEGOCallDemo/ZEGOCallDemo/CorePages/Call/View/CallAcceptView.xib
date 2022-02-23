@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CallAcceptView" customModule="ZEGOCallDemo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="85"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iRO-bi-8Df">
+                    <rect key="frame" x="70" y="0.0" width="60" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="MMz-xN-Oi6"/>
+                        <constraint firstAttribute="width" constant="60" id="trP-QF-WfE"/>
+                    </constraints>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="Button" image="call_decline_icon"/>
+                    <connections>
+                        <action selector="declineButtonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="MHu-Ng-QwE"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zjG-lf-du5">
+                    <rect key="frame" x="284" y="0.0" width="60" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="2ov-Qn-xff"/>
+                        <constraint firstAttribute="width" constant="60" id="N9S-g2-k6b"/>
+                    </constraints>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="Button" image="call_accept_icon"/>
+                    <connections>
+                        <action selector="acceptButtonClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="p0U-fU-ITl"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Decline" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L4c-gJ-X1K">
+                    <rect key="frame" x="77.5" y="66" width="45.5" height="18.5"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="18.5" id="lfG-W9-KVL"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Accept" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PUu-MW-eWi">
+                    <rect key="frame" x="292.5" y="66" width="43" height="18.5"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="18.5" id="GZJ-SN-ten"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="iRO-bi-8Df" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="70" id="EH2-Ho-WFS"/>
+                <constraint firstItem="PUu-MW-eWi" firstAttribute="top" secondItem="zjG-lf-du5" secondAttribute="bottom" constant="6" id="Idn-Qy-8HL"/>
+                <constraint firstItem="L4c-gJ-X1K" firstAttribute="centerX" secondItem="iRO-bi-8Df" secondAttribute="centerX" id="pF9-4h-KZE"/>
+                <constraint firstItem="iRO-bi-8Df" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="rDo-Io-68r"/>
+                <constraint firstItem="zjG-lf-du5" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="vNw-lF-9Cc"/>
+                <constraint firstAttribute="trailing" secondItem="zjG-lf-du5" secondAttribute="trailing" constant="70" id="xaU-Jw-C85"/>
+                <constraint firstItem="PUu-MW-eWi" firstAttribute="centerX" secondItem="zjG-lf-du5" secondAttribute="centerX" id="xkB-DE-uPT"/>
+                <constraint firstItem="L4c-gJ-X1K" firstAttribute="top" secondItem="iRO-bi-8Df" secondAttribute="bottom" constant="6" id="yby-bc-S41"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="acceptButton" destination="zjG-lf-du5" id="w6m-mt-xwe"/>
+                <outlet property="acceptLabel" destination="PUu-MW-eWi" id="fmM-za-Hrz"/>
+                <outlet property="declineButton" destination="iRO-bi-8Df" id="Nl9-aT-FKD"/>
+                <outlet property="declineLabel" destination="L4c-gJ-X1K" id="aou-W0-mHZ"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="88.727678571428569"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="call_accept_icon" width="60" height="60"/>
+        <image name="call_decline_icon" width="60" height="60"/>
+    </resources>
+</document>
