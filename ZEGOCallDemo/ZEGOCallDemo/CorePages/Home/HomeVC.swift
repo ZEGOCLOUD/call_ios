@@ -47,13 +47,17 @@ class HomeVC: UIViewController {
         RoomManager.shared.userService.addUserServiceDelegate(self)
         let tapClick:UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(tap))
         backView.addGestureRecognizer(tapClick)
-        configUI()
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackGround), name: UIApplication.didEnterBackgroundNotification, object: nil)
         
         self.navigationController?.navigationBar.standardAppearance.configureWithOpaqueBackground()
         self.navigationController?.navigationBar.standardAppearance.backgroundColor = UIColor.white
         self.navigationController?.navigationBar.standardAppearance.shadowColor = UIColor.clear
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        configUI()
     }
     
     @objc func applicationDidBecomeActive(notification: NSNotification) {
@@ -69,26 +73,32 @@ class HomeVC: UIViewController {
             let userInfo: UserInfo = UserInfo()
             userInfo.userID = oldUser["userID"]
             userInfo.userName = oldUser["userName"]
-            LoginManager.shared.login(userInfo) { result in
-                switch result {
-                case .success():
-                    break
-                case .failure(_):
-                    UserDefaults.standard.set(true, forKey: App_IS_LOGOUT_KEY)
-                    LoginManager.shared.logout()
-                    DispatchQueue.main.async {
-                        if self.presentedViewController != nil {
-                            self.dismiss(animated: true) {
-                                self.navigationController?.popToRootViewController(animated: true)
-                            }
-                        } else {
-                            self.navigationController?.popToRootViewController(animated: true)
-                        }
-                        
-                    }
+            
+            guard let userID = userInfo.userID,
+                  let userName = userInfo.userName else { return }
+            
+            var request = LoginRequest()
+            request.userID = userID
+            request.name = userName
+            
+            RequestManager.shared.loginRequest(request: request) { requestStatus in
+                if requestStatus?.code != 0 {
+                    self.logout()
                 }
+            } failure: { requestStatus in
+                self.logout()
             }
         }
+    }
+    
+
+    func logout() {
+        DispatchQueue.main.async {
+            self.navigationController?.popToRootViewController(animated: true)
+            CallBusiness.shared.receiveCallEnded()
+        }
+        UserDefaults.standard.set(true, forKey: App_IS_LOGOUT_KEY)
+        LoginManager.shared.logout()
     }
     
     @objc func applicationDidEnterBackGround(notification: NSNotification) {
@@ -168,7 +178,13 @@ class HomeVC: UIViewController {
 
 extension HomeVC: UserServiceDelegate {
     func connectionStateChanged(_ state: ZIMConnectionState, _ event: ZIMConnectionEvent) {
-        if state == .connected {
+        if event == .kickedOut {
+            logout()
+            return
+        }
+        if state == .disconnected {
+            logout()
+        } else if state == .connected {
             var request = HeartBeatRequest()
             guard let userID = RoomManager.shared.userService.localUserInfo?.userID else { return }
             request.userID = userID

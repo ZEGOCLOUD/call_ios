@@ -121,7 +121,7 @@ class ProviderDelegate: NSObject,CXProviderDelegate {
     
     func provider(_ provider: CXProvider, perform action: CXSetMutedCallAction) {
         action.fulfill()
-        NotificationCenter.default.post(name: Notification.Name(CALL_NOTI_MUTE), object: self, userInfo: ["uuid":action.uuid.uuidString])
+        NotificationCenter.default.post(name: Notification.Name(CALL_NOTI_MUTE), object: self, userInfo: ["isMute": action.isMuted,"uuid":action.uuid.uuidString])
     }
     
     func provider(_ provider: CXProvider, perform action: CXSetGroupCallAction) {

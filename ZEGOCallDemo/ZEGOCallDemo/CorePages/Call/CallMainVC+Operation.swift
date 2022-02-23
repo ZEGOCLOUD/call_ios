@@ -17,7 +17,6 @@ extension CallMainVC: CallActionDelegate {
                     case .success():
                         CallBusiness.shared.audioPlayer?.stop()
                         CallBusiness.shared.currentCallStatus = .free
-                        CallBusiness.shared.closeCallVC()
                         self.changeCallStatusText(.completed)
                         self.callDelayDismiss()
                     case .failure(let error):
@@ -58,11 +57,15 @@ extension CallMainVC: CallActionDelegate {
             let rtcToken = AppToken.getRtcToken(withRoomID: userID)
             guard let rtcToken = rtcToken else { return }
             RoomManager.shared.userService.respondCall(userID, token:rtcToken, responseType: .accept) { result in
+                CallBusiness.shared.audioPlayer?.stop()
                 if result.isSuccess {
-                    CallBusiness.shared.audioPlayer?.stop()
                     CallBusiness.shared.currentCallStatus = .calling
                     ZegoExpressEngine.shared().useFrontCamera(true)
                     self.startPlayingStream(userID)
+                } else {
+                    CallBusiness.shared.currentCallStatus = .free
+                    self.changeCallStatusText(.decline)
+                    self.callDelayDismiss()
                 }
             }
         }

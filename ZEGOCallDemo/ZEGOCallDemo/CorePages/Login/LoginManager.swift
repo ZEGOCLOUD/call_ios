@@ -10,6 +10,7 @@ import Foundation
 class LoginManager: NSObject {
     typealias loginCallBack = (Result<Void, ZegoError>) -> Void
     typealias UserIDCallBack = (Result<String, ZegoError>) -> Void
+    typealias heartBeatCallBack = (Result<Void, ZegoError>) -> Void
     
     static let shared = LoginManager()
     private var timer = ZegoTimer(15000)
@@ -36,7 +37,12 @@ class LoginManager: NSObject {
             user.order = requestStatus?.data["order"] as? String ?? ""
             
             self.timer.setEventHandler { [weak self] in
-                self?.heartBeatRequest()
+                self?.heartBeatRequest(callback: { result in
+                    if result.isFailure {
+                        // try login
+                        self?.tryReLogin(request: request)
+                    }
+                })
             }
             self.timer.start()
             
@@ -69,11 +75,29 @@ class LoginManager: NSObject {
 }
 
 extension LoginManager {
-    private func heartBeatRequest() {
+    private func heartBeatRequest(callback: heartBeatCallBack?) {
         var request = HeartBeatRequest()
         request.userID = RoomManager.shared.userService.localUserInfo?.userID ?? ""
         RequestManager.shared.heartBeatRequest(request: request) { requestStatus in
+            guard let callback = callback else { return }
+            var result: ZegoResult
+            if requestStatus?.code == 0 {
+                result = .success(())
+            } else {
+                result = .failure(.failed)
+            }
+            callback(result)
         } failure: { requestStatus in
+            guard let callback = callback else { return }
+            callback(.failure(.failed))
+        }
+    }
+    
+    private func tryReLogin(request:LoginRequest) {
+        RequestManager.shared.loginRequest(request: request) { requestStatus in
+            
+        } failure: { requestStatus in
+            // fail
         }
     }
 }

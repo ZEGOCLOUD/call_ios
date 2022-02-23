@@ -184,8 +184,10 @@ class CallMainVC: UIViewController {
         
         if status == .calling {
             vc.callTime = Int(Date().timeIntervalSince1970)
-        } else if status == .take || status == .accept {
+        } else if status == .take {
             vc.callWaitTime = Int(Date().timeIntervalSince1970)
+        } else if status == .accept {
+            
         }
         
         
@@ -217,7 +219,7 @@ class CallMainVC: UIViewController {
                 }
             case .accept:
                 let currentTime = Int(Date().timeIntervalSince1970)
-                if currentTime - vc.callWaitTime > 60 {
+                if currentTime - CallBusiness.shared.startTimeIdentify > 60 {
                     CallBusiness.shared.audioPlayer?.stop()
                     vc.changeCallStatusText(.miss)
                     vc.timer.stop()
@@ -272,6 +274,7 @@ class CallMainVC: UIViewController {
             headImage.isHidden = false
             takeStatusFlipButton.isHidden = true
             acceptView.setCallAcceptViewType(vcType == .video)
+            timer.start()
         case .calling:
             takeView.isHidden = true
             acceptView.isHidden = true
@@ -392,7 +395,7 @@ class CallMainVC: UIViewController {
         ZegoExpressEngine.shared().useFrontCamera(self.useFrontCamera)
     }
     
-    func changeCallStatusText(_ status: CallStatusType) {
+    func changeCallStatusText(_ status: CallStatusType, showHud:Bool = true) {
         switch status {
         case .take:
             callStatusLabel.text = ZGLocalizedString("call_page_status_calling")
@@ -408,7 +411,9 @@ class CallMainVC: UIViewController {
             callStatusLabel.text = ZGLocalizedString("call_page_status_missed")
         case .completed:
             callStatusLabel.text = ""
-            HUDHelper.showMessage(message: ZGLocalizedString("call_page_status_completed"))
+            if showHud {
+                HUDHelper.showMessage(message: ZGLocalizedString("call_page_status_completed"))
+            }
         }
     }
     
