@@ -10,7 +10,7 @@ import Foundation
 struct AppToken {
     static func getRtcToken(withRoomID roomID: String?) -> String? {
         guard let roomID = roomID else { return nil }
-        guard let userID = RoomManager.shared.userService.localUserInfo?.userID else { return nil }
+        guard let userID = ServiceManager.shared.userService.localUserInfo?.userID else { return nil }
         let token = ZegoToken.getRTCToken(withRoomID: roomID,
                                           userID: userID,
                                           appID: AppCenter.appID(),

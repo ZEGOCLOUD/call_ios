@@ -24,7 +24,6 @@
 		86718CE727955A0900CEA8A0 /* UserListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CE627955A0900CEA8A0 /* UserListService.swift */; };
 		86718D2D2797E56D00CEA8A0 /* ProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718D2C2797E56D00CEA8A0 /* ProviderDelegate.swift */; };
 		868F6356279E923200D0B5DC /* Call.strings in Resources */ = {isa = PBXBuildFile; fileRef = 868F6358279E923200D0B5DC /* Call.strings */; };
-		868F635C27A1530400D0B5DC /* CallRing.wav in Resources */ = {isa = PBXBuildFile; fileRef = 868F635B27A1530400D0B5DC /* CallRing.wav */; };
 		868F635F27A1647000D0B5DC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 868F636127A1647000D0B5DC /* InfoPlist.strings */; };
 		868F636827A3CC7800D0B5DC /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 868F636727A3CC7800D0B5DC /* WebKit.framework */; };
 		86AC134427997B5C00607277 /* CallBusiness+Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC134327997B5C00607277 /* CallBusiness+Stream.swift */; };
@@ -43,19 +42,14 @@
 		86B198D3278BE2600004C997 /* RequestStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198B0278BE25F0004C997 /* RequestStatus.swift */; };
 		86B198D4278BE2600004C997 /* String+Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198B2278BE25F0004C997 /* String+Stream.swift */; };
 		86B198D5278BE2600004C997 /* Result+Zego.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198B3278BE25F0004C997 /* Result+Zego.swift */; };
-		86B198D7278BE2600004C997 /* UserService+Paramater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198B7278BE25F0004C997 /* UserService+Paramater.swift */; };
-		86B198D8278BE2600004C997 /* RoomService+Private.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198B8278BE25F0004C997 /* RoomService+Private.swift */; };
-		86B198D9278BE2600004C997 /* RoomManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198BA278BE25F0004C997 /* RoomManager.swift */; };
-		86B198DA278BE2600004C997 /* ZIMManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198BB278BE25F0004C997 /* ZIMManager.swift */; };
+		86B198D9278BE2600004C997 /* ServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198BA278BE25F0004C997 /* ServiceManager.swift */; };
 		86B198DB278BE2600004C997 /* Define.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198BC278BE25F0004C997 /* Define.swift */; };
 		86B198DC278BE2600004C997 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198BE278BE25F0004C997 /* UserInfo.swift */; };
-		86B198DE278BE2600004C997 /* CustomCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198C0278BE25F0004C997 /* CustomCommand.swift */; };
 		86B198E0278BE2600004C997 /* RoomInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198C2278BE25F0004C997 /* RoomInfo.swift */; };
-		86B198E4278BE2600004C997 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198C7278BE25F0004C997 /* UserService.swift */; };
-		86B198E6278BE2600004C997 /* RoomService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198C9278BE25F0004C997 /* RoomService.swift */; };
+		86B198E4278BE2600004C997 /* UserServiceIMP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198C7278BE25F0004C997 /* UserServiceIMP.swift */; };
+		86B198E6278BE2600004C997 /* RoomServiceIMP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198C9278BE25F0004C997 /* RoomServiceIMP.swift */; };
 		86B198EB278BE2600004C997 /* DictionaryArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198CF278BE2600004C997 /* DictionaryArray.swift */; };
 		86B198EC278BE2600004C997 /* ZegoJsonTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198D0278BE2600004C997 /* ZegoJsonTool.swift */; };
-		86B198EE278D27A80004C997 /* OperationCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198ED278D27A80004C997 /* OperationCommand.swift */; };
 		86B198F2278D57B00004C997 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198F1278D57B00004C997 /* HomeVC.swift */; };
 		86B198F6278D625F0004C997 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198F4278D625F0004C997 /* SettingsVC.swift */; };
 		86B198F7278D625F0004C997 /* SettingCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B198F5278D625F0004C997 /* SettingCellModel.swift */; };
@@ -102,7 +96,15 @@
 		86B19A1727911D740004C997 /* CallMainVC+Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19A1627911D740004C997 /* CallMainVC+Operation.swift */; };
 		86DE03C727981B3D000EE3C5 /* CallBusiness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE03C627981B3D000EE3C5 /* CallBusiness.swift */; };
 		86DE03C927983D98000EE3C5 /* CallMainVC+Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */; };
-		8E0C8C7E27A3C93A00B60495 /* UserService+Express.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C8C7D27A3C93A00B60495 /* UserService+Express.swift */; };
+		8E7756E827DF47CE00BFB5F6 /* CallRing.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8E7756E727DF47CE00BFB5F6 /* CallRing.wav */; };
+		8E7756ED27E084FE00BFB5F6 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7756EC27E084FE00BFB5F6 /* UserService.swift */; };
+		8E7756EF27E0851C00BFB5F6 /* RoomService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7756EE27E0851B00BFB5F6 /* RoomService.swift */; };
+		8E7756F127E0852400BFB5F6 /* CallService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7756F027E0852300BFB5F6 /* CallService.swift */; };
+		8E7756F327E0852C00BFB5F6 /* DeviceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7756F227E0852C00BFB5F6 /* DeviceService.swift */; };
+		8E7756F527E0906D00BFB5F6 /* CallInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7756F427E0906D00BFB5F6 /* CallInfo.swift */; };
+		8E7756F727E09D0500BFB5F6 /* DeviceServiceIMP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7756F627E09D0500BFB5F6 /* DeviceServiceIMP.swift */; };
+		8E7756F927E09D3600BFB5F6 /* CallServiceIMP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7756F827E09D3500BFB5F6 /* CallServiceIMP.swift */; };
+		8E7756FF27E0A77500BFB5F6 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7756FE27E0A77500BFB5F6 /* Command.swift */; };
 		8EE5264727B364B200158BBE /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5264627B364B200158BBE /* LoginManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -127,7 +129,6 @@
 		868F6353279E913800D0B5DC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		868F6357279E923200D0B5DC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Call.strings; sourceTree = "<group>"; };
 		868F6359279E923400D0B5DC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Call.strings"; sourceTree = "<group>"; };
-		868F635B27A1530400D0B5DC /* CallRing.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = CallRing.wav; sourceTree = "<group>"; };
 		868F636027A1647000D0B5DC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		868F636227A1647200D0B5DC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		868F636727A3CC7800D0B5DC /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -149,19 +150,14 @@
 		86B198B0278BE25F0004C997 /* RequestStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestStatus.swift; sourceTree = "<group>"; };
 		86B198B2278BE25F0004C997 /* String+Stream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Stream.swift"; sourceTree = "<group>"; };
 		86B198B3278BE25F0004C997 /* Result+Zego.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Result+Zego.swift"; sourceTree = "<group>"; };
-		86B198B7278BE25F0004C997 /* UserService+Paramater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserService+Paramater.swift"; sourceTree = "<group>"; };
-		86B198B8278BE25F0004C997 /* RoomService+Private.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RoomService+Private.swift"; sourceTree = "<group>"; };
-		86B198BA278BE25F0004C997 /* RoomManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomManager.swift; sourceTree = "<group>"; };
-		86B198BB278BE25F0004C997 /* ZIMManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZIMManager.swift; sourceTree = "<group>"; };
+		86B198BA278BE25F0004C997 /* ServiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceManager.swift; sourceTree = "<group>"; };
 		86B198BC278BE25F0004C997 /* Define.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Define.swift; sourceTree = "<group>"; };
 		86B198BE278BE25F0004C997 /* UserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
-		86B198C0278BE25F0004C997 /* CustomCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCommand.swift; sourceTree = "<group>"; };
 		86B198C2278BE25F0004C997 /* RoomInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomInfo.swift; sourceTree = "<group>"; };
-		86B198C7278BE25F0004C997 /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
-		86B198C9278BE25F0004C997 /* RoomService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomService.swift; sourceTree = "<group>"; };
+		86B198C7278BE25F0004C997 /* UserServiceIMP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserServiceIMP.swift; sourceTree = "<group>"; };
+		86B198C9278BE25F0004C997 /* RoomServiceIMP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomServiceIMP.swift; sourceTree = "<group>"; };
 		86B198CF278BE2600004C997 /* DictionaryArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryArray.swift; sourceTree = "<group>"; };
 		86B198D0278BE2600004C997 /* ZegoJsonTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZegoJsonTool.swift; sourceTree = "<group>"; };
-		86B198ED278D27A80004C997 /* OperationCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperationCommand.swift; sourceTree = "<group>"; };
 		86B198F1278D57B00004C997 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		86B198F4278D625F0004C997 /* SettingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		86B198F5278D625F0004C997 /* SettingCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingCellModel.swift; sourceTree = "<group>"; };
@@ -256,7 +252,15 @@
 		86B19A1627911D740004C997 /* CallMainVC+Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallMainVC+Operation.swift"; sourceTree = "<group>"; };
 		86DE03C627981B3D000EE3C5 /* CallBusiness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallBusiness.swift; sourceTree = "<group>"; };
 		86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallMainVC+Stream.swift"; sourceTree = "<group>"; };
-		8E0C8C7D27A3C93A00B60495 /* UserService+Express.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserService+Express.swift"; sourceTree = "<group>"; };
+		8E7756E727DF47CE00BFB5F6 /* CallRing.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = CallRing.wav; sourceTree = "<group>"; };
+		8E7756EC27E084FE00BFB5F6 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		8E7756EE27E0851B00BFB5F6 /* RoomService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomService.swift; sourceTree = "<group>"; };
+		8E7756F027E0852300BFB5F6 /* CallService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallService.swift; sourceTree = "<group>"; };
+		8E7756F227E0852C00BFB5F6 /* DeviceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceService.swift; sourceTree = "<group>"; };
+		8E7756F427E0906D00BFB5F6 /* CallInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallInfo.swift; sourceTree = "<group>"; };
+		8E7756F627E09D0500BFB5F6 /* DeviceServiceIMP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceServiceIMP.swift; sourceTree = "<group>"; };
+		8E7756F827E09D3500BFB5F6 /* CallServiceIMP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallServiceIMP.swift; sourceTree = "<group>"; };
+		8E7756FE27E0A77500BFB5F6 /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
 		8EE5264627B364B200158BBE /* LoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
 		95F1BBF3114F32302EC88A9C /* Pods-ZEGOCallDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZEGOCallDemo.debug.xcconfig"; path = "Target Support Files/Pods-ZEGOCallDemo/Pods-ZEGOCallDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -327,14 +331,6 @@
 			path = Provider;
 			sourceTree = "<group>";
 		};
-		868F635A27A1530400D0B5DC /* RingResource */ = {
-			isa = PBXGroup;
-			children = (
-				868F635B27A1530400D0B5DC /* CallRing.wav */,
-			);
-			path = RingResource;
-			sourceTree = SOURCE_ROOT;
-		};
 		86B19885278BDD7D0004C997 = {
 			isa = PBXGroup;
 			children = (
@@ -357,9 +353,9 @@
 		86B19890278BDD7D0004C997 /* ZEGOCallDemo */ = {
 			isa = PBXGroup;
 			children = (
+				8E7756E627DF47CE00BFB5F6 /* RingResource */,
 				86B198AD278BE25F0004C997 /* Network */,
 				86718CD727953DFA00CEA8A0 /* Request */,
-				868F635A27A1530400D0B5DC /* RingResource */,
 				86B198FB278D63430004C997 /* Helper */,
 				86B198EF278D28B20004C997 /* CorePages */,
 				86B198A6278BE1C60004C997 /* AppCenter */,
@@ -381,7 +377,9 @@
 			isa = PBXGroup;
 			children = (
 				86B198B4278BE25F0004C997 /* Core */,
-				86B198B1278BE25F0004C997 /* Extensions */,
+				8E7756FA27E0A65700BFB5F6 /* Command */,
+				8E7756FD27E0A68D00BFB5F6 /* Listener */,
+				8E7756FB27E0A66100BFB5F6 /* Reqeust */,
 				86B198CE278BE2600004C997 /* Tool */,
 			);
 			path = ZEGOCall;
@@ -418,29 +416,20 @@
 		86B198B4278BE25F0004C997 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				86B198B5278BE25F0004C997 /* Extensions */,
-				86B198B9278BE25F0004C997 /* Manager */,
 				86B198BC278BE25F0004C997 /* Define.swift */,
+				8E7756EA27E0833F00BFB5F6 /* Interface */,
+				86B198B9278BE25F0004C997 /* Manager */,
+				8E7756EB27E0834B00BFB5F6 /* InterfaceIMP */,
+				8E7756E927E0833600BFB5F6 /* Commands */,
 				86B198BD278BE25F0004C997 /* Model */,
-				86B198C6278BE25F0004C997 /* Service */,
 			);
 			path = Core;
-			sourceTree = "<group>";
-		};
-		86B198B5278BE25F0004C997 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				86B198B7278BE25F0004C997 /* UserService+Paramater.swift */,
-				86B198B8278BE25F0004C997 /* RoomService+Private.swift */,
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 		86B198B9278BE25F0004C997 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
-				86B198BA278BE25F0004C997 /* RoomManager.swift */,
-				86B198BB278BE25F0004C997 /* ZIMManager.swift */,
+				86B198BA278BE25F0004C997 /* ServiceManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -449,26 +438,16 @@
 			isa = PBXGroup;
 			children = (
 				86B198BE278BE25F0004C997 /* UserInfo.swift */,
-				86B198C0278BE25F0004C997 /* CustomCommand.swift */,
 				86B198C2278BE25F0004C997 /* RoomInfo.swift */,
-				86B198ED278D27A80004C997 /* OperationCommand.swift */,
+				8E7756F427E0906D00BFB5F6 /* CallInfo.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		86B198C6278BE25F0004C997 /* Service */ = {
-			isa = PBXGroup;
-			children = (
-				86B198C7278BE25F0004C997 /* UserService.swift */,
-				8E0C8C7D27A3C93A00B60495 /* UserService+Express.swift */,
-				86B198C9278BE25F0004C997 /* RoomService.swift */,
-			);
-			path = Service;
 			sourceTree = "<group>";
 		};
 		86B198CE278BE2600004C997 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				86B198B1278BE25F0004C997 /* Extensions */,
 				86B198CF278BE2600004C997 /* DictionaryArray.swift */,
 				86B198D0278BE2600004C997 /* ZegoJsonTool.swift */,
 			);
@@ -789,6 +768,65 @@
 			path = CallShow;
 			sourceTree = "<group>";
 		};
+		8E7756E627DF47CE00BFB5F6 /* RingResource */ = {
+			isa = PBXGroup;
+			children = (
+				8E7756E727DF47CE00BFB5F6 /* CallRing.wav */,
+			);
+			path = RingResource;
+			sourceTree = "<group>";
+		};
+		8E7756E927E0833600BFB5F6 /* Commands */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Commands;
+			sourceTree = "<group>";
+		};
+		8E7756EA27E0833F00BFB5F6 /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				8E7756EC27E084FE00BFB5F6 /* UserService.swift */,
+				8E7756F027E0852300BFB5F6 /* CallService.swift */,
+				8E7756EE27E0851B00BFB5F6 /* RoomService.swift */,
+				8E7756F227E0852C00BFB5F6 /* DeviceService.swift */,
+			);
+			path = Interface;
+			sourceTree = "<group>";
+		};
+		8E7756EB27E0834B00BFB5F6 /* InterfaceIMP */ = {
+			isa = PBXGroup;
+			children = (
+				86B198C7278BE25F0004C997 /* UserServiceIMP.swift */,
+				8E7756F827E09D3500BFB5F6 /* CallServiceIMP.swift */,
+				86B198C9278BE25F0004C997 /* RoomServiceIMP.swift */,
+				8E7756F627E09D0500BFB5F6 /* DeviceServiceIMP.swift */,
+			);
+			path = InterfaceIMP;
+			sourceTree = "<group>";
+		};
+		8E7756FA27E0A65700BFB5F6 /* Command */ = {
+			isa = PBXGroup;
+			children = (
+				8E7756FE27E0A77500BFB5F6 /* Command.swift */,
+			);
+			path = Command;
+			sourceTree = "<group>";
+		};
+		8E7756FB27E0A66100BFB5F6 /* Reqeust */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Reqeust;
+			sourceTree = "<group>";
+		};
+		8E7756FD27E0A68D00BFB5F6 /* Listener */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Listener;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -800,7 +838,7 @@
 				86B1988A278BDD7D0004C997 /* Sources */,
 				86B1988B278BDD7D0004C997 /* Frameworks */,
 				86B1988C278BDD7D0004C997 /* Resources */,
-				C1A1248EF2552A6371EA9A06 /* [CP] Embed Pods Frameworks */,
+				0757BE8CF4A1E147D7692B0C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -852,7 +890,6 @@
 			files = (
 				86B19988278EB8B20004C997 /* CallAcceptView.xib in Resources */,
 				86B19A1227901B550004C997 /* CallMainVC.xib in Resources */,
-				868F635C27A1530400D0B5DC /* CallRing.wav in Resources */,
 				86B19959278D63440004C997 /* TipView.xib in Resources */,
 				86B198AB278BE1C60004C997 /* AppCenter.json in Resources */,
 				86B1989E278BDD7F0004C997 /* LaunchScreen.storyboard in Resources */,
@@ -860,6 +897,7 @@
 				86B19998278EC11C0004C997 /* CallAcceptTipView.xib in Resources */,
 				86B19899278BDD7E0004C997 /* Main.storyboard in Resources */,
 				86B1998C278EBB8C0004C997 /* CallingPhoneView.xib in Resources */,
+				8E7756E827DF47CE00BFB5F6 /* CallRing.wav in Resources */,
 				86B1997A278D75F60004C997 /* User.storyboard in Resources */,
 				868F6356279E923200D0B5DC /* Call.strings in Resources */,
 				868F635F27A1647000D0B5DC /* InfoPlist.strings in Resources */,
@@ -873,6 +911,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0757BE8CF4A1E147D7692B0C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ZEGOCallDemo/Pods-ZEGOCallDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ZEGOCallDemo/Pods-ZEGOCallDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ZEGOCallDemo/Pods-ZEGOCallDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		AEED11D83C65C2DC9A8A38BC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -895,23 +950,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C1A1248EF2552A6371EA9A06 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ZEGOCallDemo/Pods-ZEGOCallDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ZEGOCallDemo/Pods-ZEGOCallDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ZEGOCallDemo/Pods-ZEGOCallDemo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -920,11 +958,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				86718CE5279542E300CEA8A0 /* HeartBeatRequest.swift in Sources */,
-				86B198DE278BE2600004C997 /* CustomCommand.swift in Sources */,
 				86718CA627915A5D00CEA8A0 /* RefreshViewAnimator.swift in Sources */,
+				8E7756F927E09D3600BFB5F6 /* CallServiceIMP.swift in Sources */,
 				86B1995C278D63440004C997 /* StringTool.swift in Sources */,
 				86B198D5278BE2600004C997 /* Result+Zego.swift in Sources */,
 				8EE5264727B364B200158BBE /* LoginManager.swift in Sources */,
+				8E7756F727E09D0500BFB5F6 /* DeviceServiceIMP.swift in Sources */,
+				8E7756EF27E0851C00BFB5F6 /* RoomService.swift in Sources */,
 				86B1995E278D63440004C997 /* AppToken.swift in Sources */,
 				86B19996278EC1050004C997 /* CallAcceptTipView.swift in Sources */,
 				86B19A082790034B0004C997 /* OnlineUserListVC+Call.swift in Sources */,
@@ -939,26 +979,26 @@
 				86B198DC278BE2600004C997 /* UserInfo.swift in Sources */,
 				86B19972278D71820004C997 /* GeneralWebVC.swift in Sources */,
 				86B1995F278D63440004C997 /* String+Head.swift in Sources */,
-				86B198DA278BE2600004C997 /* ZIMManager.swift in Sources */,
 				86DE03C727981B3D000EE3C5 /* CallBusiness.swift in Sources */,
+				8E7756FF27E0A77500BFB5F6 /* Command.swift in Sources */,
 				86B19964278D63E30004C997 /* AppDefine.swift in Sources */,
-				86B198D8278BE2600004C997 /* RoomService+Private.swift in Sources */,
-				86B198D7278BE2600004C997 /* UserService+Paramater.swift in Sources */,
 				86B19A1427901FAF0004C997 /* CallBaseView.swift in Sources */,
 				86B19896278BDD7E0004C997 /* LoginVC.swift in Sources */,
 				86718CAC27915ADE00CEA8A0 /* PullToRefresh.swift in Sources */,
 				86B19962278D63440004C997 /* UIImage+Zego.swift in Sources */,
 				86718CE3279542B100CEA8A0 /* LogoutRequest.swift in Sources */,
-				86B198E6278BE2600004C997 /* RoomService.swift in Sources */,
+				86B198E6278BE2600004C997 /* RoomServiceIMP.swift in Sources */,
 				86DE03C927983D98000EE3C5 /* CallMainVC+Stream.swift in Sources */,
 				86718CE727955A0900CEA8A0 /* UserListService.swift in Sources */,
 				86718CA827915A8F00CEA8A0 /* DefaultViewAnimator.swift in Sources */,
+				8E7756F527E0906D00BFB5F6 /* CallInfo.swift in Sources */,
 				86B198D4278BE2600004C997 /* String+Stream.swift in Sources */,
+				8E7756ED27E084FE00BFB5F6 /* UserService.swift in Sources */,
 				86B19950278D63440004C997 /* ZegoRTCServerAssistantImpl.cpp in Sources */,
+				8E7756F127E0852400BFB5F6 /* CallService.swift in Sources */,
 				86B19953278D63440004C997 /* ZegoServerAssistant.cpp in Sources */,
 				86B198F6278D625F0004C997 /* SettingsVC.swift in Sources */,
 				86B19957278D63440004C997 /* Base64.cc in Sources */,
-				8E0C8C7E27A3C93A00B60495 /* UserService+Express.swift in Sources */,
 				86B19961278D63440004C997 /* AuthorizedCheck.swift in Sources */,
 				86B198D1278BE2600004C997 /* NetworkManager.swift in Sources */,
 				86B19978278D75E00004C997 /* OnlineUserListVC.swift in Sources */,
@@ -968,12 +1008,12 @@
 				86B198E0278BE2600004C997 /* RoomInfo.swift in Sources */,
 				86B19892278BDD7D0004C997 /* AppDelegate.swift in Sources */,
 				86718CDB27953E6400CEA8A0 /* UserIDReauest.swift in Sources */,
-				86B198EE278D27A80004C997 /* OperationCommand.swift in Sources */,
 				86718CAA27915AC100CEA8A0 /* State.swift in Sources */,
 				86B198EC278BE2600004C997 /* ZegoJsonTool.swift in Sources */,
-				86B198E4278BE2600004C997 /* UserService.swift in Sources */,
+				8E7756F327E0852C00BFB5F6 /* DeviceService.swift in Sources */,
+				86B198E4278BE2600004C997 /* UserServiceIMP.swift in Sources */,
 				86B19956278D63440004C997 /* aes.cpp in Sources */,
-				86B198D9278BE2600004C997 /* RoomManager.swift in Sources */,
+				86B198D9278BE2600004C997 /* ServiceManager.swift in Sources */,
 				86B1994F278D63440004C997 /* ZegoToken.mm in Sources */,
 				86B198F2278D57B00004C997 /* HomeVC.swift in Sources */,
 				86B198DB278BE2600004C997 /* Define.swift in Sources */,
@@ -1166,7 +1206,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = B82BHJ5H89;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ZEGOCallDemo/Info.plist;
@@ -1185,7 +1225,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = im.zego.call;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1202,7 +1242,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = B82BHJ5H89;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ZEGOCallDemo/Info.plist;
@@ -1221,7 +1261,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = im.zego.call;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

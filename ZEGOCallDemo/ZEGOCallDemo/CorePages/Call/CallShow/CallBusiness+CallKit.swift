@@ -79,7 +79,7 @@ extension CallBusiness {
         if let userID = currentCallUserInfo?.userID {
             let rtcToken = AppToken.getRtcToken(withRoomID: userID)
             guard let rtcToken = rtcToken else { return }
-            RoomManager.shared.userService.respondCall(userID, token: rtcToken, responseType: .accept) { result in
+            ServiceManager.shared.callService.respondCall(userID, token: rtcToken, responseType: .accept) { result in
                 switch result {
                 case .success():
                     self.startCallTime = Int(Date().timeIntervalSince1970)
@@ -124,7 +124,7 @@ extension CallBusiness {
     @objc func callKitEnd() {
         if appIsActive { return }
         if currentCallStatus == .calling {
-            RoomManager.shared.userService.endCall() { result in
+            ServiceManager.shared.callService.endCall() { result in
                 switch result {
                 case .success():
                     self.currentCallStatus = .free
@@ -143,9 +143,9 @@ extension CallBusiness {
     }
     
     @objc func muteSpeaker(notif:NSNotification) {
-        if let localUserInfo = RoomManager.shared.userService.localUserRoomInfo {
+        if let localUserInfo = ServiceManager.shared.userService.localUserInfo {
             localUserInfo.mic = !(notif.userInfo!["isMute"] as? Bool)!
-            RoomManager.shared.userService.enableMic(localUserInfo.mic, callback: nil)
+            ServiceManager.shared.deviceService.enableMic(localUserInfo.mic, callback: nil)
             currentCallVC?.changeBottomButtonDisplayStatus()
         }
     }

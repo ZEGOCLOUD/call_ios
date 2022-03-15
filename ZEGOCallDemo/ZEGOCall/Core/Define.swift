@@ -20,11 +20,6 @@ typealias ZegoResult = Result<Void, ZegoError>
 ///            600xxxx: The ZIM SDK error code. For details, refer to the error code documentation. [iOS]: https://docs.zegocloud.com/article/13791 [Android]: https://docs.zegocloud.com/article/13792
 typealias RoomCallback = (ZegoResult) -> Void
 
-/// online room users count callback
-typealias OnlineRoomUsersCountCallback = (Result<UInt32, ZegoError>) -> Void
-
-/// online room users callback
-typealias OnlineRoomUsersCallback = (Result<[UserInfo], ZegoError>) -> Void
 
 /// room list callback
 typealias UserListCallback = (Result<[UserInfo], ZegoError>) -> Void
@@ -55,10 +50,77 @@ enum CallResponseType: Int {
 
 enum CancelType: Int {
     case intent = 1
-    case timeout = 2
 }
 
 enum CallType: Int {
     case voice = 1
     case video = 2
+}
+
+enum CallStatus: Int {
+    case free = 0
+    case outgoing = 1
+    case incoming = 2
+    case calling = 3
+}
+
+/// Class video resolution
+///
+/// Description: This class contains the video resolution information. To set the video resolution, call the setVideoResolution method.
+enum ZegoVideoResolution: Int {
+    /// 1080P: 1920 * 1080
+    case p1080
+    
+    /// 720P: 1280 * 720
+    case p720
+    
+    /// 540P: 960 * 540
+    case p540
+    
+    /// 360P: 640 * 360
+    case p360
+    
+    /// 270P: 480 * 270
+    case p270
+    
+    /// 180P: 320 * 180
+    case p180
+}
+
+/// Class audio bitrate
+///
+/// Description: This class contains the audio bitrate information. To set the audio bitrate, call the setAudioBitrate method.
+enum ZegoAudioBitrate: Int {
+    /// 16kbps
+    case b16
+    
+    /// 48kbps
+    case b48
+    
+    /// 56kbps
+    case b56
+    
+    /// 96kbps
+    case b96
+    
+    /// 128kbps
+    case b128
+    
+    /// 192kbps
+    case b192
+}
+
+/// Class device settings
+///
+/// Description: This class contains the device settings related information for you to configure different device settings.
+enum ZegoDeviceType {
+    
+    /// Noise suppression
+    case noiseSuppression
+    
+    /// Echo cancellation
+    case echoCancellation
+    
+    /// Volume auto-adjustment
+    case volumeAdjustment
 }

@@ -103,14 +103,14 @@ class ProviderDelegate: NSObject,CXProviderDelegate {
     }
     
     func provider(_ provider: CXProvider, perform action: CXAnswerCallAction) {
-        RoomManager.shared.userService.enableCallKit(true)
+        ServiceManager.shared.deviceService.enableCallKit(true)
         NotificationCenter.default.post(name: Notification.Name(CALL_NOTI_START), object: self, userInfo: ["uuid":action.uuid])
         action.fulfill(withDateConnected: Date())
     }
     
     
     func provider(_ provider: CXProvider, perform action: CXEndCallAction) {
-        RoomManager.shared.userService.enableCallKit(false)
+        ServiceManager.shared.deviceService.enableCallKit(false)
         NotificationCenter.default.post(name: Notification.Name(CALL_NOTI_END), object: self, userInfo: ["uuid":action.uuid.uuidString])
         action.fulfill(withDateEnded: Date())
     }

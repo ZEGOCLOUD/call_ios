@@ -26,7 +26,7 @@ class UserListService: NSObject {
                 self.userList = userInfoList.userInfoArray
             }
             self.userList = self.userList.filter({ userInfo in
-                return userInfo.userID != RoomManager.shared.userService.localUserInfo?.userID
+                return userInfo.userID != ServiceManager.shared.userService.localUserInfo?.userID
             })
             guard let callback = callback else { return }
             callback(.success(userInfoList.userInfoArray))
@@ -39,7 +39,7 @@ class UserListService: NSObject {
     // MARK: private method
     private func heartBeatRequest() {
         var request = HeartBeatRequest()
-        request.userID = RoomManager.shared.userService.localUserInfo?.userID ?? ""
+        request.userID = ServiceManager.shared.userService.localUserInfo?.userID ?? ""
         RequestManager.shared.heartBeatRequest(request: request) { requestStatus in
         } failure: { requestStatus in
         }
