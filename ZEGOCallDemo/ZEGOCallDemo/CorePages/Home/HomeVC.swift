@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import ZIM
 
 class HomeVC: UIViewController {
 
@@ -43,8 +42,7 @@ class HomeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        RoomManager.shared.userService.addUserServiceDelegate(CallBusiness.shared)
-        RoomManager.shared.userService.addUserServiceDelegate(self)
+        ServiceManager.shared.userService.delegate = CallBusiness.shared
         let tapClick:UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(tap))
         backView.addGestureRecognizer(tapClick)
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
@@ -129,9 +127,9 @@ class HomeVC: UIViewController {
     }
     
     func configUI() {
-        userNameLabel.text = RoomManager.shared.userService.localUserInfo?.userName ?? ""
-        userIDLabel.text = "ID:\(RoomManager.shared.userService.localUserInfo?.userID ?? "")"
-        headImage.image = UIImage(named: String.getHeadImageName(userName: RoomManager.shared.userService.localUserInfo?.userName ?? ""))
+        userNameLabel.text = ServiceManager.shared.userService.localUserInfo?.userName ?? ""
+        userIDLabel.text = "ID:\(ServiceManager.shared.userService.localUserInfo?.userID ?? "")"
+        headImage.image = UIImage(named: String.getHeadImageName(userName: ServiceManager.shared.userService.localUserInfo?.userName ?? ""))
     }
     
     func startLogin(_ userInfo: UserInfo) {
@@ -174,27 +172,4 @@ class HomeVC: UIViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-}
-
-extension HomeVC: UserServiceDelegate {
-    func connectionStateChanged(_ state: ZIMConnectionState, _ event: ZIMConnectionEvent) {
-        if event == .kickedOut {
-            logout()
-            return
-        }
-        if state == .disconnected {
-            logout()
-        } else if state == .connected {
-            var request = HeartBeatRequest()
-            guard let userID = RoomManager.shared.userService.localUserInfo?.userID else { return }
-            request.userID = userID
-            RequestManager.shared.heartBeatRequest(request: request) { requestStatus in
-                if requestStatus?.code != 0 {
-                    self.loginAgain()
-                }
-            } failure: { requestStatus in
-                self.loginAgain()
-            }
-        }
-    }
 }

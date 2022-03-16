@@ -12,14 +12,10 @@ extension CallBusiness {
     
     // get local user ID
     var localUserID: String {
-        RoomManager.shared.userService.localUserInfo?.userID ?? ""
+        ServiceManager.shared.userService.localUserInfo?.userID ?? ""
     }
         
     func isUserMyself(_ userID: String?) -> Bool {
         return localUserID == userID
-    }
-    
-    func getRoomID() -> String {
-        return RoomManager.shared.userService.roomService.roomInfo.roomID ?? ""
     }
 }

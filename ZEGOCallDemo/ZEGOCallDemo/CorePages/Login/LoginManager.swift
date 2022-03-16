@@ -47,7 +47,7 @@ class LoginManager: NSObject {
             self.timer.start()
             
             let token = AppToken.getZIMToken(withUserID: userID) ?? ""
-            RoomManager.shared.userService.login(user, token, callback: callback)
+            ServiceManager.shared.userService.login(user, token, callback: callback)
             
         } failure: { requestStatus in
             guard let callback = callback else { return }
@@ -58,7 +58,7 @@ class LoginManager: NSObject {
     
     func logout() {
         timer.stop()
-        RoomManager.shared.userService.logout()
+        ServiceManager.shared.userService.logout()
     }
     
     func requestUserID(_ callback: UserIDCallBack?) {
@@ -77,7 +77,7 @@ class LoginManager: NSObject {
 extension LoginManager {
     private func heartBeatRequest(callback: heartBeatCallBack?) {
         var request = HeartBeatRequest()
-        request.userID = RoomManager.shared.userService.localUserInfo?.userID ?? ""
+        request.userID = ServiceManager.shared.userService.localUserInfo?.userID ?? ""
         RequestManager.shared.heartBeatRequest(request: request) { requestStatus in
             guard let callback = callback else { return }
             var result: ZegoResult

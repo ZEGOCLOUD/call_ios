@@ -12,7 +12,7 @@ extension CallMainVC: CallActionDelegate {
     func callhandUp(_ callView: CallBaseView) {
         if let userID = self.callUser?.userID {
             if self.statusType == .calling {
-                RoomManager.shared.userService.endCall() { result in
+                ServiceManager.shared.callService.endCall() { result in
                     switch result {
                     case .success():
                         CallBusiness.shared.audioPlayer?.stop()
@@ -31,9 +31,7 @@ extension CallMainVC: CallActionDelegate {
     }
     
     func cancelCall(_ userID: String, callType: CallType, isTimeout: Bool = false) {
-        var cancelType: CancelType = .intent
-        if isTimeout { cancelType = .timeout}
-        RoomManager.shared.userService.cancelCall(userID: userID, cancelType: cancelType) { result in
+        ServiceManager.shared.callService.cancelCall(userID: userID, cancelType: .intent) { result in
             switch result {
             case .success():
                 CallBusiness.shared.audioPlayer?.stop()
@@ -56,7 +54,7 @@ extension CallMainVC: CallActionDelegate {
         if let userID = self.callUser?.userID {
             let rtcToken = AppToken.getRtcToken(withRoomID: userID)
             guard let rtcToken = rtcToken else { return }
-            RoomManager.shared.userService.respondCall(userID, token:rtcToken, responseType: .accept) { result in
+            ServiceManager.shared.callService.respondCall(userID, token:rtcToken, responseType: .accept) { result in
                 CallBusiness.shared.audioPlayer?.stop()
                 if result.isSuccess {
                     CallBusiness.shared.currentCallStatus = .calling
@@ -72,21 +70,21 @@ extension CallMainVC: CallActionDelegate {
     }
     
     func startPlayingStream(_ userID: String) {
-        if let userRoomInfo = RoomManager.shared.userService.localUserRoomInfo {
+        if let userRoomInfo = ServiceManager.shared.userService.localUserInfo {
             if vcType == .voice {
-                RoomManager.shared.userService.enableMic(userRoomInfo.mic, callback: nil)
+                ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic, callback: nil)
                 guard let callUser = callUser else { return }
-                RoomManager.shared.userService.startPlaying(callUser.userID, streamView: nil)
+                ServiceManager.shared.deviceService.startPlaying(callUser.userID, streamView: nil)
             } else {
-                RoomManager.shared.userService.enableMic(userRoomInfo.mic, callback: nil)
-                RoomManager.shared.userService.enableCamera(userRoomInfo.camera, callback: nil)
-                let mainUserID = mainStreamUserID != nil ? mainStreamUserID : RoomManager.shared.userService.localUserInfo?.userID
-                RoomManager.shared.userService.startPlaying(mainUserID, streamView: mainPreviewView)
+                ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic, callback: nil)
+                ServiceManager.shared.deviceService.enableCamera(userRoomInfo.camera, callback: nil)
+                let mainUserID = mainStreamUserID != nil ? mainStreamUserID : ServiceManager.shared.userService.localUserInfo?.userID
+                ServiceManager.shared.deviceService.startPlaying(mainUserID, streamView: mainPreviewView)
                 
                 let previewUserID = streamUserID != nil ? streamUserID : userID
-                RoomManager.shared.userService.startPlaying(previewUserID, streamView: previewView)
+                ServiceManager.shared.deviceService.startPlaying(previewUserID, streamView: previewView)
             }
-            RoomManager.shared.userService.enableSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? false)
+            ServiceManager.shared.deviceService.enableSpeaker(ServiceManager.shared.userService.localUserInfo?.voice ?? false)
         }
     }
     
@@ -94,7 +92,7 @@ extension CallMainVC: CallActionDelegate {
         if let userID = self.callUser?.userID {
             let rtcToken = AppToken.getRtcToken(withRoomID: userID)
             guard let rtcToken = rtcToken else { return }
-            RoomManager.shared.userService.respondCall(userID, token: rtcToken ,responseType: .decline) { result in
+            ServiceManager.shared.callService.respondCall(userID, token: rtcToken ,responseType: .decline) { result in
                 if result.isSuccess {
                     CallBusiness.shared.audioPlayer?.stop()
                     CallBusiness.shared.currentCallStatus = .free
@@ -107,20 +105,20 @@ extension CallMainVC: CallActionDelegate {
     
     func callOpenMic(_ callView: CallBaseView, isOpen: Bool) {
         
-        RoomManager.shared.userService.enableMic(isOpen, callback: nil)
+        ServiceManager.shared.deviceService.enableMic(isOpen, callback: nil)
     }
     
     func callOpenVoice(_ callView: CallBaseView, isOpen: Bool) {
-        RoomManager.shared.userService.enableSpeaker(isOpen)
+        ServiceManager.shared.deviceService.enableSpeaker(isOpen)
     }
     
     func callOpenVideo(_ callView: CallBaseView, isOpen: Bool) {
-        RoomManager.shared.userService.enableCamera(isOpen, callback: nil)
+        ServiceManager.shared.deviceService.enableCamera(isOpen, callback: nil)
     }
     
     func callFlipCamera(_ callView: CallBaseView) {
         self.useFrontCamera = !self.useFrontCamera
-        RoomManager.shared.userService.useFrontCamera(self.useFrontCamera)
+        ServiceManager.shared.deviceService.useFrontCamera(self.useFrontCamera)
     }
     
     func callDelayDismiss() {

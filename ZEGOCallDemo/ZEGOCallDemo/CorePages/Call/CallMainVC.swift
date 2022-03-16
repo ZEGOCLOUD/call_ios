@@ -92,10 +92,10 @@ class CallMainVC: UIViewController {
     @objc func ExchangeVideoStream() {
         let tempID = mainStreamUserID
         mainStreamUserID = streamUserID
-        RoomManager.shared.userService.startPlaying(mainStreamUserID, streamView: mainPreviewView)
+        ServiceManager.shared.deviceService.startPlaying(mainStreamUserID, streamView: mainPreviewView)
         streamUserID = tempID
         setPreviewUserName()
-        RoomManager.shared.userService.startPlaying(streamUserID, streamView: previewView)
+        ServiceManager.shared.deviceService.startPlaying(streamUserID, streamView: previewView)
         setCallBgImage()
     }
     
@@ -113,11 +113,8 @@ class CallMainVC: UIViewController {
     var callWaitTime: Int = 0
     var netWorkStatus: NetWorkStatus = .good
     var callConnected: ConnectStatus = .connected
-    var roomID: String = {
-        return RoomManager.shared.userService.roomService.roomInfo.roomID ?? ""
-    }()
     var localUserInfo: UserInfo = {
-        return RoomManager.shared.userService.localUserInfo ?? UserInfo()
+        return ServiceManager.shared.userService.localUserInfo ?? UserInfo()
     }()
     var otherUserRoomInfo: UserInfo?
 
@@ -262,7 +259,7 @@ class CallMainVC: UIViewController {
             headImage.isHidden = false
             timer.start()
             if vcType == .video {
-                RoomManager.shared.userService.startPlaying(mainStreamUserID, streamView: mainPreviewView)
+                ServiceManager.shared.deviceService.startPlaying(mainStreamUserID, streamView: mainPreviewView)
             }
         case .accept:
             bottomViewHeight.constant = 85
@@ -285,7 +282,7 @@ class CallMainVC: UIViewController {
                 videoView.isHidden = true
                 headImage.isHidden = false
                 if mainStreamUserID != localUserID{
-                    RoomManager.shared.userService.startPlaying(mainStreamUserID, streamView: nil)
+                    ServiceManager.shared.deviceService.startPlaying(mainStreamUserID, streamView: nil)
                 }
             } else {
                 phoneView.isHidden = true
@@ -295,8 +292,8 @@ class CallMainVC: UIViewController {
                 preciewContentView.isHidden = false
                 topMaksImageView.isHidden = false
                 bottomMaskImageView.isHidden = false
-                RoomManager.shared.userService.startPlaying(mainStreamUserID, streamView: mainPreviewView)
-                RoomManager.shared.userService.startPlaying(streamUserID, streamView: previewView)
+                ServiceManager.shared.deviceService.startPlaying(mainStreamUserID, streamView: mainPreviewView)
+                ServiceManager.shared.deviceService.startPlaying(streamUserID, streamView: previewView)
             }
             timer.start()
         case .canceled,.decline,.miss,.completed:
@@ -432,7 +429,7 @@ class CallMainVC: UIViewController {
         } else {
             if statusType == .calling {
                 if localUserID == mainStreamUserID {
-                    if let localUserRoomInfo = RoomManager.shared.userService.localUserRoomInfo {
+                    if let localUserRoomInfo = ServiceManager.shared.userService.localUserInfo {
                         backGroundImage.isHidden = localUserRoomInfo.camera
                     }
                     if let otherUserRoomInfo = otherUserRoomInfo {
@@ -443,7 +440,7 @@ class CallMainVC: UIViewController {
                     bgImage = UIImage(named: String.getCallCoverImageName(userName: localUserInfo.userName))
                     smallBgImage = UIImage(named: String.getCallCoverImageName(userName: callUser?.userName))
                 } else {
-                    if let localUserRoomInfo = RoomManager.shared.userService.localUserRoomInfo {
+                    if let localUserRoomInfo = ServiceManager.shared.userService.localUserInfo {
                         smallHeadImage.isHidden = localUserRoomInfo.camera
                     }
                     if let otherUserRoomInfo = otherUserRoomInfo {

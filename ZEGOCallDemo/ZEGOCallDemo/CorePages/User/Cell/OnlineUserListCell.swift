@@ -34,7 +34,7 @@ class OnlineUserListCell: UITableViewCell {
         userIDLabel.text = "ID:\(model.userID ?? "")"
         userNameLabel.text = model.userName
         headImage.image = UIImage(named: String.getHeadImageName(userName: model.userName))
-        if model.userID == RoomManager.shared.userService.localUserInfo?.userID {
+        if model.userID == ServiceManager.shared.userService.localUserInfo?.userID {
             phoneButton.isHidden = true
             videoButton.isHidden = true
         } else {

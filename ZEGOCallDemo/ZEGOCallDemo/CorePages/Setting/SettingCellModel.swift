@@ -9,7 +9,6 @@ import UIKit
 
 enum SettingCellType {
     case express
-    case zim
     case app
     case terms
     case privacy

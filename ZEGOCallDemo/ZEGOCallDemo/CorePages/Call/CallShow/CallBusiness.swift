@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import ZIM
 import ZegoExpressEngine
 
 enum callStatus: Int {
@@ -73,7 +72,7 @@ class CallBusiness: NSObject {
     
     func startCall(_ userInfo: UserInfo, callType: CallType) {
         if currentCallStatus != .free {
-            RoomManager.shared.userService.endCall(callback: nil)
+            ServiceManager.shared.callService.endCall(callback: nil)
             return
         }
         let vc: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .take)
@@ -81,7 +80,7 @@ class CallBusiness: NSObject {
         currentCallStatus = .waitAccept
         currentCallUserInfo = userInfo
         getCurrentViewController()?.present(vc, animated: true, completion: nil)
-        RoomManager.shared.userService.useFrontCamera(true)
+        ServiceManager.shared.deviceService.useFrontCamera(true)
     }
     
     
@@ -89,7 +88,7 @@ class CallBusiness: NSObject {
         guard let userID = userInfo.userID else { return }
         let rtcToken = AppToken.getRtcToken(withRoomID: userID)
         guard let rtcToken = rtcToken else { return }
-        RoomManager.shared.userService.respondCall(userID, token: rtcToken, responseType:.accept) { result in
+        ServiceManager.shared.callService.respondCall(userID, token: rtcToken, responseType:.accept) { result in
             switch result {
             case .success():
                 self.audioPlayer?.stop()
@@ -100,7 +99,7 @@ class CallBusiness: NSObject {
                 self.currentCallUserInfo = userInfo
                 if let controller = self.getCurrentViewController() {
                     controller.present(callVC, animated: true) {
-                        RoomManager.shared.userService.useFrontCamera(true)
+                        ServiceManager.shared.deviceService.useFrontCamera(true)
                         self.startPlayingStream(userID)
                     }
                 }
@@ -118,7 +117,7 @@ class CallBusiness: NSObject {
         }
         let rtcToken = AppToken.getRtcToken(withRoomID: userID)
         guard let rtcToken = rtcToken else { return }
-        RoomManager.shared.userService.respondCall(userID, token: rtcToken, responseType: .decline, callback: nil)
+        ServiceManager.shared.callService.respondCall(userID, token: rtcToken, responseType: .decline, callback: nil)
     }
     
     func endCall(_ userID: String) {
@@ -128,17 +127,15 @@ class CallBusiness: NSObject {
             otherUserRoomInfo = nil
         }
         endSystemCall()
-        if RoomManager.shared.userService.roomService.roomInfo.roomID != nil {
-            RoomManager.shared.userService.endCall(callback: nil)
+        if ServiceManager.shared.callService.status == .calling {
+            ServiceManager.shared.callService.endCall(callback: nil)
         } else {
             refusedCall(userID)
         }
     }
     
     func cancelCall(_ userID: String, callType: CallType, isTimeout: Bool = false) {
-        var cancelType: CancelType = .intent
-        if isTimeout { cancelType = .timeout}
-        RoomManager.shared.userService.cancelCall(userID: userID, cancelType: cancelType) { result in
+        ServiceManager.shared.callService.cancelCall(userID: userID, cancelType: .intent) { result in
             switch result {
             case .success():
                 CallBusiness.shared.audioPlayer?.stop()
@@ -193,19 +190,19 @@ extension CallBusiness: UserServiceDelegate {
         }
     }
     
-    func connectionStateChanged(_ state: ZIMConnectionState, _ event: ZIMConnectionEvent) {
-        if state == .connected {
-            isConnected = true
-            currentTipView?.isUserInteractionEnabled = true
-            guard let currentCallVC = currentCallVC else { return }
-            currentCallVC.callQualityChange(currentCallVC.netWorkStatus, connectedStatus: .connected)
-        } else {
-            isConnected = false
-            currentTipView?.isUserInteractionEnabled = false
-            guard let currentCallVC = currentCallVC else { return }
-            currentCallVC.callQualityChange(currentCallVC.netWorkStatus, connectedStatus: .disConnected)
-        }
-    }
+//    func connectionStateChanged(_ state: ZIMConnectionState, _ event: ZIMConnectionEvent) {
+//        if state == .connected {
+//            isConnected = true
+//            currentTipView?.isUserInteractionEnabled = true
+//            guard let currentCallVC = currentCallVC else { return }
+//            currentCallVC.callQualityChange(currentCallVC.netWorkStatus, connectedStatus: .connected)
+//        } else {
+//            isConnected = false
+//            currentTipView?.isUserInteractionEnabled = false
+//            guard let currentCallVC = currentCallVC else { return }
+//            currentCallVC.callQualityChange(currentCallVC.netWorkStatus, connectedStatus: .disConnected)
+//        }
+//    }
     
     
     func receiveCallInvite(_ userInfo: UserInfo, type: CallType) {
@@ -234,9 +231,7 @@ extension CallBusiness: UserServiceDelegate {
         if (currentCallStatus == .calling || currentCallStatus == .wait) && userInfo.userID != currentCallUserInfo?.userID {
             return
         }
-        if RoomManager.shared.userService.roomService.roomInfo.roomID != nil {
-            RoomManager.shared.userService.roomService.leaveRoom(callback: nil)
-        }
+        
         currentCallStatus = .free
         currentCallUserInfo = nil
         endSystemCall()
@@ -275,7 +270,7 @@ extension CallBusiness: UserServiceDelegate {
         } else {
             currentCallUserInfo = nil
             currentCallStatus = .free
-            RoomManager.shared.userService.endCall() { result in
+            ServiceManager.shared.callService.endCall() { result in
                 if result.isSuccess {
                     self.currentCallVC?.changeCallStatusText(.decline)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -288,7 +283,6 @@ extension CallBusiness: UserServiceDelegate {
     
     func receiveCallEnded() {
         audioPlayer?.stop()
-        RoomManager.shared.userService.roomService.leaveRoom(callback: nil)
         if currentCallStatus != .calling {
             currentCallVC?.changeCallStatusText(.completed,showHud: false)
         } else {
@@ -305,29 +299,29 @@ extension CallBusiness: UserServiceDelegate {
     
     func startPlayingStream(_ userID: String?) {
         guard let userID = userID else { return }
-        guard let userRoomInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
+        guard let userRoomInfo = ServiceManager.shared.userService.localUserInfo else { return }
         if let vc = currentCallVC {
             if vc.vcType == .voice {
-                RoomManager.shared.userService.enableMic(userRoomInfo.mic, callback: nil)
-                RoomManager.shared.userService.startPlaying(userID, streamView: nil)
+                ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic, callback: nil)
+                ServiceManager.shared.deviceService.startPlaying(userID, streamView: nil)
             } else {
-                RoomManager.shared.userService.enableMic(userRoomInfo.mic, callback: nil)
-                RoomManager.shared.userService.enableCamera(userRoomInfo.camera, callback: nil)
+                ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic, callback: nil)
+                ServiceManager.shared.deviceService.enableCamera(userRoomInfo.camera, callback: nil)
                 if let mainStreamID = currentCallVC?.mainStreamUserID {
-                    RoomManager.shared.userService.startPlaying(mainStreamID, streamView: vc.mainPreviewView)
+                    ServiceManager.shared.deviceService.startPlaying(mainStreamID, streamView: vc.mainPreviewView)
                 } else {
-                    RoomManager.shared.userService.startPlaying(RoomManager.shared.userService.localUserInfo?.userID, streamView: vc.mainPreviewView)
+                    ServiceManager.shared.deviceService.startPlaying(ServiceManager.shared.userService.localUserInfo?.userID, streamView: vc.mainPreviewView)
                 }
                 if let streamID = currentCallVC?.streamUserID {
-                    RoomManager.shared.userService.startPlaying(streamID, streamView: vc.previewView)
+                    ServiceManager.shared.deviceService.startPlaying(streamID, streamView: vc.previewView)
                 } else {
-                    RoomManager.shared.userService.startPlaying(userID, streamView: vc.previewView)
+                    ServiceManager.shared.deviceService.startPlaying(userID, streamView: vc.previewView)
                 }
             }
-            RoomManager.shared.userService.enableSpeaker(RoomManager.shared.userService.localUserRoomInfo?.voice ?? false)
+            ServiceManager.shared.deviceService.enableSpeaker(ServiceManager.shared.userService.localUserInfo?.voice ?? false)
         } else {
-            RoomManager.shared.userService.enableMic(userRoomInfo.mic, callback: nil)
-            RoomManager.shared.userService.startPlaying(userID, streamView: nil)
+            ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic, callback: nil)
+            ServiceManager.shared.deviceService.startPlaying(userID, streamView: nil)
         }
     }
     

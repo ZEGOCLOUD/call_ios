@@ -15,7 +15,7 @@ class CallingPhoneView: CallBaseView {
     
     
     @IBAction func micButtonClick(_ sender: UIButton) {
-        guard let userInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
+        guard let userInfo = ServiceManager.shared.userService.localUserInfo else { return }
         userInfo.mic = !userInfo.mic
         delegate?.callOpenMic(self, isOpen: userInfo.mic)
         changeDisplayStatus()
@@ -26,7 +26,7 @@ class CallingPhoneView: CallBaseView {
     }
     
     @IBAction func voiceButtonClick(_ sender: UIButton) {
-        guard let userInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
+        guard let userInfo = ServiceManager.shared.userService.localUserInfo else { return }
         let voice = userInfo.voice ?? false
         userInfo.voice = !voice
         changeDisplayStatus()
@@ -34,7 +34,7 @@ class CallingPhoneView: CallBaseView {
     }
     
     func changeDisplayStatus() {
-        guard let userInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
+        guard let userInfo = ServiceManager.shared.userService.localUserInfo else { return }
         let micImage = userInfo.mic ? "call_audio_mic_open" : "call_audio_mic_close"
         micButton.setImage(UIImage(named: micImage), for: .normal)
         

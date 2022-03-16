@@ -6,13 +6,12 @@
 //
 
 import UIKit
-import ZIM
 import ZegoExpressEngine
 
 class SettingsVC: UITableViewController {
     
     var dataSource: [[SettingCellModel]] {
-        return [[configModel(type: .express), configModel(type: .zim), configModel(type: .app)],
+        return [[configModel(type: .express), configModel(type: .app)],
                 [configModel(type: .terms), configModel(type: .privacy)],
                 [configModel(type: .shareLog)],
                 [configModel(type: .logout)]];
@@ -31,10 +30,6 @@ class SettingsVC: UITableViewController {
             let version : String = ZegoExpressEngine.getVersion().components(separatedBy: "_")[0]
             model.title = ZGLocalizedString("setting_page_sdk_version")
             model.subTitle = "v\(version)"
-            model.type = type
-        case .zim:
-            model.title = ZGLocalizedString("setting_page_zim_sdk_version")
-            model.subTitle = "v\(ZIM.getVersion())"
             model.type = type
         case .shareLog:
             model.title = ZGLocalizedString("setting_page_upload_log")
@@ -87,7 +82,7 @@ class SettingsVC: UITableViewController {
             cell.detailTextLabel?.textColor = ZegoColor("A4A4A4")
         }
         
-        if model.type == .express || model.type == .zim || model.type == .terms {
+        if model.type == .express || model.type == .terms {
             let lineView = UIView(frame: CGRect(x: 0, y: 53.5, width: view.bounds.size.width, height: 0.5))
             lineView.backgroundColor = ZegoColor("F3F4F7")
             cell.contentView.addSubview(lineView)
@@ -117,7 +112,7 @@ class SettingsVC: UITableViewController {
         } else if model.type == .shareLog {
             // share log.
             HUDHelper.showNetworkLoading()
-            RoomManager.shared.uploadLog { result in
+            ServiceManager.shared.uploadLog { result in
                 HUDHelper.hideNetworkLoading()
                 switch result {
                 case .success:

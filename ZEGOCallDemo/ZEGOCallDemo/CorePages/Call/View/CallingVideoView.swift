@@ -16,14 +16,14 @@ class CallingVideoView: CallBaseView {
     
     
     @IBAction func videoButtonClick(_ sender: UIButton) {
-        guard let userInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
+        guard let userInfo = ServiceManager.shared.userService.localUserInfo else { return }
         userInfo.camera = !userInfo.camera
         delegate?.callOpenVideo(self, isOpen: userInfo.camera)
         changeDisplayStatus()
     }
     
     @IBAction func micButtonClick(_ sender: UIButton) {
-        guard let userInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
+        guard let userInfo = ServiceManager.shared.userService.localUserInfo else { return }
         userInfo.mic = !userInfo.mic
         delegate?.callOpenMic(self, isOpen: userInfo.mic)
         changeDisplayStatus()
@@ -39,7 +39,7 @@ class CallingVideoView: CallBaseView {
     
     
     @IBAction func voiceButtonClick(_ sender: UIButton) {
-        guard let userInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
+        guard let userInfo = ServiceManager.shared.userService.localUserInfo else { return }
         let voice = userInfo.voice ?? false
         userInfo.voice = !voice
         delegate?.callOpenVoice(self, isOpen: !voice)
@@ -47,7 +47,7 @@ class CallingVideoView: CallBaseView {
     }
     
     func changeDisplayStatus() {
-        guard let userInfo = RoomManager.shared.userService.localUserRoomInfo else { return }
+        guard let userInfo = ServiceManager.shared.userService.localUserInfo else { return }
         
         let cameraImage = userInfo.camera ? "call_camera_open_icon" : "call_camera_close_icon"
         videoButton.setImage(UIImage(named: cameraImage), for: .normal)
