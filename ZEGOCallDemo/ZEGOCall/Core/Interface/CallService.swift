@@ -53,9 +53,9 @@ protocol CallService {
     
     var delegate: CallServiceDelegate? { get set }
     
-    var status: CallStatus { get set }
+    var status: CallStatus { get }
     
-    var callInfo: CallInfo? { get set }
+    var callInfo: CallInfo { get }
     
     /// Make an outbound call
     ///
@@ -94,5 +94,5 @@ protocol CallService {
     ///
     /// Call this method at: After the user login
     /// - Parameter callback refers to the callback for end a call.
-    func endCall(callback: RoomCallback?)
+    func endCall(_ callback: RoomCallback?)
 }

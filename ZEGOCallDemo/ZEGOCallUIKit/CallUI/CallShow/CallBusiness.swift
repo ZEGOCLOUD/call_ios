@@ -72,7 +72,7 @@ class CallBusiness: NSObject {
     
     func startCall(_ userInfo: UserInfo, callType: CallType) {
         if currentCallStatus != .free {
-            ServiceManager.shared.callService.endCall(callback: nil)
+            ServiceManager.shared.callService.endCall(nil)
             return
         }
         let vc: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .take)
@@ -128,7 +128,7 @@ class CallBusiness: NSObject {
         }
         endSystemCall()
         if ServiceManager.shared.callService.status == .calling {
-            ServiceManager.shared.callService.endCall(callback: nil)
+            ServiceManager.shared.callService.endCall(nil)
         } else {
             refusedCall(userID)
         }

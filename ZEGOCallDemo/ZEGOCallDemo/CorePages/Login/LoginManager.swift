@@ -47,7 +47,7 @@ class LoginManager: NSObject {
             self.timer.start()
             
             let token = AppToken.getZIMToken(withUserID: userID) ?? ""
-            ServiceManager.shared.userService.login(user, token, callback: callback)
+            ServiceManager.shared.userService.login(callback)
             
         } failure: { requestStatus in
             guard let callback = callback else { return }
@@ -58,7 +58,7 @@ class LoginManager: NSObject {
     
     func logout() {
         timer.stop()
-        ServiceManager.shared.userService.logout()
+        ServiceManager.shared.userService.logout(nil)
     }
     
     func requestUserID(_ callback: UserIDCallBack?) {

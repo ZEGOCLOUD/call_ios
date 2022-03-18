@@ -11,6 +11,4 @@ class CallInfo: NSObject {
     var callID: String?
     var inviter: String?
     var invitees = [String]()
-    
-    
 }
