@@ -57,8 +57,8 @@ class HomeVC: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         configUI()
-        let userInfo1 = UserInfo.init("213", "hhha")
-        CallBusiness.shared.startCall(userInfo1, callType: .voice)
+//        let userInfo1 = UserInfo.init("213", "hhha")
+//        CallBusiness.shared.startCall(userInfo1, callType: .voice)
     }
     
     @objc func applicationDidBecomeActive(notification: NSNotification) {

@@ -343,6 +343,46 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		8637812B27E45F32000A0C22 /* ZEGOCallUIKit */ = {
+			isa = PBXGroup;
+			children = (
+				8637812D27E46124000A0C22 /* CallUI */,
+				8637812C27E46108000A0C22 /* CallInterface */,
+			);
+			path = ZEGOCallUIKit;
+			sourceTree = "<group>";
+		};
+		8637812C27E46108000A0C22 /* CallInterface */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CallInterface;
+			sourceTree = "<group>";
+		};
+		8637812D27E46124000A0C22 /* CallUI */ = {
+			isa = PBXGroup;
+			children = (
+				86718D2B2797E54800CEA8A0 /* Provider */,
+				86DE03C527981AF2000EE3C5 /* CallShow */,
+				86B19984278EB6C40004C997 /* View */,
+				8637811227E2D6F3000A0C22 /* Model */,
+				8637812E27E4617A000A0C22 /* VC */,
+			);
+			path = CallUI;
+			sourceTree = "<group>";
+		};
+		8637812E27E4617A000A0C22 /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				86B19A0F27901B550004C997 /* CallMainVC.swift */,
+				86B19A1027901B550004C997 /* CallMainVC.xib */,
+				86B19A1627911D740004C997 /* CallMainVC+Operation.swift */,
+				86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */,
+				8637812927E31AD8000A0C22 /* CallMainVC+Setting.swift */,
+			);
+			path = VC;
+			sourceTree = "<group>";
+		};
 		86718CA2279159BA00CEA8A0 /* Refresh */ = {
 			isa = PBXGroup;
 			children = (
@@ -381,6 +421,7 @@
 		86B19885278BDD7D0004C997 = {
 			isa = PBXGroup;
 			children = (
+				8637812B27E45F32000A0C22 /* ZEGOCallUIKit */,
 				86B198A5278BE06A0004C997 /* ZEGOCall */,
 				86B19890278BDD7D0004C997 /* ZEGOCallDemo */,
 				86B1988F278BDD7D0004C997 /* Products */,
@@ -759,15 +800,6 @@
 		86B19976278D75930004C997 /* Call */ = {
 			isa = PBXGroup;
 			children = (
-				8637811227E2D6F3000A0C22 /* Model */,
-				86DE03C527981AF2000EE3C5 /* CallShow */,
-				86718D2B2797E54800CEA8A0 /* Provider */,
-				86B19984278EB6C40004C997 /* View */,
-				86B19A0F27901B550004C997 /* CallMainVC.swift */,
-				86B19A1027901B550004C997 /* CallMainVC.xib */,
-				86B19A1627911D740004C997 /* CallMainVC+Operation.swift */,
-				86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */,
-				8637812927E31AD8000A0C22 /* CallMainVC+Setting.swift */,
 			);
 			path = Call;
 			sourceTree = "<group>";
