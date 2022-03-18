@@ -96,7 +96,7 @@ class HomeVC: UIViewController {
     func logout() {
         DispatchQueue.main.async {
             self.navigationController?.popToRootViewController(animated: true)
-            CallBusiness.shared.receiveCallEnded()
+            CallBusiness.shared.onReceiveCallEnded()
         }
         UserDefaults.standard.set(true, forKey: App_IS_LOGOUT_KEY)
         LoginManager.shared.logout()

@@ -15,7 +15,7 @@ protocol CallServiceDelegate  {
     ///
     /// - Parameter userInfo: refers to the caller information.
     /// - Parameter type: indicates the call type.  ZegoCallTypeVoice: Voice call.  ZegoCallTypeVideo: Video call.
-    func receiveCallInvite(_ userInfo: UserInfo, type: CallType)
+    func onReceiveCallInvite(_ userInfo: UserInfo, type: CallType)
     
     /// Callback for receive a canceled call
     ///
@@ -23,7 +23,7 @@ protocol CallServiceDelegate  {
     ///
     /// - Parameter userInfo: refers to the caller information.
     /// - Parameter type: cancel type.
-    func receiveCallCanceled(_ userInfo: UserInfo, type: CancelType)
+    func onReceiveCallCanceled(_ userInfo: UserInfo, type: CancelType)
     
     /// Callback for respond to an incoming call
     ///
@@ -31,19 +31,22 @@ protocol CallServiceDelegate  {
     ///
     /// - Parameter userInfo: refers to the called user information.
     /// - Parameter responseType: indicates to the answer of the incoming call. ZegoResponseTypeAccept: Accept. ZegoResponseTypeDecline: Decline.
-    func receiveCallResponse(_ userInfo: UserInfo, responseType: CallResponseType)
+    func onReceiveCallResponse(_ userInfo: UserInfo, responseType: ResponseType)
     
     /// Callback for end a call
     ///
     /// - Description: This callback will be triggered when the caller or called user ends the call.
-    func receiveCallEnded()
+    func onReceiveCallEnded()
+    
+    func onReceiveCallTimeout(_ type: CallTimeoutType)
 }
 
 extension CallServiceDelegate {
-    func receiveCallInvite(_ userInfo: UserInfo , type: CallType) { }
-    func receiveCallCanceled(_ userInfo: UserInfo, type: CancelType) { }
-    func receiveCallResponse(_ userInfo: UserInfo , responseType: CallResponseType) { }
-    func receiveCallEnded() { }
+    func onReceiveCallInvite(_ userInfo: UserInfo , type: CallType) { }
+    func onReceiveCallCanceled(_ userInfo: UserInfo, type: CancelType) { }
+    func onReceiveCallResponse(_ userInfo: UserInfo , responseType: ResponseType) { }
+    func onReceiveCallEnded() { }
+    func onReceiveCallTimeout(_ type: CallTimeoutType) { }
 }
 
 protocol CallService {
@@ -83,7 +86,7 @@ protocol CallService {
     /// - Parameter userID: refers to the ID of the caller.
     /// - Parameter responseType: refers to the answer of the incoming call.  ZegoResponseTypeAccept: Accept. ZegoResponseTypeDecline: Decline.
     /// - Parameter callback: refers to the callback for respond to an incoming call.
-    func respondCall(_ userID: String, token:String, responseType: CallResponseType, callback: RoomCallback?)
+    func respondCall(_ userID: String, token:String, responseType: ResponseType, callback: RoomCallback?)
     
     /// End a call
     ///

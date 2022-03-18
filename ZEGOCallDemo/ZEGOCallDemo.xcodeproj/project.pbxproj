@@ -124,6 +124,21 @@
 		8E7756F727E09D0500BFB5F6 /* DeviceServiceIMP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7756F627E09D0500BFB5F6 /* DeviceServiceIMP.swift */; };
 		8E7756F927E09D3600BFB5F6 /* CallServiceIMP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7756F827E09D3500BFB5F6 /* CallServiceIMP.swift */; };
 		8E7756FF27E0A77500BFB5F6 /* Command.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7756FE27E0A77500BFB5F6 /* Command.swift */; };
+		8E77570127E1939B00BFB5F6 /* CommandManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77570027E1939B00BFB5F6 /* CommandManager.swift */; };
+		8E77570327E19CB600BFB5F6 /* RequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77570227E19CB600BFB5F6 /* RequestProtocol.swift */; };
+		8E77570527E19D8D00BFB5F6 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77570427E19D8D00BFB5F6 /* FirebaseManager.swift */; };
+		8E77570727E19E9300BFB5F6 /* Listener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77570627E19E9300BFB5F6 /* Listener.swift */; };
+		8E77570927E19ECC00BFB5F6 /* ListenerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77570827E19ECC00BFB5F6 /* ListenerManager.swift */; };
+		8E77570B27E19F2C00BFB5F6 /* ListenerUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77570A27E19F2C00BFB5F6 /* ListenerUpdater.swift */; };
+		8E77570D27E1D70900BFB5F6 /* LoginCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77570C27E1D70900BFB5F6 /* LoginCommand.swift */; };
+		8E77570F27E1E70A00BFB5F6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E77570E27E1E70A00BFB5F6 /* GoogleService-Info.plist */; };
+		8E77571127E3660700BFB5F6 /* LogoutCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77571027E3660700BFB5F6 /* LogoutCommand.swift */; };
+		8E77571327E46F2F00BFB5F6 /* UserListCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77571227E46F2F00BFB5F6 /* UserListCommand.swift */; };
+		8E77571527E4721300BFB5F6 /* HeartbeatCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77571427E4721300BFB5F6 /* HeartbeatCommand.swift */; };
+		8E77571727E4749500BFB5F6 /* CallCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77571627E4749500BFB5F6 /* CallCommand.swift */; };
+		8E77571927E477A700BFB5F6 /* CancelCallCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77571827E477A700BFB5F6 /* CancelCallCommand.swift */; };
+		8E77571B27E478C600BFB5F6 /* RespondCallCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77571A27E478C600BFB5F6 /* RespondCallCommand.swift */; };
+		8E77571D27E47A8D00BFB5F6 /* EndCallCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77571C27E47A8D00BFB5F6 /* EndCallCommand.swift */; };
 		8EE5264727B364B200158BBE /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EE5264627B364B200158BBE /* LoginManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -299,6 +314,21 @@
 		8E7756F627E09D0500BFB5F6 /* DeviceServiceIMP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceServiceIMP.swift; sourceTree = "<group>"; };
 		8E7756F827E09D3500BFB5F6 /* CallServiceIMP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallServiceIMP.swift; sourceTree = "<group>"; };
 		8E7756FE27E0A77500BFB5F6 /* Command.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Command.swift; sourceTree = "<group>"; };
+		8E77570027E1939B00BFB5F6 /* CommandManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandManager.swift; sourceTree = "<group>"; };
+		8E77570227E19CB600BFB5F6 /* RequestProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestProtocol.swift; sourceTree = "<group>"; };
+		8E77570427E19D8D00BFB5F6 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
+		8E77570627E19E9300BFB5F6 /* Listener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Listener.swift; sourceTree = "<group>"; };
+		8E77570827E19ECC00BFB5F6 /* ListenerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenerManager.swift; sourceTree = "<group>"; };
+		8E77570A27E19F2C00BFB5F6 /* ListenerUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenerUpdater.swift; sourceTree = "<group>"; };
+		8E77570C27E1D70900BFB5F6 /* LoginCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCommand.swift; sourceTree = "<group>"; };
+		8E77570E27E1E70A00BFB5F6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8E77571027E3660700BFB5F6 /* LogoutCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutCommand.swift; sourceTree = "<group>"; };
+		8E77571227E46F2F00BFB5F6 /* UserListCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListCommand.swift; sourceTree = "<group>"; };
+		8E77571427E4721300BFB5F6 /* HeartbeatCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartbeatCommand.swift; sourceTree = "<group>"; };
+		8E77571627E4749500BFB5F6 /* CallCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallCommand.swift; sourceTree = "<group>"; };
+		8E77571827E477A700BFB5F6 /* CancelCallCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelCallCommand.swift; sourceTree = "<group>"; };
+		8E77571A27E478C600BFB5F6 /* RespondCallCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RespondCallCommand.swift; sourceTree = "<group>"; };
+		8E77571C27E47A8D00BFB5F6 /* EndCallCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndCallCommand.swift; sourceTree = "<group>"; };
 		8EE5264627B364B200158BBE /* LoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
 		95F1BBF3114F32302EC88A9C /* Pods-ZEGOCallDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZEGOCallDemo.debug.xcconfig"; path = "Target Support Files/Pods-ZEGOCallDemo/Pods-ZEGOCallDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -450,6 +480,7 @@
 				86B19891278BDD7D0004C997 /* AppDelegate.swift */,
 				86B19893278BDD7E0004C997 /* SceneDelegate.swift */,
 				86B19963278D63E30004C997 /* AppDefine.swift */,
+				8E77570E27E1E70A00BFB5F6 /* GoogleService-Info.plist */,
 				86B19968278D6AAC0004C997 /* ZEGOCallDemo-Bridging-Header.h */,
 				86B19897278BDD7E0004C997 /* Main.storyboard */,
 				86B1989A278BDD7F0004C997 /* Assets.xcassets */,
@@ -876,6 +907,14 @@
 		8E7756E927E0833600BFB5F6 /* Commands */ = {
 			isa = PBXGroup;
 			children = (
+				8E77570C27E1D70900BFB5F6 /* LoginCommand.swift */,
+				8E77571027E3660700BFB5F6 /* LogoutCommand.swift */,
+				8E77571227E46F2F00BFB5F6 /* UserListCommand.swift */,
+				8E77571427E4721300BFB5F6 /* HeartbeatCommand.swift */,
+				8E77571627E4749500BFB5F6 /* CallCommand.swift */,
+				8E77571827E477A700BFB5F6 /* CancelCallCommand.swift */,
+				8E77571A27E478C600BFB5F6 /* RespondCallCommand.swift */,
+				8E77571C27E47A8D00BFB5F6 /* EndCallCommand.swift */,
 			);
 			path = Commands;
 			sourceTree = "<group>";
@@ -906,6 +945,8 @@
 			isa = PBXGroup;
 			children = (
 				8E7756FE27E0A77500BFB5F6 /* Command.swift */,
+				8E77570027E1939B00BFB5F6 /* CommandManager.swift */,
+				8E77570227E19CB600BFB5F6 /* RequestProtocol.swift */,
 			);
 			path = Command;
 			sourceTree = "<group>";
@@ -913,6 +954,7 @@
 		8E7756FB27E0A66100BFB5F6 /* Reqeust */ = {
 			isa = PBXGroup;
 			children = (
+				8E77570427E19D8D00BFB5F6 /* FirebaseManager.swift */,
 			);
 			path = Reqeust;
 			sourceTree = "<group>";
@@ -920,6 +962,9 @@
 		8E7756FD27E0A68D00BFB5F6 /* Listener */ = {
 			isa = PBXGroup;
 			children = (
+				8E77570627E19E9300BFB5F6 /* Listener.swift */,
+				8E77570A27E19F2C00BFB5F6 /* ListenerUpdater.swift */,
+				8E77570827E19ECC00BFB5F6 /* ListenerManager.swift */,
 			);
 			path = Listener;
 			sourceTree = "<group>";
@@ -1002,6 +1047,7 @@
 				86B1998C278EBB8C0004C997 /* CallingPhoneView.xib in Resources */,
 				8E7756E827DF47CE00BFB5F6 /* CallRing.wav in Resources */,
 				86B1997A278D75F60004C997 /* User.storyboard in Resources */,
+				8E77570F27E1E70A00BFB5F6 /* GoogleService-Info.plist in Resources */,
 				868F6356279E923200D0B5DC /* Call.strings in Resources */,
 				868F635F27A1647000D0B5DC /* InfoPlist.strings in Resources */,
 				86B19990278EBC8E0004C997 /* CallingVideoView.xib in Resources */,
@@ -1091,6 +1137,7 @@
 				8637812127E31743000A0C22 /* CallSettingSecondView.swift in Sources */,
 				8E7756FF27E0A77500BFB5F6 /* Command.swift in Sources */,
 				86B19964278D63E30004C997 /* AppDefine.swift in Sources */,
+				8E77571D27E47A8D00BFB5F6 /* EndCallCommand.swift in Sources */,
 				86B19A1427901FAF0004C997 /* CallBaseView.swift in Sources */,
 				8637810D27E1EA5F000A0C22 /* MinimizedDisplayManager.swift in Sources */,
 				86B19896278BDD7E0004C997 /* LoginVC.swift in Sources */,
@@ -1098,8 +1145,10 @@
 				86B19962278D63440004C997 /* UIImage+Zego.swift in Sources */,
 				86718CE3279542B100CEA8A0 /* LogoutRequest.swift in Sources */,
 				86B198E6278BE2600004C997 /* RoomServiceIMP.swift in Sources */,
+				8E77571927E477A700BFB5F6 /* CancelCallCommand.swift in Sources */,
 				86DE03C927983D98000EE3C5 /* CallMainVC+Stream.swift in Sources */,
 				8637811B27E2DA49000A0C22 /* SettingParamDisplayCell.swift in Sources */,
+				8E77571B27E478C600BFB5F6 /* RespondCallCommand.swift in Sources */,
 				86718CE727955A0900CEA8A0 /* UserListService.swift in Sources */,
 				86718CA827915A8F00CEA8A0 /* DefaultViewAnimator.swift in Sources */,
 				8E7756F527E0906D00BFB5F6 /* CallInfo.swift in Sources */,
@@ -1107,12 +1156,14 @@
 				8E7756ED27E084FE00BFB5F6 /* UserService.swift in Sources */,
 				86B19950278D63440004C997 /* ZegoRTCServerAssistantImpl.cpp in Sources */,
 				8E7756F127E0852400BFB5F6 /* CallService.swift in Sources */,
+				8E77571127E3660700BFB5F6 /* LogoutCommand.swift in Sources */,
 				86B19953278D63440004C997 /* ZegoServerAssistant.cpp in Sources */,
 				86B198F6278D625F0004C997 /* SettingsVC.swift in Sources */,
 				86B19957278D63440004C997 /* Base64.cc in Sources */,
 				86B19961278D63440004C997 /* AuthorizedCheck.swift in Sources */,
 				86B198D1278BE2600004C997 /* NetworkManager.swift in Sources */,
 				86B19978278D75E00004C997 /* OnlineUserListVC.swift in Sources */,
+				8E77570527E19D8D00BFB5F6 /* FirebaseManager.swift in Sources */,
 				86B19992278EBDB20004C997 /* CallingTakeView.swift in Sources */,
 				8637811127E2D66D000A0C22 /* CallSettingView.swift in Sources */,
 				86B19951278D63440004C997 /* ZegoRTCServerAssistant.cpp in Sources */,
@@ -1122,24 +1173,33 @@
 				86B19892278BDD7D0004C997 /* AppDelegate.swift in Sources */,
 				86718CDB27953E6400CEA8A0 /* UserIDReauest.swift in Sources */,
 				86718CAA27915AC100CEA8A0 /* State.swift in Sources */,
+				8E77570B27E19F2C00BFB5F6 /* ListenerUpdater.swift in Sources */,
 				86B198EC278BE2600004C997 /* ZegoJsonTool.swift in Sources */,
 				8E7756F327E0852C00BFB5F6 /* DeviceService.swift in Sources */,
 				86B198E4278BE2600004C997 /* UserServiceIMP.swift in Sources */,
+				8E77570327E19CB600BFB5F6 /* RequestProtocol.swift in Sources */,
+				8E77570D27E1D70900BFB5F6 /* LoginCommand.swift in Sources */,
 				86B19956278D63440004C997 /* aes.cpp in Sources */,
 				86B198D9278BE2600004C997 /* ServiceManager.swift in Sources */,
 				8637812A27E31AD8000A0C22 /* CallMainVC+Setting.swift in Sources */,
 				86B1994F278D63440004C997 /* ZegoToken.mm in Sources */,
+				8E77570927E19ECC00BFB5F6 /* ListenerManager.swift in Sources */,
+				8E77571527E4721300BFB5F6 /* HeartbeatCommand.swift in Sources */,
 				86B198F2278D57B00004C997 /* HomeVC.swift in Sources */,
 				86B198DB278BE2600004C997 /* Define.swift in Sources */,
 				86B19958278D63440004C997 /* MBProgressHUD.m in Sources */,
+				8E77570127E1939B00BFB5F6 /* CommandManager.swift in Sources */,
 				86B1995B278D63440004C997 /* TipView.swift in Sources */,
 				86AC134627997D7F00607277 /* CallBusiness+CallKit.swift in Sources */,
+				8E77571727E4749500BFB5F6 /* CallCommand.swift in Sources */,
 				86B198F7278D625F0004C997 /* SettingCellModel.swift in Sources */,
 				86B1998E278EBC7E0004C997 /* CallingVideoView.swift in Sources */,
 				86718D2D2797E56D00CEA8A0 /* ProviderDelegate.swift in Sources */,
 				8637811E27E2DA61000A0C22 /* SettingBaseCell.swift in Sources */,
+				8E77571327E46F2F00BFB5F6 /* UserListCommand.swift in Sources */,
 				86B19986278EB89F0004C997 /* CallAcceptView.swift in Sources */,
 				86718CA427915A0B00CEA8A0 /* DefaultRefreshView.swift in Sources */,
+				8E77570727E19E9300BFB5F6 /* Listener.swift in Sources */,
 				86B198EB278BE2600004C997 /* DictionaryArray.swift in Sources */,
 				86B19A1127901B550004C997 /* CallMainVC.swift in Sources */,
 				86B19A1727911D740004C997 /* CallMainVC+Operation.swift in Sources */,

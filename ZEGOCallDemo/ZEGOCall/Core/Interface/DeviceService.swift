@@ -6,14 +6,19 @@
 //
 
 import Foundation
+import ZegoExpressEngine
+
+protocol DeviceServiceDelegate: AnyObject {
+    func onAudioRouteChange(_ audioRoute: ZegoAudioRoute)
+}
 
 protocol DeviceService {
     
     /// Video resolution
-    var videoResolution: ZegoVideoResolution { get set }
+    var videoResolution: VideoResolution { get set }
     
     /// Audio bitrate
-    var bitrate: ZegoAudioBitrate { get set }
+    var bitrate: AudioBitrate { get set }
     
     /// Whether to enable or disable the noise suppression
     var noiseSliming: Bool { get set }
@@ -24,6 +29,7 @@ protocol DeviceService {
     /// Whether to enable or disable the volume auto-adjustment
     var volumeAdjustment: Bool { get set }
     
+    var delegate: DeviceServiceDelegate? { get set }
     
     /// Configure device settings
     ///
@@ -33,7 +39,7 @@ protocol DeviceService {
     ///
     /// @param type refers to the configuration type.
     /// @param enable determines whether to enable or disable.
-    func setDeviceStatus(_ type: ZegoDeviceType, enable: Bool)
+    func setDeviceStatus(_ type: DeviceType, enable: Bool)
     
     /// Set video resolution
     ///
@@ -42,7 +48,7 @@ protocol DeviceService {
     /// Call this method at: After joining a room
     ///
     /// @param resolution refers to the resolution value.
-    func setVideoResolution(_ resolution: ZegoVideoResolution)
+    func setVideoResolution(_ resolution: VideoResolution)
     
     /// Set audio bitrate
     ///
@@ -51,7 +57,7 @@ protocol DeviceService {
     /// Call this method at: After joining a room
     ///
     /// @param bitrate refers to the bitrate value.
-    func setAudioBitrate(_ bitrate: ZegoAudioBitrate)
+    func setAudioBitrate(_ bitrate: AudioBitrate)
     
     /// Microphone related operation
     ///
