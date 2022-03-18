@@ -8,6 +8,25 @@
 
 /* Begin PBXBuildFile section */
 		811FC88CC6FD5651833E2209 /* Pods_ZEGOCallDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55A62E6D598ECA438B1684C8 /* Pods_ZEGOCallDemo.framework */; };
+		8637810527E1D398000A0C22 /* MinimizeCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637810427E1D398000A0C22 /* MinimizeCallView.swift */; };
+		8637810727E1D3E9000A0C22 /* MinimizeCallView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8637810627E1D3E9000A0C22 /* MinimizeCallView.xib */; };
+		8637810927E1E347000A0C22 /* VideoMinimizeCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637810827E1E347000A0C22 /* VideoMinimizeCallView.swift */; };
+		8637810B27E1E35C000A0C22 /* VideoMinimizeCallView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8637810A27E1E35C000A0C22 /* VideoMinimizeCallView.xib */; };
+		8637810D27E1EA5F000A0C22 /* MinimizedDisplayManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637810C27E1EA5F000A0C22 /* MinimizedDisplayManager.swift */; };
+		8637811027E2D66D000A0C22 /* CallSettingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8637810E27E2D66D000A0C22 /* CallSettingView.xib */; };
+		8637811127E2D66D000A0C22 /* CallSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637810F27E2D66D000A0C22 /* CallSettingView.swift */; };
+		8637811427E2D709000A0C22 /* CallSettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637811327E2D709000A0C22 /* CallSettingModel.swift */; };
+		8637811727E2D7EB000A0C22 /* SettingSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637811527E2D7EB000A0C22 /* SettingSwitchCell.swift */; };
+		8637811827E2D7EB000A0C22 /* SettingSwitchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8637811627E2D7EB000A0C22 /* SettingSwitchCell.xib */; };
+		8637811B27E2DA49000A0C22 /* SettingParamDisplayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637811927E2DA48000A0C22 /* SettingParamDisplayCell.swift */; };
+		8637811C27E2DA49000A0C22 /* SettingParamDisplayCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8637811A27E2DA49000A0C22 /* SettingParamDisplayCell.xib */; };
+		8637811E27E2DA61000A0C22 /* SettingBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637811D27E2DA61000A0C22 /* SettingBaseCell.swift */; };
+		8637812127E31743000A0C22 /* CallSettingSecondView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637811F27E31743000A0C22 /* CallSettingSecondView.swift */; };
+		8637812227E31743000A0C22 /* CallSettingSecondView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8637812027E31743000A0C22 /* CallSettingSecondView.xib */; };
+		8637812427E31798000A0C22 /* CallSettingSecondLevelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637812327E31798000A0C22 /* CallSettingSecondLevelModel.swift */; };
+		8637812727E31822000A0C22 /* SettingSecondLevelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8637812527E31822000A0C22 /* SettingSecondLevelCell.xib */; };
+		8637812827E31822000A0C22 /* SettingSecondLevelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637812627E31822000A0C22 /* SettingSecondLevelCell.swift */; };
+		8637812A27E31AD8000A0C22 /* CallMainVC+Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637812927E31AD8000A0C22 /* CallMainVC+Setting.swift */; };
 		86718CA427915A0B00CEA8A0 /* DefaultRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CA327915A0B00CEA8A0 /* DefaultRefreshView.swift */; };
 		86718CA627915A5D00CEA8A0 /* RefreshViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CA527915A5D00CEA8A0 /* RefreshViewAnimator.swift */; };
 		86718CA827915A8F00CEA8A0 /* DefaultViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CA727915A8F00CEA8A0 /* DefaultViewAnimator.swift */; };
@@ -111,6 +130,25 @@
 /* Begin PBXFileReference section */
 		1FAC22BD21F182989689EBE3 /* Pods-ZEGOCallDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZEGOCallDemo.release.xcconfig"; path = "Target Support Files/Pods-ZEGOCallDemo/Pods-ZEGOCallDemo.release.xcconfig"; sourceTree = "<group>"; };
 		55A62E6D598ECA438B1684C8 /* Pods_ZEGOCallDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZEGOCallDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8637810427E1D398000A0C22 /* MinimizeCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinimizeCallView.swift; sourceTree = "<group>"; };
+		8637810627E1D3E9000A0C22 /* MinimizeCallView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MinimizeCallView.xib; sourceTree = "<group>"; };
+		8637810827E1E347000A0C22 /* VideoMinimizeCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoMinimizeCallView.swift; sourceTree = "<group>"; };
+		8637810A27E1E35C000A0C22 /* VideoMinimizeCallView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VideoMinimizeCallView.xib; sourceTree = "<group>"; };
+		8637810C27E1EA5F000A0C22 /* MinimizedDisplayManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinimizedDisplayManager.swift; sourceTree = "<group>"; };
+		8637810E27E2D66D000A0C22 /* CallSettingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CallSettingView.xib; sourceTree = "<group>"; };
+		8637810F27E2D66D000A0C22 /* CallSettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallSettingView.swift; sourceTree = "<group>"; };
+		8637811327E2D709000A0C22 /* CallSettingModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallSettingModel.swift; sourceTree = "<group>"; };
+		8637811527E2D7EB000A0C22 /* SettingSwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingSwitchCell.swift; sourceTree = "<group>"; };
+		8637811627E2D7EB000A0C22 /* SettingSwitchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingSwitchCell.xib; sourceTree = "<group>"; };
+		8637811927E2DA48000A0C22 /* SettingParamDisplayCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingParamDisplayCell.swift; sourceTree = "<group>"; };
+		8637811A27E2DA49000A0C22 /* SettingParamDisplayCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingParamDisplayCell.xib; sourceTree = "<group>"; };
+		8637811D27E2DA61000A0C22 /* SettingBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingBaseCell.swift; sourceTree = "<group>"; };
+		8637811F27E31743000A0C22 /* CallSettingSecondView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallSettingSecondView.swift; sourceTree = "<group>"; };
+		8637812027E31743000A0C22 /* CallSettingSecondView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CallSettingSecondView.xib; sourceTree = "<group>"; };
+		8637812327E31798000A0C22 /* CallSettingSecondLevelModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallSettingSecondLevelModel.swift; sourceTree = "<group>"; };
+		8637812527E31822000A0C22 /* SettingSecondLevelCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingSecondLevelCell.xib; sourceTree = "<group>"; };
+		8637812627E31822000A0C22 /* SettingSecondLevelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingSecondLevelCell.swift; sourceTree = "<group>"; };
+		8637812927E31AD8000A0C22 /* CallMainVC+Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallMainVC+Setting.swift"; sourceTree = "<group>"; };
 		86718CA327915A0B00CEA8A0 /* DefaultRefreshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultRefreshView.swift; sourceTree = "<group>"; };
 		86718CA527915A5D00CEA8A0 /* RefreshViewAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshViewAnimator.swift; sourceTree = "<group>"; };
 		86718CA727915A8F00CEA8A0 /* DefaultViewAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultViewAnimator.swift; sourceTree = "<group>"; };
@@ -296,6 +334,55 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		8637811227E2D6F3000A0C22 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8637811327E2D709000A0C22 /* CallSettingModel.swift */,
+				8637812327E31798000A0C22 /* CallSettingSecondLevelModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		8637812B27E45F32000A0C22 /* ZEGOCallUIKit */ = {
+			isa = PBXGroup;
+			children = (
+				8637812D27E46124000A0C22 /* CallUI */,
+				8637812C27E46108000A0C22 /* CallInterface */,
+			);
+			path = ZEGOCallUIKit;
+			sourceTree = "<group>";
+		};
+		8637812C27E46108000A0C22 /* CallInterface */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CallInterface;
+			sourceTree = "<group>";
+		};
+		8637812D27E46124000A0C22 /* CallUI */ = {
+			isa = PBXGroup;
+			children = (
+				86718D2B2797E54800CEA8A0 /* Provider */,
+				86DE03C527981AF2000EE3C5 /* CallShow */,
+				86B19984278EB6C40004C997 /* View */,
+				8637811227E2D6F3000A0C22 /* Model */,
+				8637812E27E4617A000A0C22 /* VC */,
+			);
+			path = CallUI;
+			sourceTree = "<group>";
+		};
+		8637812E27E4617A000A0C22 /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				86B19A0F27901B550004C997 /* CallMainVC.swift */,
+				86B19A1027901B550004C997 /* CallMainVC.xib */,
+				86B19A1627911D740004C997 /* CallMainVC+Operation.swift */,
+				86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */,
+				8637812927E31AD8000A0C22 /* CallMainVC+Setting.swift */,
+			);
+			path = VC;
+			sourceTree = "<group>";
+		};
 		86718CA2279159BA00CEA8A0 /* Refresh */ = {
 			isa = PBXGroup;
 			children = (
@@ -334,6 +421,7 @@
 		86B19885278BDD7D0004C997 = {
 			isa = PBXGroup;
 			children = (
+				8637812B27E45F32000A0C22 /* ZEGOCallUIKit */,
 				86B198A5278BE06A0004C997 /* ZEGOCall */,
 				86B19890278BDD7D0004C997 /* ZEGOCallDemo */,
 				86B1988F278BDD7D0004C997 /* Products */,
@@ -712,13 +800,6 @@
 		86B19976278D75930004C997 /* Call */ = {
 			isa = PBXGroup;
 			children = (
-				86DE03C527981AF2000EE3C5 /* CallShow */,
-				86718D2B2797E54800CEA8A0 /* Provider */,
-				86B19984278EB6C40004C997 /* View */,
-				86B19A0F27901B550004C997 /* CallMainVC.swift */,
-				86B19A1027901B550004C997 /* CallMainVC.xib */,
-				86B19A1627911D740004C997 /* CallMainVC+Operation.swift */,
-				86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */,
 			);
 			path = Call;
 			sourceTree = "<group>";
@@ -734,6 +815,17 @@
 		86B19984278EB6C40004C997 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				8637811D27E2DA61000A0C22 /* SettingBaseCell.swift */,
+				8637811527E2D7EB000A0C22 /* SettingSwitchCell.swift */,
+				8637811627E2D7EB000A0C22 /* SettingSwitchCell.xib */,
+				8637811927E2DA48000A0C22 /* SettingParamDisplayCell.swift */,
+				8637811A27E2DA49000A0C22 /* SettingParamDisplayCell.xib */,
+				8637812627E31822000A0C22 /* SettingSecondLevelCell.swift */,
+				8637812527E31822000A0C22 /* SettingSecondLevelCell.xib */,
+				8637810F27E2D66D000A0C22 /* CallSettingView.swift */,
+				8637810E27E2D66D000A0C22 /* CallSettingView.xib */,
+				8637811F27E31743000A0C22 /* CallSettingSecondView.swift */,
+				8637812027E31743000A0C22 /* CallSettingSecondView.xib */,
 				86B19985278EB89F0004C997 /* CallAcceptView.swift */,
 				86B19987278EB8B20004C997 /* CallAcceptView.xib */,
 				86B19989278EBB7D0004C997 /* CallingPhoneView.swift */,
@@ -745,6 +837,10 @@
 				86B19995278EC1050004C997 /* CallAcceptTipView.swift */,
 				86B19997278EC11C0004C997 /* CallAcceptTipView.xib */,
 				86B19A1327901FAF0004C997 /* CallBaseView.swift */,
+				8637810427E1D398000A0C22 /* MinimizeCallView.swift */,
+				8637810627E1D3E9000A0C22 /* MinimizeCallView.xib */,
+				8637810827E1E347000A0C22 /* VideoMinimizeCallView.swift */,
+				8637810A27E1E35C000A0C22 /* VideoMinimizeCallView.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -764,6 +860,7 @@
 				86DE03C627981B3D000EE3C5 /* CallBusiness.swift */,
 				86AC134327997B5C00607277 /* CallBusiness+Stream.swift */,
 				86AC134527997D7F00607277 /* CallBusiness+CallKit.swift */,
+				8637810C27E1EA5F000A0C22 /* MinimizedDisplayManager.swift */,
 			);
 			path = CallShow;
 			sourceTree = "<group>";
@@ -888,12 +985,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8637810B27E1E35C000A0C22 /* VideoMinimizeCallView.xib in Resources */,
+				8637810727E1D3E9000A0C22 /* MinimizeCallView.xib in Resources */,
 				86B19988278EB8B20004C997 /* CallAcceptView.xib in Resources */,
 				86B19A1227901B550004C997 /* CallMainVC.xib in Resources */,
 				86B19959278D63440004C997 /* TipView.xib in Resources */,
+				8637811027E2D66D000A0C22 /* CallSettingView.xib in Resources */,
 				86B198AB278BE1C60004C997 /* AppCenter.json in Resources */,
+				8637811827E2D7EB000A0C22 /* SettingSwitchCell.xib in Resources */,
 				86B1989E278BDD7F0004C997 /* LaunchScreen.storyboard in Resources */,
+				8637811C27E2DA49000A0C22 /* SettingParamDisplayCell.xib in Resources */,
 				86B1989B278BDD7F0004C997 /* Assets.xcassets in Resources */,
+				8637812227E31743000A0C22 /* CallSettingSecondView.xib in Resources */,
 				86B19998278EC11C0004C997 /* CallAcceptTipView.xib in Resources */,
 				86B19899278BDD7E0004C997 /* Main.storyboard in Resources */,
 				86B1998C278EBB8C0004C997 /* CallingPhoneView.xib in Resources */,
@@ -903,6 +1006,7 @@
 				868F635F27A1647000D0B5DC /* InfoPlist.strings in Resources */,
 				86B19990278EBC8E0004C997 /* CallingVideoView.xib in Resources */,
 				86B1997F278D96A80004C997 /* GeneralWebVC.xib in Resources */,
+				8637812727E31822000A0C22 /* SettingSecondLevelCell.xib in Resources */,
 				86B19994278EBDC10004C997 /* CallingTakeView.xib in Resources */,
 				86B19954278D63440004C997 /* CMakeLists.txt in Resources */,
 			);
@@ -961,6 +1065,7 @@
 				86718CA627915A5D00CEA8A0 /* RefreshViewAnimator.swift in Sources */,
 				8E7756F927E09D3600BFB5F6 /* CallServiceIMP.swift in Sources */,
 				86B1995C278D63440004C997 /* StringTool.swift in Sources */,
+				8637811727E2D7EB000A0C22 /* SettingSwitchCell.swift in Sources */,
 				86B198D5278BE2600004C997 /* Result+Zego.swift in Sources */,
 				8EE5264727B364B200158BBE /* LoginManager.swift in Sources */,
 				8E7756F727E09D0500BFB5F6 /* DeviceServiceIMP.swift in Sources */,
@@ -973,22 +1078,28 @@
 				86B19955278D63440004C997 /* ZegoCrypto.cpp in Sources */,
 				86B1997D278D77280004C997 /* OnlineUserListCell.swift in Sources */,
 				86B198D2278BE2600004C997 /* Request.swift in Sources */,
+				8637810927E1E347000A0C22 /* VideoMinimizeCallView.swift in Sources */,
 				86B198D3278BE2600004C997 /* RequestStatus.swift in Sources */,
 				86AC134827998A4000607277 /* String+Time.swift in Sources */,
 				86AC134427997B5C00607277 /* CallBusiness+Stream.swift in Sources */,
 				86B198DC278BE2600004C997 /* UserInfo.swift in Sources */,
 				86B19972278D71820004C997 /* GeneralWebVC.swift in Sources */,
+				8637811427E2D709000A0C22 /* CallSettingModel.swift in Sources */,
 				86B1995F278D63440004C997 /* String+Head.swift in Sources */,
 				86DE03C727981B3D000EE3C5 /* CallBusiness.swift in Sources */,
+				8637810527E1D398000A0C22 /* MinimizeCallView.swift in Sources */,
+				8637812127E31743000A0C22 /* CallSettingSecondView.swift in Sources */,
 				8E7756FF27E0A77500BFB5F6 /* Command.swift in Sources */,
 				86B19964278D63E30004C997 /* AppDefine.swift in Sources */,
 				86B19A1427901FAF0004C997 /* CallBaseView.swift in Sources */,
+				8637810D27E1EA5F000A0C22 /* MinimizedDisplayManager.swift in Sources */,
 				86B19896278BDD7E0004C997 /* LoginVC.swift in Sources */,
 				86718CAC27915ADE00CEA8A0 /* PullToRefresh.swift in Sources */,
 				86B19962278D63440004C997 /* UIImage+Zego.swift in Sources */,
 				86718CE3279542B100CEA8A0 /* LogoutRequest.swift in Sources */,
 				86B198E6278BE2600004C997 /* RoomServiceIMP.swift in Sources */,
 				86DE03C927983D98000EE3C5 /* CallMainVC+Stream.swift in Sources */,
+				8637811B27E2DA49000A0C22 /* SettingParamDisplayCell.swift in Sources */,
 				86718CE727955A0900CEA8A0 /* UserListService.swift in Sources */,
 				86718CA827915A8F00CEA8A0 /* DefaultViewAnimator.swift in Sources */,
 				8E7756F527E0906D00BFB5F6 /* CallInfo.swift in Sources */,
@@ -1003,7 +1114,9 @@
 				86B198D1278BE2600004C997 /* NetworkManager.swift in Sources */,
 				86B19978278D75E00004C997 /* OnlineUserListVC.swift in Sources */,
 				86B19992278EBDB20004C997 /* CallingTakeView.swift in Sources */,
+				8637811127E2D66D000A0C22 /* CallSettingView.swift in Sources */,
 				86B19951278D63440004C997 /* ZegoRTCServerAssistant.cpp in Sources */,
+				8637812827E31822000A0C22 /* SettingSecondLevelCell.swift in Sources */,
 				86718CDD2795401B00CEA8A0 /* UserInfoList.swift in Sources */,
 				86B198E0278BE2600004C997 /* RoomInfo.swift in Sources */,
 				86B19892278BDD7D0004C997 /* AppDelegate.swift in Sources */,
@@ -1014,6 +1127,7 @@
 				86B198E4278BE2600004C997 /* UserServiceIMP.swift in Sources */,
 				86B19956278D63440004C997 /* aes.cpp in Sources */,
 				86B198D9278BE2600004C997 /* ServiceManager.swift in Sources */,
+				8637812A27E31AD8000A0C22 /* CallMainVC+Setting.swift in Sources */,
 				86B1994F278D63440004C997 /* ZegoToken.mm in Sources */,
 				86B198F2278D57B00004C997 /* HomeVC.swift in Sources */,
 				86B198DB278BE2600004C997 /* Define.swift in Sources */,
@@ -1023,6 +1137,7 @@
 				86B198F7278D625F0004C997 /* SettingCellModel.swift in Sources */,
 				86B1998E278EBC7E0004C997 /* CallingVideoView.swift in Sources */,
 				86718D2D2797E56D00CEA8A0 /* ProviderDelegate.swift in Sources */,
+				8637811E27E2DA61000A0C22 /* SettingBaseCell.swift in Sources */,
 				86B19986278EB89F0004C997 /* CallAcceptView.swift in Sources */,
 				86718CA427915A0B00CEA8A0 /* DefaultRefreshView.swift in Sources */,
 				86B198EB278BE2600004C997 /* DictionaryArray.swift in Sources */,
@@ -1035,6 +1150,7 @@
 				86B1998A278EBB7D0004C997 /* CallingPhoneView.swift in Sources */,
 				86718CDF279540EB00CEA8A0 /* UserListRequest.swift in Sources */,
 				86B19894278BDD7E0004C997 /* SceneDelegate.swift in Sources */,
+				8637812427E31798000A0C22 /* CallSettingSecondLevelModel.swift in Sources */,
 				86B1995D278D63440004C997 /* ZegoColor.swift in Sources */,
 				86B19952278D63440004C997 /* ZegoServerAssistantImpl.cpp in Sources */,
 			);

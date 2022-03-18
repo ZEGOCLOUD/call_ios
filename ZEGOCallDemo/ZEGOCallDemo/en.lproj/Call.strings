@@ -59,7 +59,7 @@
 
 "banner_call_desc" = "Deliver exceptional real-time voice and video communications regardless of distance";
 
-"zego_call" = "ZEGO Call";
+"zego_call" = "One-on-One call";
 "online" = "Online";
 "no_online_user" = "No users online";
 "zego_video_call" = "ZEGO Video Call";
@@ -70,5 +70,14 @@
 "end_call_failed" = "Failed to end the call. Error code: %d";
 "me" = "Me";
 "create_user_failed" = "Failed to create user. Error code: %d";
+
+"room_settings_page_noise_suppression" = "Noise suppression";
+"room_settings_page_echo_cancellation" = "Echo cancellation";
+"room_settings_page_mic_volume" = "Mic volume auto-adjustment";
+"room_settings_page_video_resolution" = "Resolution";
+"room_settings_page_audio_bitrate" = "Audio bitrate";
+"room_settings_page_settings" = "Settings";
+
+
 
 

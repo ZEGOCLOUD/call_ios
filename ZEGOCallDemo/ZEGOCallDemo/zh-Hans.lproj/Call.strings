@@ -60,7 +60,7 @@
 
 "banner_call_desc" = "Deliver exceptional real-time voice and video communications regardless of distance";
 
-"zego_call" = "ZEGO Call";
+"zego_call" = "One-on-One call";
 "online" = "在线";
 "no_online_user" = "没有用户在线";
 "zego_video_call" = "视频呼叫";
@@ -71,3 +71,10 @@
 "end_call_failed" = "结束通话失败，错误码: %d";
 "me" = "我";
 "create_user_failed" = "创建用户失败,错误码 :%d";
+
+"room_settings_page_noise_suppression" = "背景降噪";
+"room_settings_page_echo_cancellation" = "回声消除";
+"room_settings_page_mic_volume" = "自动调节麦克风音量";
+"room_settings_page_video_resolution" = "分辨率";
+"room_settings_page_audio_bitrate" = "音频码率";
+"room_settings_page_settings" = "设置";

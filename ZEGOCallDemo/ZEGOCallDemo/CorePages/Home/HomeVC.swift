@@ -51,11 +51,14 @@ class HomeVC: UIViewController {
         self.navigationController?.navigationBar.standardAppearance.configureWithOpaqueBackground()
         self.navigationController?.navigationBar.standardAppearance.backgroundColor = UIColor.white
         self.navigationController?.navigationBar.standardAppearance.shadowColor = UIColor.clear
+    
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         configUI()
+//        let userInfo1 = UserInfo.init("213", "hhha")
+//        CallBusiness.shared.startCall(userInfo1, callType: .voice)
     }
     
     @objc func applicationDidBecomeActive(notification: NSNotification) {
@@ -133,7 +136,8 @@ class HomeVC: UIViewController {
     }
     
     func startLogin(_ userInfo: UserInfo) {
-        HUDHelper.showNetworkLoading()
+        
+        //HUDHelper.showNetworkLoading()
         LoginManager.shared.login(userInfo) { result in
             HUDHelper.hideNetworkLoading()
             switch result {
