@@ -114,7 +114,6 @@ enum ZegoAudioBitrate: Int {
 ///
 /// Description: This class contains the device settings related information for you to configure different device settings.
 enum ZegoDeviceType {
-    
     /// Noise suppression
     case noiseSuppression
     
@@ -123,4 +122,10 @@ enum ZegoDeviceType {
     
     /// Volume auto-adjustment
     case volumeAdjustment
+    
+    /// Video resolution
+    case videoResolution
+    
+    /// Audio bitrate
+    case bitrate
 }

@@ -89,6 +89,57 @@ class CallMainVC: UIViewController {
     @IBOutlet weak var topMaksImageView: UIImageView!
     @IBOutlet weak var bottomMaskImageView: UIImageView!
     
+    lazy var callSettingView : CallSettingView? = {
+        if let view: CallSettingView = UINib.init(nibName: "CallSettingView", bundle: nil).instantiate(withOwner: nil, options: nil).first as? CallSettingView {
+            view.setViewType(.video)
+            view.frame = CGRect.init(x: 0, y: 0, width: self.view.bounds.size.width, height: self.view.bounds.size.height)
+            view.isHidden = true
+            view.delegate = self
+            self.view.addSubview(view)
+            return view
+        }
+        return nil
+    }()
+    
+    lazy var callAudioSettingView : CallSettingView? = {
+        if let view: CallSettingView = UINib.init(nibName: "CallSettingView", bundle: nil).instantiate(withOwner: nil, options: nil).first as? CallSettingView {
+            view.setViewType(.audio)
+            view.frame = CGRect.init(x: 0, y: 0, width: self.view.bounds.size.width, height: self.view.bounds.size.height)
+            view.isHidden = true
+            view.delegate = self
+            self.view.addSubview(view)
+            return view
+        }
+        return nil
+    }()
+    
+    lazy var resolutionView: CallSettingSecondView? = {
+        if let view: CallSettingSecondView = UINib(nibName: "CallSettingSecondView", bundle: nil).instantiate(withOwner: nil, options: nil).first as? CallSettingSecondView {
+            view.setShowDataSourceType(.resolution)
+            view.frame = self.view.bounds
+            view.isHidden = true
+            view.delegate = self
+            self.view.addSubview(view)
+            return view
+        }
+        return nil
+    }()
+    
+    lazy var bitrateView: CallSettingSecondView? = {
+        if let view: CallSettingSecondView = UINib(nibName: "CallSettingSecondView", bundle: nil).instantiate(withOwner: nil, options: nil).first as? CallSettingSecondView {
+            view.setShowDataSourceType(.audio)
+            view.frame = self.view.bounds
+            view.isHidden = true
+            view.delegate = self
+            self.view.addSubview(view)
+            return view
+        }
+        return nil
+    }()
+    
+    
+    
+    
     @objc func ExchangeVideoStream() {
         let tempID = mainStreamUserID
         mainStreamUserID = streamUserID
@@ -468,4 +519,19 @@ class CallMainVC: UIViewController {
         phoneView.changeDisplayStatus()
         videoView.changeDisplayStatus()
     }
+    
+    @IBAction func minimizeClick(_ sender: UIButton) {
+        
+    }
+    
+    @IBAction func streamSetClick(_ sender: UIButton) {
+        switch vcType {
+        case .voice:
+            callAudioSettingView?.isHidden = false
+        case .video:
+            callSettingView?.isHidden = false
+        }
+    }
+    
+    
 }
