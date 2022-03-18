@@ -29,15 +29,15 @@ class CallSettingSecondView: UIView, UITableViewDelegate, UITableViewDataSource 
         let data = [
                     ["title": "48Kbps",
                      "isSelected": (ServiceManager.shared.deviceService.bitrate == .b48),
-                     "type": ZegoAudioBitrate.b48.rawValue],
+                     "type": AudioBitrate.b48.rawValue],
                     
                     ["title": "96kbps",
                      "isSelected": (ServiceManager.shared.deviceService.bitrate == .b96),
-                     "type": ZegoAudioBitrate.b96.rawValue],
+                     "type": AudioBitrate.b96.rawValue],
                     
                     ["title": "128kbps",
                      "isSelected": (ServiceManager.shared.deviceService.bitrate == .b128),
-                     "type": ZegoAudioBitrate.b128.rawValue]]
+                     "type": AudioBitrate.b128.rawValue]]
         
         return data.map{ CallSettingSecondLevelModel(json: $0) }
     }()
@@ -45,27 +45,27 @@ class CallSettingSecondView: UIView, UITableViewDelegate, UITableViewDataSource 
     lazy var videoDataSource: [CallSettingSecondLevelModel] = {
         let data = [["title": "1920x1080",
                      "isSelected": (ServiceManager.shared.deviceService.videoResolution == .p1080),
-                     "type": ZegoVideoResolution.p1080.rawValue],
+                     "type": VideoResolution.p1080.rawValue],
                     
                     ["title": "720x1280",
                      "isSelected": (ServiceManager.shared.deviceService.videoResolution == .p720),
-                     "type": ZegoVideoResolution.p720.rawValue],
+                     "type": VideoResolution.p720.rawValue],
                     
                     ["title": "540x960",
                      "isSelected": (ServiceManager.shared.deviceService.videoResolution == .p540),
-                     "type": ZegoVideoResolution.p540.rawValue],
+                     "type": VideoResolution.p540.rawValue],
                     
                     ["title": "360x640",
                      "isSelected": (ServiceManager.shared.deviceService.videoResolution == .p360),
-                     "type": ZegoVideoResolution.p360.rawValue],
+                     "type": VideoResolution.p360.rawValue],
                     
                     ["title": "270x480",
                      "isSelected": (ServiceManager.shared.deviceService.videoResolution == .p270),
-                     "type": ZegoVideoResolution.p270.rawValue],
+                     "type": VideoResolution.p270.rawValue],
                     
                     ["title": "180x320",
                      "isSelected": (ServiceManager.shared.deviceService.videoResolution == .p180),
-                     "type": ZegoVideoResolution.p180.rawValue]]
+                     "type": VideoResolution.p180.rawValue]]
         return data.map{ CallSettingSecondLevelModel(json: $0) }
     }()
     
@@ -160,10 +160,10 @@ class CallSettingSecondView: UIView, UITableViewDelegate, UITableViewDataSource 
     func setDeviceExpressConfig(_ model: CallSettingSecondLevelModel) -> Void {
         switch viewType {
         case .resolution:
-            let type: ZegoVideoResolution = ZegoVideoResolution(rawValue: model.type) ?? .p1080
+            let type: VideoResolution = VideoResolution(rawValue: model.type) ?? .p1080
             ServiceManager.shared.deviceService.setVideoResolution(type)
         case .audio:
-            let type: ZegoAudioBitrate = ZegoAudioBitrate(rawValue: model.type) ?? .b48
+            let type: AudioBitrate = AudioBitrate(rawValue: model.type) ?? .b48
             ServiceManager.shared.deviceService.setAudioBitrate(type)
         }
     }

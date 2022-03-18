@@ -11,7 +11,7 @@ class CallSettingModel: NSObject {
     
     var title:String?
     var subTitle:String?
-    var selectionType: ZegoDeviceType = .noiseSuppression
+    var selectionType: DeviceType = .noiseSuppression
     var switchStatus: Bool = false
     
     init(json: Dictionary<String, Any>) {
@@ -21,7 +21,7 @@ class CallSettingModel: NSObject {
         if let subTitle = json["subTitle"] as? String {
             self.subTitle = subTitle
         }
-        if let selectionType = json["selectionType"] as? ZegoDeviceType {
+        if let selectionType = json["selectionType"] as? DeviceType {
             self.selectionType = selectionType
         }
         if let switchStatus = json["switchStatus"] as? Bool {

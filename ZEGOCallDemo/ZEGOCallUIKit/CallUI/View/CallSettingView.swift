@@ -35,20 +35,20 @@ class CallSettingView: UIView, UITableViewDelegate, UITableViewDataSource, Setti
     
     var settingDataSource: [CallSettingModel] = []
     
-    lazy var resolutionDic: [ZegoVideoResolution:String] = {
-        let dic: [ZegoVideoResolution:String] = [ZegoVideoResolution.p1080:"1920x1080",
-                                                ZegoVideoResolution.p720:"720x1280",
-                                                ZegoVideoResolution.p540:"540x960",
-                                                ZegoVideoResolution.p360:"360x640",
-                                                ZegoVideoResolution.p270:"270x480",
-                                                ZegoVideoResolution.p180:"182x320"]
+    lazy var resolutionDic: [VideoResolution:String] = {
+        let dic: [VideoResolution:String] = [VideoResolution.p1080:"1920x1080",
+                                                VideoResolution.p720:"720x1280",
+                                                VideoResolution.p540:"540x960",
+                                                VideoResolution.p360:"360x640",
+                                                VideoResolution.p270:"270x480",
+                                                VideoResolution.p180:"182x320"]
         return dic
     }()
     
-    lazy var bitrateDic: [ZegoAudioBitrate:String] = {
-        let dic: [ZegoAudioBitrate:String] = [ZegoAudioBitrate.b48 : "48kbps",
-                                             ZegoAudioBitrate.b96 : "56kbps",
-                                             ZegoAudioBitrate.b128:"128kbps"]
+    lazy var bitrateDic: [AudioBitrate:String] = {
+        let dic: [AudioBitrate:String] = [AudioBitrate.b48 : "48kbps",
+                                             AudioBitrate.b96 : "56kbps",
+                                             AudioBitrate.b128:"128kbps"]
         return dic
     }()
     
@@ -101,43 +101,43 @@ class CallSettingView: UIView, UITableViewDelegate, UITableViewDataSource, Setti
         if type == .video {
             containerViewHeight.constant = 382
             settingDataSource = [["title": ZGLocalizedString("room_settings_page_noise_suppression"),
-                                  "subTitle": "", "selectionType": ZegoDeviceType.noiseSuppression,
+                                  "subTitle": "", "selectionType": DeviceType.noiseSuppression,
                                   "switchStatus": ServiceManager.shared.deviceService.noiseSliming],
                                  
                                  ["title": ZGLocalizedString("room_settings_page_echo_cancellation"),
-                                  "subTitle": "", "selectionType": ZegoDeviceType.echoCancellation,
+                                  "subTitle": "", "selectionType": DeviceType.echoCancellation,
                                   "switchStatus": ServiceManager.shared.deviceService.echoCancellation],
                                  
                                  ["title": ZGLocalizedString("room_settings_page_mic_volume"),
-                                  "subTitle": "", "selectionType": ZegoDeviceType.volumeAdjustment,
+                                  "subTitle": "", "selectionType": DeviceType.volumeAdjustment,
                                   "switchStatus": ServiceManager.shared.deviceService.volumeAdjustment],
                                  
                                  ["title": ZGLocalizedString("room_settings_page_video_resolution"),
-                                  "subTitle": "720x1280", "selectionType": ZegoDeviceType.videoResolution,
+                                  "subTitle": "720x1280", "selectionType": DeviceType.videoResolution,
                                   "switchStatus": false],
                                  
                                  ["title": ZGLocalizedString("room_settings_page_audio_bitrate"),
                                   "subTitle": "48kbps",
-                                  "selectionType": ZegoDeviceType.bitrate,
+                                  "selectionType": DeviceType.bitrate,
                                   "switchStatus": false]
                                 ].map{ CallSettingModel(json: $0) }
         } else if type == .audio {
             containerViewHeight.constant = 281
             settingDataSource = [["title": ZGLocalizedString("room_settings_page_noise_suppression"),
-                                  "subTitle": "", "selectionType": ZegoDeviceType.noiseSuppression,
+                                  "subTitle": "", "selectionType": DeviceType.noiseSuppression,
                                   "switchStatus": ServiceManager.shared.deviceService.noiseSliming],
                                  
                                  ["title": ZGLocalizedString("room_settings_page_echo_cancellation"),
-                                  "subTitle": "", "selectionType": ZegoDeviceType.echoCancellation,
+                                  "subTitle": "", "selectionType": DeviceType.echoCancellation,
                                   "switchStatus": ServiceManager.shared.deviceService.echoCancellation],
                                  
                                  ["title": ZGLocalizedString("room_settings_page_mic_volume"),
-                                  "subTitle": "", "selectionType": ZegoDeviceType.volumeAdjustment,
+                                  "subTitle": "", "selectionType": DeviceType.volumeAdjustment,
                                   "switchStatus": ServiceManager.shared.deviceService.volumeAdjustment],
                                  
                                  ["title": ZGLocalizedString("room_settings_page_audio_bitrate"),
                                   "subTitle": "48kbps",
-                                  "selectionType": ZegoDeviceType.bitrate,
+                                  "selectionType": DeviceType.bitrate,
                                   "switchStatus": false]
                                 ].map{ CallSettingModel(json: $0) }
         }
