@@ -10,7 +10,7 @@ import ZegoExpressEngine
 import AVFoundation
 
 
-class UserServiceIMP: NSObject, UserService {
+class UserServiceIMP: NSObject {
     
     // MARK: - Public
     /// The delegate related to user status
@@ -29,41 +29,55 @@ class UserServiceIMP: NSObject, UserService {
             
         }
     }
-    
-    func login(_ user: UserInfo, _ token: String, callback: RoomCallback?) {
-        guard let userID = user.userID else {
-            guard let callback = callback else { return }
-            callback(.failure(.paramInvalid))
-            return
-        }
+}
+
+extension UserServiceIMP: UserService {
+    func login(_ callback: RoomCallback?) {
         
-        guard let userName = user.userName else {
-            guard let callback = callback else { return }
-            callback(.failure(.paramInvalid))
-            return
-        }
-        
-        //TODO: login
         let command = LoginCommand()
+        
         command.excute { result in
-            if result.isSuccess {
-                
-            } else {
-                
+            var loginResult: ZegoResult = .success(())
+            switch result {
+            case .success(let dict):
+                //TODO: login success, add user info
+                break
+            case .failure(let error):
+                loginResult = .failure(error)
             }
             guard let callback = callback else { return }
+            callback(loginResult)
         }
     }
     
     
-    func logout() {
-        //TODO: logout
+    func logout(_ callback: RoomCallback?) {
         
-//        ServiceManager.shared.logoutRtcRoom(true)
+        let command = LogoutCommand()
+        command.excute { result in
+            var logoutResult: ZegoResult = .success(())
+            if result.isFailure {
+                logoutResult = .failure(result.failure!)
+            }
+            guard let callback = callback else { return }
+            callback(logoutResult)
+        }
     }
     
-    func getOnlineUserList(callback: UserListCallback?) {
-        
+    func getOnlineUserList(_ callback: UserListCallback?) {
+        let command = UserListCommand()
+        command.excute { result in
+            var listResult: Result<[UserInfo], ZegoError> = .failure(.failed)
+            switch result {
+            case .success(let json):
+                //TODO: add users
+                break
+            case .failure(let error):
+                listResult = .failure(error)
+            }
+            guard let callback = callback else { return }
+            callback(listResult)
+        }
     }
 }
 

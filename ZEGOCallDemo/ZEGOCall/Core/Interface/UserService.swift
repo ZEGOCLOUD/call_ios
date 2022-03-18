@@ -50,18 +50,16 @@ protocol UserService {
     ///
     /// Call this method at: After the SDK initialization
     ///
-    /// - Parameter userInfo: refers to the user information. You only need to enter the user ID and username.
-    /// - Parameter token: refers to the authentication token. To get this, refer to the documentation: https://doc-en.zego.im/article/11648
     /// - Parameter callback: refers to the callback for log in.
-    func login(_ user: UserInfo, _ token: String, callback: RoomCallback?)
+    func login(_ callback: RoomCallback?)
     
     /// User to log out
     ///
     /// - Description: This method can be used to log out from the current user account.
     ///
     /// Call this method at: After the user login
-    func logout()
+    func logout(_ callback: RoomCallback?)
     
     
-    func getOnlineUserList(callback: UserListCallback?)
+    func getOnlineUserList(_ callback: UserListCallback?)
 }

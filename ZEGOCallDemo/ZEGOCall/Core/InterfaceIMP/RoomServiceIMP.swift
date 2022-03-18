@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import ZegoExpressEngine
 
-class RoomServiceIMP: NSObject, RoomService {
+class RoomServiceIMP: NSObject {
 
     // MARK: - Private
     override init() {
@@ -22,33 +23,29 @@ class RoomServiceIMP: NSObject, RoomService {
     // MARK: - Public
     var roomInfo: RoomInfo?
     
-    func createRoom(_ roomID: String, _ roomName: String, _ token: String, callback: RoomCallback?) {
-        guard roomID.count != 0 else {
-            guard let callback = callback else { return }
-            callback(.failure(.paramInvalid))
+  
+}
+
+extension RoomServiceIMP: RoomService {
+
+    func joinRoom(_ roomID: String, _ token: String) {
+        //TODO: join room
+        guard let userID = ServiceManager.shared.userService.localUserInfo?.userID else {
+            assert(false, "user id can't be nil.")
             return
         }
         
-        //TODO: create room
+        // login rtc room
+        let user = ZegoUser(userID: userID)
         
-    }
-    
-    
-    func joinRoom(_ roomID: String, _ token: String, callback: RoomCallback?) {
-        //TODO: join room
+        let config = ZegoRoomConfig()
+        config.token = token
+        ZegoExpressEngine.shared().loginRoom(roomID, user: user, config: config)
     }
 
     
-    func leaveRoom(callback: RoomCallback?) {
-        // if call the leave room api, just logout rtc room
-//        guard let roomID = RoomManager.shared.userService.roomService.roomInfo.roomID else {
-//            assert(false, "room ID can't be nil")
-//            guard let callback = callback else { return }
-//            callback(.failure(.failed))
-//            return
-//        }
-        
-        //TODO: leave room
+    func leaveRoom() {
+        ZegoExpressEngine.shared().logoutRoom()
     }
 }
 
