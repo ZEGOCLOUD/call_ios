@@ -130,4 +130,10 @@ extension ServiceManager: ZegoEventHandler {
             delegate.onNetworkQuality?(userID, upstreamQuality: upstreamQuality, downstreamQuality: downstreamQuality)
         }
     }
+    
+    func onAudioRouteChange(_ audioRoute: ZegoAudioRoute) {
+        for delegate in rtcEventDelegates.allObjects {
+            delegate.onAudioRouteChange?(audioRoute)
+        }
+    }
 }

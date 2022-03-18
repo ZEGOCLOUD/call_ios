@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import FirebaseCore
+import GoogleSignIn
+import FirebaseAuth
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        FirebaseApp.configure()
         
         providerDelegate = ProviderDelegate()
         
@@ -55,7 +59,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         providerDelegate?.reportIncomingCall(uuid: uuid, handle: handle, hasVideo: hasVideo, completion: completion)
     }
     
-    
+//
+//    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+//        return GIDSignIn.sharedInstance.handle(url)
+//    }
 
 }
 

@@ -24,7 +24,7 @@ class UserServiceIMP: NSObject, UserService {
     
     override init() {
         super.init()
-        // RoomManager didn't finish init at this time.
+        // ServiceManager didn't finish init at this time.
         DispatchQueue.main.async {
             
         }
@@ -44,6 +44,15 @@ class UserServiceIMP: NSObject, UserService {
         }
         
         //TODO: login
+        let command = LoginCommand()
+        command.excute { result in
+            if result.isSuccess {
+                
+            } else {
+                
+            }
+            guard let callback = callback else { return }
+        }
     }
     
     

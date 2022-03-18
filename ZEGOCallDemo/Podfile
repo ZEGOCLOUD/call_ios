@@ -7,5 +7,7 @@ target 'ZEGOCallDemo' do
 
   # Pods for ZEGOCallDemo
   pod 'ZegoExpressEngine'
+  pod 'FirebaseAuth'
+  pod 'GoogleSignIn'
 
 end

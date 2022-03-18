@@ -22,16 +22,16 @@ protocol UserServiceDelegate : AnyObject  {
     /// Description: This callback will be triggered when the state of the user's microphone/camera changes.
     ///
     /// - Parameter userInfo: refers to the changes on user state information
-    func userInfoUpdate(_ userInfo: UserInfo)
+    func onUserInfoUpdate(_ userInfo: UserInfo)
     
-    func receiveCallingUserDisconnected(_ userInfo: UserInfo)
+    func onReceiveCallingUserDisconnected(_ userInfo: UserInfo)
 }
 
 // default realized
 extension UserServiceDelegate {
     func onNetworkQuality(_ userID: String, upstreamQuality: ZegoStreamQualityLevel) { }
-    func userInfoUpdate(_ userInfo: UserInfo) { }
-    func receiveCallingUserDisconnected(_ userInfo: UserInfo) { }
+    func onUserInfoUpdate(_ userInfo: UserInfo) { }
+    func onReceiveCallingUserDisconnected(_ userInfo: UserInfo) { }
 }
 
 protocol UserService {

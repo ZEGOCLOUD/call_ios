@@ -205,7 +205,7 @@ extension CallBusiness: UserServiceDelegate {
 //    }
     
     
-    func receiveCallInvite(_ userInfo: UserInfo, type: CallType) {
+    func onReceiveCallInvite(_ userInfo: UserInfo, type: CallType) {
         if currentCallStatus == .calling || currentCallStatus == .wait || currentCallStatus == .waitAccept {
             guard let userID = userInfo.userID else { return }
             refusedCall(userID)
@@ -227,7 +227,7 @@ extension CallBusiness: UserServiceDelegate {
         }
     }
     
-    func receiveCallCanceled(_ userInfo: UserInfo, type: CancelType) {
+    func onReceiveCallCanceled(_ userInfo: UserInfo, type: CancelType) {
         if (currentCallStatus == .calling || currentCallStatus == .wait) && userInfo.userID != currentCallUserInfo?.userID {
             return
         }
@@ -251,7 +251,7 @@ extension CallBusiness: UserServiceDelegate {
         }
     }
     
-    func receiveCallResponse(_ userInfo: UserInfo, responseType: CallResponseType) {
+    func onReceiveCallResponse(_ userInfo: UserInfo, responseType: ResponseType) {
         guard let vc = self.currentCallVC else { return }
         if responseType == .accept {
             if !appIsActive {
@@ -281,7 +281,7 @@ extension CallBusiness: UserServiceDelegate {
         }
     }
     
-    func receiveCallEnded() {
+    func onReceiveCallEnded() {
         audioPlayer?.stop()
         if currentCallStatus != .calling {
             currentCallVC?.changeCallStatusText(.completed,showHud: false)
@@ -325,7 +325,7 @@ extension CallBusiness: UserServiceDelegate {
         }
     }
     
-    func userInfoUpdate(_ userInfo: UserInfo) {
+    func onUserInfoUpdate(_ userInfo: UserInfo) {
         if userInfo.userID != localUserID {
             otherUserRoomInfo = userInfo
         }

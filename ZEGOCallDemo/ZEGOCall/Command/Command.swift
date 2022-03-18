@@ -9,5 +9,11 @@ import Foundation
 
 protocol Command {
     var path: String { get set }
-    var parameter: [String : String] { get set }
+    var parameter: [String : AnyObject] { get set }
+}
+
+extension Command {
+    func excute(callback: RequestCallback?) {
+        CommandManager.shared.execute(self, callback: callback)
+    }
 }

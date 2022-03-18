@@ -20,9 +20,10 @@ typealias ZegoResult = Result<Void, ZegoError>
 ///            600xxxx: The ZIM SDK error code. For details, refer to the error code documentation. [iOS]: https://docs.zegocloud.com/article/13791 [Android]: https://docs.zegocloud.com/article/13792
 typealias RoomCallback = (ZegoResult) -> Void
 
-
 /// room list callback
 typealias UserListCallback = (Result<[UserInfo], ZegoError>) -> Void
+
+typealias RequestCallback = (Result<Any, ZegoError>) -> Void
 
 
 enum ZegoError: Error {
@@ -43,7 +44,7 @@ enum ZegoError: Error {
     }
 }
 
-enum CallResponseType: Int {
+enum ResponseType: Int {
     case accept = 1
     case decline = 2
 }
@@ -67,7 +68,7 @@ enum CallStatus: Int {
 /// Class video resolution
 ///
 /// Description: This class contains the video resolution information. To set the video resolution, call the setVideoResolution method.
-enum ZegoVideoResolution: Int {
+enum VideoResolution: Int {
     /// 1080P: 1920 * 1080
     case p1080
     
@@ -90,7 +91,7 @@ enum ZegoVideoResolution: Int {
 /// Class audio bitrate
 ///
 /// Description: This class contains the audio bitrate information. To set the audio bitrate, call the setAudioBitrate method.
-enum ZegoAudioBitrate: Int {
+enum AudioBitrate: Int {
     /// 16kbps
     case b16
     
@@ -113,7 +114,8 @@ enum ZegoAudioBitrate: Int {
 /// Class device settings
 ///
 /// Description: This class contains the device settings related information for you to configure different device settings.
-enum ZegoDeviceType {
+enum DeviceType {
+    
     /// Noise suppression
     case noiseSuppression
     
@@ -128,4 +130,9 @@ enum ZegoDeviceType {
     
     /// Audio bitrate
     case bitrate
+}
+
+enum CallTimeoutType {
+    case inviter
+    case invitee
 }

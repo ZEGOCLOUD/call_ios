@@ -10,9 +10,9 @@ import ZegoExpressEngine
 
 class DeviceServiceIMP: NSObject, DeviceService {
     
-    var videoResolution: ZegoVideoResolution = .p720
+    var videoResolution: VideoResolution = .p720
     
-    var bitrate: ZegoAudioBitrate = .b48
+    var bitrate: AudioBitrate = .b48
     
     var noiseSliming: Bool = false
     
@@ -20,15 +20,25 @@ class DeviceServiceIMP: NSObject, DeviceService {
     
     var volumeAdjustment: Bool = false
     
-    func setDeviceStatus(_ type: ZegoDeviceType, enable: Bool) {
+    weak var delegate: DeviceServiceDelegate?
+    
+    override init() {
+        super.init()
+        // ServiceManager didn't finish init at this time.
+        DispatchQueue.main.async {
+            ServiceManager.shared.addExpressEventHandler(self)
+        }
+    }
+    
+    func setDeviceStatus(_ type: DeviceType, enable: Bool) {
         
     }
     
-    func setVideoResolution(_ resolution: ZegoVideoResolution) {
+    func setVideoResolution(_ resolution: VideoResolution) {
         
     }
     
-    func setAudioBitrate(_ bitrate: ZegoAudioBitrate) {
+    func setAudioBitrate(_ bitrate: AudioBitrate) {
         
     }
     
@@ -74,4 +84,10 @@ class DeviceServiceIMP: NSObject, DeviceService {
     }
     
     
+}
+
+extension DeviceServiceIMP: ZegoEventHandler {
+    func onAudioRouteChange(_ audioRoute: ZegoAudioRoute) {
+        
+    }
 }

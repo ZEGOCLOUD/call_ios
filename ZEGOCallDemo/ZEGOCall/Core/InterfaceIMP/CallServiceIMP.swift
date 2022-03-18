@@ -23,7 +23,7 @@ class CallServiceIMP: NSObject, CallService {
         
     }
     
-    func respondCall(_ userID: String, token: String, responseType: CallResponseType, callback: RoomCallback?) {
+    func respondCall(_ userID: String, token: String, responseType: ResponseType, callback: RoomCallback?) {
         
     }
     
