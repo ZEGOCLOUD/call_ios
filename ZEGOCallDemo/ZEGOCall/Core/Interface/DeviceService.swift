@@ -30,35 +30,7 @@ protocol DeviceService {
     var volumeAdjustment: Bool { get set }
     
     var delegate: DeviceServiceDelegate? { get set }
-    
-    /// Configure device settings
-    ///
-    /// Description: This method can be used to configure device settings as actual business requirements.
-    ///
-    /// Call this method at: After joining a room
-    ///
-    /// @param type refers to the configuration type.
-    /// @param enable determines whether to enable or disable.
-    func setDeviceStatus(_ type: DeviceType, enable: Bool)
-    
-    /// Set video resolution
-    ///
-    /// Description: This method can be used to set video resolution. A larger resolution consumes more network bandwidth. You can select the resolution based on service requirements and network conditions. The default value is 720P.
-    ///
-    /// Call this method at: After joining a room
-    ///
-    /// @param resolution refers to the resolution value.
-    func setVideoResolution(_ resolution: VideoResolution)
-    
-    /// Set audio bitrate
-    ///
-    /// Description: This method can be used to set audio bitrate.  A larger audio bitrate consumes more network bandwidth. You can select the bitrate based on service requirements and network conditions. The default value is 48kbps.
-    ///
-    /// Call this method at: After joining a room
-    ///
-    /// @param bitrate refers to the bitrate value.
-    func setAudioBitrate(_ bitrate: AudioBitrate)
-    
+        
     /// Microphone related operation
     ///
     /// Description: This method can be used to enable and disable the microphone. When the microphone is enabled, the SDK automatically publishes audio streams to remote users. When the microphone is disabled, the audio stream publishing stops automatically.
@@ -93,7 +65,4 @@ protocol DeviceService {
     
     func enableCallKit(_ enable: Bool)
     
-    func startPlaying(_ userID: String?, streamView: UIView?)
-    
-    func stopPlaying(_ userID: String?)
 }

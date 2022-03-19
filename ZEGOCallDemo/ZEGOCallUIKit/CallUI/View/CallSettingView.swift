@@ -212,8 +212,14 @@ class CallSettingView: UIView, UITableViewDelegate, UITableViewDataSource, Setti
             switch model.selectionType {
             case .videoResolution, .bitrate:
                 delegate?.settingViewDidSelected(model, type: viewType)
-            case .noiseSuppression, .echoCancellation, .volumeAdjustment:
-                ServiceManager.shared.deviceService.setDeviceStatus(model.selectionType, enable: value)
+            case .noiseSuppression:
+                ServiceManager.shared.deviceService.noiseSliming = value
+                model.switchStatus = value
+            case .echoCancellation:
+                ServiceManager.shared.deviceService.echoCancellation = value
+                model.switchStatus = value
+            case .volumeAdjustment:
+                ServiceManager.shared.deviceService.volumeAdjustment = value
                 model.switchStatus = value
             }
         }

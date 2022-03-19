@@ -161,10 +161,10 @@ class CallSettingSecondView: UIView, UITableViewDelegate, UITableViewDataSource 
         switch viewType {
         case .resolution:
             let type: VideoResolution = VideoResolution(rawValue: model.type) ?? .p1080
-            ServiceManager.shared.deviceService.setVideoResolution(type)
+            ServiceManager.shared.deviceService.videoResolution = type
         case .audio:
             let type: AudioBitrate = AudioBitrate(rawValue: model.type) ?? .b48
-            ServiceManager.shared.deviceService.setAudioBitrate(type)
+            ServiceManager.shared.deviceService.bitrate = type
         }
     }
     
