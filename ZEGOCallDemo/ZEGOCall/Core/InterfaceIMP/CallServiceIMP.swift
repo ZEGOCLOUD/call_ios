@@ -14,6 +14,14 @@ class CallServiceIMP: NSObject {
     var status: CallStatus = .free
     
     var callInfo = CallInfo()
+    
+    private weak var listener = ListenerManager.shared
+    
+    override init() {
+        super.init()
+        
+        registerListener()
+    }
 }
 
 extension CallServiceIMP: CallService {
@@ -115,5 +123,28 @@ extension CallServiceIMP {
     private func generateCallID(_ userID: String) -> String {
         //TODO: generate call id
         return ""
+    }
+    
+    private func registerListener() {
+        
+        listener?.registerListener(self, for: Notify_Call_Invited, callback: { result in
+            
+        })
+        
+        listener?.registerListener(self, for: Notify_Call_Canceled, callback: { result in
+            
+        })
+        
+        listener?.registerListener(self, for: Notify_Call_Response, callback: { result in
+            
+        })
+        
+        listener?.registerListener(self, for: Notify_Call_End, callback: { result in
+            
+        })
+        
+        listener?.registerListener(self, for: Notify_Call_Timeout, callback: { result in
+            
+        })
     }
 }

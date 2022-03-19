@@ -8,7 +8,7 @@
 import Foundation
 
 class HeartbeatCommand: Command {
-    var path: String = "/call/heartbeat"
+    var path: String = API_Call_Heartbeat
     
     var parameter = [String : AnyObject]()
     

@@ -25,6 +25,8 @@ typealias UserListCallback = (Result<[UserInfo], ZegoError>) -> Void
 
 typealias RequestCallback = (Result<Any, ZegoError>) -> Void
 
+typealias NotifyCallback = ([String : Any]) -> Void
+
 
 enum ZegoError: Error {
         
@@ -136,3 +138,19 @@ enum CallTimeoutType {
     case inviter
     case invitee
 }
+
+
+let API_Login = "/user/login"
+let API_Logout = "/user/logout"
+let API_Get_Users = "/user/get_users"
+let API_Call_Heartbeat = "/call/heartbeat"
+let API_Start_Call = "/call/start_call"
+let API_Cancel_Call = "/call/cancel_call"
+let API_Respond_Call = "/call/respond_call"
+let API_End_Call = "/call/end_call"
+
+let Notify_Call_Invited = "/call/notify_call_invited"
+let Notify_Call_Canceled = "/call/notify_call_canceled"
+let Notify_Call_Response = "/call/notify_call_response"
+let Notify_Call_End = "/call/notify_call_response"
+let Notify_Call_Timeout = "/call/notify_timeout"

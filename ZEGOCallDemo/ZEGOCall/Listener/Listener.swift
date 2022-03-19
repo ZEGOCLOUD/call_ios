@@ -8,7 +8,7 @@
 import Foundation
 
 protocol Listener {
-    func registerListener(_ listener: AnyObject, for path: String, callback: RequestCallback)
+    func registerListener(_ listener: AnyObject, for path: String, callback: @escaping NotifyCallback)
     
     func removeListener(_ listener: AnyObject, for path: String)
 }

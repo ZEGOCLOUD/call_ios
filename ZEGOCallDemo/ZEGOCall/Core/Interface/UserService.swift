@@ -39,7 +39,7 @@ protocol UserService {
     var delegate: UserServiceDelegate? { get set }
     
     /// The local logged-in user information.
-    var localUserInfo: UserInfo? { get set }
+    var localUserInfo: UserInfo? { get }
     
     var userList: [UserInfo] { get }
     

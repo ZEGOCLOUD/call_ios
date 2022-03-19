@@ -72,7 +72,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let userInfo = UserInfo()
             userInfo.userID = userInfoDic["userID"]
             userInfo.userName = userInfoDic["userName"]
-            ServiceManager.shared.userService.localUserInfo = userInfo
             homeVC.startLogin(userInfo)
         }
     }
