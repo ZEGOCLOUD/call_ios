@@ -303,25 +303,25 @@ extension CallBusiness: UserServiceDelegate {
         if let vc = currentCallVC {
             if vc.vcType == .voice {
                 ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic, callback: nil)
-                ServiceManager.shared.deviceService.startPlaying(userID, streamView: nil)
+                ServiceManager.shared.streamService.startPlaying(userID, streamView: nil)
             } else {
                 ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic, callback: nil)
                 ServiceManager.shared.deviceService.enableCamera(userRoomInfo.camera, callback: nil)
                 if let mainStreamID = currentCallVC?.mainStreamUserID {
-                    ServiceManager.shared.deviceService.startPlaying(mainStreamID, streamView: vc.mainPreviewView)
+                    ServiceManager.shared.streamService.startPlaying(mainStreamID, streamView: vc.mainPreviewView)
                 } else {
-                    ServiceManager.shared.deviceService.startPlaying(ServiceManager.shared.userService.localUserInfo?.userID, streamView: vc.mainPreviewView)
+                    ServiceManager.shared.streamService.startPlaying(ServiceManager.shared.userService.localUserInfo?.userID, streamView: vc.mainPreviewView)
                 }
                 if let streamID = currentCallVC?.streamUserID {
-                    ServiceManager.shared.deviceService.startPlaying(streamID, streamView: vc.previewView)
+                    ServiceManager.shared.streamService.startPlaying(streamID, streamView: vc.previewView)
                 } else {
-                    ServiceManager.shared.deviceService.startPlaying(userID, streamView: vc.previewView)
+                    ServiceManager.shared.streamService.startPlaying(userID, streamView: vc.previewView)
                 }
             }
             ServiceManager.shared.deviceService.enableSpeaker(ServiceManager.shared.userService.localUserInfo?.voice ?? false)
         } else {
             ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic, callback: nil)
-            ServiceManager.shared.deviceService.startPlaying(userID, streamView: nil)
+            ServiceManager.shared.streamService.startPlaying(userID, streamView: nil)
         }
     }
     

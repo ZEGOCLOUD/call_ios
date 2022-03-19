@@ -143,10 +143,10 @@ class CallMainVC: UIViewController {
     @objc func ExchangeVideoStream() {
         let tempID = mainStreamUserID
         mainStreamUserID = streamUserID
-        ServiceManager.shared.deviceService.startPlaying(mainStreamUserID, streamView: mainPreviewView)
+        ServiceManager.shared.streamService.startPlaying(mainStreamUserID, streamView: mainPreviewView)
         streamUserID = tempID
         setPreviewUserName()
-        ServiceManager.shared.deviceService.startPlaying(streamUserID, streamView: previewView)
+        ServiceManager.shared.streamService.startPlaying(streamUserID, streamView: previewView)
         setCallBgImage()
     }
     
@@ -310,7 +310,7 @@ class CallMainVC: UIViewController {
             headImage.isHidden = false
             timer.start()
             if vcType == .video {
-                ServiceManager.shared.deviceService.startPlaying(mainStreamUserID, streamView: mainPreviewView)
+                ServiceManager.shared.streamService.startPlaying(mainStreamUserID, streamView: mainPreviewView)
             }
         case .accept:
             bottomViewHeight.constant = 85
@@ -333,7 +333,7 @@ class CallMainVC: UIViewController {
                 videoView.isHidden = true
                 headImage.isHidden = false
                 if mainStreamUserID != localUserID{
-                    ServiceManager.shared.deviceService.startPlaying(mainStreamUserID, streamView: nil)
+                    ServiceManager.shared.streamService.startPlaying(mainStreamUserID, streamView: nil)
                 }
             } else {
                 phoneView.isHidden = true
@@ -343,8 +343,8 @@ class CallMainVC: UIViewController {
                 preciewContentView.isHidden = false
                 topMaksImageView.isHidden = false
                 bottomMaskImageView.isHidden = false
-                ServiceManager.shared.deviceService.startPlaying(mainStreamUserID, streamView: mainPreviewView)
-                ServiceManager.shared.deviceService.startPlaying(streamUserID, streamView: previewView)
+                ServiceManager.shared.streamService.startPlaying(mainStreamUserID, streamView: mainPreviewView)
+                ServiceManager.shared.streamService.startPlaying(streamUserID, streamView: previewView)
             }
             timer.start()
         case .canceled,.decline,.miss,.completed:

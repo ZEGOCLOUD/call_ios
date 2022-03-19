@@ -45,6 +45,6 @@ class VideoMinimizeCallView: UIView {
     
     func updateStreamDisplay(_ streamID: String?) {
         guard let streamID = streamID else { return }
-        ServiceManager.shared.deviceService.startPlaying(streamID, streamView: videoPreview)
+        ServiceManager.shared.streamService.startPlaying(streamID, streamView: videoPreview)
     }
 }

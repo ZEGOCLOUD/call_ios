@@ -74,15 +74,15 @@ extension CallMainVC: CallActionDelegate {
             if vcType == .voice {
                 ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic, callback: nil)
                 guard let callUser = callUser else { return }
-                ServiceManager.shared.deviceService.startPlaying(callUser.userID, streamView: nil)
+                ServiceManager.shared.streamService.startPlaying(callUser.userID, streamView: nil)
             } else {
                 ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic, callback: nil)
                 ServiceManager.shared.deviceService.enableCamera(userRoomInfo.camera, callback: nil)
                 let mainUserID = mainStreamUserID != nil ? mainStreamUserID : ServiceManager.shared.userService.localUserInfo?.userID
-                ServiceManager.shared.deviceService.startPlaying(mainUserID, streamView: mainPreviewView)
+                ServiceManager.shared.streamService.startPlaying(mainUserID, streamView: mainPreviewView)
                 
                 let previewUserID = streamUserID != nil ? streamUserID : userID
-                ServiceManager.shared.deviceService.startPlaying(previewUserID, streamView: previewView)
+                ServiceManager.shared.streamService.startPlaying(previewUserID, streamView: previewView)
             }
             ServiceManager.shared.deviceService.enableSpeaker(ServiceManager.shared.userService.localUserInfo?.voice ?? false)
         }

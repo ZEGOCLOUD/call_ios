@@ -30,7 +30,15 @@ class DeviceServiceIMP: NSObject, DeviceService {
         }
     }
     
-    func setDeviceStatus(_ type: DeviceType, enable: Bool) {
+    func enableNoiseSuppression(_ enable: Bool) {
+        
+    }
+    
+    func enableEchoCancellation(_ enable: Bool) {
+        
+    }
+    
+    func enableVolumeAdjustment(_ enable: Bool) {
         
     }
     
@@ -47,7 +55,7 @@ class DeviceServiceIMP: NSObject, DeviceService {
     }
     
     func enableCamera(_ enable: Bool, callback: RoomCallback?) {
-        
+        ZegoExpressEngine.shared().enableCamera(enable)
     }
     
     func useFrontCamera(_ isFront: Bool) {

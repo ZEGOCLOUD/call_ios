@@ -28,6 +28,7 @@ class ServiceManager: NSObject {
         callService = CallServiceIMP()
         deviceService = DeviceServiceIMP()
         roomService = RoomServiceIMP()
+        streamService = StreamServiceIMP()
         super.init()
     }
     
@@ -37,6 +38,8 @@ class ServiceManager: NSObject {
     open var callService: CallService
     
     open var deviceService: DeviceService
+    
+    open var streamService: StreamService
     
     var roomService: RoomService
     
