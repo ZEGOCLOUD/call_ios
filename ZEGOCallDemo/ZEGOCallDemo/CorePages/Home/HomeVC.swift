@@ -42,7 +42,6 @@ class HomeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        ServiceManager.shared.userService.delegate = CallBusiness.shared
         let tapClick:UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(tap))
         backView.addGestureRecognizer(tapClick)
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
@@ -96,7 +95,7 @@ class HomeVC: UIViewController {
     func logout() {
         DispatchQueue.main.async {
             self.navigationController?.popToRootViewController(animated: true)
-            CallBusiness.shared.onReceiveCallEnded()
+            CallManager.shared.onReceiveCallEnded()
         }
         UserDefaults.standard.set(true, forKey: App_IS_LOGOUT_KEY)
         LoginManager.shared.logout()

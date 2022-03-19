@@ -14,16 +14,16 @@ import FirebaseAuth
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
-    var providerDelegate: ProviderDelegate?
+    //var providerDelegate: ProviderDelegate?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         FirebaseApp.configure()
         
-        providerDelegate = ProviderDelegate()
+        //providerDelegate = ProviderDelegate()
         
         // Override point for customization after application launch.
-        ServiceManager.shared.initWithAppID(appID: AppCenter.appID()) { result in
+        CallManager.shared.initWithAppID(AppCenter.appID()) { result in
             if result.isFailure {
                 let code = result.failure?.code ?? 1
                 print("init failed: \(String(code))")
@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } else {
                 print("[*] Call Init Success.")
             }
-        };
+        }
         
         return true
     }
@@ -55,9 +55,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     /// Display the incoming call to the user
-    func displayIncomingCall(uuid: UUID, handle: String, hasVideo: Bool = false, completion: ((NSError?) -> Void)? = nil) {
-        providerDelegate?.reportIncomingCall(uuid: uuid, handle: handle, hasVideo: hasVideo, completion: completion)
-    }
+//    func displayIncomingCall(uuid: UUID, handle: String, hasVideo: Bool = false, completion: ((NSError?) -> Void)? = nil) {
+//        providerDelegate?.reportIncomingCall(uuid: uuid, handle: handle, hasVideo: hasVideo, completion: completion)
+//    }
     
 //
 //    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {

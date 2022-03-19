@@ -267,8 +267,8 @@ class CallMainVC: UIViewController {
                 }
             case .accept:
                 let currentTime = Int(Date().timeIntervalSince1970)
-                if currentTime - CallBusiness.shared.startTimeIdentify > 60 {
-                    CallBusiness.shared.audioPlayer?.stop()
+                if currentTime - CallManager.shared.startTimeIdentify > 60 {
+                    CallManager.shared.audioPlayer?.stop()
                     vc.changeCallStatusText(.miss)
                     vc.timer.stop()
                     vc.callDelayDismiss()

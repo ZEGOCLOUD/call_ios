@@ -15,8 +15,8 @@ extension CallMainVC: CallActionDelegate {
                 ServiceManager.shared.callService.endCall() { result in
                     switch result {
                     case .success():
-                        CallBusiness.shared.audioPlayer?.stop()
-                        CallBusiness.shared.currentCallStatus = .free
+                        CallManager.shared.audioPlayer?.stop()
+                        CallManager.shared.currentCallStatus = .free
                         self.changeCallStatusText(.completed)
                         self.callDelayDismiss()
                     case .failure(let error):
@@ -34,8 +34,8 @@ extension CallMainVC: CallActionDelegate {
         ServiceManager.shared.callService.cancelCall(userID: userID, cancelType: .intent) { result in
             switch result {
             case .success():
-                CallBusiness.shared.audioPlayer?.stop()
-                CallBusiness.shared.currentCallStatus = .free
+                CallManager.shared.audioPlayer?.stop()
+                CallManager.shared.currentCallStatus = .free
                 if isTimeout {
                     self.changeCallStatusText(.miss)
                 } else {
@@ -55,13 +55,13 @@ extension CallMainVC: CallActionDelegate {
             let rtcToken = AppToken.getRtcToken(withRoomID: userID)
             guard let rtcToken = rtcToken else { return }
             ServiceManager.shared.callService.respondCall(userID, token:rtcToken, responseType: .accept) { result in
-                CallBusiness.shared.audioPlayer?.stop()
+                CallManager.shared.audioPlayer?.stop()
                 if result.isSuccess {
-                    CallBusiness.shared.currentCallStatus = .calling
+                    CallManager.shared.currentCallStatus = .calling
                     ZegoExpressEngine.shared().useFrontCamera(true)
                     self.startPlayingStream(userID)
                 } else {
-                    CallBusiness.shared.currentCallStatus = .free
+                    CallManager.shared.currentCallStatus = .free
                     self.changeCallStatusText(.decline)
                     self.callDelayDismiss()
                 }
@@ -94,8 +94,8 @@ extension CallMainVC: CallActionDelegate {
             guard let rtcToken = rtcToken else { return }
             ServiceManager.shared.callService.respondCall(userID, token: rtcToken ,responseType: .decline) { result in
                 if result.isSuccess {
-                    CallBusiness.shared.audioPlayer?.stop()
-                    CallBusiness.shared.currentCallStatus = .free
+                    CallManager.shared.audioPlayer?.stop()
+                    CallManager.shared.currentCallStatus = .free
                     self.changeCallStatusText(.decline)
                     self.callDelayDismiss()
                 }
@@ -122,7 +122,7 @@ extension CallMainVC: CallActionDelegate {
     }
     
     func callDelayDismiss() {
-        CallBusiness.shared.currentCallStatus = .free
+        CallManager.shared.currentCallStatus = .free
         UIApplication.shared.isIdleTimerDisabled = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.resetTime()
