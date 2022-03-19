@@ -31,13 +31,7 @@ class OnlineUserListVC: UIViewController {
         }
     }
     
-    lazy var userListService: UserListService = {
-        return UserListService()
-    }()
-    
-    var userInfoList: Array<UserInfo> {
-        return userListService.userList
-    }
+    var userInfoList: Array<UserInfo> = []
     
     lazy var refreshControl: UIRefreshControl = {
         var refreshControl = UIRefreshControl()
@@ -65,13 +59,16 @@ class OnlineUserListVC: UIViewController {
     
     // MARK: action
     @objc func refreshUserList() {
-        userListService.getUserList(nil) { result in
+        
+        ServiceManager.shared.userService.getOnlineUserList { result in
             switch result {
-            case .success(_):
+            case .success(let userList):
+                self.userInfoList = userList
                 self.emptyLabel.isHidden = self.userInfoList.count > 0
                 self.emptyImage.isHidden = self.userInfoList.count > 0
                 self.userListTableView.reloadData()
-            case .failure(_):
+                break
+            case .failure(let error):
                 break
             }
             DispatchQueue.main.async {

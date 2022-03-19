@@ -107,7 +107,7 @@ class SettingsVC: UITableViewController {
         let model = dataSource[indexPath.section][indexPath.row]
         if model.type == .logout {
             UserDefaults.standard.set(true, forKey: App_IS_LOGOUT_KEY)
-            LoginManager.shared.logout()
+            CallManager.shared.logout(nil)
             self.navigationController?.popToRootViewController(animated: true)
         } else if model.type == .shareLog {
             // share log.

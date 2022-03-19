@@ -68,29 +68,6 @@ class HomeVC: UIViewController {
         }
     }
     
-    func loginAgain() {
-        if let oldUser = UserDefaults.standard.object(forKey: USER_ID_KEY) as? Dictionary<String, String> {
-            let userInfo: UserInfo = UserInfo()
-            userInfo.userID = oldUser["userID"]
-            userInfo.userName = oldUser["userName"]
-            
-            guard let userID = userInfo.userID,
-                  let userName = userInfo.userName else { return }
-            
-            var request = LoginRequest()
-            request.userID = userID
-            request.name = userName
-            
-            RequestManager.shared.loginRequest(request: request) { requestStatus in
-                if requestStatus?.code != 0 {
-                    self.logout()
-                }
-            } failure: { requestStatus in
-                self.logout()
-            }
-        }
-    }
-    
 
     func logout() {
         DispatchQueue.main.async {
@@ -137,7 +114,7 @@ class HomeVC: UIViewController {
     func startLogin(_ userInfo: UserInfo) {
         
         //HUDHelper.showNetworkLoading()
-        LoginManager.shared.login(userInfo) { result in
+        CallManager.shared.login { result in
             HUDHelper.hideNetworkLoading()
             switch result {
             case .success():

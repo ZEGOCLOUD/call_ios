@@ -170,9 +170,9 @@ class LoginVC: UIViewController {
         userInfo.userName = myUserName
         if let oldUser = UserDefaults.standard.object(forKey: USER_ID_KEY) as? Dictionary<String, String> {
             userInfo.userID = oldUser["userID"]
-            userLogin(userInfo)
+            //userLogin(userInfo)
         } else {
-            requestUserID(userInfo)
+            //requestUserID(userInfo)
         }
     }
     
@@ -180,42 +180,25 @@ class LoginVC: UIViewController {
         loginButton.backgroundColor = ZegoColor("0D52DB")
     }
     
-    
-    
-    func requestUserID(_ userInfo: UserInfo) {
-        HUDHelper.showNetworkLoading()
-        LoginManager.shared.requestUserID { result in
-            HUDHelper.hideNetworkLoading()
-            switch result {
-            case .success(let newUserID):
-                userInfo.userID = newUserID
-                self.userLogin(userInfo)
-            case .failure(let error):
-                let message = String(format: ZGLocalizedString("toast_login_fail"), error.code)
-                TipView.showWarn(message)
-            }
-        }
-    }
-    
-    func userLogin(_ userInfo: UserInfo) {
-        HUDHelper.showNetworkLoading()
-        LoginManager.shared.login(userInfo) { result in
-            HUDHelper.hideNetworkLoading()
-            switch result {
-            case .success():
-                self.userNameTextField.text = ""
-                self.myUserName = ""
-                self.setLoginButtonStatus()
-                UserDefaults.standard.set(false, forKey: App_IS_LOGOUT_KEY)
-                UserDefaults.standard.set(["userID":userInfo.userID, "userName":userInfo.userName], forKey: USER_ID_KEY)
-                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
-                self.navigationController?.pushViewController(vc, animated: true)
-            case .failure(let error):
-                let message = String(format: ZGLocalizedString("toast_login_fail"), error.code)
-                TipView.showWarn(message)
-            }
-        }
-    }
+//    func userLogin(_ userInfo: UserInfo) {
+//        HUDHelper.showNetworkLoading()
+//        LoginManager.shared.login(userInfo) { result in
+//            HUDHelper.hideNetworkLoading()
+//            switch result {
+//            case .success():
+//                self.userNameTextField.text = ""
+//                self.myUserName = ""
+//                self.setLoginButtonStatus()
+//                UserDefaults.standard.set(false, forKey: App_IS_LOGOUT_KEY)
+//                UserDefaults.standard.set(["userID":userInfo.userID, "userName":userInfo.userName], forKey: USER_ID_KEY)
+//                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
+//                self.navigationController?.pushViewController(vc, animated: true)
+//            case .failure(let error):
+//                let message = String(format: ZGLocalizedString("toast_login_fail"), error.code)
+//                TipView.showWarn(message)
+//            }
+//        }
+//    }
     
 }
 
