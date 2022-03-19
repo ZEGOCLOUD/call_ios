@@ -38,14 +38,6 @@
 		86718CAA27915AC100CEA8A0 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CA927915AC100CEA8A0 /* State.swift */; };
 		86718CAC27915ADE00CEA8A0 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CAB27915ADE00CEA8A0 /* PullToRefresh.swift */; };
 		86718CAE27915B2B00CEA8A0 /* UIScrollView+PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CAD27915B2B00CEA8A0 /* UIScrollView+PullToRefresh.swift */; };
-		86718CD927953E1700CEA8A0 /* RequestMananger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CD827953E1700CEA8A0 /* RequestMananger.swift */; };
-		86718CDB27953E6400CEA8A0 /* UserIDReauest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CDA27953E6400CEA8A0 /* UserIDReauest.swift */; };
-		86718CDD2795401B00CEA8A0 /* UserInfoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CDC2795401B00CEA8A0 /* UserInfoList.swift */; };
-		86718CDF279540EB00CEA8A0 /* UserListRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CDE279540EB00CEA8A0 /* UserListRequest.swift */; };
-		86718CE12795421200CEA8A0 /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CE02795421200CEA8A0 /* LoginRequest.swift */; };
-		86718CE3279542B100CEA8A0 /* LogoutRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CE2279542B100CEA8A0 /* LogoutRequest.swift */; };
-		86718CE5279542E300CEA8A0 /* HeartBeatRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CE4279542E300CEA8A0 /* HeartBeatRequest.swift */; };
-		86718CE727955A0900CEA8A0 /* UserListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CE627955A0900CEA8A0 /* UserListService.swift */; };
 		86718D2D2797E56D00CEA8A0 /* ProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718D2C2797E56D00CEA8A0 /* ProviderDelegate.swift */; };
 		868F6356279E923200D0B5DC /* Call.strings in Resources */ = {isa = PBXBuildFile; fileRef = 868F6358279E923200D0B5DC /* Call.strings */; };
 		868F635F27A1647000D0B5DC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 868F636127A1647000D0B5DC /* InfoPlist.strings */; };
@@ -182,14 +174,6 @@
 		86718CA927915AC100CEA8A0 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		86718CAB27915ADE00CEA8A0 /* PullToRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefresh.swift; sourceTree = "<group>"; };
 		86718CAD27915B2B00CEA8A0 /* UIScrollView+PullToRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+PullToRefresh.swift"; sourceTree = "<group>"; };
-		86718CD827953E1700CEA8A0 /* RequestMananger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestMananger.swift; sourceTree = "<group>"; };
-		86718CDA27953E6400CEA8A0 /* UserIDReauest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserIDReauest.swift; sourceTree = "<group>"; };
-		86718CDC2795401B00CEA8A0 /* UserInfoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoList.swift; sourceTree = "<group>"; };
-		86718CDE279540EB00CEA8A0 /* UserListRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListRequest.swift; sourceTree = "<group>"; };
-		86718CE02795421200CEA8A0 /* LoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequest.swift; sourceTree = "<group>"; };
-		86718CE2279542B100CEA8A0 /* LogoutRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutRequest.swift; sourceTree = "<group>"; };
-		86718CE4279542E300CEA8A0 /* HeartBeatRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartBeatRequest.swift; sourceTree = "<group>"; };
-		86718CE627955A0900CEA8A0 /* UserListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListService.swift; sourceTree = "<group>"; };
 		86718D2C2797E56D00CEA8A0 /* ProviderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderDelegate.swift; sourceTree = "<group>"; };
 		868F6353279E913800D0B5DC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		868F6357279E923200D0B5DC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Call.strings; sourceTree = "<group>"; };
@@ -462,20 +446,6 @@
 			path = Refresh;
 			sourceTree = "<group>";
 		};
-		86718CD727953DFA00CEA8A0 /* Request */ = {
-			isa = PBXGroup;
-			children = (
-				86718CD827953E1700CEA8A0 /* RequestMananger.swift */,
-				86718CDA27953E6400CEA8A0 /* UserIDReauest.swift */,
-				86718CDC2795401B00CEA8A0 /* UserInfoList.swift */,
-				86718CDE279540EB00CEA8A0 /* UserListRequest.swift */,
-				86718CE02795421200CEA8A0 /* LoginRequest.swift */,
-				86718CE2279542B100CEA8A0 /* LogoutRequest.swift */,
-				86718CE4279542E300CEA8A0 /* HeartBeatRequest.swift */,
-			);
-			path = Request;
-			sourceTree = "<group>";
-		};
 		86718D2B2797E54800CEA8A0 /* Provider */ = {
 			isa = PBXGroup;
 			children = (
@@ -509,7 +479,6 @@
 			children = (
 				8E7756E627DF47CE00BFB5F6 /* RingResource */,
 				86B198AD278BE25F0004C997 /* Network */,
-				86718CD727953DFA00CEA8A0 /* Request */,
 				86B198FB278D63430004C997 /* Helper */,
 				86B198EF278D28B20004C997 /* CorePages */,
 				86B198A6278BE1C60004C997 /* AppCenter */,
@@ -858,7 +827,6 @@
 				86B1997B278D76E50004C997 /* Cell */,
 				86B19977278D75E00004C997 /* OnlineUserListVC.swift */,
 				86B19A072790034B0004C997 /* OnlineUserListVC+Call.swift */,
-				86718CE627955A0900CEA8A0 /* UserListService.swift */,
 				86B19979278D75F60004C997 /* User.storyboard */,
 			);
 			path = User;
@@ -1144,7 +1112,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				86718CE5279542E300CEA8A0 /* HeartBeatRequest.swift in Sources */,
 				86718CA627915A5D00CEA8A0 /* RefreshViewAnimator.swift in Sources */,
 				8E7756F927E09D3600BFB5F6 /* CallServiceIMP.swift in Sources */,
 				86B1995C278D63440004C997 /* StringTool.swift in Sources */,
@@ -1158,7 +1125,6 @@
 				86B19996278EC1050004C997 /* CallAcceptTipView.swift in Sources */,
 				86B19A082790034B0004C997 /* OnlineUserListVC+Call.swift in Sources */,
 				86B198AC278BE1C60004C997 /* AppCenter.swift in Sources */,
-				86718CE12795421200CEA8A0 /* LoginRequest.swift in Sources */,
 				86B19955278D63440004C997 /* ZegoCrypto.cpp in Sources */,
 				86B1997D278D77280004C997 /* OnlineUserListCell.swift in Sources */,
 				86B198D2278BE2600004C997 /* Request.swift in Sources */,
@@ -1182,13 +1148,11 @@
 				86B19896278BDD7E0004C997 /* LoginVC.swift in Sources */,
 				86718CAC27915ADE00CEA8A0 /* PullToRefresh.swift in Sources */,
 				86B19962278D63440004C997 /* UIImage+Zego.swift in Sources */,
-				86718CE3279542B100CEA8A0 /* LogoutRequest.swift in Sources */,
 				86B198E6278BE2600004C997 /* RoomServiceIMP.swift in Sources */,
 				8E77571927E477A700BFB5F6 /* CancelCallCommand.swift in Sources */,
 				86DE03C927983D98000EE3C5 /* CallMainVC+Stream.swift in Sources */,
 				8637811B27E2DA49000A0C22 /* SettingParamDisplayCell.swift in Sources */,
 				8E77571B27E478C600BFB5F6 /* RespondCallCommand.swift in Sources */,
-				86718CE727955A0900CEA8A0 /* UserListService.swift in Sources */,
 				86718CA827915A8F00CEA8A0 /* DefaultViewAnimator.swift in Sources */,
 				8E7756F527E0906D00BFB5F6 /* CallInfo.swift in Sources */,
 				86B198D4278BE2600004C997 /* String+Stream.swift in Sources */,
@@ -1210,10 +1174,8 @@
 				8E77572127E5888000BFB5F6 /* StreamServiceIMP.swift in Sources */,
 				86B19951278D63440004C997 /* ZegoRTCServerAssistant.cpp in Sources */,
 				8637812827E31822000A0C22 /* SettingSecondLevelCell.swift in Sources */,
-				86718CDD2795401B00CEA8A0 /* UserInfoList.swift in Sources */,
 				86B198E0278BE2600004C997 /* RoomInfo.swift in Sources */,
 				86B19892278BDD7D0004C997 /* AppDelegate.swift in Sources */,
-				86718CDB27953E6400CEA8A0 /* UserIDReauest.swift in Sources */,
 				86718CAA27915AC100CEA8A0 /* State.swift in Sources */,
 				8E77570B27E19F2C00BFB5F6 /* ListenerUpdater.swift in Sources */,
 				86B198EC278BE2600004C997 /* ZegoJsonTool.swift in Sources */,
@@ -1247,12 +1209,10 @@
 				86B198EB278BE2600004C997 /* DictionaryArray.swift in Sources */,
 				86B19A1127901B550004C997 /* CallMainVC.swift in Sources */,
 				86B19A1727911D740004C997 /* CallMainVC+Operation.swift in Sources */,
-				86718CD927953E1700CEA8A0 /* RequestMananger.swift in Sources */,
 				86B19960278D63440004C997 /* ZegoTimer.swift in Sources */,
 				86718CAE27915B2B00CEA8A0 /* UIScrollView+PullToRefresh.swift in Sources */,
 				86B1995A278D63440004C997 /* HUDHelper.swift in Sources */,
 				86B1998A278EBB7D0004C997 /* CallingPhoneView.swift in Sources */,
-				86718CDF279540EB00CEA8A0 /* UserListRequest.swift in Sources */,
 				86B19894278BDD7E0004C997 /* SceneDelegate.swift in Sources */,
 				8637812427E31798000A0C22 /* CallSettingSecondLevelModel.swift in Sources */,
 				86B1995D278D63440004C997 /* ZegoColor.swift in Sources */,
