@@ -9,7 +9,7 @@ import Foundation
 import ZegoExpressEngine
 import UIKit
 
-extension CallBusiness {
+extension CallManager {
     
     @objc func applicationDidBecomeActive(notification: NSNotification) {
         // Application is back in the foreground
@@ -151,7 +151,7 @@ extension CallBusiness {
     }
     
     func endSystemCall() {
-        appDelegate.providerDelegate?.endCall(uuid: myUUID, completion: { uuid in
+        callKitService?.providerDelegate?.endCall(uuid: myUUID, completion: { uuid in
             
         })
     }

@@ -72,7 +72,7 @@ class ProviderDelegate: NSObject,CXProviderDelegate {
         let update = CXCallUpdate()
         update.remoteHandle = CXHandle(type: .generic, value: handle)
         update.hasVideo = hasVideo
-        update.localizedCallerName = CallBusiness.shared.currentCallUserInfo?.userName
+        update.localizedCallerName = CallManager.shared.currentCallUserInfo?.userName
         
         // Report the incoming call to the system
         provider.reportNewIncomingCall(with: uuid, update: update) { error in

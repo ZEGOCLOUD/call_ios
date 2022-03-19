@@ -112,7 +112,7 @@ class SettingsVC: UITableViewController {
         } else if model.type == .shareLog {
             // share log.
             HUDHelper.showNetworkLoading()
-            ServiceManager.shared.uploadLog { result in
+            CallManager.shared.uploadLog { result in
                 HUDHelper.hideNetworkLoading()
                 switch result {
                 case .success:
@@ -122,7 +122,7 @@ class SettingsVC: UITableViewController {
                     TipView.showWarn(String(format: ZGLocalizedString("toast_upload_log_fail"), error.code))
                     break
                 }
-            };
+            }
         } else if model.type == .terms {
             pushToWeb("https://www.zegocloud.com/policy?index=1")
         } else if model.type == .privacy {

@@ -8,7 +8,7 @@
 import Foundation
 import ZegoExpressEngine
 
-extension CallBusiness {
+extension CallManager {
     
     // get local user ID
     var localUserID: String {
