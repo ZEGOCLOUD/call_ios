@@ -8,7 +8,7 @@
 import Foundation
 
 class RespondCallCommand: Command {
-    var path: String = "/call/respond_call"
+    var path: String = API_Respond_Call
     
     var parameter = [String : AnyObject]()
     

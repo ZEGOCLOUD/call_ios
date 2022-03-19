@@ -8,7 +8,7 @@
 import Foundation
 
 class CallCommand: Command {
-    var path: String = "/call/start_call"
+    var path: String = API_Start_Call
     
     var parameter = [String : AnyObject]()
     

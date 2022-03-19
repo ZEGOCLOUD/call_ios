@@ -8,7 +8,7 @@
 import Foundation
 
 class EndCallCommand: Command {
-    var path: String = "/call/end_call"
+    var path: String = API_End_Call
     
     var parameter = [String : AnyObject]()
     

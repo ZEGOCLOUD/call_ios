@@ -8,7 +8,7 @@
 import Foundation
 
 class UserListCommand: Command {
-    var path: String = "/user/get_users"
+    var path: String = API_Get_Users
     
     var parameter = [String : AnyObject]()
     

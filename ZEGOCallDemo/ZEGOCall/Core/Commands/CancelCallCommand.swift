@@ -8,7 +8,7 @@
 import Foundation
 
 class CancelCallCommand: Command {
-    var path: String = "/call/cancel_call"
+    var path: String = API_Cancel_Call
     
     var parameter = [String : AnyObject]()
     
