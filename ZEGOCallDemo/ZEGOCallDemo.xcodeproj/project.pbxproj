@@ -112,6 +112,7 @@
 		86B19A1727911D740004C997 /* CallMainVC+Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19A1627911D740004C997 /* CallMainVC+Operation.swift */; };
 		86DE03C727981B3D000EE3C5 /* CallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE03C627981B3D000EE3C5 /* CallManager.swift */; };
 		86DE03C927983D98000EE3C5 /* CallMainVC+Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */; };
+		8E703EF227E816BD00CC87CE /* GetUserCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E703EF127E816BD00CC87CE /* GetUserCommand.swift */; };
 		8E7756E827DF47CE00BFB5F6 /* CallRing.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8E7756E727DF47CE00BFB5F6 /* CallRing.wav */; };
 		8E7756ED27E084FE00BFB5F6 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7756EC27E084FE00BFB5F6 /* UserService.swift */; };
 		8E7756EF27E0851C00BFB5F6 /* RoomService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7756EE27E0851B00BFB5F6 /* RoomService.swift */; };
@@ -301,6 +302,7 @@
 		86B19A1627911D740004C997 /* CallMainVC+Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallMainVC+Operation.swift"; sourceTree = "<group>"; };
 		86DE03C627981B3D000EE3C5 /* CallManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallManager.swift; sourceTree = "<group>"; };
 		86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallMainVC+Stream.swift"; sourceTree = "<group>"; };
+		8E703EF127E816BD00CC87CE /* GetUserCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserCommand.swift; sourceTree = "<group>"; };
 		8E7756E727DF47CE00BFB5F6 /* CallRing.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = CallRing.wav; sourceTree = "<group>"; };
 		8E7756EC27E084FE00BFB5F6 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		8E7756EE27E0851B00BFB5F6 /* RoomService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomService.swift; sourceTree = "<group>"; };
@@ -912,6 +914,7 @@
 			children = (
 				8E77570C27E1D70900BFB5F6 /* LoginCommand.swift */,
 				8E77571027E3660700BFB5F6 /* LogoutCommand.swift */,
+				8E703EF127E816BD00CC87CE /* GetUserCommand.swift */,
 				8E77571227E46F2F00BFB5F6 /* UserListCommand.swift */,
 				8E77571427E4721300BFB5F6 /* HeartbeatCommand.swift */,
 				8E77571627E4749500BFB5F6 /* CallCommand.swift */,
@@ -1147,6 +1150,7 @@
 				8637810D27E1EA5F000A0C22 /* MinimizedDisplayManager.swift in Sources */,
 				86B19896278BDD7E0004C997 /* LoginVC.swift in Sources */,
 				86718CAC27915ADE00CEA8A0 /* PullToRefresh.swift in Sources */,
+				8E703EF227E816BD00CC87CE /* GetUserCommand.swift in Sources */,
 				86B19962278D63440004C997 /* UIImage+Zego.swift in Sources */,
 				86B198E6278BE2600004C997 /* RoomServiceImpl.swift in Sources */,
 				8E77571927E477A700BFB5F6 /* CancelCallCommand.swift in Sources */,

@@ -29,6 +29,8 @@ protocol DeviceService {
     /// Whether to enable or disable the volume auto-adjustment
     var volumeAdjustment: Bool { get set }
     
+    var routeType: ZegoAudioRoute { get }
+    
     var delegate: DeviceServiceDelegate? { get set }
         
     /// Microphone related operation

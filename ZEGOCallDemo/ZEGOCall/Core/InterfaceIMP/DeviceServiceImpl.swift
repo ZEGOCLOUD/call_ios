@@ -20,6 +20,8 @@ class DeviceServiceImpl: NSObject, DeviceService {
     
     var volumeAdjustment: Bool = false
     
+    var routeType: ZegoAudioRoute = .speaker
+    
     weak var delegate: DeviceServiceDelegate?
     
     override init() {

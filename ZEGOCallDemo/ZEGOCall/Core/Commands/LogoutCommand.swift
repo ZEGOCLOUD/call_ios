@@ -8,7 +8,7 @@
 import Foundation
 
 class LogoutCommand: Command {
-    var path: String = API_Logout
+    let path: String = API_Logout
     
     var parameter = [String : AnyObject]()
     

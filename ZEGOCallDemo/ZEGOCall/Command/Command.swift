@@ -8,8 +8,8 @@
 import Foundation
 
 protocol Command {
-    var path: String { get set }
-    var parameter: [String : AnyObject] { get set }
+    var path: String { get }
+    var parameter: [String : AnyObject] { get }
 }
 
 extension Command {

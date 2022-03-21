@@ -35,6 +35,7 @@ extension ListenerManager: Listener {
             if oldListener === listener {
                 handler.listener = listener
                 handler.callback = callback
+                unlock()
                 return
             }
         }
@@ -52,8 +53,14 @@ extension ListenerManager: Listener {
     func removeListener(_ listener: AnyObject, for path: String) {
         lock()
         let arrary = listenerDict[path]
-        if arrary?.count == 0 { return }
-        guard var arrary = arrary else { return }
+        if arrary?.count == 0 {
+            unlock()
+            return
+        }
+        guard var arrary = arrary else {
+            unlock()
+            return
+        }
         arrary = arrary.filter { $0.listener !== listener }
         listenerDict[path] = arrary
         unlock()

@@ -14,17 +14,11 @@ class UserInfo: NSObject, Codable {
     /// User name, cannot be null.
     var userName: String?
     
-    /// user order
-    var order: String?
-    
     /// The microphone state
     var mic: Bool = true
     
     /// The camera state
     var camera: Bool = true
-    
-    /// voice
-    var voice: Bool?
     
     override init() {
         
@@ -49,9 +43,6 @@ class UserInfo: NSObject, Codable {
         }
         if let userName = json["name"] as? String {
             self.userName = userName
-        }
-        if let order = json["order"] as? String {
-            self.order = order
         }
     }
 }
