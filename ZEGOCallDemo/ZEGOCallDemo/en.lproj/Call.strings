@@ -9,8 +9,11 @@
 "login_page_title" = "Welcome to experience\nZEGO Call";
 "login_page_user_name" = "Please enter your username";
 "login_page_login" = "Log in";
-"toast_login_fail" = "Failed to log in. Error code: %d.";
+"toast_login_fail_google" = "Failed to log in. Error code: %d (Google)";
 "login_page_input_user_name_tip" = "The username should be English characters or number.";
+"toast_login_service_privacy" = "Please tick to agree to \"Terms of Service\" and \"Privacy Policy\"";
+"login_page_service_privacy" = "I have read and agreed to ZEGOCLOUD's Terms of Service & Privacy Policy.";
+"login_page_google_login" = "Log in with Google";
 
 "call_back_title" = "Back";
 
@@ -29,6 +32,8 @@
 "network_reconnect" = "Network error. Reconnecting...";
 "network_connect_failed" = "Network connection failed. Please re-login and try again.";
 "network_connect_failed_title" = "Network error.";
+"network_connnect_me_unstable" = "Your connection is unstable.";
+"network_connnect_other_unstable" = "Other user's connection is unstable.";
 
 "dialog_tips_title" = "Note";
 "dialog_login_page_mic_cant_open" = "The Mic is off.";
@@ -51,6 +56,7 @@
 "call_page_status_declined" = "Declined";
 "call_page_action_accept" = "Accept";
 "call_page_action_decline" = "Declined";
+"call_page_status_ended" = "Ended";
 "call_page_call_status_fail" = "The call failed, Please try again later.";
 "call_page_call_quality_poor" = "The call quality is poor…";
 "call_page_call_disconnected" = "The call has dropped. Please wait.";
@@ -58,6 +64,7 @@
 "call_user_list_refresh" = "Refreshing";
 
 "banner_call_desc" = "Deliver exceptional real-time voice and video communications regardless of distance";
+"banner_call_title" = "One-on-one call";
 
 "zego_call" = "One-on-One call";
 "online" = "Online";

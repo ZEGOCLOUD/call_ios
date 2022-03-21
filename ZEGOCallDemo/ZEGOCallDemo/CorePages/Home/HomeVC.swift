@@ -30,7 +30,7 @@ class HomeVC: UIViewController {
     }
     @IBOutlet weak var bannerNameLabel: UILabel! {
         didSet {
-            bannerNameLabel.text = ZGLocalizedString("zego_call")
+            bannerNameLabel.text = ZGLocalizedString("banner_call_title")
         }
     }
     
@@ -56,8 +56,6 @@ class HomeVC: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         configUI()
-//        let userInfo1 = UserInfo.init("213", "hhha")
-//        CallBusiness.shared.startCall(userInfo1, callType: .voice)
     }
     
     @objc func applicationDidBecomeActive(notification: NSNotification) {
@@ -110,26 +108,6 @@ class HomeVC: UIViewController {
         userIDLabel.text = "ID:\(ServiceManager.shared.userService.localUserInfo?.userID ?? "")"
         headImage.image = UIImage(named: String.getHeadImageName(userName: ServiceManager.shared.userService.localUserInfo?.userName ?? ""))
     }
-    
-    func startLogin(_ userInfo: UserInfo) {
-        
-        //HUDHelper.showNetworkLoading()
-        CallManager.shared.login("") { result in
-            HUDHelper.hideNetworkLoading()
-            switch result {
-            case .success():
-                break
-            case .failure(let error):
-                UserDefaults.standard.set(true, forKey: App_IS_LOGOUT_KEY)
-                LoginManager.shared.logout()
-                DispatchQueue.main.async {
-                    TipView.showWarn(String(format: ZGLocalizedString("toast_login_fail"), error.code))
-                    self.navigationController?.popViewController(animated: true)
-                }
-            }
-        }
-    }
-    
     
     //MARK: -Action
     @IBAction func signUpClick(_ sender: UIButton) {

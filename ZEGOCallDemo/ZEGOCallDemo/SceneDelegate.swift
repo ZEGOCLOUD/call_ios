@@ -59,20 +59,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     
     func setRootViewController() {
-        let rootVC: LoginVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginVC") as! LoginVC
+        let rootVC: GoogleLoginVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GoogleLoginVC") as! GoogleLoginVC
         let nav: UINavigationController = UINavigationController.init(rootViewController: rootVC)
-        let userInfoDic: Dictionary? = UserDefaults.standard.object(forKey: USER_ID_KEY) as? Dictionary<String, String>
         self.window?.rootViewController = nav
-        let appIsLogOut = UserDefaults.standard.bool(forKey: App_IS_LOGOUT_KEY)
-        if appIsLogOut { return }
-        if let userInfoDic = userInfoDic {
+        if let userInfo = CallManager.shared.localUserInfo {
             if !AuthorizedCheck.isCameraAuthorized() || !AuthorizedCheck.isMicrophoneAuthorized() { return }
             let homeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
             rootVC.navigationController?.pushViewController(homeVC, animated: false)
-            let userInfo = UserInfo()
-            userInfo.userID = userInfoDic["userID"]
-            userInfo.userName = userInfoDic["userName"]
-            homeVC.startLogin(userInfo)
         }
     }
 

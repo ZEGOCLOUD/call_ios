@@ -32,6 +32,7 @@
 		8637813827E5AD95000A0C22 /* CallManager+UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637813727E5AD95000A0C22 /* CallManager+UserService.swift */; };
 		8637813A27E5AEAE000A0C22 /* CallManager+CallService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637813927E5AEAE000A0C22 /* CallManager+CallService.swift */; };
 		8637813C27E5B0C3000A0C22 /* CallManager+AcceptTipAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637813B27E5B0C3000A0C22 /* CallManager+AcceptTipAction.swift */; };
+		8637813E27E81949000A0C22 /* GoogleLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637813D27E81949000A0C22 /* GoogleLoginVC.swift */; };
 		86718CA427915A0B00CEA8A0 /* DefaultRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CA327915A0B00CEA8A0 /* DefaultRefreshView.swift */; };
 		86718CA627915A5D00CEA8A0 /* RefreshViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CA527915A5D00CEA8A0 /* RefreshViewAnimator.swift */; };
 		86718CA827915A8F00CEA8A0 /* DefaultViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CA727915A8F00CEA8A0 /* DefaultViewAnimator.swift */; };
@@ -169,6 +170,7 @@
 		8637813727E5AD95000A0C22 /* CallManager+UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallManager+UserService.swift"; sourceTree = "<group>"; };
 		8637813927E5AEAE000A0C22 /* CallManager+CallService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallManager+CallService.swift"; sourceTree = "<group>"; };
 		8637813B27E5B0C3000A0C22 /* CallManager+AcceptTipAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallManager+AcceptTipAction.swift"; sourceTree = "<group>"; };
+		8637813D27E81949000A0C22 /* GoogleLoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleLoginVC.swift; sourceTree = "<group>"; };
 		86718CA327915A0B00CEA8A0 /* DefaultRefreshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultRefreshView.swift; sourceTree = "<group>"; };
 		86718CA527915A5D00CEA8A0 /* RefreshViewAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshViewAnimator.swift; sourceTree = "<group>"; };
 		86718CA727915A8F00CEA8A0 /* DefaultViewAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultViewAnimator.swift; sourceTree = "<group>"; };
@@ -887,6 +889,7 @@
 			children = (
 				86B19895278BDD7E0004C997 /* LoginVC.swift */,
 				8EE5264627B364B200158BBE /* LoginManager.swift */,
+				8637813D27E81949000A0C22 /* GoogleLoginVC.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1183,6 +1186,7 @@
 				86718CAA27915AC100CEA8A0 /* State.swift in Sources */,
 				8E77570B27E19F2C00BFB5F6 /* ListenerUpdater.swift in Sources */,
 				86B198EC278BE2600004C997 /* ZegoJsonTool.swift in Sources */,
+				8637813E27E81949000A0C22 /* GoogleLoginVC.swift in Sources */,
 				8E7756F327E0852C00BFB5F6 /* DeviceService.swift in Sources */,
 				86B198E4278BE2600004C997 /* UserServiceImpl.swift in Sources */,
 				8E77570327E19CB600BFB5F6 /* RequestProtocol.swift in Sources */,

@@ -5,7 +5,7 @@
 //  Created by zego on 2022/3/19.
 //
 
-import Foundation
+import UIKit
 
 extension CallManager: CallAcceptTipViewDelegate {
     func tipViewDidClik(_ userInfo: UserInfo, callType: CallType) {

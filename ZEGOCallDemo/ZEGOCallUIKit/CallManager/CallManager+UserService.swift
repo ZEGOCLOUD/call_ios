@@ -5,7 +5,7 @@
 //  Created by zego on 2022/3/19.
 //
 
-import Foundation
+import UIKit
 import ZegoExpressEngine
 
 extension CallManager: UserServiceDelegate {
@@ -53,7 +53,7 @@ extension CallManager: UserServiceDelegate {
     }
     
     func onReceiveCallingUserDisconnected(_ userInfo: UserInfo) {
-        
+        delegate?.onReceiveCallingUserDisconnected(userInfo)
     }
     
 }

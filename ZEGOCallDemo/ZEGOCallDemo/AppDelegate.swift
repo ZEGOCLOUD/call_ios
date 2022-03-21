@@ -20,8 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         FirebaseApp.configure()
         
-        //providerDelegate = ProviderDelegate()
-        
         // Override point for customization after application launch.
         CallManager.shared.initWithAppID(AppCenter.appID()) { result in
             if result.isFailure {
