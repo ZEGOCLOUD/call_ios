@@ -60,7 +60,7 @@ class OnlineUserListVC: UIViewController {
     // MARK: action
     @objc func refreshUserList() {
         
-        ServiceManager.shared.userService.getOnlineUserList { result in
+        CallManager.shared.getOnlineUserList { result in
             switch result {
             case .success(let userList):
                 self.userInfoList = userList

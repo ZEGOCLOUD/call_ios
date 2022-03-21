@@ -5,11 +5,12 @@
 //  Created by zego on 2022/3/19.
 //
 
-import Foundation
+import UIKit
 
 extension CallManager: CallServiceDelegate {
     
     func onReceiveCallInvite(_ userInfo: UserInfo, type: CallType) {
+        delegate?.onReceiveCallInvite(userInfo, type: type)
         if currentCallStatus == .calling || currentCallStatus == .wait || currentCallStatus == .waitAccept {
             guard let userID = userInfo.userID else { return }
             refusedCall(userID)
@@ -25,6 +26,7 @@ extension CallManager: CallServiceDelegate {
             callTipView.delegate = self
             audioPlayer?.play()
         } else {
+            if !enableCallKit { return }
             let uuid = UUID()
             myUUID = uuid
             callKitService?.reportInComingCall(uuid: uuid, handle: "", hasVideo: type == .video, completion: nil)
@@ -32,6 +34,7 @@ extension CallManager: CallServiceDelegate {
     }
     
     func onReceiveCallCanceled(_ userInfo: UserInfo, type: CancelType) {
+        delegate?.onReceiveCallCanceled(userInfo)
         if (currentCallStatus == .calling || currentCallStatus == .wait) && userInfo.userID != currentCallUserInfo?.userID {
             return
         }
@@ -56,6 +59,7 @@ extension CallManager: CallServiceDelegate {
     }
     
     func onReceiveCallResponse(_ userInfo: UserInfo, responseType: ResponseType) {
+        delegate?.onReceiveCallResponse(userInfo, responseType: responseType)
         guard let vc = self.currentCallVC else { return }
         if responseType == .accept {
             if !appIsActive {
@@ -87,6 +91,7 @@ extension CallManager: CallServiceDelegate {
     
     
     func onReceiveCallEnded() {
+        delegate?.onReceivedCallEnded()
         audioPlayer?.stop()
         if currentCallStatus != .calling {
             currentCallVC?.changeCallStatusText(.completed,showHud: false)
@@ -103,6 +108,20 @@ extension CallManager: CallServiceDelegate {
     }
     
     func onReceiveCallTimeout(_ type: CallTimeoutType) {
-        
+        delegate?.onReceiveCallTimeOut(type)
+        switch type {
+        case .inviter:
+            if currentCallStatus == .wait {
+                
+            } else if currentCallStatus == .waitAccept {
+                
+            }
+        case .invitee:
+            if currentCallStatus == .wait {
+                
+            } else if currentCallStatus == .waitAccept {
+                
+            }
+        }
     }
 }

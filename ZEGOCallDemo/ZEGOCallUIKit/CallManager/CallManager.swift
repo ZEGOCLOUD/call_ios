@@ -15,6 +15,15 @@ enum callStatus: Int {
     case calling
 }
 
+protocol CallManagerDelegate: AnyObject {
+    func onReceiveCallingUserDisconnected(_ userInfo: UserInfo)
+    func onReceiveCallInvite(_ userInfo: UserInfo, type: CallType)
+    func onReceiveCallCanceled(_ userInfo: UserInfo)
+    func onReceiveCallResponse(_ userInfo: UserInfo, responseType: ResponseType)
+    func onReceiveCallTimeOut(_ type: CallTimeoutType)
+    func onReceivedCallEnded()
+}
+
 class CallManager: NSObject {
 
     var currentCallVC: CallMainVC?
@@ -29,7 +38,7 @@ class CallManager: NSObject {
     var otherUserRoomInfo: UserInfo?
     var isConnected: Bool = true
     
-    private var enableAppleCallKit = true
+    var enableCallKit = true
     var callKitService: AppleCallKitServiceIMP?
     let localUserInfo: UserInfo? = ServiceManager.shared.userService.localUserInfo
     
@@ -48,9 +57,8 @@ class CallManager: NSObject {
     
     static let shared = CallManager()
     
-    let appDelegate = (UIApplication.shared.delegate) as! AppDelegate
-    
     var myUUID: UUID = UUID()
+    weak var delegate:CallManagerDelegate?
     
     // MARK: - Private
     private override init() {
@@ -91,12 +99,16 @@ class CallManager: NSObject {
         ServiceManager.shared.userService.logout(callback)
     }
     
-    public func enableAppleCallKit(_ enable: Bool) {
-        enableAppleCallKit = enable
+    public func getOnlineUserList(_ callback: UserListCallback?)  {
+        ServiceManager.shared.userService.getOnlineUserList(callback)
     }
     
     public func uploadLog(_ callback: RoomCallback?) {
         ServiceManager.shared.uploadLog(callback: callback)
+    }
+    
+    public func enableAppleCallKit(_ enable: Bool) {
+        enableCallKit = enable
     }
     
     public func callUser(_ userInfo: UserInfo, token: String, callType: CallType, callback: RoomCallback?) {
