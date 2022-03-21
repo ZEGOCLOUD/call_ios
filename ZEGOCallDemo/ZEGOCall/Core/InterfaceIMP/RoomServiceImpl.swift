@@ -8,7 +8,7 @@
 import Foundation
 import ZegoExpressEngine
 
-class RoomServiceIMP: NSObject {
+class RoomServiceImpl: NSObject {
 
     // MARK: - Private
     override init() {
@@ -26,7 +26,7 @@ class RoomServiceIMP: NSObject {
   
 }
 
-extension RoomServiceIMP: RoomService {
+extension RoomServiceImpl: RoomService {
 
     func joinRoom(_ roomID: String, _ token: String) {
         //TODO: join room

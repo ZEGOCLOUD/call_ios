@@ -10,7 +10,7 @@ import ZegoExpressEngine
 import AVFoundation
 
 
-class UserServiceIMP: NSObject {
+class UserServiceImpl: NSObject {
     
     // MARK: - Public
     /// The delegate related to user status
@@ -31,7 +31,7 @@ class UserServiceIMP: NSObject {
     }
 }
 
-extension UserServiceIMP: UserService {
+extension UserServiceImpl: UserService {
     func login(_ callback: RoomCallback?) {
         
         let command = LoginCommand()
@@ -81,7 +81,7 @@ extension UserServiceIMP: UserService {
     }
 }
 
-extension UserServiceIMP: ZegoEventHandler {
+extension UserServiceImpl: ZegoEventHandler {
     func onNetworkQuality(_ userID: String, upstreamQuality: ZegoStreamQualityLevel, downstreamQuality: ZegoStreamQualityLevel) {
         delegate?.onNetworkQuality(userID, upstreamQuality: upstreamQuality)
     }

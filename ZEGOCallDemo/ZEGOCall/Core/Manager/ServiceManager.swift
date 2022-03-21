@@ -24,11 +24,11 @@ class ServiceManager: NSObject {
     private let rtcEventDelegates: NSHashTable<ZegoEventHandler> = NSHashTable(options: .weakMemory)
     
     private override init() {
-        userService = UserServiceIMP()
-        callService = CallServiceIMP()
-        deviceService = DeviceServiceIMP()
-        roomService = RoomServiceIMP()
-        streamService = StreamServiceIMP()
+        userService = UserServiceImpl()
+        callService = CallServiceImpl()
+        deviceService = DeviceServiceImpl()
+        roomService = RoomServiceImpl()
+        streamService = StreamServiceImpl()
         super.init()
     }
     

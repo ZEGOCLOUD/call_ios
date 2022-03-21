@@ -7,7 +7,7 @@
 
 import Foundation
 
-class CallServiceIMP: NSObject {
+class CallServiceImpl: NSObject {
     
     var delegate: CallServiceDelegate?
     
@@ -24,7 +24,7 @@ class CallServiceIMP: NSObject {
     }
 }
 
-extension CallServiceIMP: CallService {
+extension CallServiceImpl: CallService {
     func callUser(_ userID: String, token: String, type: CallType, callback: RoomCallback?) {
         
         self.status = .outgoing
@@ -119,7 +119,7 @@ extension CallServiceIMP: CallService {
     }
 }
 
-extension CallServiceIMP {
+extension CallServiceImpl {
     private func generateCallID(_ userID: String) -> String {
         //TODO: generate call id
         return ""
