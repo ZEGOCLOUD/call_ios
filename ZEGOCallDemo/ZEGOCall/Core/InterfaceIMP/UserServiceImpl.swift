@@ -62,8 +62,10 @@ extension UserServiceImpl: UserService {
             var loginResult: ZegoResult = .success(())
             switch result {
             case .success(let dict):
-                //TODO: login success, add user info
-                break
+                let userDict = dict as! [String : String]
+                let userID = userDict["id"] ?? ""
+                let userName = userDict["name"] ?? ""
+                self._localUserInfo = UserInfo(userID: userID, userName: userName)
             case .failure(let error):
                 loginResult = .failure(error)
             }
