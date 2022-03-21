@@ -8,7 +8,7 @@
 import Foundation
 import ZegoExpressEngine
 
-class DeviceServiceIMP: NSObject, DeviceService {
+class DeviceServiceImpl: NSObject, DeviceService {
     
     var videoResolution: VideoResolution = .p720
     
@@ -19,6 +19,8 @@ class DeviceServiceIMP: NSObject, DeviceService {
     var echoCancellation: Bool = false
     
     var volumeAdjustment: Bool = false
+    
+    var routeType: ZegoAudioRoute = .speaker
     
     weak var delegate: DeviceServiceDelegate?
     
@@ -69,32 +71,9 @@ class DeviceServiceIMP: NSObject, DeviceService {
     func enableCallKit(_ enable: Bool) {
         
     }
-    
-    func startPlaying(_ userID: String?, streamView: UIView?) {
-        guard let roomID = ServiceManager.shared.roomService.roomInfo?.roomID else { return }
-        let streamID = String.getStreamID(userID, roomID: roomID)
-        if streamView != nil {
-            guard let streamView = streamView else { return }
-            let canvas = ZegoCanvas(view: streamView)
-            canvas.viewMode = .aspectFill
-            if ServiceManager.shared.userService.localUserInfo?.userID == userID {
-                ZegoExpressEngine.shared().startPreview(canvas)
-            } else {
-                ZegoExpressEngine.shared().startPlayingStream(streamID, canvas: canvas)
-            }
-        } else {
-            ZegoExpressEngine.shared().startPlayingStream(streamID, canvas: nil)
-        }
-    }
-    
-    func stopPlaying(_ userID: String?) {
-        
-    }
-    
-    
 }
 
-extension DeviceServiceIMP: ZegoEventHandler {
+extension DeviceServiceImpl: ZegoEventHandler {
     func onAudioRouteChange(_ audioRoute: ZegoAudioRoute) {
         
     }

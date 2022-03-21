@@ -8,7 +8,7 @@
 import Foundation
 import ZegoExpressEngine
 
-class RoomServiceIMP: NSObject {
+class RoomServiceImpl: NSObject {
 
     // MARK: - Private
     override init() {
@@ -22,21 +22,19 @@ class RoomServiceIMP: NSObject {
     
     // MARK: - Public
     var roomInfo: RoomInfo?
-    
-  
 }
 
-extension RoomServiceIMP: RoomService {
+extension RoomServiceImpl: RoomService {
 
     func joinRoom(_ roomID: String, _ token: String) {
         //TODO: join room
         guard let userID = ServiceManager.shared.userService.localUserInfo?.userID else {
-            assert(false, "user id can't be nil.")
+            assert(false, "user ID can't be nil.")
             return
         }
-        
+        let userName = ServiceManager.shared.userService.localUserInfo?.userName ?? ""
         // login rtc room
-        let user = ZegoUser(userID: userID)
+        let user = ZegoUser(userID: userID, userName: userName)
         
         let config = ZegoRoomConfig()
         config.token = token

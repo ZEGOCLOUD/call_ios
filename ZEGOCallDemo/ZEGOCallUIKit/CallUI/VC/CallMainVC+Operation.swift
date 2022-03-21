@@ -84,7 +84,7 @@ extension CallMainVC: CallActionDelegate {
                 let previewUserID = streamUserID != nil ? streamUserID : userID
                 ServiceManager.shared.streamService.startPlaying(previewUserID, streamView: previewView)
             }
-            ServiceManager.shared.deviceService.enableSpeaker(ServiceManager.shared.userService.localUserInfo?.voice ?? false)
+            ServiceManager.shared.deviceService.enableSpeaker(false)
         }
     }
     

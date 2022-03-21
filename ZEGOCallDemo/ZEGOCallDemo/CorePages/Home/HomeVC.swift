@@ -114,7 +114,7 @@ class HomeVC: UIViewController {
     func startLogin(_ userInfo: UserInfo) {
         
         //HUDHelper.showNetworkLoading()
-        CallManager.shared.login { result in
+        CallManager.shared.login("") { result in
             HUDHelper.hideNetworkLoading()
             switch result {
             case .success():

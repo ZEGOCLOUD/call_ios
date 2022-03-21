@@ -9,4 +9,5 @@ import Foundation
 
 protocol StreamService {
     func startPlaying(_ userID: String?, streamView: UIView?)
+    func stopPlaying(_ userID: String?)
 }

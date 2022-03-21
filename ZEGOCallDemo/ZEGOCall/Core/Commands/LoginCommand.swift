@@ -8,7 +8,7 @@
 import Foundation
 
 class LoginCommand: Command {
-    var path: String = API_Login
+    let path: String = API_Login
     
     var parameter = [String : AnyObject]()
     

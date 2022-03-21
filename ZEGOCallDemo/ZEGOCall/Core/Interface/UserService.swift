@@ -51,7 +51,7 @@ protocol UserService {
     /// Call this method at: After the SDK initialization
     ///
     /// - Parameter callback: refers to the callback for log in.
-    func login(_ callback: RoomCallback?)
+    func login(_ token: String, callback: RoomCallback?)
     
     /// User to log out
     ///

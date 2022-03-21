@@ -10,9 +10,9 @@ import Foundation
 class CommandManager {
     static let shared = CommandManager()
     
-    weak var service: RequestProtocol? = FirebaseManager.shared
+    private var service: RequestProtocol = FirebaseManager.shared
     
     func execute(_ command: Command, callback: RequestCallback?) {
-        service?.request(command.path, parameter: command.parameter, callback: callback)
+        service.request(command.path, parameter: command.parameter, callback: callback)
     }
 }

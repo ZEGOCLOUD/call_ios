@@ -10,17 +10,41 @@ import ZegoExpressEngine
 import AVFoundation
 
 
-class UserServiceIMP: NSObject {
+class UserServiceImpl: NSObject {
     
     // MARK: - Public
     /// The delegate related to user status
     weak var delegate: UserServiceDelegate?
     
     /// The local logged-in user information.
-    var localUserInfo: UserInfo?
+    private var _localUserInfo: UserInfo?
+    var localUserInfo: UserInfo? {
+        get {
+            if _localUserInfo != nil {
+                return _localUserInfo
+            } else {
+                var user: UserInfo?
+                getUserCommand.excute { result in
+                    if result.isFailure { return }
+                    guard let userDict = result.success as? [String : String] else { return }
+                    guard let userID = userDict["id"] else { return }
+                    let userName = userDict["name"] ?? ""
+                    user = UserInfo(userID, userName)
+                }
+                _localUserInfo = user
+                return user
+            }
+        }
+    }
     
     /// In-room user list, can be used when displaying the user list in the room.
     var userList = [UserInfo]()
+    
+    // request command
+    private let getUserCommand = GetUserCommand()
+    private let loginCommand = LoginCommand()
+    private let logoutCommand = LogoutCommand()
+    private let userListCommand = UserListCommand()
     
     override init() {
         super.init()
@@ -31,12 +55,10 @@ class UserServiceIMP: NSObject {
     }
 }
 
-extension UserServiceIMP: UserService {
-    func login(_ callback: RoomCallback?) {
-        
-        let command = LoginCommand()
-        
-        command.excute { result in
+extension UserServiceImpl: UserService {
+    func login(_ token: String, callback: RoomCallback?) {
+        loginCommand.token = token
+        loginCommand.excute { result in
             var loginResult: ZegoResult = .success(())
             switch result {
             case .success(let dict):
@@ -53,8 +75,7 @@ extension UserServiceIMP: UserService {
     
     func logout(_ callback: RoomCallback?) {
         
-        let command = LogoutCommand()
-        command.excute { result in
+        logoutCommand.excute { result in
             var logoutResult: ZegoResult = .success(())
             if result.isFailure {
                 logoutResult = .failure(result.failure!)
@@ -65,8 +86,8 @@ extension UserServiceIMP: UserService {
     }
     
     func getOnlineUserList(_ callback: UserListCallback?) {
-        let command = UserListCommand()
-        command.excute { result in
+        
+        userListCommand.excute { result in
             var listResult: Result<[UserInfo], ZegoError> = .failure(.failed)
             switch result {
             case .success(let json):
@@ -81,7 +102,7 @@ extension UserServiceIMP: UserService {
     }
 }
 
-extension UserServiceIMP: ZegoEventHandler {
+extension UserServiceImpl: ZegoEventHandler {
     func onNetworkQuality(_ userID: String, upstreamQuality: ZegoStreamQualityLevel, downstreamQuality: ZegoStreamQualityLevel) {
         delegate?.onNetworkQuality(userID, upstreamQuality: upstreamQuality)
     }

@@ -83,8 +83,8 @@ class CallManager: NSObject {
         ServiceManager.shared.initWithAppID(appID: appID, callback: callback)
     }
     
-    public func login(_ callback: RoomCallback?) {
-        ServiceManager.shared.userService.login(callback)
+    public func login(_ token: String, callback: RoomCallback?) {
+        ServiceManager.shared.userService.login(token, callback: callback)
     }
     
     public func logout(_ callback: RoomCallback?) {
@@ -208,7 +208,7 @@ class CallManager: NSObject {
                     ServiceManager.shared.streamService.startPlaying(userID, streamView: vc.previewView)
                 }
             }
-            ServiceManager.shared.deviceService.enableSpeaker(ServiceManager.shared.userService.localUserInfo?.voice ?? false)
+            ServiceManager.shared.deviceService.enableSpeaker(false)
         } else {
             ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic, callback: nil)
             ServiceManager.shared.streamService.startPlaying(userID, streamView: nil)
