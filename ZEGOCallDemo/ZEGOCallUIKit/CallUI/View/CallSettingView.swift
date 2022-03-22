@@ -112,6 +112,10 @@ class CallSettingView: UIView, UITableViewDelegate, UITableViewDataSource, Setti
                                   "subTitle": "", "selectionType": DeviceType.volumeAdjustment,
                                   "switchStatus": ServiceManager.shared.deviceService.volumeAdjustment],
                                  
+                                 ["title": ZGLocalizedString("room_settings_page_minoring"),
+                                  "subTitle": "", "selectionType": DeviceType.videoMirror,
+                                  "switchStatus": ServiceManager.shared.deviceService.videoMirror],
+                                 
                                  ["title": ZGLocalizedString("room_settings_page_video_resolution"),
                                   "subTitle": "720x1280", "selectionType": DeviceType.videoResolution,
                                   "switchStatus": false],
@@ -153,6 +157,8 @@ class CallSettingView: UIView, UITableViewDelegate, UITableViewDataSource, Setti
                 model.switchStatus = ServiceManager.shared.deviceService.echoCancellation
             case .volumeAdjustment:
                 model.switchStatus = ServiceManager.shared.deviceService.volumeAdjustment
+            case .videoMirror:
+                model.switchStatus = ServiceManager.shared.deviceService.videoMirror
             case .videoResolution:
                 model.subTitle = resolutionDic[ServiceManager.shared.deviceService.videoResolution]
             case .bitrate:
@@ -179,7 +185,7 @@ class CallSettingView: UIView, UITableViewDelegate, UITableViewDataSource, Setti
         
         let model: CallSettingModel = settingDataSource[indexPath.row]
         switch model.selectionType {
-            case .noiseSuppression, .echoCancellation, .volumeAdjustment :
+        case .noiseSuppression, .echoCancellation, .volumeAdjustment, .videoMirror:
                 let cell: SettingSwitchCell = tableView.dequeueReusableCell(withIdentifier: "SettingSwitchCell") as! SettingSwitchCell
                 cell.updateCell(model)
                 cell.delegate = self
@@ -198,7 +204,7 @@ class CallSettingView: UIView, UITableViewDelegate, UITableViewDataSource, Setti
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let model: CallSettingModel = settingDataSource[indexPath.row]
         switch model.selectionType {
-            case .noiseSuppression, .echoCancellation, .volumeAdjustment:
+        case .noiseSuppression, .echoCancellation, .volumeAdjustment, .videoMirror:
             break
         case .videoResolution, .bitrate:
             delegate?.settingViewDidSelected(model, type: viewType)
@@ -220,6 +226,9 @@ class CallSettingView: UIView, UITableViewDelegate, UITableViewDataSource, Setti
                 model.switchStatus = value
             case .volumeAdjustment:
                 ServiceManager.shared.deviceService.volumeAdjustment = value
+                model.switchStatus = value
+            case .videoMirror:
+                ServiceManager.shared.deviceService.videoMirror = value
                 model.switchStatus = value
             }
         }

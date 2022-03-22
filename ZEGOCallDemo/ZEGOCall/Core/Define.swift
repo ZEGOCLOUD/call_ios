@@ -127,6 +127,9 @@ enum DeviceType {
     /// Volume auto-adjustment
     case volumeAdjustment
     
+    ///  video Mirror
+    case videoMirror
+    
     /// Video resolution
     case videoResolution
     

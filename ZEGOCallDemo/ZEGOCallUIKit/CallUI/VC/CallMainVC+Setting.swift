@@ -27,7 +27,7 @@ extension CallMainVC: CallSettingViewDelegate, CallSettingSecondViewDelegate  {
                 callAudioSettingView?.isHidden = true
                 bitrateView?.isHidden = false
             }
-        case .noiseSuppression, .echoCancellation, .volumeAdjustment:
+        case .noiseSuppression, .echoCancellation, .volumeAdjustment, .videoMirror:
             return
         }
     }

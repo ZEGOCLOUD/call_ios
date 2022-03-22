@@ -58,6 +58,7 @@ extension CallMainVC: CallActionDelegate {
                 CallManager.shared.audioPlayer?.stop()
                 if result.isSuccess {
                     CallManager.shared.currentCallStatus = .calling
+                    CallManager.shared.callTimeManager.callStart()
                     ZegoExpressEngine.shared().useFrontCamera(true)
                     self.startPlayingStream(userID)
                 } else {
@@ -104,7 +105,6 @@ extension CallMainVC: CallActionDelegate {
     }
     
     func callOpenMic(_ callView: CallBaseView, isOpen: Bool) {
-        
         ServiceManager.shared.deviceService.enableMic(isOpen, callback: nil)
     }
     

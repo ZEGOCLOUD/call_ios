@@ -156,7 +156,6 @@ class CallMainVC: UIViewController {
         smallHeadImage.image = smallBgImage
     }
     
-    let appDelegate = (UIApplication.shared.delegate) as! AppDelegate
     var bgImage: UIImage?
     var smallBgImage: UIImage?
     let timer = ZegoTimer(1000)
@@ -279,6 +278,12 @@ class CallMainVC: UIViewController {
         }
         vc.timer.start()
         return vc
+    }
+    
+    func updateCallTimeDuration(_ duration: Int) {
+        DispatchQueue.main.async {
+            self.timeLabel.text = String.getTimeFormate(duration)
+        }
     }
     
     func configUI() {

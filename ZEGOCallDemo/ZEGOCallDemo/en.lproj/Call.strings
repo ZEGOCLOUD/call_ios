@@ -60,6 +60,7 @@
 "call_page_call_status_fail" = "The call failed, Please try again later.";
 "call_page_call_quality_poor" = "The call quality is poor…";
 "call_page_call_disconnected" = "The call has dropped. Please wait.";
+"call_page_status_busy" = "The one you dialed is busy.";
 
 "call_user_list_refresh" = "Refreshing";
 
@@ -81,6 +82,7 @@
 "room_settings_page_noise_suppression" = "Noise suppression";
 "room_settings_page_echo_cancellation" = "Echo cancellation";
 "room_settings_page_mic_volume" = "Mic volume auto-adjustment";
+"room_settings_page_minoring" = "Video minoring";
 "room_settings_page_video_resolution" = "Resolution";
 "room_settings_page_audio_bitrate" = "Audio bitrate";
 "room_settings_page_settings" = "Settings";

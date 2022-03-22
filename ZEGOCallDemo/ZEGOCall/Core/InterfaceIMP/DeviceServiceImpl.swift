@@ -20,6 +20,8 @@ class DeviceServiceImpl: NSObject, DeviceService {
     
     var volumeAdjustment: Bool = false
     
+    var videoMirror: Bool = false
+    
     var routeType: ZegoAudioRoute = .speaker
     
     weak var delegate: DeviceServiceDelegate?
@@ -41,6 +43,10 @@ class DeviceServiceImpl: NSObject, DeviceService {
     }
     
     func enableVolumeAdjustment(_ enable: Bool) {
+        
+    }
+    
+    func enableVideoMirror(_ enable: Bool) {
         
     }
     

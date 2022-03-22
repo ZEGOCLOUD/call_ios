@@ -40,7 +40,7 @@ class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimize
     
     
     lazy var audioMinView: MinimizeCallView = {
-        let view = MinimizeCallView.initMinimizeCall(.waiting)
+        let view = MinimizeCallView.initMinimizeCall("wait...")
         view.delegate = self
         view.isHidden = true
         return view
@@ -58,7 +58,7 @@ class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimize
         case .audio:
             audioMinView.isHidden = false
             videoMinView.isHidden = true
-            audioMinView.updateCallStatus(status)
+            audioMinView.updateCallText(getDisplayText(status))
         case .video:
             showVideoStream(status, userInfo: userInfo)
         }
@@ -78,7 +78,7 @@ class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimize
                 ServiceManager.shared.streamService.startPlaying(streamID, streamView: videoMinView.videoPreview)
             } else {
                 audioMinView.isHidden = false
-                audioMinView.updateCallStatus(status)
+                audioMinView.updateCallText(getDisplayText(status))
                 videoMinView.isHidden = true
             }
         } else {
@@ -89,9 +89,28 @@ class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimize
                 ServiceManager.shared.streamService.startPlaying(streamID, streamView: videoMinView.videoPreview)
             } else {
                 audioMinView.isHidden = false
-                audioMinView.updateCallStatus(status)
+                audioMinView.updateCallText(getDisplayText(status))
                 videoMinView.isHidden = true
             }
+        }
+    }
+    
+    func updateCallTimeText(_ text: String?) {
+        audioMinView.updateCallText(text)
+    }
+    
+    func getDisplayText(_ status: MinimizedCallStatus) -> String? {
+        switch status {
+        case .waiting:
+            return "wait..."
+        case .decline:
+            return "Declined"
+        case .calling:
+            return nil
+        case .miss:
+            return "Missed"
+        case .end:
+            return "Ended"
         }
     }
     

@@ -74,6 +74,7 @@ extension CallManager: CallServiceDelegate {
             currentCallUserInfo = userInfo
             currentCallStatus = .calling
             vc.updateCallType(vc.vcType, userInfo: userInfo, status: .calling)
+            callTimeManager.callStart()
             startPlayingStream(userInfo.userID)
         } else {
             currentCallUserInfo = nil
