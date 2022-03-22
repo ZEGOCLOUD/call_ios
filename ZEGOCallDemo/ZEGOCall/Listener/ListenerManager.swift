@@ -25,6 +25,9 @@ class ListenerManager {
 extension ListenerManager: Listener {
     func registerListener(_ listener: AnyObject, for path: String, callback: @escaping NotifyCallback) {
         lock()
+        defer {
+            unlock()
+        }
         var arrary = listenerDict[path]
         if arrary == nil {
             arrary = [ListenerHandler]()
@@ -35,7 +38,6 @@ extension ListenerManager: Listener {
             if oldListener === listener {
                 handler.listener = listener
                 handler.callback = callback
-                unlock()
                 return
             }
         }
@@ -47,29 +49,27 @@ extension ListenerManager: Listener {
         
         arrary?.append(handler)
         listenerDict[path] = arrary
-        unlock()
     }
     
     func removeListener(_ listener: AnyObject, for path: String) {
         lock()
+        defer {
+            unlock()
+        }
         let arrary = listenerDict[path]
-        if arrary?.count == 0 {
-            unlock()
-            return
-        }
-        guard var arrary = arrary else {
-            unlock()
-            return
-        }
+        if arrary?.count == 0 { return }
+        guard var arrary = arrary else { return }
         arrary = arrary.filter { $0.listener !== listener }
         listenerDict[path] = arrary
-        unlock()
     }
 }
 
 extension ListenerManager: ListenerUpdater {
     func receiveUpdate(_ path: String, parameter: [String : Any]) {
         lock()
+        defer {
+            unlock()
+        }
         let arrary = listenerDict[path]
         guard let arrary = arrary else { return }
         var tempArrary = [ListenerHandler]()
@@ -83,7 +83,6 @@ extension ListenerManager: ListenerUpdater {
             }
         }
         listenerDict[path] = tempArrary
-        unlock()
     }
 }
 

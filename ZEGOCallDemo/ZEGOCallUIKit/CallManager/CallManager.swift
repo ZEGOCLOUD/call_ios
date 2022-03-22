@@ -107,8 +107,8 @@ class CallManager: NSObject {
         ServiceManager.shared.userService.login(token, callback: callback)
     }
     
-    public func logout(_ callback: RoomCallback?) {
-        ServiceManager.shared.userService.logout(callback)
+    public func logout() {
+        ServiceManager.shared.userService.logout()
     }
     
     public func getOnlineUserList(_ callback: UserListCallback?)  {

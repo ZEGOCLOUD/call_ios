@@ -20,6 +20,12 @@ class UserInfo: NSObject, Codable {
     /// The camera state
     var camera: Bool = true
     
+    init(userID: String, userName: String) {
+        super.init()
+        self.userID = userID
+        self.userName = userName
+    }
+    
     override init() {
         
     }

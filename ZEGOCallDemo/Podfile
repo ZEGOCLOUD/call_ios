@@ -9,5 +9,9 @@ target 'ZEGOCallDemo' do
   pod 'ZegoExpressEngine'
   pod 'FirebaseAuth'
   pod 'GoogleSignIn'
+  pod 'Firebase/Database'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Crashlytics'
+  pod 'Firebase/Messaging'
 
 end

@@ -17,7 +17,7 @@ class LoginManager: NSObject {
     
     func logout() {
         timer.stop()
-        CallManager.shared.logout(nil)
+        CallManager.shared.logout()
     }
 }
 

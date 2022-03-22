@@ -46,8 +46,13 @@ class UserServiceImpl: NSObject {
     private let logoutCommand = LogoutCommand()
     private let userListCommand = UserListCommand()
     
+    private weak var listener = ListenerManager.shared
+    
     override init() {
         super.init()
+        
+        registerListener()
+        
         // ServiceManager didn't finish init at this time.
         DispatchQueue.main.async {
             
@@ -62,8 +67,10 @@ extension UserServiceImpl: UserService {
             var loginResult: ZegoResult = .success(())
             switch result {
             case .success(let dict):
-                //TODO: login success, add user info
-                break
+                let userDict = dict as! [String : String]
+                let userID = userDict["id"] ?? ""
+                let userName = userDict["name"] ?? ""
+                self._localUserInfo = UserInfo(userID: userID, userName: userName)
             case .failure(let error):
                 loginResult = .failure(error)
             }
@@ -73,32 +80,47 @@ extension UserServiceImpl: UserService {
     }
     
     
-    func logout(_ callback: RoomCallback?) {
-        
-        logoutCommand.excute { result in
-            var logoutResult: ZegoResult = .success(())
-            if result.isFailure {
-                logoutResult = .failure(result.failure!)
-            }
-            guard let callback = callback else { return }
-            callback(logoutResult)
-        }
+    func logout() {
+        logoutCommand.excute(callback: nil)
     }
     
     func getOnlineUserList(_ callback: UserListCallback?) {
         
         userListCommand.excute { result in
             var listResult: Result<[UserInfo], ZegoError> = .failure(.failed)
+            defer {
+                if callback != nil {
+                    callback!(listResult)
+                }
+            }
+            
             switch result {
-            case .success(let json):
-                //TODO: add users
-                break
+            case .success(let userDicts):
+                guard let userDicts = userDicts as? [[String: Any]] else { return }
+                var users = [UserInfo]()
+                for userDict in userDicts {
+                    let user = UserInfo()
+                    user.userID = userDict["user_id"] as? String
+                    user.userName = userDict["display_name"] as? String
+                    if user.userID == self.localUserInfo?.userID { continue }
+                    users.append(user)
+                }
+                self.userList = users
+                listResult = .success(users)
             case .failure(let error):
                 listResult = .failure(error)
             }
-            guard let callback = callback else { return }
-            callback(listResult)
         }
+    }
+}
+
+extension UserServiceImpl {
+    private func registerListener() {
+        listener?.registerListener(self, for: Notify_User_Error, callback: { result in
+            guard let code = result["error"] as? Int else { return }
+            guard let error = UserError.init(rawValue: code) else { return }
+            self.delegate?.onReceiveUserError(error)
+        })
     }
 }
 

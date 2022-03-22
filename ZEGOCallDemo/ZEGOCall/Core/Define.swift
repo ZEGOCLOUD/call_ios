@@ -142,6 +142,10 @@ enum CallTimeoutType {
     case invitee
 }
 
+enum UserError: Int {
+    case kickedOut = 1
+}
+
 
 let API_Login = "/user/login"
 let API_Logout = "/user/logout"
@@ -158,3 +162,4 @@ let Notify_Call_Canceled = "/call/notify_call_canceled"
 let Notify_Call_Response = "/call/notify_call_response"
 let Notify_Call_End = "/call/notify_call_end"
 let Notify_Call_Timeout = "/call/notify_timeout"
+let Notify_User_Error = "/user/notify_error"
