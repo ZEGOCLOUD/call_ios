@@ -43,6 +43,7 @@ class FirebaseManager: NSObject {
         functionsMap[API_GetUser] = getUser
         functionsMap[API_Login] = login
         functionsMap[API_Logout] = logout
+        functionsMap[API_Get_Users] = getUserList
     }
 }
 
@@ -109,6 +110,23 @@ extension FirebaseManager {
         result["id"] = currentUser.uid
         result["name"] = currentUser.displayName
         callback(.success(result))
+    }
+    
+    private func getUserList(_ parameter: [String: AnyObject], callback: RequestCallback?) {
+                
+        if user == nil && callback != nil {
+            callback!(.failure(.failed))
+            return
+        }
+        
+        let usersQuery = self.ref.child("online_user").queryOrdered(byChild: "last_changed")
+        usersQuery.observeSingleEvent(of: .value) { snapshot in
+            let userDicts: [[String : Any]] = snapshot.children.compactMap { child in
+                return (child as? DataSnapshot)?.value as? [String : Any]
+            }
+            guard let callback = callback else { return }
+            callback(.success(userDicts))
+        }
     }
 }
 

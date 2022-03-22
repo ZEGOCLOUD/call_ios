@@ -88,15 +88,28 @@ extension UserServiceImpl: UserService {
         
         userListCommand.excute { result in
             var listResult: Result<[UserInfo], ZegoError> = .failure(.failed)
+            defer {
+                if callback != nil {
+                    callback!(listResult)
+                }
+            }
+            
             switch result {
-            case .success(let json):
-                //TODO: add users
-                break
+            case .success(let userDicts):
+                guard let userDicts = userDicts as? [[String: Any]] else { return }
+                var users = [UserInfo]()
+                for userDict in userDicts {
+                    let user = UserInfo()
+                    user.userID = userDict["user_id"] as? String
+                    user.userName = userDict["display_name"] as? String
+                    if user.userID == self.localUserInfo?.userID { continue }
+                    users.append(user)
+                }
+                self.userList = users
+                listResult = .success(users)
             case .failure(let error):
                 listResult = .failure(error)
             }
-            guard let callback = callback else { return }
-            callback(listResult)
         }
     }
 }
