@@ -55,6 +55,18 @@ class CallManager: NSObject {
         }
     }()
     
+    lazy var callTimeManager: CallTimeManager = {
+        let manager = CallTimeManager()
+        manager.delegate = self
+        return manager
+    }()
+    
+    lazy var minmizedManager: MinimizedDisplayManager = {
+        let manager = MinimizedDisplayManager()
+        manager.delegate = self
+        return manager
+    }()
+    
     static let shared = CallManager()
     
     var myUUID: UUID = UUID()
@@ -143,6 +155,7 @@ class CallManager: NSObject {
                 self.currentCallVC = callVC
                 self.currentCallStatus = .calling
                 self.currentCallUserInfo = userInfo
+                self.callTimeManager.callStart()
                 if let controller = self.getCurrentViewController() {
                     controller.present(callVC, animated: true) {
                         ServiceManager.shared.deviceService.useFrontCamera(true)

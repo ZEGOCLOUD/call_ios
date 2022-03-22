@@ -32,14 +32,14 @@ class MinimizeCallView: UIView {
     
     @IBOutlet weak var statusImageView: UIImageView! {
         didSet {
-            updateCallStatus(currentStatus)
+            updateCallText(currentText)
         }
     }
     
     
     @IBOutlet weak var waitLabel: UILabel! {
         didSet {
-            updateCallStatus(currentStatus)
+            updateCallText(currentText)
         }
     }
     
@@ -48,28 +48,17 @@ class MinimizeCallView: UIView {
     }
     
     weak var delegate: MinimizeCallViewDelegate?
-    var currentStatus: MinimizedCallStatus = .waiting
+    var currentText: String = "wait..."
     
-    static func initMinimizeCall(_ status: MinimizedCallStatus) -> MinimizeCallView {
+    static func initMinimizeCall(_ text: String?) -> MinimizeCallView {
         let view: MinimizeCallView = UINib(nibName: "MinimizeCallView", bundle: nil).instantiate(withOwner: nil, options: nil).first as! MinimizeCallView
         view.frame = CGRect.init(x: UIScreen.main.bounds.size.width - 78, y: UIScreen.main.bounds.size.height - 78 - 60, width: 78, height: 78)
-        view.updateCallStatus(status)
+        view.updateCallText(text)
         return view
     }
     
-    func updateCallStatus(_ status: MinimizedCallStatus) {
-        switch status {
-        case .waiting:
-            waitLabel.text = "wait..."
-        case .decline:
-            waitLabel.text = "Declined"
-        case .calling:
-            waitLabel.text = ""
-        case .miss:
-            waitLabel.text = "Missed"
-        case .end:
-            waitLabel.text = "Ended"
-        }
+    func updateCallText(_ text: String?) {
+        waitLabel.text = text
     }
 
 }

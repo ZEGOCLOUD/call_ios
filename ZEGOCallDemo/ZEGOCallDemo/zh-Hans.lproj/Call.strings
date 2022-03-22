@@ -61,6 +61,7 @@
 "call_page_call_status_fail" = "呼叫失败, 请稍后再试.";
 "call_page_call_quality_poor" = "当前通话质量差...";
 "call_page_call_disconnected" = "当前通话断线,请等待.";
+"call_page_status_busy" = "对方正忙";
 
 "call_user_list_refresh" = "用户列表刷新";
 
@@ -82,6 +83,7 @@
 "room_settings_page_noise_suppression" = "背景降噪";
 "room_settings_page_echo_cancellation" = "回声消除";
 "room_settings_page_mic_volume" = "自动调节麦克风音量";
+"room_settings_page_minoring" = "本地视频镜像";
 "room_settings_page_video_resolution" = "分辨率";
 "room_settings_page_audio_bitrate" = "音频码率";
 "room_settings_page_settings" = "设置";
