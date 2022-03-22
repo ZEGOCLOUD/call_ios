@@ -46,8 +46,13 @@ class UserServiceImpl: NSObject {
     private let logoutCommand = LogoutCommand()
     private let userListCommand = UserListCommand()
     
+    private weak var listener = ListenerManager.shared
+    
     override init() {
         super.init()
+        
+        registerListener()
+        
         // ServiceManager didn't finish init at this time.
         DispatchQueue.main.async {
             
@@ -75,16 +80,8 @@ extension UserServiceImpl: UserService {
     }
     
     
-    func logout(_ callback: RoomCallback?) {
-        
-        logoutCommand.excute { result in
-            var logoutResult: ZegoResult = .success(())
-            if result.isFailure {
-                logoutResult = .failure(result.failure!)
-            }
-            guard let callback = callback else { return }
-            callback(logoutResult)
-        }
+    func logout() {
+        logoutCommand.excute(callback: nil)
     }
     
     func getOnlineUserList(_ callback: UserListCallback?) {
@@ -101,6 +98,16 @@ extension UserServiceImpl: UserService {
             guard let callback = callback else { return }
             callback(listResult)
         }
+    }
+}
+
+extension UserServiceImpl {
+    private func registerListener() {
+        listener?.registerListener(self, for: Notify_User_Error, callback: { result in
+            guard let code = result["error"] as? Int else { return }
+            guard let error = UserError.init(rawValue: code) else { return }
+            self.delegate?.onReceiveUserError(error)
+        })
     }
 }
 

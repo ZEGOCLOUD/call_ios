@@ -25,6 +25,8 @@ protocol UserServiceDelegate : AnyObject  {
     func onUserInfoUpdate(_ userInfo: UserInfo)
     
     func onReceiveCallingUserDisconnected(_ userInfo: UserInfo)
+    
+    func onReceiveUserError(_ error: UserError)
 }
 
 // default realized
@@ -32,6 +34,7 @@ extension UserServiceDelegate {
     func onNetworkQuality(_ userID: String, upstreamQuality: ZegoStreamQualityLevel) { }
     func onUserInfoUpdate(_ userInfo: UserInfo) { }
     func onReceiveCallingUserDisconnected(_ userInfo: UserInfo) { }
+    func onReceiveUserError(_ error: UserError) { }
 }
 
 protocol UserService {
@@ -58,7 +61,7 @@ protocol UserService {
     /// - Description: This method can be used to log out from the current user account.
     ///
     /// Call this method at: After the user login
-    func logout(_ callback: RoomCallback?)
+    func logout()
     
     
     func getOnlineUserList(_ callback: UserListCallback?)

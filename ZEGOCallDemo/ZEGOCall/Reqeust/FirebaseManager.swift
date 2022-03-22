@@ -22,18 +22,22 @@ class FirebaseManager: NSObject {
     private var user: User? {
         willSet {
             if newValue?.uid != user?.uid && newValue != nil {
-                addUser(newValue!)
+                addUserToDatabase(newValue!)
             }
         }
     }
     
     private var fcmToken: String?
-    private var ref = Database.database(url: "https://zegocall-604e2-default-rtdb.asia-southeast1.firebasedatabase.app/").reference()
+    private var ref: DatabaseReference
     
     private var functionsMap = [String : functionType]()
     
     private override init() {
+        Database.database().isPersistenceEnabled = true
+        ref = Database.database().reference()
         super.init()
+        
+        addConnectedListener()
         
         // add functions
         functionsMap[API_GetUser] = getUser
@@ -76,12 +80,18 @@ extension FirebaseManager {
     }
     
     private func logout(_ parameter: [String: AnyObject], callback: RequestCallback?) {
-        guard let callback = callback else { return }
         do {
             try Auth.auth().signOut()
-            callback(.success(()))
+            let fcmTokenRef = self.ref.child("push_token").child(fcmToken ?? "")
+            fcmTokenRef.removeValue()
+            
+            if let uid = user?.uid {
+                let userRef = self.ref.child("online_user").child(uid)
+                userRef.removeValue()
+                self.user = nil
+            }
         } catch {
-            callback(.failure(.failed))
+            
         }
     }
     
@@ -105,22 +115,59 @@ extension FirebaseManager {
 
 // notify
 extension FirebaseManager {
-    func addUser(_ user: User) {
-        Messaging.messaging().token { token, error in
-            guard let token = token else {
-                return
-            }
-            self.fcmToken = token
+    private func addConnectedListener() {
+        ref.child(".info/connected").observe(.value) { snapshot in
+            guard let connected = snapshot.value as? Bool, connected else { return }
+            guard let user = self.user else { return }
+            self.addUserToDatabase(user)
+        }
+    }
+    private func addUserToDatabase(_ user: User) {
+        
+        func addUser(_ user: User, token: String?) {
             // setup database
             let data = [
-                "uid" : user.uid,
+                "user_id" : user.uid,
                 "display_name" : user.displayName,
-                "tokenID" : token
+                "token_id" : fcmToken
             ]
             let userRef = self.ref.child("online_user").child(user.uid)
             userRef.setValue(data)
             userRef.onDisconnectRemoveValue()
+            
+            let lastChangeRef = self.ref.child("online_user").child(user.uid).child("last_changed")
+            lastChangeRef.setValue(ServerValue.timestamp())
+            
+            let fcmTokenRef = self.ref.child("push_token").child(fcmToken ?? "")
+            let tokenData = [
+                "token_id" : fcmToken,
+                "user_id" : user.uid,
+                "device_type" : "ios"
+            ]
+            fcmTokenRef.setValue(tokenData)
         }
-
+        
+        if fcmToken == nil {
+            Messaging.messaging().token { token, error in
+                guard let token = token else { return }
+                self.fcmToken = token
+                addUser(user, token: self.fcmToken)
+                self.addFcmTokenListener()
+            }
+        } else {
+            addUser(user, token: self.fcmToken)
+        }
+    }
+    
+    private func addFcmTokenListener() {
+        guard let uid = user?.uid else { return }
+        let tokenRef = self.ref.child("online_user").child(uid).child("token_id")
+        tokenRef.observe(.value) { snapshot in
+            guard let token = snapshot.value as? String else { return }
+            if token == self.fcmToken { return }
+            print("[*] Current User is logging at other device.")
+            let data = ["error" : 1]
+            self.listener?.receiveUpdate(Notify_User_Error, parameter: data)
+        }
     }
 }

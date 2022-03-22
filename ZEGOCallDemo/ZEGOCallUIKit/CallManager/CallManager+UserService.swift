@@ -29,6 +29,10 @@ extension CallManager: UserServiceDelegate {
         }
     }
     
+    func onReceiveUserError(_ error: UserError) {
+        
+    }
+    
 //    func connectionStateChanged(_ state: ZIMConnectionState, _ event: ZIMConnectionEvent) {
 //        if state == .connected {
 //            isConnected = true
