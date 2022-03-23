@@ -9,6 +9,6 @@ import Foundation
 
 class CallInfo: NSObject {
     var callID: String?
-    var inviter: String?
-    var invitees = [String]()
+    var caller: String?
+    var callees = [String]()
 }

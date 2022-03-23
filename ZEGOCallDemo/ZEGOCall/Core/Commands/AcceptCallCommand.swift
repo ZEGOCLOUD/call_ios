@@ -1,14 +1,14 @@
 //
-//  RespondCallCommand.swift
+//  AcceptCallCommand.swift
 //  ZEGOCallDemo
 //
-//  Created by Kael Ding on 2022/3/18.
+//  Created by Kael Ding on 2022/3/23.
 //
 
 import Foundation
 
-class RespondCallCommand: Command {
-    var path: String = API_Respond_Call
+class AcceptCallCommand: Command {
+    var path: String = API_Accept_Call
     
     var parameter = [String : AnyObject]()
     
@@ -23,12 +23,5 @@ class RespondCallCommand: Command {
             parameter["call_id"] = newValue as AnyObject
         }
     }
-    
-    var type: ResponseType? {
-        willSet {
-            parameter["type"] = newValue as AnyObject
-        }
-    }
-    
     
 }

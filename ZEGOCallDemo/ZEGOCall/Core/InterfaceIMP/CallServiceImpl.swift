@@ -39,8 +39,8 @@ extension CallServiceImpl: CallService {
         command.type = type
         
         callInfo.callID = callID
-        callInfo.inviter = callerUserID
-        callInfo.invitees = [userID]
+        callInfo.caller = callerUserID
+        callInfo.callees = [userID]
         
         command.excute { result in
             var callResult: ZegoResult = .success(())
@@ -60,7 +60,7 @@ extension CallServiceImpl: CallService {
     
     func cancelCall(userID: String, cancelType: CancelType, callback: RoomCallback?) {
         let command = CancelCallCommand()
-        command.userID = callInfo.inviter
+        command.userID = callInfo.caller
         command.callID = callInfo.callID
         
         command.excute { result in
@@ -78,11 +78,31 @@ extension CallServiceImpl: CallService {
         }
     }
     
-    func respondCall(_ userID: String, token: String, responseType: ResponseType, callback: RoomCallback?) {
-        let command = RespondCallCommand()
+    func acceptCall(_ token: String, callback: RoomCallback?) {
+        let command = AcceptCallCommand()
         command.userID = ServiceManager.shared.userService.localUserInfo?.userID ?? ""
         command.callID = callInfo.callID
-        command.type = responseType
+        command.excute { result in
+            var callResult: ZegoResult = .success(())
+            switch result {
+            case .success(let dict):
+                
+                //TODO: to add respond call success logic.
+                break
+            case .failure(let error):
+                callResult = .failure(error)
+            }
+            guard let callback = callback else { return }
+            callback(callResult)
+        }
+    }
+    
+    func declineCall(_ userID: String, type: DeclineType, callback: RoomCallback?) {
+        let command = DeclineCallCommand()
+        command.userID = userID
+        command.callID = callInfo.callID
+        command.caller = callInfo.caller
+        command.type = type
         
         command.excute { result in
             var callResult: ZegoResult = .success(())
