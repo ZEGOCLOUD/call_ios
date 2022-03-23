@@ -162,7 +162,6 @@ class CallMainVC: UIViewController {
     var callTime: Int = 0
     var callWaitTime: Int = 0
     var netWorkStatus: NetWorkStatus = .good
-    var callConnected: ConnectStatus = .connected
     var localUserInfo: UserInfo = {
         return ServiceManager.shared.userService.localUserInfo ?? UserInfo()
     }()
@@ -298,7 +297,7 @@ class CallMainVC: UIViewController {
         } else {
             takeStatusFlipButton.isHidden = false
         }
-        callQualityChange(netWorkStatus, connectedStatus: callConnected)
+        callQualityChange(netWorkStatus, userID: localUserID)
         timeLabel.isHidden = true
         bottomViewHeight.constant = 60
         toBottomDistance.constant = 52.5
@@ -390,23 +389,13 @@ class CallMainVC: UIViewController {
         configUI()
     }
     
-    func callQualityChange(_ netWorkQuality: NetWorkStatus, connectedStatus: ConnectStatus) {
-        callConnected = connectedStatus
+    func callQualityChange(_ netWorkQuality: NetWorkStatus, userID: String) {
         netWorkStatus = netWorkQuality
         if netWorkQuality == .low || netWorkQuality == .unknow {
             self.callQualityLabel.isHidden = false
-            self.callQualityLabel.text = ZGLocalizedString("call_page_call_quality_poor")
+            let message = userID == localUserID ? ZGLocalizedString("call_page_call_connection_unstable_other") : ZGLocalizedString("call_page_call_connection_unstable")
+            self.callQualityLabel.text = message
         } else {
-            self.callQualityLabel.isHidden = true
-        }
-        if connectedStatus == .disConnected || connectedStatus == .connecting {
-            bottomView.isUserInteractionEnabled = false
-            previewView.isUserInteractionEnabled = false
-            self.callQualityLabel.isHidden = false
-            self.callQualityLabel.text = ZGLocalizedString("call_page_call_disconnected")
-        } else {
-            bottomView.isUserInteractionEnabled = true
-            previewView.isUserInteractionEnabled = true
             self.callQualityLabel.isHidden = true
         }
     }

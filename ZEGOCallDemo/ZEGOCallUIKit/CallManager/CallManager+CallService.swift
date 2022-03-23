@@ -58,7 +58,7 @@ extension CallManager: CallServiceDelegate {
         }
     }
     func onReceiveCallAccepted(_ userInfo: UserInfo) {
-        //TODO: to add delegate
+        delegate?.onReceiveCallAccepted(userInfo)
         guard let vc = self.currentCallVC else { return }
         if !appIsActive {
             if let userID = userInfo.userID {
@@ -76,7 +76,7 @@ extension CallManager: CallServiceDelegate {
         startPlayingStream(userInfo.userID)
     }
     func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType) {
-        //TODO: to add delegate
+        delegate?.onReceiveCallDeclined(userInfo, type: type)
         currentCallUserInfo = nil
         currentCallStatus = .free
         ServiceManager.shared.callService.endCall() { result in
