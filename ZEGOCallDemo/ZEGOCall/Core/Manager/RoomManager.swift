@@ -40,7 +40,6 @@ class RoomManager: NSObject {
     /// Call this method at: Before you log in. We recommend you call this method when the application starts.
     ///
     /// - Parameter appID: refers to the project ID. To get this, go to ZEGOCLOUD Admin Console: https://console.zego.im/dashboard?lang=en
-    /// - Parameter appSign: refers to the secret key for authentication. To get this, go to ZEGOCLOUD Admin Console: https://console.zego.im/dashboard?lang=en
     func initWithAppID(appID: UInt32, callback: RoomCallback?) {
         
         ZIMManager.shared.createZIM(appID: appID)
