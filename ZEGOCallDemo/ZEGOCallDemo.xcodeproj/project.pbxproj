@@ -36,6 +36,7 @@
 		8637814027E9A0FC000A0C22 /* CallTimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637813F27E9A0FC000A0C22 /* CallTimeManager.swift */; };
 		8637814227E9A399000A0C22 /* CallManager+CallTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637814127E9A399000A0C22 /* CallManager+CallTime.swift */; };
 		8637814427E9AE6B000A0C22 /* CallManager+Minimized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637814327E9AE6B000A0C22 /* CallManager+Minimized.swift */; };
+		8637814627EB05CF000A0C22 /* CallManager+DeviceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637814527EB05CF000A0C22 /* CallManager+DeviceService.swift */; };
 		86718CA427915A0B00CEA8A0 /* DefaultRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CA327915A0B00CEA8A0 /* DefaultRefreshView.swift */; };
 		86718CA627915A5D00CEA8A0 /* RefreshViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CA527915A5D00CEA8A0 /* RefreshViewAnimator.swift */; };
 		86718CA827915A8F00CEA8A0 /* DefaultViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CA727915A8F00CEA8A0 /* DefaultViewAnimator.swift */; };
@@ -178,6 +179,7 @@
 		8637813F27E9A0FC000A0C22 /* CallTimeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTimeManager.swift; sourceTree = "<group>"; };
 		8637814127E9A399000A0C22 /* CallManager+CallTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallManager+CallTime.swift"; sourceTree = "<group>"; };
 		8637814327E9AE6B000A0C22 /* CallManager+Minimized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallManager+Minimized.swift"; sourceTree = "<group>"; };
+		8637814527EB05CF000A0C22 /* CallManager+DeviceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallManager+DeviceService.swift"; sourceTree = "<group>"; };
 		86718CA327915A0B00CEA8A0 /* DefaultRefreshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultRefreshView.swift; sourceTree = "<group>"; };
 		86718CA527915A5D00CEA8A0 /* RefreshViewAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshViewAnimator.swift; sourceTree = "<group>"; };
 		86718CA727915A8F00CEA8A0 /* DefaultViewAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultViewAnimator.swift; sourceTree = "<group>"; };
@@ -435,6 +437,7 @@
 				8637813B27E5B0C3000A0C22 /* CallManager+AcceptTipAction.swift */,
 				8637814127E9A399000A0C22 /* CallManager+CallTime.swift */,
 				8637814327E9AE6B000A0C22 /* CallManager+Minimized.swift */,
+				8637814527EB05CF000A0C22 /* CallManager+DeviceService.swift */,
 			);
 			path = CallManager;
 			sourceTree = "<group>";
@@ -599,7 +602,6 @@
 				86B19A15279118210004C997 /* Login */,
 				86B198F3278D62420004C997 /* Setting */,
 				86B198F0278D57530004C997 /* Home */,
-				86B19976278D75930004C997 /* Call */,
 				86B19975278D756C0004C997 /* User */,
 			);
 			path = CorePages;
@@ -844,13 +846,6 @@
 				86B19979278D75F60004C997 /* User.storyboard */,
 			);
 			path = User;
-			sourceTree = "<group>";
-		};
-		86B19976278D75930004C997 /* Call */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Call;
 			sourceTree = "<group>";
 		};
 		86B1997B278D76E50004C997 /* Cell */ = {
@@ -1155,6 +1150,7 @@
 				86B198DC278BE2600004C997 /* UserInfo.swift in Sources */,
 				86B19972278D71820004C997 /* GeneralWebVC.swift in Sources */,
 				8637811427E2D709000A0C22 /* CallSettingModel.swift in Sources */,
+				8637814627EB05CF000A0C22 /* CallManager+DeviceService.swift in Sources */,
 				86B1995F278D63440004C997 /* String+Head.swift in Sources */,
 				86DE03C727981B3D000EE3C5 /* CallManager.swift in Sources */,
 				8637810527E1D398000A0C22 /* MinimizeCallView.swift in Sources */,

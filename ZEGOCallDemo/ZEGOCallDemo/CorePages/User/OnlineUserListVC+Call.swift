@@ -9,7 +9,10 @@ import Foundation
 
 extension OnlineUserListVC: OnlineUserListCellDelegate {
     func startCall(_ type: CallType, userInfo: UserInfo) {
-        if CallManager.shared.currentCallStatus != .free { return }
+        if CallManager.shared.currentCallStatus != .free {
+            HUDHelper.showMessage(message: ZGLocalizedString("call_page_call_unable_initiate"))
+            return
+        }
         guard let userID = userInfo.userID else { return }
         guard let rtcToken = AppToken.getRtcToken(withRoomID: userID) else { return }
         switch type {

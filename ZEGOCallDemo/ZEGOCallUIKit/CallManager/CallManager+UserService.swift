@@ -12,7 +12,7 @@ extension CallManager: UserServiceDelegate {
     func onNetworkQuality(_ userID: String, upstreamQuality: ZegoStreamQualityLevel) {
         if userID == localUserID {
             if let currentCallVC = currentCallVC {
-                currentCallVC.callQualityChange(setNetWorkQuality(upstreamQuality: upstreamQuality), connectedStatus: currentCallVC.callConnected)
+                currentCallVC.callQualityChange(setNetWorkQuality(upstreamQuality: upstreamQuality), userID: userID)
             }
         }
     }
@@ -32,20 +32,6 @@ extension CallManager: UserServiceDelegate {
     func onReceiveUserError(_ error: UserError) {
         
     }
-    
-//    func connectionStateChanged(_ state: ZIMConnectionState, _ event: ZIMConnectionEvent) {
-//        if state == .connected {
-//            isConnected = true
-//            currentTipView?.isUserInteractionEnabled = true
-//            guard let currentCallVC = currentCallVC else { return }
-//            currentCallVC.callQualityChange(currentCallVC.netWorkStatus, connectedStatus: .connected)
-//        } else {
-//            isConnected = false
-//            currentTipView?.isUserInteractionEnabled = false
-//            guard let currentCallVC = currentCallVC else { return }
-//            currentCallVC.callQualityChange(currentCallVC.netWorkStatus, connectedStatus: .disConnected)
-//        }
-//    }
     
     func onUserInfoUpdate(_ userInfo: UserInfo) {
         if userInfo.userID != localUserID {

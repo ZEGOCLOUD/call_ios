@@ -19,9 +19,10 @@ protocol CallManagerDelegate: AnyObject {
     func onReceiveCallingUserDisconnected(_ userInfo: UserInfo)
     func onReceiveCallInvite(_ userInfo: UserInfo, type: CallType)
     func onReceiveCallCanceled(_ userInfo: UserInfo)
-    func onReceiveCallResponse(_ userInfo: UserInfo, responseType: DeclineType)
     func onReceiveCallTimeOut(_ type: CallTimeoutType)
     func onReceivedCallEnded()
+    func onReceiveCallAccepted(_ userInfo: UserInfo)
+    func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType)
 }
 
 class CallManager: NSObject {
@@ -95,6 +96,7 @@ class CallManager: NSObject {
         
         ServiceManager.shared.userService.delegate = self
         ServiceManager.shared.callService.delegate = self
+        ServiceManager.shared.deviceService.delegate = self
         
         callKitService = AppleCallKitServiceIMP()
     }

@@ -81,6 +81,7 @@ class DeviceServiceImpl: NSObject, DeviceService {
 
 extension DeviceServiceImpl: ZegoEventHandler {
     func onAudioRouteChange(_ audioRoute: ZegoAudioRoute) {
-        
+        routeType = audioRoute
+        delegate?.onAudioRouteChange(audioRoute)
     }
 }
