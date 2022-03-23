@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         providerDelegate = ProviderDelegate()
         
         // Override point for customization after application launch.
-        RoomManager.shared.initWithAppID(appID: AppCenter.appID(), appSign: AppCenter.appSign()) { result in
+        RoomManager.shared.initWithAppID(appID: AppCenter.appID()) { result in
             if result.isFailure {
                 let code = result.failure?.code ?? 1
                 print("init failed: \(String(code))")

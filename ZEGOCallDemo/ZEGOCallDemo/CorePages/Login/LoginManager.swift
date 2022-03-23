@@ -46,7 +46,7 @@ class LoginManager: NSObject {
             }
             self.timer.start()
             
-            let token = AppToken.getZIMToken(withUserID: userID) ?? ""
+            let token = AppToken.getToken(withUserID: userID) ?? ""
             RoomManager.shared.userService.login(user, token, callback: callback)
             
         } failure: { requestStatus in

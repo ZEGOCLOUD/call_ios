@@ -23,7 +23,7 @@ Before getting started with the ZEGOCLOUD Call application, **contact us to acti
 
 1. For macOs, open Terminal, navigate to the `call_ios` folder where the `configure.sh` is located. 
 
-2. Run the configuration script with the `./configure.sh` command. And fill in the AppID, AppSign, and ServerSecret, which can be obtained in the [ZEGO Admin Console](https://console.zegocloud.com/). 
+2. Run the configuration script with the `./configure.sh` command. And fill in the AppID and ServerSecret, which can be obtained in the [ZEGO Admin Console](https://console.zegocloud.com/). 
 **Note**: If you are using Windows system, double-click the `configure.bat` to run the configuration script. 
       <img width="700px" src="images/configure_ios.png"/>
 

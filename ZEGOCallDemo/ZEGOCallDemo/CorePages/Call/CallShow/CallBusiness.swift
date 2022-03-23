@@ -87,9 +87,9 @@ class CallBusiness: NSObject {
     
     private func acceptCall(_ userInfo: UserInfo, callType: CallType) {
         guard let userID = userInfo.userID else { return }
-        let rtcToken = AppToken.getRtcToken(withRoomID: userID)
-        guard let rtcToken = rtcToken else { return }
-        RoomManager.shared.userService.respondCall(userID, token: rtcToken, responseType:.accept) { result in
+        let token = AppToken.getToken(withUserID: localUserID)
+        guard let token = token else { return }
+        RoomManager.shared.userService.respondCall(userID, token: token, responseType:.accept) { result in
             switch result {
             case .success():
                 self.audioPlayer?.stop()
@@ -116,9 +116,9 @@ class CallBusiness: NSObject {
             currentCallUserInfo = nil
             otherUserRoomInfo = nil
         }
-        let rtcToken = AppToken.getRtcToken(withRoomID: userID)
-        guard let rtcToken = rtcToken else { return }
-        RoomManager.shared.userService.respondCall(userID, token: rtcToken, responseType: .decline, callback: nil)
+        let token = AppToken.getToken(withUserID: localUserID)
+        guard let token = token else { return }
+        RoomManager.shared.userService.respondCall(userID, token: token, responseType: .decline, callback: nil)
     }
     
     func endCall(_ userID: String) {

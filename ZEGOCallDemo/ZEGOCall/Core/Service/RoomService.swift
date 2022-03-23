@@ -94,7 +94,7 @@ class RoomService: NSObject {
                 guard let callback = callback else { return }
                 switch result {
                 case .success():
-                    RoomManager.shared.loginRtcRoom(with: roomID)
+                    RoomManager.shared.loginRtcRoom(with: token)
                     callback(.success(()))
                 case .failure(let error):
                     callback(.failure(error))
