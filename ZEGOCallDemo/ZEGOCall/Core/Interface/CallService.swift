@@ -50,7 +50,7 @@ protocol CallService {
     
     var delegate: CallServiceDelegate? { get set }
     
-    var status: CallStatus { get }
+    var status: LocalUserStatus { get }
     
     var callInfo: CallInfo { get }
     
