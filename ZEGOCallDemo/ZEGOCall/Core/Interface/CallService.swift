@@ -15,7 +15,7 @@ protocol CallServiceDelegate  {
     ///
     /// - Parameter userInfo: refers to the caller information.
     /// - Parameter type: indicates the call type.  ZegoCallTypeVoice: Voice call.  ZegoCallTypeVideo: Video call.
-    func onReceiveCallInvite(_ userInfo: UserInfo, type: CallType)
+    func onReceiveCallInvited(_ userInfo: UserInfo, type: CallType)
     
     /// Callback for receive a canceled call
     ///
@@ -25,13 +25,9 @@ protocol CallServiceDelegate  {
     /// - Parameter type: cancel type.
     func onReceiveCallCanceled(_ userInfo: UserInfo, type: CancelType)
     
-    /// Callback for respond to an incoming call
-    ///
-    /// Description: This callback will be triggered when the called user responds to an incoming call.
-    ///
-    /// - Parameter userInfo: refers to the called user information.
-    /// - Parameter responseType: indicates to the answer of the incoming call. ZegoResponseTypeAccept: Accept. ZegoResponseTypeDecline: Decline.
-    func onReceiveCallResponse(_ userInfo: UserInfo, responseType: ResponseType)
+    func onReceiveCallAccepted(_ userInfo: UserInfo)
+    
+    func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType)
     
     /// Callback for end a call
     ///
@@ -42,9 +38,10 @@ protocol CallServiceDelegate  {
 }
 
 extension CallServiceDelegate {
-    func onReceiveCallInvite(_ userInfo: UserInfo , type: CallType) { }
+    func onReceiveCallInvited(_ userInfo: UserInfo , type: CallType) { }
     func onReceiveCallCanceled(_ userInfo: UserInfo, type: CancelType) { }
-    func onReceiveCallResponse(_ userInfo: UserInfo , responseType: ResponseType) { }
+    func onReceiveCallAccepted(_ userInfo: UserInfo) { }
+    func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType) { }
     func onReceiveCallEnded() { }
     func onReceiveCallTimeout(_ type: CallTimeoutType) { }
 }
@@ -78,15 +75,9 @@ protocol CallService {
     /// - Parameter callback: refers to the callback for cancel a call.
     func cancelCall(userID: String, cancelType: CancelType, callback: RoomCallback?)
     
-    /// Respond to an incoming call
-    ///
-    /// Description: This method can be used to accept or decline an incoming call. You will need to call this method to respond to the call within 60 seconds upon receiving.
-    ///
-    /// Call this method at: After the user login
-    /// - Parameter userID: refers to the ID of the caller.
-    /// - Parameter responseType: refers to the answer of the incoming call.  ZegoResponseTypeAccept: Accept. ZegoResponseTypeDecline: Decline.
-    /// - Parameter callback: refers to the callback for respond to an incoming call.
-    func respondCall(_ userID: String, token:String, responseType: ResponseType, callback: RoomCallback?)
+    func acceptCall(_ token: String, callback: RoomCallback?)
+    
+    func declineCall(_ userID: String, type: DeclineType, callback: RoomCallback?)
     
     /// End a call
     ///

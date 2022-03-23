@@ -19,7 +19,7 @@ protocol CallManagerDelegate: AnyObject {
     func onReceiveCallingUserDisconnected(_ userInfo: UserInfo)
     func onReceiveCallInvite(_ userInfo: UserInfo, type: CallType)
     func onReceiveCallCanceled(_ userInfo: UserInfo)
-    func onReceiveCallResponse(_ userInfo: UserInfo, responseType: ResponseType)
+    func onReceiveCallResponse(_ userInfo: UserInfo, responseType: DeclineType)
     func onReceiveCallTimeOut(_ type: CallTimeoutType)
     func onReceivedCallEnded()
 }
@@ -146,7 +146,7 @@ class CallManager: NSObject {
         guard let userID = userInfo.userID else { return }
         let rtcToken = AppToken.getRtcToken(withRoomID: userID)
         guard let rtcToken = rtcToken else { return }
-        ServiceManager.shared.callService.respondCall(userID, token: rtcToken, responseType:.accept) { result in
+        ServiceManager.shared.callService.acceptCall(rtcToken) { result in
             switch result {
             case .success():
                 self.audioPlayer?.stop()
@@ -174,9 +174,7 @@ class CallManager: NSObject {
             currentCallUserInfo = nil
             otherUserRoomInfo = nil
         }
-        let rtcToken = AppToken.getRtcToken(withRoomID: userID)
-        guard let rtcToken = rtcToken else { return }
-        ServiceManager.shared.callService.respondCall(userID, token: rtcToken, responseType: .decline, callback: nil)
+        ServiceManager.shared.callService.declineCall(userID, type: .decline, callback: nil)
     }
     
     func endCall(_ userID: String) {

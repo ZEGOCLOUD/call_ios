@@ -1,14 +1,14 @@
 //
-//  CallCommand.swift
+//  DeclineCallCommand.swift
 //  ZEGOCallDemo
 //
-//  Created by Kael Ding on 2022/3/18.
+//  Created by Kael Ding on 2022/3/23.
 //
 
 import Foundation
 
-class CallCommand: Command {
-    var path: String = API_Start_Call
+class DeclineCallCommand: Command {
+    var path: String = API_Decline_Call
     
     var parameter = [String : AnyObject]()
     
@@ -24,15 +24,16 @@ class CallCommand: Command {
         }
     }
     
-    var invitees: [String]? {
+    var caller: String? {
         willSet {
-            parameter["callees"] = newValue as AnyObject
+            parameter["caller"] = newValue as AnyObject
         }
     }
     
-    var type: CallType? {
+    var type: DeclineType? {
         willSet {
             parameter["type"] = newValue as AnyObject
         }
     }
+    
 }

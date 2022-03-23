@@ -9,7 +9,7 @@ import UIKit
 
 extension CallManager: CallServiceDelegate {
     
-    func onReceiveCallInvite(_ userInfo: UserInfo, type: CallType) {
+    func onReceiveCallInvited(_ userInfo: UserInfo, type: CallType) {
         delegate?.onReceiveCallInvite(userInfo, type: type)
         if currentCallStatus == .calling || currentCallStatus == .wait || currentCallStatus == .waitAccept {
             guard let userID = userInfo.userID else { return }
@@ -57,34 +57,33 @@ extension CallManager: CallServiceDelegate {
             currentCallVC.dismiss(animated: true, completion: nil)
         }
     }
-    
-    func onReceiveCallResponse(_ userInfo: UserInfo, responseType: ResponseType) {
-        delegate?.onReceiveCallResponse(userInfo, responseType: responseType)
+    func onReceiveCallAccepted(_ userInfo: UserInfo) {
+        //TODO: to add delegate
         guard let vc = self.currentCallVC else { return }
-        if responseType == .accept {
-            if !appIsActive {
-                if let userID = userInfo.userID {
-                    if currentCallStatus == .waitAccept {
-                        endCall(userID)
-                        closeCallVC()
-                    }
+        if !appIsActive {
+            if let userID = userInfo.userID {
+                if currentCallStatus == .waitAccept {
+                    endCall(userID)
+                    closeCallVC()
                 }
-                return
             }
-            currentCallUserInfo = userInfo
-            currentCallStatus = .calling
-            vc.updateCallType(vc.vcType, userInfo: userInfo, status: .calling)
-            callTimeManager.callStart()
-            startPlayingStream(userInfo.userID)
-        } else {
-            currentCallUserInfo = nil
-            currentCallStatus = .free
-            ServiceManager.shared.callService.endCall() { result in
-                if result.isSuccess {
-                    self.currentCallVC?.changeCallStatusText(.decline)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        self.closeCallVC()
-                    }
+            return
+        }
+        currentCallUserInfo = userInfo
+        currentCallStatus = .calling
+        vc.updateCallType(vc.vcType, userInfo: userInfo, status: .calling)
+        callTimeManager.callStart()
+        startPlayingStream(userInfo.userID)
+    }
+    func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType) {
+        //TODO: to add delegate
+        currentCallUserInfo = nil
+        currentCallStatus = .free
+        ServiceManager.shared.callService.endCall() { result in
+            if result.isSuccess {
+                self.currentCallVC?.changeCallStatusText(.decline)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.closeCallVC()
                 }
             }
         }

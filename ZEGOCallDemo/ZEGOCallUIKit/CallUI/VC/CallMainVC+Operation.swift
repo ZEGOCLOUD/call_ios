@@ -54,7 +54,7 @@ extension CallMainVC: CallActionDelegate {
         if let userID = self.callUser?.userID {
             let rtcToken = AppToken.getRtcToken(withRoomID: userID)
             guard let rtcToken = rtcToken else { return }
-            ServiceManager.shared.callService.respondCall(userID, token:rtcToken, responseType: .accept) { result in
+            ServiceManager.shared.callService.acceptCall(rtcToken) { result in
                 CallManager.shared.audioPlayer?.stop()
                 if result.isSuccess {
                     CallManager.shared.currentCallStatus = .calling
@@ -91,9 +91,7 @@ extension CallMainVC: CallActionDelegate {
     
     func callDecline(_ callView: CallBaseView) {
         if let userID = self.callUser?.userID {
-            let rtcToken = AppToken.getRtcToken(withRoomID: userID)
-            guard let rtcToken = rtcToken else { return }
-            ServiceManager.shared.callService.respondCall(userID, token: rtcToken ,responseType: .decline) { result in
+            ServiceManager.shared.callService.declineCall(userID, type: .decline) { result in
                 if result.isSuccess {
                     CallManager.shared.audioPlayer?.stop()
                     CallManager.shared.currentCallStatus = .free

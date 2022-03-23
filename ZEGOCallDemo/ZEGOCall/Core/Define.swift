@@ -46,9 +46,9 @@ enum ZegoError: Error {
     }
 }
 
-enum ResponseType: Int {
-    case accept = 1
-    case decline = 2
+enum DeclineType: Int {
+    case decline = 1
+    case busy = 2
 }
 
 enum CancelType: Int {
@@ -154,12 +154,15 @@ let API_Get_Users = "/user/get_users"
 let API_Call_Heartbeat = "/call/heartbeat"
 let API_Start_Call = "/call/start_call"
 let API_Cancel_Call = "/call/cancel_call"
-let API_Respond_Call = "/call/respond_call"
+let API_Accept_Call = "/call/accept_call"
+let API_Decline_Call = "/call/decline_call"
 let API_End_Call = "/call/end_call"
 
 let Notify_Call_Invited = "/call/notify_call_invited"
 let Notify_Call_Canceled = "/call/notify_call_canceled"
 let Notify_Call_Response = "/call/notify_call_response"
+let Notify_Call_Accept = "/call/notify_call_accept"
+let Notify_Call_Decline = "/call/notify_call_decline"
 let Notify_Call_End = "/call/notify_call_end"
 let Notify_Call_Timeout = "/call/notify_timeout"
 let Notify_User_Error = "/user/notify_error"
