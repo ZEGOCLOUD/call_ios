@@ -120,6 +120,7 @@
 		8E703EF227E816BD00CC87CE /* GetUserCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E703EF127E816BD00CC87CE /* GetUserCommand.swift */; };
 		8E703EF827EB176600CC87CE /* AcceptCallCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E703EF727EB176500CC87CE /* AcceptCallCommand.swift */; };
 		8E703EFA27EB177000CC87CE /* DeclineCallCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E703EF927EB177000CC87CE /* DeclineCallCommand.swift */; };
+		8E703EFC27EB3CE500CC87CE /* FirebaseCallModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E703EFB27EB3CE500CC87CE /* FirebaseCallModel.swift */; };
 		8E7756E827DF47CE00BFB5F6 /* CallRing.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8E7756E727DF47CE00BFB5F6 /* CallRing.wav */; };
 		8E7756ED27E084FE00BFB5F6 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7756EC27E084FE00BFB5F6 /* UserService.swift */; };
 		8E7756EF27E0851C00BFB5F6 /* RoomService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7756EE27E0851B00BFB5F6 /* RoomService.swift */; };
@@ -316,6 +317,7 @@
 		8E703EF127E816BD00CC87CE /* GetUserCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserCommand.swift; sourceTree = "<group>"; };
 		8E703EF727EB176500CC87CE /* AcceptCallCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptCallCommand.swift; sourceTree = "<group>"; };
 		8E703EF927EB177000CC87CE /* DeclineCallCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeclineCallCommand.swift; sourceTree = "<group>"; };
+		8E703EFB27EB3CE500CC87CE /* FirebaseCallModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseCallModel.swift; sourceTree = "<group>"; };
 		8E7756E727DF47CE00BFB5F6 /* CallRing.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = CallRing.wav; sourceTree = "<group>"; };
 		8E7756EC27E084FE00BFB5F6 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		8E7756EE27E0851B00BFB5F6 /* RoomService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomService.swift; sourceTree = "<group>"; };
@@ -973,6 +975,7 @@
 			isa = PBXGroup;
 			children = (
 				8E77570427E19D8D00BFB5F6 /* FirebaseManager.swift */,
+				8E703EFB27EB3CE500CC87CE /* FirebaseCallModel.swift */,
 			);
 			path = Reqeust;
 			sourceTree = "<group>";
@@ -1141,6 +1144,7 @@
 				86B198AC278BE1C60004C997 /* AppCenter.swift in Sources */,
 				86B19955278D63440004C997 /* ZegoCrypto.cpp in Sources */,
 				86B1997D278D77280004C997 /* OnlineUserListCell.swift in Sources */,
+				8E703EFC27EB3CE500CC87CE /* FirebaseCallModel.swift in Sources */,
 				86B198D2278BE2600004C997 /* Request.swift in Sources */,
 				8637810927E1E347000A0C22 /* VideoMinimizeCallView.swift in Sources */,
 				86B198D3278BE2600004C997 /* RequestStatus.swift in Sources */,

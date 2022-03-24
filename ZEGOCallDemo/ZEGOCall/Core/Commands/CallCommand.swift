@@ -24,7 +24,7 @@ class CallCommand: Command {
         }
     }
     
-    var invitees: [String]? {
+    var callees: [String]? {
         willSet {
             parameter["callees"] = newValue as AnyObject
         }
@@ -32,7 +32,7 @@ class CallCommand: Command {
     
     var type: CallType? {
         willSet {
-            parameter["type"] = newValue as AnyObject
+            parameter["type"] = newValue?.rawValue as AnyObject
         }
     }
 }

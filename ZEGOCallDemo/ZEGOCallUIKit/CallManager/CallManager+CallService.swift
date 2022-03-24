@@ -110,13 +110,13 @@ extension CallManager: CallServiceDelegate {
     func onReceiveCallTimeout(_ type: CallTimeoutType) {
         delegate?.onReceiveCallTimeOut(type)
         switch type {
-        case .inviter:
+        case .caller:
             if currentCallStatus == .wait {
                 
             } else if currentCallStatus == .waitAccept {
                 
             }
-        case .invitee:
+        case .callee:
             if currentCallStatus == .wait {
                 
             } else if currentCallStatus == .waitAccept {

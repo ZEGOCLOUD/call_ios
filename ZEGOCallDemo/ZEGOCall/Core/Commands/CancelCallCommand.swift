@@ -12,9 +12,9 @@ class CancelCallCommand: Command {
     
     var parameter = [String : AnyObject]()
     
-    var userID: String? {
+    var calleeID: String? {
         willSet {
-            parameter["id"] = newValue as AnyObject
+            parameter["callee_id"] = newValue as AnyObject
         }
     }
     

@@ -60,7 +60,7 @@ enum CallType: Int {
     case video = 2
 }
 
-enum CallStatus: Int {
+enum LocalUserStatus: Int {
     case free = 0
     case outgoing = 1
     case incoming = 2
@@ -138,8 +138,8 @@ enum DeviceType {
 }
 
 enum CallTimeoutType {
-    case inviter
-    case invitee
+    case caller
+    case callee
 }
 
 enum UserError: Int {

@@ -11,7 +11,7 @@ class CallServiceImpl: NSObject {
     
     var delegate: CallServiceDelegate?
     
-    var status: CallStatus = .free
+    var status: LocalUserStatus = .free
     
     var callInfo = CallInfo()
     
@@ -34,7 +34,7 @@ extension CallServiceImpl: CallService {
         
         let command = CallCommand()
         command.userID = callerUserID
-        command.invitees = [userID]
+        command.callees = [userID]
         command.callID = callID
         command.type = type
         
@@ -45,10 +45,8 @@ extension CallServiceImpl: CallService {
         command.excute { result in
             var callResult: ZegoResult = .success(())
             switch result {
-            case .success(let dict):
-                //TODO: to add call success logic.
-                
-                break
+            case .success(_):
+                callResult = .success(())
             case .failure(let error):
                 callResult = .failure(error)
                 self.status = .free
@@ -60,7 +58,7 @@ extension CallServiceImpl: CallService {
     
     func cancelCall(userID: String, cancelType: CancelType, callback: RoomCallback?) {
         let command = CancelCallCommand()
-        command.userID = callInfo.caller
+        command.calleeID = userID
         command.callID = callInfo.callID
         
         command.excute { result in
@@ -141,8 +139,9 @@ extension CallServiceImpl: CallService {
 
 extension CallServiceImpl {
     private func generateCallID(_ userID: String) -> String {
-        //TODO: generate call id
-        return ""
+        let callID = userID + String(Int(Date().timeIntervalSince1970 * 1000))
+        print("[*] Generate call ID.... : \(callID)")
+        return callID
     }
     
     private func registerListener() {
