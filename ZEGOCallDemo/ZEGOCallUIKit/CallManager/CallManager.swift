@@ -23,6 +23,19 @@ protocol CallManagerDelegate: AnyObject {
     func onReceivedCallEnded()
     func onReceiveCallAccepted(_ userInfo: UserInfo)
     func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType)
+    func onReceiveUserError(_ error: UserError)
+}
+
+// default realized
+extension CallManagerDelegate {
+    func onReceiveCallingUserDisconnected(_ userInfo: UserInfo) { }
+    func onReceiveCallInvite(_ userInfo: UserInfo, type: CallType) { }
+    func onReceiveCallCanceled(_ userInfo: UserInfo) { }
+    func onReceiveCallTimeOut(_ type: CallTimeoutType) { }
+    func onReceivedCallEnded() { }
+    func onReceiveCallAccepted(_ userInfo: UserInfo) { }
+    func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType) { }
+    func onReceiveUserError(_ error: UserError) { }
 }
 
 class CallManager: NSObject {
@@ -110,6 +123,24 @@ class CallManager: NSObject {
     }
     
     public func logout() {
+        minmizedManager.dismissCallMinView()
+        switch currentCallStatus {
+        case .free:
+            break
+        case .wait:
+            CallAcceptTipView.dismiss()
+            currentCallStatus = .free
+            currentCallUserInfo = nil
+            audioPlayer?.stop()
+            endSystemCall()
+        case .waitAccept:
+            guard let userID = currentCallUserInfo?.userID else { return }
+            guard let currentCallVC = currentCallVC else { return }
+            cancelCall(userID, callType: currentCallVC.vcType)
+        case .calling:
+            guard let userID = currentCallUserInfo?.userID else { return }
+            endCall(userID)
+        }
         ServiceManager.shared.userService.logout()
     }
     
