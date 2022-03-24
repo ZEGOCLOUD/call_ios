@@ -14,6 +14,7 @@ enum CallStatusType: Int {
     case calling
     case canceled
     case decline
+    case busy
     case miss
     case completed
 }
@@ -271,7 +272,7 @@ class CallMainVC: UIViewController {
                     vc.timer.stop()
                     vc.callDelayDismiss()
                 }
-            case .canceled,.decline,.miss,.completed:
+            case .canceled,.decline,.miss,.completed,.busy:
                 break
             }
         }
@@ -351,7 +352,7 @@ class CallMainVC: UIViewController {
                 ServiceManager.shared.streamService.startPlaying(streamUserID, streamView: previewView)
             }
             timer.start()
-        case .canceled,.decline,.miss,.completed:
+        case .canceled,.decline,.miss,.completed,.busy:
             break
         }
         changeCallStatusText(statusType)
@@ -456,6 +457,8 @@ class CallMainVC: UIViewController {
             if showHud {
                 HUDHelper.showMessage(message: ZGLocalizedString("call_page_status_completed"))
             }
+        case .busy:
+            callStatusLabel.text = ZGLocalizedString("call_page_status_busy")
         }
     }
     
@@ -515,7 +518,7 @@ class CallMainVC: UIViewController {
     }
     
     @IBAction func minimizeClick(_ sender: UIButton) {
-        
+        CallManager.shared.minmizedManager.showCallMinView(.audio, status: .waiting, userInfo: callUser)
     }
     
     @IBAction func streamSetClick(_ sender: UIButton) {

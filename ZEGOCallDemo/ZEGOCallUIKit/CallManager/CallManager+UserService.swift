@@ -30,7 +30,7 @@ extension CallManager: UserServiceDelegate {
     }
     
     func onReceiveUserError(_ error: UserError) {
-        
+        delegate?.onReceiveUserError(error)
     }
     
     func onUserInfoUpdate(_ userInfo: UserInfo) {

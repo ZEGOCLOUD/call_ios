@@ -81,14 +81,14 @@ extension CallManager: CallServiceDelegate {
         currentCallStatus = .free
         ServiceManager.shared.callService.endCall() { result in
             if result.isSuccess {
-                self.currentCallVC?.changeCallStatusText(.decline)
+                let statusType: CallStatusType = type == .busy ? .busy : .decline
+                self.currentCallVC?.changeCallStatusText(statusType)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self.closeCallVC()
                 }
             }
         }
     }
-    
     
     func onReceiveCallEnded() {
         delegate?.onReceivedCallEnded()
@@ -99,8 +99,8 @@ extension CallManager: CallServiceDelegate {
             currentCallVC?.changeCallStatusText(.completed,showHud: true)
         }
         currentCallUserInfo = nil
-        self.currentCallStatus = .free
-        self.otherUserRoomInfo = nil
+        currentCallStatus = .free
+        otherUserRoomInfo = nil
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.endSystemCall()
             self.closeCallVC()
@@ -109,19 +109,20 @@ extension CallManager: CallServiceDelegate {
     
     func onReceiveCallTimeout(_ type: CallTimeoutType) {
         delegate?.onReceiveCallTimeOut(type)
-        switch type {
-        case .caller:
-            if currentCallStatus == .wait {
-                
-            } else if currentCallStatus == .waitAccept {
-                
-            }
-        case .callee:
-            if currentCallStatus == .wait {
-                
-            } else if currentCallStatus == .waitAccept {
-                
-            }
+        if currentCallStatus == .waitAccept {
+            guard let vc = currentCallVC else { return }
+            vc.cancelCall(vc.callUser?.userID ?? "", callType: vc.vcType, isTimeout: true)
+            vc.changeCallStatusText(.miss)
+            vc.callDelayDismiss()
+        } else if currentCallStatus == .wait {
+            audioPlayer?.stop()
+            CallAcceptTipView.dismiss()
+            currentCallStatus = .free
+            currentCallUserInfo = nil
+            endSystemCall()
+            guard let vc = currentCallVC else { return }
+            vc.changeCallStatusText(.miss)
+            vc.callDelayDismiss()
         }
     }
 }

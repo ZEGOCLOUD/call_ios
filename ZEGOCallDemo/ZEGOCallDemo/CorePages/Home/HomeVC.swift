@@ -50,6 +50,8 @@ class HomeVC: UIViewController {
         self.navigationController?.navigationBar.standardAppearance.configureWithOpaqueBackground()
         self.navigationController?.navigationBar.standardAppearance.backgroundColor = UIColor.white
         self.navigationController?.navigationBar.standardAppearance.shadowColor = UIColor.clear
+        
+        CallManager.shared.delegate = self
     
     }
     
@@ -73,7 +75,6 @@ class HomeVC: UIViewController {
             CallManager.shared.onReceiveCallEnded()
         }
         UserDefaults.standard.set(true, forKey: App_IS_LOGOUT_KEY)
-        LoginManager.shared.logout()
     }
     
     @objc func applicationDidEnterBackGround(notification: NSNotification) {
@@ -130,4 +131,13 @@ class HomeVC: UIViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
+}
+
+extension HomeVC: CallManagerDelegate {
+    func onReceiveUserError(_ error: UserError) {
+        if error == .kickedOut {
+            CallManager.shared.logout()
+            self.navigationController?.popToRootViewController(animated: true)
+        }
+    }
 }

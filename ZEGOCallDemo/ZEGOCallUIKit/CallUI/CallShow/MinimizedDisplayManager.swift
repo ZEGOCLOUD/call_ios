@@ -23,7 +23,6 @@ enum MinimizedCallStatus: Int {
 protocol MinimizedDisplayManagerDelegate: AnyObject {
     func didClickAudioMinimizeView()
     func didClickVideoMinimizedView()
-    
 }
 
 class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimizeCallViewDelegate {
