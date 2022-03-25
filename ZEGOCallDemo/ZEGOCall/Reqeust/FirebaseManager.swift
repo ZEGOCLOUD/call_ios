@@ -143,8 +143,8 @@ extension FirebaseManager {
         guard let callID = parameter["call_id"] as? String,
               let userID = parameter["id"] as? String,
               let callees = parameter["callee_ids"] as? [String],
-              let type = parameter["type"] as? Int,
-              let type = FirebaseCallType.init(rawValue: type)
+              let typeOld = parameter["type"] as? Int,
+              let type = FirebaseCallType.init(rawValue: typeOld)
         else {
             callback(.failure(.failed))
             return

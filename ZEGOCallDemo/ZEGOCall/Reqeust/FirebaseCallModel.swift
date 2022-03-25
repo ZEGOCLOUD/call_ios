@@ -54,10 +54,10 @@ class FirebaseCallModel {
     static func model(with dict: [String: Any]) -> FirebaseCallModel? {
         let model = FirebaseCallModel()
         guard let callID = dict["call_id"] as? String,
-              let callType = dict["call_type"] as? Int,
-              let callType = FirebaseCallType(rawValue: callType),
-              let callStatus = dict["call_status"] as? Int,
-              let callStatus = FirebaseCallStatus.init(rawValue: callStatus),
+              let callTypeOld = dict["call_type"] as? Int,
+              let callType = FirebaseCallType(rawValue: callTypeOld),
+              let callStatusOld = dict["call_status"] as? Int,
+              let callStatus = FirebaseCallStatus.init(rawValue: callStatusOld),
               let usersDict = dict["users"] as? [String: [String: Any]]
         else {
             return nil
@@ -70,8 +70,8 @@ class FirebaseCallModel {
         for (userID, userDict) in usersDict {
             guard let callerID = userDict["caller_id"] as? String,
                   let startTime = userDict["start_time"] as? Int,
-                  let status = userDict["status"] as? Int,
-                  let status = FirebaseCallStatus.init(rawValue: status)
+                  let statusOld = userDict["status"] as? Int,
+                  let status = FirebaseCallStatus.init(rawValue: statusOld)
             else {
                 return nil
             }
