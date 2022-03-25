@@ -148,10 +148,10 @@ extension CallServiceImpl {
         listener?.registerListener(self, for: Notify_Call_Invited, callback: { result in
             guard let callID = result["call_id"] as? String,
                   let callerID = result["caller_id"] as? String,
-                  let callType = result["call_type"] as? Int,
+                  let callTypeOld = result["call_type"] as? Int,
                   let calleeIDs = result["callee_ids"] as? [String]
             else { return }
-            guard let callType = CallType.init(rawValue: callType) else { return }
+            guard let callType = CallType.init(rawValue: callTypeOld) else { return }
             
             if self.status != .free { return }
             self.status = .incoming
@@ -203,8 +203,8 @@ extension CallServiceImpl {
         listener?.registerListener(self, for: Notify_Call_Decline, callback: { result in
             guard let callID = result["call_id"] as? String,
                   let calleeID = result["callee_id"] as? String,
-                  let type = result["type"] as? Int,
-                  let type = DeclineType.init(rawValue: type)
+                  let typeOld = result["type"] as? Int,
+                  let type = DeclineType.init(rawValue: typeOld)
             else {
                 return
             }
