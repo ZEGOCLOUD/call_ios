@@ -20,7 +20,7 @@ extension CallManager: CallServiceDelegate {
         currentCallStatus = .wait
         currentCallUserInfo = userInfo
         callKitCallType = type
-        if UIApplication.shared.applicationState == .active {
+        if UIApplication.shared.applicationState != .background {
             let callTipView: CallAcceptTipView = CallAcceptTipView.showTipView(type, userInfo: userInfo)
             currentTipView = callTipView
             callTipView.delegate = self
@@ -33,7 +33,7 @@ extension CallManager: CallServiceDelegate {
         }
     }
     
-    func onReceiveCallCanceled(_ userInfo: UserInfo, type: CancelType) {
+    func onReceiveCallCanceled(_ userInfo: UserInfo) {
         delegate?.onReceiveCallCanceled(userInfo)
         if (currentCallStatus == .calling || currentCallStatus == .wait) && userInfo.userID != currentCallUserInfo?.userID {
             return
@@ -45,11 +45,12 @@ extension CallManager: CallServiceDelegate {
         audioPlayer?.stop()
         CallAcceptTipView.dismiss()
         guard let currentCallVC = currentCallVC else { return }
-        if type == .intent {
-            currentCallVC.changeCallStatusText(.canceled)
-        } else {
-            currentCallVC.changeCallStatusText(.miss)
-        }
+        //TODO: to handle canceled call
+//        if type == .intent {
+//            currentCallVC.changeCallStatusText(.canceled)
+//        } else {
+//            currentCallVC.changeCallStatusText(.miss)
+//        }
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             UIApplication.shared.isIdleTimerDisabled = false
             currentCallVC.statusType = .completed
@@ -107,22 +108,21 @@ extension CallManager: CallServiceDelegate {
         }
     }
     
-    func onReceiveCallTimeout(_ type: CallTimeoutType) {
-        delegate?.onReceiveCallTimeOut(type)
-        if currentCallStatus == .waitAccept {
-            guard let vc = currentCallVC else { return }
-            vc.cancelCall(vc.callUser?.userID ?? "", callType: vc.vcType, isTimeout: true)
-            vc.changeCallStatusText(.miss)
-            vc.callDelayDismiss()
-        } else if currentCallStatus == .wait {
-            audioPlayer?.stop()
-            CallAcceptTipView.dismiss()
-            currentCallStatus = .free
-            currentCallUserInfo = nil
-            endSystemCall()
-            guard let vc = currentCallVC else { return }
-            vc.changeCallStatusText(.miss)
-            vc.callDelayDismiss()
-        }
+    func onReceiveCallTimeout(_ type: CallTimeoutType, info: UserInfo) {
+        delegate?.onReceiveCallTimeout(type, info: info)
+//        switch type {
+//        case .caller:
+//            if currentCallStatus == .wait {
+//
+//            } else if currentCallStatus == .waitAccept {
+//
+//            }
+//        case .callee:
+//            if currentCallStatus == .wait {
+//
+//            } else if currentCallStatus == .waitAccept {
+//
+//            }
+//        }
     }
 }

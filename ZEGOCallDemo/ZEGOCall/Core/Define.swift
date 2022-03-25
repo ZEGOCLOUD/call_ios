@@ -138,8 +138,8 @@ enum DeviceType {
 }
 
 enum CallTimeoutType {
-    case caller
-    case callee
+    case connecting
+    case calling
 }
 
 enum UserError: Int {
@@ -160,7 +160,6 @@ let API_End_Call = "/call/end_call"
 
 let Notify_Call_Invited = "/call/notify_call_invited"
 let Notify_Call_Canceled = "/call/notify_call_canceled"
-let Notify_Call_Response = "/call/notify_call_response"
 let Notify_Call_Accept = "/call/notify_call_accept"
 let Notify_Call_Decline = "/call/notify_call_decline"
 let Notify_Call_End = "/call/notify_call_end"

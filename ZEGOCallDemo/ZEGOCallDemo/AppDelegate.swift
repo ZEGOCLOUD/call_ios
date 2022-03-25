@@ -9,6 +9,7 @@ import UIKit
 import FirebaseCore
 import GoogleSignIn
 import FirebaseAuth
+import FirebaseMessaging
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         FirebaseApp.configure()
+        registerNotification()
         
         // Override point for customization after application launch.
         CallManager.shared.initWithAppID(AppCenter.appID()) { result in
@@ -60,6 +62,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
 //        return GIDSignIn.sharedInstance.handle(url)
 //    }
+    
+        
+    func registerNotification() {
+        UNUserNotificationCenter.current().delegate = self
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { authorization, error in
+            
+        }
+        UIApplication.shared.registerForRemoteNotifications()
+    }
+}
 
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let userInfo = notification.request.content.userInfo
+
+        print(userInfo)
+        
+        completionHandler([[.alert, .sound]])
+    }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        print(userInfo)
+        
+        completionHandler()
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        // Print full message.
+        print(userInfo)
+
+        completionHandler(UIBackgroundFetchResult.newData)
+    }
 }
 
