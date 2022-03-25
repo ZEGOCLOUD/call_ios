@@ -23,6 +23,7 @@ class FirebaseManager: NSObject {
         willSet {
             if newValue?.uid != user?.uid && newValue != nil {
                 addUserToDatabase(newValue!)
+                addOnlineUsersListener()
                 addIncomingCallListener()
             }
         }
@@ -31,6 +32,7 @@ class FirebaseManager: NSObject {
     private var fcmToken: String?
     private var ref: DatabaseReference
     private var callModel: FirebaseCallModel?
+    private var userDicts = [[String : Any]]()
     
     private var functionsMap = [String : functionType]()
     
@@ -51,6 +53,29 @@ class FirebaseManager: NSObject {
         functionsMap[API_Accept_Call] = acceptCall
         functionsMap[API_Decline_Call] = declineCall
         functionsMap[API_End_Call] = endCall
+    }
+    
+    func resetData() {
+        // remove all observers
+        if let fcmToken = fcmToken {
+            let fcmTokenRef = ref.child("push_token").child(fcmToken)
+            fcmTokenRef.removeValue()
+            self.fcmToken = nil
+        }
+        
+        ref.child("online_user").removeAllObservers()
+        
+        ref.child("call").removeAllObservers()
+        
+        if let callID = callModel?.call_id {
+            ref.child("call").child(callID).removeAllObservers()
+        }
+        
+        if let uid = user?.uid {
+            let userRef = self.ref.child("online_user").child(uid)
+            userRef.removeValue()
+            self.user = nil
+        }
     }
 }
 
@@ -94,14 +119,7 @@ extension FirebaseManager {
     private func logout(_ parameter: [String: AnyObject], callback: RequestCallback) {
         do {
             try Auth.auth().signOut()
-            let fcmTokenRef = self.ref.child("push_token").child(fcmToken ?? "")
-            fcmTokenRef.removeValue()
-            
-            if let uid = user?.uid {
-                let userRef = self.ref.child("online_user").child(uid)
-                userRef.removeValue()
-                self.user = nil
-            }
+            self.resetData()
         } catch {
             
         }
@@ -128,14 +146,7 @@ extension FirebaseManager {
             callback(.failure(.failed))
             return
         }
-        
-        let usersQuery = self.ref.child("online_user").queryOrdered(byChild: "last_changed")
-        usersQuery.observeSingleEvent(of: .value) { snapshot in
-            let userDicts: [[String : Any]] = snapshot.children.compactMap { child in
-                return (child as? DataSnapshot)?.value as? [String : Any]
-            }
-            callback(.success(userDicts))
-        }
+        callback(.success(userDicts))
     }
     
     private func callUsers(_ parameter: [String: AnyObject], callback: @escaping RequestCallback) {
@@ -318,8 +329,10 @@ extension FirebaseManager {
             
             
             let fcmTokenRef = self.ref.child("push_token").child(user.uid).child(fcmToken ?? "")
-            let tokenData = [
-                "device_type" : "ios"
+            let tokenData: [String: Any?] = [
+                "device_type" : "ios",
+                "token_id": fcmToken,
+                "user_id": user.uid
             ]
             fcmTokenRef.setValue(tokenData)
         }
@@ -345,6 +358,17 @@ extension FirebaseManager {
             print("[*] Current User is logging at other device.")
             let data = ["error" : 1]
             self.listener?.receiveUpdate(Notify_User_Error, parameter: data)
+        }
+    }
+    
+    private func addOnlineUsersListener() {
+        let usersQuery = self.ref.child("online_user").queryOrdered(byChild: "last_changed")
+        
+        usersQuery.observe(.value) { snapshot in
+            let userDicts: [[String : Any]] = snapshot.children.compactMap { child in
+                return (child as? DataSnapshot)?.value as? [String : Any]
+            }
+            self.userDicts = userDicts
         }
     }
     
@@ -404,6 +428,7 @@ extension FirebaseManager {
                     "caller_id": firebaseUser.caller_id
                 ]
                 self.listener?.receiveUpdate(Notify_Call_Canceled, parameter: data)
+                self.callModel = nil
             }
             
             // MARK: - caller receive call accept
@@ -419,6 +444,7 @@ extension FirebaseManager {
                     "callee_id": callee.user_id
                 ]
                 self.listener?.receiveUpdate(Notify_Call_Accept, parameter: data)
+                self.callModel = model
             }
             
             // MARK: - caller receive call decline
@@ -429,14 +455,15 @@ extension FirebaseManager {
                 guard let callee = model.users
                         .filter({ $0.user_id != firebaseUser.user_id })
                         .first else { return }
-                if callee.status != .declined || callee.status != .busy { return }
+                if callee.status != .declined && callee.status != .busy { return }
                 let type = callee.status == .declined ? 1 : 2
                 let data: [String: Any] = [
                     "call_id": model.call_id,
                     "callee_id": callee.user_id,
-                    "tppe": type
+                    "type": type
                 ]
                 self.listener?.receiveUpdate(Notify_Call_Decline, parameter: data)
+                self.callModel = nil
             }
             
             // caller and callee receive call ended
@@ -451,6 +478,7 @@ extension FirebaseManager {
                     "user_id": other.user_id
                 ]
                 self.listener?.receiveUpdate(Notify_Call_End, parameter: data)
+                self.callModel = nil
             }
             
             // caller or callee receive connecting timeout
