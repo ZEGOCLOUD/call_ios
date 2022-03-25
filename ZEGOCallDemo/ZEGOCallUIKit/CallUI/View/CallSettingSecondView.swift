@@ -116,7 +116,10 @@ class CallSettingSecondView: UIView, UITableViewDelegate, UITableViewDataSource 
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+        let maskPath: UIBezierPath = UIBezierPath.init(roundedRect: CGRect.init(x: 0, y: 0, width: roundView.bounds.size.width, height: roundView.bounds.size.height), byRoundingCorners: [.topLeft,.topRight], cornerRadii: CGSize.init(width: 12, height: 12))
+        let maskLayer: CAShapeLayer = CAShapeLayer()
+        maskLayer.path = maskPath.cgPath
+        roundView.layer.mask = maskLayer
     }
     
     @objc func tapClick() -> Void {

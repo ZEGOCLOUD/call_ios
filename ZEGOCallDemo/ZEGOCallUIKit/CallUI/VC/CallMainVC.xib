@@ -20,10 +20,12 @@
                 <outlet property="callStatusLabel" destination="7wa-uL-Azy" id="DhR-H6-6iD"/>
                 <outlet property="headImage" destination="5G2-Zx-Cu3" id="lXu-y6-jq6"/>
                 <outlet property="mainPreviewView" destination="k3E-XM-kJs" id="btB-6D-ZEB"/>
+                <outlet property="minimizeButton" destination="iKE-Hu-GT3" id="05f-Uo-cgl"/>
                 <outlet property="nameMaskView" destination="ONC-Jv-Oj0" id="c5C-cW-a5O"/>
                 <outlet property="preciewContentView" destination="X9Y-cC-uIR" id="tkx-TV-Yo4"/>
                 <outlet property="previewNameLabel" destination="PPJ-4l-tMg" id="XXr-Zb-F5N"/>
                 <outlet property="previewView" destination="OQH-C7-3x8" id="xdV-Jk-Nha"/>
+                <outlet property="settingButton" destination="m9q-73-yg9" id="cK1-cV-5tw"/>
                 <outlet property="smallHeadImage" destination="nn1-Dm-67f" id="Ye2-jU-ZKy"/>
                 <outlet property="takeStatusFlipButton" destination="byE-AS-eJC" id="Zfc-pd-JFW"/>
                 <outlet property="timeLabel" destination="hhF-a9-GgM" id="oEf-0M-AOr"/>
@@ -128,7 +130,7 @@
                                 <action selector="flipButtonClick:" destination="-1" eventType="touchUpInside" id="NUX-38-XIp"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iKE-Hu-GT3">
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iKE-Hu-GT3">
                             <rect key="frame" x="18" y="55" width="22" height="22"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="22" id="7j6-cy-EcO"/>
@@ -140,7 +142,7 @@
                                 <action selector="minimizeClick:" destination="-1" eventType="touchUpInside" id="njS-Fb-U29"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m9q-73-yg9">
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m9q-73-yg9">
                             <rect key="frame" x="374" y="55" width="22" height="22"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="22" id="N3x-gN-zbE"/>

@@ -8,8 +8,8 @@
 import UIKit
 
 enum MinimizedCallType: Int {
-    case audio
-    case video
+    case audio = 1
+    case video = 2
 }
 
 enum MinimizedCallStatus: Int {
@@ -42,6 +42,7 @@ class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimize
         let view = MinimizeCallView.initMinimizeCall("wait...")
         view.delegate = self
         view.isHidden = true
+        KeyWindow().addSubview(view)
         return view
     }()
     
@@ -49,6 +50,7 @@ class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimize
         let view = VideoMinimizeCallView.initVideoMinimizeCall(.calling)
         view.delegate = self
         view.isHidden = true
+        KeyWindow().addSubview(view)
         return view
     }()
     
@@ -71,8 +73,8 @@ class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimize
         guard let localUserInfo = ServiceManager.shared.userService.localUserInfo else { return }
         if let userInfo = userInfo {
             if userInfo.camera || localUserInfo.camera {
-                audioMinView.isHidden = false
-                videoMinView.isHidden = true
+                audioMinView.isHidden = true
+                videoMinView.isHidden = false
                 let streamID = userInfo.camera ? userInfo.userID : localUserInfo.userID
                 ServiceManager.shared.streamService.startPlaying(streamID, streamView: videoMinView.videoPreview)
             } else {

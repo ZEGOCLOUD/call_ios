@@ -30,12 +30,7 @@ class MinimizeCallView: UIView {
         }
     }
     
-    @IBOutlet weak var statusImageView: UIImageView! {
-        didSet {
-            updateCallText(currentText)
-        }
-    }
-    
+    @IBOutlet weak var statusImageView: UIImageView!
     
     @IBOutlet weak var waitLabel: UILabel! {
         didSet {
