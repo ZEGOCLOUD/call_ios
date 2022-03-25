@@ -55,16 +55,9 @@ class FirebaseManager: NSObject {
         functionsMap[API_End_Call] = endCall
     }
     
-    func resetData() {
+    func resetData(_ removeUserData: Bool = true) {
         // remove all observers
-        if let fcmToken = fcmToken {
-            let fcmTokenRef = ref.child("push_token").child(fcmToken)
-            fcmTokenRef.removeValue()
-            self.fcmToken = nil
-        }
-        
         ref.child("online_user").removeAllObservers()
-        
         ref.child("call").removeAllObservers()
         
         if let callID = callModel?.call_id {
@@ -72,10 +65,21 @@ class FirebaseManager: NSObject {
         }
         
         if let uid = user?.uid {
+            if let fcmToken = fcmToken {
+                let fcmTokenRef = ref.child("push_token").child(uid).child(fcmToken)
+                fcmTokenRef.removeValue()
+                self.fcmToken = nil
+            }
+            
             let userRef = self.ref.child("online_user").child(uid)
-            userRef.removeValue()
+            userRef.cancelDisconnectOperations()
+            
+            if removeUserData {
+                userRef.removeValue()
+            }
             self.user = nil
         }
+        self.callModel = nil
     }
 }
 
@@ -356,6 +360,10 @@ extension FirebaseManager {
             guard let token = snapshot.value as? String else { return }
             if token == self.fcmToken { return }
             print("[*] Current User is logging at other device.")
+                        
+            try? Auth.auth().signOut()
+            self.resetData(false)
+            
             let data = ["error" : 1]
             self.listener?.receiveUpdate(Notify_User_Error, parameter: data)
         }
