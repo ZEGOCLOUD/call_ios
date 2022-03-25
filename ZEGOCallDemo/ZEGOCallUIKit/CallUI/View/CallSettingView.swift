@@ -47,7 +47,7 @@ class CallSettingView: UIView, UITableViewDelegate, UITableViewDataSource, Setti
     
     lazy var bitrateDic: [AudioBitrate:String] = {
         let dic: [AudioBitrate:String] = [AudioBitrate.b48 : "48kbps",
-                                             AudioBitrate.b96 : "56kbps",
+                                             AudioBitrate.b96 : "96kbps",
                                              AudioBitrate.b128:"128kbps"]
         return dic
     }()
@@ -94,6 +94,10 @@ class CallSettingView: UIView, UITableViewDelegate, UITableViewDataSource, Setti
         } else {
             containerViewHeight.constant = 282 + self.safeAreaInsets.bottom
         }
+        let maskPath: UIBezierPath = UIBezierPath.init(roundedRect: CGRect.init(x: 0, y: 0, width: roundView.bounds.size.width, height: roundView.bounds.size.height), byRoundingCorners: [.topLeft,.topRight], cornerRadii: CGSize.init(width: 12, height: 12))
+        let maskLayer: CAShapeLayer = CAShapeLayer()
+        maskLayer.path = maskPath.cgPath
+        roundView.layer.mask = maskLayer
     }
     
     func setViewType(_ type: CallSettingViewType)  {

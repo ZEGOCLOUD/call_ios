@@ -66,7 +66,9 @@ class GoogleLoginVC: UIViewController {
         let config = GIDConfiguration(clientID: clientID)
         GIDSignIn.sharedInstance.signIn(with: config, presenting: self) { user, error in
             guard let token = user?.authentication.idToken else { return }
+            HUDHelper.showNetworkLoading()
             CallManager.shared.login(token) { result in
+                HUDHelper.hideNetworkLoading()
                 switch result {
                 case.success():
                     let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeVC") as! HomeVC

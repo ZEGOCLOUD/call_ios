@@ -90,6 +90,10 @@ class CallMainVC: UIViewController {
     @IBOutlet weak var topMaksImageView: UIImageView!
     @IBOutlet weak var bottomMaskImageView: UIImageView!
     
+    @IBOutlet weak var minimizeButton: UIButton!
+    @IBOutlet weak var settingButton: UIButton!
+    
+    
     lazy var callSettingView : CallSettingView? = {
         if let view: CallSettingView = UINib.init(nibName: "CallSettingView", bundle: nil).instantiate(withOwner: nil, options: nil).first as? CallSettingView {
             view.setViewType(.video)
@@ -313,6 +317,8 @@ class CallMainVC: UIViewController {
             phoneView.isHidden = true
             videoView.isHidden = true
             headImage.isHidden = false
+            minimizeButton.isHidden = false
+            settingButton.isHidden = false
             timer.start()
             if vcType == .video {
                 ServiceManager.shared.streamService.startPlaying(mainStreamUserID, streamView: mainPreviewView)
@@ -325,6 +331,8 @@ class CallMainVC: UIViewController {
             phoneView.isHidden = true
             videoView.isHidden = true
             headImage.isHidden = false
+            minimizeButton.isHidden = true
+            settingButton.isHidden = true
             takeStatusFlipButton.isHidden = true
             acceptView.setCallAcceptViewType(vcType == .video)
             timer.start()
@@ -332,6 +340,8 @@ class CallMainVC: UIViewController {
             takeView.isHidden = true
             acceptView.isHidden = true
             timeLabel.isHidden = false
+            minimizeButton.isHidden = false
+            settingButton.isHidden = false
             takeStatusFlipButton.isHidden = true
             if vcType == .voice {
                 phoneView.isHidden = false
@@ -353,6 +363,8 @@ class CallMainVC: UIViewController {
             }
             timer.start()
         case .canceled,.decline,.miss,.completed,.busy:
+            minimizeButton.isHidden = false
+            settingButton.isHidden = false
             break
         }
         changeCallStatusText(statusType)
@@ -518,7 +530,16 @@ class CallMainVC: UIViewController {
     }
     
     @IBAction func minimizeClick(_ sender: UIButton) {
-        CallManager.shared.minmizedManager.showCallMinView(.audio, status: .waiting, userInfo: callUser)
+        switch statusType {
+        case .take:
+            CallManager.shared.minmizedManager.showCallMinView(MinimizedCallType.init(rawValue: vcType.rawValue) ?? .audio, status: .waiting, userInfo: callUser)
+            self.dismiss(animated: true, completion: nil)
+        case .calling:
+            CallManager.shared.minmizedManager.showCallMinView(MinimizedCallType.init(rawValue: vcType.rawValue) ?? .audio, status: .calling, userInfo: callUser)
+            self.dismiss(animated: true, completion: nil)
+        case .accept, .canceled,.decline,.busy,.miss,.completed:
+            break
+        }
     }
     
     @IBAction func streamSetClick(_ sender: UIButton) {

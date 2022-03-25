@@ -136,7 +136,7 @@ class HomeVC: UIViewController {
 extension HomeVC: CallManagerDelegate {
     func onReceiveUserError(_ error: UserError) {
         if error == .kickedOut {
-            CallManager.shared.logout()
+            CallManager.shared.resetCallData()
             self.navigationController?.popToRootViewController(animated: true)
         }
     }

@@ -34,7 +34,7 @@
                             <constraint firstAttribute="width" constant="47" id="Y5g-A1-WtY"/>
                             <constraint firstAttribute="height" constant="28" id="d2l-5f-NKq"/>
                         </constraints>
-                        <color key="onTintColor" name="A653FF"/>
+                        <color key="onTintColor" name="0055FF"/>
                         <connections>
                             <action selector="switchValueChange:" destination="KGk-i7-Jjw" eventType="valueChanged" id="jHi-Sz-IYd"/>
                         </connections>
@@ -59,11 +59,11 @@
         </tableViewCell>
     </objects>
     <resources>
+        <namedColor name="0055FF">
+            <color red="0.0" green="0.33300000429153442" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="2A2A2A">
             <color red="0.16500000655651093" green="0.16500000655651093" blue="0.16500000655651093" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="A653FF">
-            <color red="0.65100002288818359" green="0.32499998807907104" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

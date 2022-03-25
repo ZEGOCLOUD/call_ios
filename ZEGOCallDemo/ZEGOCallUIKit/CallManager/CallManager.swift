@@ -123,6 +123,11 @@ class CallManager: NSObject {
     }
     
     public func logout() {
+        resetCallData()
+        ServiceManager.shared.userService.logout()
+    }
+    
+    public func resetCallData() {
         minmizedManager.dismissCallMinView()
         switch currentCallStatus {
         case .free:
@@ -141,7 +146,6 @@ class CallManager: NSObject {
             guard let userID = currentCallUserInfo?.userID else { return }
             endCall(userID)
         }
-        ServiceManager.shared.userService.logout()
     }
     
     public func getOnlineUserList(_ callback: UserListCallback?)  {
@@ -273,6 +277,7 @@ class CallManager: NSObject {
     
     
     func closeCallVC() {
+        minmizedManager.dismissCallMinView()
         guard let currentCallVC = currentCallVC else { return }
         currentCallVC.resetTime()
         currentCallVC.dismiss(animated: true, completion: {
