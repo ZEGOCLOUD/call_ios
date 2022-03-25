@@ -22,8 +22,7 @@ protocol CallServiceDelegate  {
     /// Description: This callback will be triggered when the caller cancel the outbound call.
     ///
     /// - Parameter userInfo: refers to the caller information.
-    /// - Parameter type: cancel type.
-    func onReceiveCallCanceled(_ userInfo: UserInfo, type: CancelType)
+    func onReceiveCallCanceled(_ userInfo: UserInfo)
     
     func onReceiveCallAccepted(_ userInfo: UserInfo)
     
@@ -34,16 +33,16 @@ protocol CallServiceDelegate  {
     /// - Description: This callback will be triggered when the caller or called user ends the call.
     func onReceiveCallEnded()
     
-    func onReceiveCallTimeout(_ type: CallTimeoutType)
+    func onReceiveCallTimeout(_ type: CallTimeoutType, info: UserInfo)
 }
 
 extension CallServiceDelegate {
     func onReceiveCallInvited(_ userInfo: UserInfo , type: CallType) { }
-    func onReceiveCallCanceled(_ userInfo: UserInfo, type: CancelType) { }
+    func onReceiveCallCanceled(_ userInfo: UserInfo) { }
     func onReceiveCallAccepted(_ userInfo: UserInfo) { }
     func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType) { }
     func onReceiveCallEnded() { }
-    func onReceiveCallTimeout(_ type: CallTimeoutType) { }
+    func onReceiveCallTimeout(_ type: CallTimeoutType, info: UserInfo) { }
 }
 
 protocol CallService {

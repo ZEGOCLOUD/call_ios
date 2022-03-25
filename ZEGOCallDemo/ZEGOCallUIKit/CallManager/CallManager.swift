@@ -19,7 +19,7 @@ protocol CallManagerDelegate: AnyObject {
     func onReceiveCallingUserDisconnected(_ userInfo: UserInfo)
     func onReceiveCallInvite(_ userInfo: UserInfo, type: CallType)
     func onReceiveCallCanceled(_ userInfo: UserInfo)
-    func onReceiveCallTimeOut(_ type: CallTimeoutType)
+    func onReceiveCallTimeout(_ type: CallTimeoutType, info: UserInfo)
     func onReceivedCallEnded()
     func onReceiveCallAccepted(_ userInfo: UserInfo)
     func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType)
@@ -31,7 +31,7 @@ extension CallManagerDelegate {
     func onReceiveCallingUserDisconnected(_ userInfo: UserInfo) { }
     func onReceiveCallInvite(_ userInfo: UserInfo, type: CallType) { }
     func onReceiveCallCanceled(_ userInfo: UserInfo) { }
-    func onReceiveCallTimeOut(_ type: CallTimeoutType) { }
+    func onReceiveCallTimeout(_ type: CallTimeoutType, info: UserInfo) { }
     func onReceivedCallEnded() { }
     func onReceiveCallAccepted(_ userInfo: UserInfo) { }
     func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType) { }

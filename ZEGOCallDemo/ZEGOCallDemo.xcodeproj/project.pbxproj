@@ -317,6 +317,7 @@
 		8E703EF727EB176500CC87CE /* AcceptCallCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptCallCommand.swift; sourceTree = "<group>"; };
 		8E703EF927EB177000CC87CE /* DeclineCallCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeclineCallCommand.swift; sourceTree = "<group>"; };
 		8E703EFB27EB3CE500CC87CE /* FirebaseCallModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseCallModel.swift; sourceTree = "<group>"; };
+		8E703EFD27EC0B3C00CC87CE /* ZEGOCallDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ZEGOCallDemo.entitlements; sourceTree = "<group>"; };
 		8E7756E727DF47CE00BFB5F6 /* CallRing.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = CallRing.wav; sourceTree = "<group>"; };
 		8E7756EC27E084FE00BFB5F6 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		8E7756EE27E0851B00BFB5F6 /* RoomService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomService.swift; sourceTree = "<group>"; };
@@ -494,6 +495,7 @@
 		86B19890278BDD7D0004C997 /* ZEGOCallDemo */ = {
 			isa = PBXGroup;
 			children = (
+				8E703EFD27EC0B3C00CC87CE /* ZEGOCallDemo.entitlements */,
 				8E7756E627DF47CE00BFB5F6 /* RingResource */,
 				86B198AD278BE25F0004C997 /* Network */,
 				86B198FB278D63430004C997 /* Helper */,
@@ -1405,6 +1407,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ZEGOCallDemo/ZEGOCallDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = B82BHJ5H89;
@@ -1441,6 +1444,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ZEGOCallDemo/ZEGOCallDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = B82BHJ5H89;

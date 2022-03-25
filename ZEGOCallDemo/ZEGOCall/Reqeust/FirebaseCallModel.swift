@@ -7,14 +7,30 @@
 
 import Foundation
 
+enum FirebaseCallStatus: Int {
+    case connecting = 1
+    case calling = 2
+    case ended = 3
+    case declined = 4
+    case busy = 5
+    case canceled = 6
+    case connectingTimeout = 7
+    case callingTimeout = 8
+}
+
+enum FirebaseCallType: Int {
+    case voice = 1
+    case video = 2
+}
+
 class FirebaseCallUser {
-    var caller_id: String?
-    var user_id: String?
+    var caller_id: String = ""
+    var user_id: String = ""
     var start_time: Int?
     var connected_time: Int?
     var finish_time: Int?
     var heartbeat_time: Int?
-    var status: Int = 1
+    var status: FirebaseCallStatus = .connecting
     
     func copy() -> FirebaseCallUser {
         let copy = FirebaseCallUser()
@@ -30,10 +46,50 @@ class FirebaseCallUser {
 }
 
 class FirebaseCallModel {
-    var call_id: String?
-    var call_type: Int = 1
-    var call_status: Int = 1
+    var call_id: String = ""
+    var call_type: FirebaseCallType = .voice
+    var call_status: FirebaseCallStatus = .connecting
     var users = [FirebaseCallUser]()
+    
+    static func model(with dict: [String: Any]) -> FirebaseCallModel? {
+        let model = FirebaseCallModel()
+        guard let callID = dict["call_id"] as? String,
+              let callType = dict["call_type"] as? Int,
+              let callType = FirebaseCallType(rawValue: callType),
+              let callStatus = dict["call_status"] as? Int,
+              let callStatus = FirebaseCallStatus.init(rawValue: callStatus),
+              let usersDict = dict["users"] as? [String: [String: Any]]
+        else {
+            return nil
+        }
+        
+        model.call_id = callID
+        model.call_type = callType
+        model.call_status = callStatus
+        
+        for (userID, userDict) in usersDict {
+            guard let callerID = userDict["caller_id"] as? String,
+                  let startTime = userDict["start_time"] as? Int,
+                  let status = userDict["status"] as? Int,
+                  let status = FirebaseCallStatus.init(rawValue: status)
+            else {
+                return nil
+            }
+            let user = FirebaseCallUser()
+            user.user_id = userID
+            user.caller_id = callerID
+            user.start_time = startTime
+            user.status = status
+            
+            user.connected_time = userDict["connected_time"] as? Int
+            user.finish_time = userDict["finish_time"] as? Int
+            user.heartbeat_time = userDict["heartbeat_time"] as? Int
+            
+            model.users.append(user)
+        }
+        
+        return model
+    }
     
     func getUser(_ userID: String?) -> FirebaseCallUser? {
         guard let userID = userID else {
@@ -61,8 +117,8 @@ class FirebaseCallModel {
         var dict = [String: Any]()
         
         dict["call_id"] = call_id
-        dict["call_type"] = call_type
-        dict["call_status"] = call_status
+        dict["call_type"] = call_type.rawValue
+        dict["call_status"] = call_status.rawValue
         
         var usersDict = [String: Any]()
         for user in users {
@@ -74,11 +130,9 @@ class FirebaseCallModel {
             userDict["connected_time"] = user.connected_time
             userDict["finish_time"] = user.finish_time
             userDict["heartbeat_time"] = user.heartbeat_time
-            userDict["status"] = user.status
+            userDict["status"] = user.status.rawValue
 
-            if let user_id = user.user_id {
-                usersDict[user_id] = userDict
-            }
+            usersDict[user.user_id] = userDict
         }
         
         dict["users"] = usersDict

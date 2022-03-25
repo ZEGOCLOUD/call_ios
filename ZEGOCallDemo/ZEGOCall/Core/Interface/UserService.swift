@@ -24,8 +24,6 @@ protocol UserServiceDelegate : AnyObject  {
     /// - Parameter userInfo: refers to the changes on user state information
     func onUserInfoUpdate(_ userInfo: UserInfo)
     
-    func onReceiveCallingUserDisconnected(_ userInfo: UserInfo)
-    
     func onReceiveUserError(_ error: UserError)
 }
 
@@ -33,7 +31,6 @@ protocol UserServiceDelegate : AnyObject  {
 extension UserServiceDelegate {
     func onNetworkQuality(_ userID: String, upstreamQuality: ZegoStreamQualityLevel) { }
     func onUserInfoUpdate(_ userInfo: UserInfo) { }
-    func onReceiveCallingUserDisconnected(_ userInfo: UserInfo) { }
     func onReceiveUserError(_ error: UserError) { }
 }
 

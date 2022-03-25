@@ -24,9 +24,9 @@ class DeclineCallCommand: Command {
         }
     }
     
-    var caller: String? {
+    var callerID: String? {
         willSet {
-            parameter["caller"] = newValue as AnyObject
+            parameter["caller_id"] = newValue as AnyObject
         }
     }
     
