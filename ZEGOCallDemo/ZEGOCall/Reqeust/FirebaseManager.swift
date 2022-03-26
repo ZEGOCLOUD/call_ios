@@ -401,7 +401,9 @@ extension FirebaseManager {
                 self.callModel = model
                 self.addCallListener(model.call_id)
             }
-            let calleeIDs = model.users.compactMap({ $0.user_id })
+            let calleeIDs = model.users
+                .filter({ $0.caller_id != $0.user_id })
+                .compactMap({ $0.user_id })
             let data: [String: Any] = [
                 "call_id": model.call_id,
                 "call_type": model.call_type.rawValue,

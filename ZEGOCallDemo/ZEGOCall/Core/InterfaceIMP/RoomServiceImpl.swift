@@ -27,11 +27,13 @@ class RoomServiceImpl: NSObject {
 extension RoomServiceImpl: RoomService {
 
     func joinRoom(_ roomID: String, _ token: String) {
-        //TODO: join room
         guard let userID = ServiceManager.shared.userService.localUserInfo?.userID else {
             assert(false, "user ID can't be nil.")
             return
         }
+        roomInfo = RoomInfo()
+        roomInfo?.roomID = roomID
+        
         let userName = ServiceManager.shared.userService.localUserInfo?.userName ?? ""
         // login rtc room
         let user = ZegoUser(userID: userID, userName: userName)
@@ -39,10 +41,15 @@ extension RoomServiceImpl: RoomService {
         let config = ZegoRoomConfig()
         config.token = token
         ZegoExpressEngine.shared().loginRoom(roomID, user: user, config: config)
+        
+        // start publish
+        let streamID = String.getStreamID(userID, roomID: roomID)
+        ZegoExpressEngine.shared().startPublishingStream(streamID)
     }
 
     
     func leaveRoom() {
+        self.roomInfo = nil
         ZegoExpressEngine.shared().logoutRoom()
     }
 }

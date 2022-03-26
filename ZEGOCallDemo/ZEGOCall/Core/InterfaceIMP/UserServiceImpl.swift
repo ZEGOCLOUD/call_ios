@@ -32,6 +32,9 @@ class UserServiceImpl: NSObject {
                     user = UserInfo(userID, userName)
                 }
                 _localUserInfo = user
+                if user != nil && !userList.compactMap({ $0.userID }).contains(user?.userID) {
+                    userList.append(user!)
+                }
                 return user
             }
         }

@@ -13,14 +13,10 @@ class RoomInfo: NSObject, Codable {
     
     /// room name
     var roomName: String?
-    
-    /// host user ID
-    var userNum: Int?
-    
+        
     enum CodingKeys: String, CodingKey {
         case roomID = "id"
         case roomName = "name"
-        case userNum = "user_num"
     }
 }
 
@@ -29,7 +25,6 @@ extension RoomInfo: NSCopying {
         let copy = RoomInfo()
         copy.roomID = roomID
         copy.roomName = roomName
-        copy.userNum = userNum
         return copy
     }
 }

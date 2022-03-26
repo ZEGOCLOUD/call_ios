@@ -34,27 +34,11 @@ protocol DeviceService {
     var routeType: ZegoAudioRoute { get }
     
     var delegate: DeviceServiceDelegate? { get set }
-        
-    /// Microphone related operation
-    ///
-    /// Description: This method can be used to enable and disable the microphone. When the microphone is enabled, the SDK automatically publishes audio streams to remote users. When the microphone is disabled, the audio stream publishing stops automatically.
-    ///
-    /// Call this method at: After the call is connected
-    ///
-    /// - Parameter enable: indicates whether to enable or disable the microphone. true: Enable. false: Disable.
-    /// - Parameter callback: refers to the callback for enable or disable the microphone.
-    func enableMic(_ enable: Bool, callback: RoomCallback?)
     
     
-    /// Camera related operation
-    ///
-    /// Description: This method can be used to enable and disable the camera. When the camera is enabled, the SDK automatically publishes video streams to remote users. When the camera is disabled, the video stream publishing stops automatically.
-    ///
-    /// Call this method at:  After the call is connected
-    ///
-    /// - Parameter enable: indicates whether to enable or disable the camera. true: Enable. false: Disable.
-    /// - Parameter callback: refers to the callback for enable or disable the camera.
-    func enableCamera(_ enable: Bool, callback: RoomCallback?)
+    func enableMic(_ enable: Bool)
+    
+    func enableCamera(_ enable: Bool)
     
     /// Use front-facing and rear camera
     ///
