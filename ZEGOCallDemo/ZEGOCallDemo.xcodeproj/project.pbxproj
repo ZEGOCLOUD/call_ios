@@ -37,6 +37,7 @@
 		8637814227E9A399000A0C22 /* CallManager+CallTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637814127E9A399000A0C22 /* CallManager+CallTime.swift */; };
 		8637814427E9AE6B000A0C22 /* CallManager+Minimized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637814327E9AE6B000A0C22 /* CallManager+Minimized.swift */; };
 		8637814627EB05CF000A0C22 /* CallManager+DeviceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637814527EB05CF000A0C22 /* CallManager+DeviceService.swift */; };
+		8637814827EEB868000A0C22 /* CallUIKit.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8637814727EEB867000A0C22 /* CallUIKit.xcassets */; };
 		86718CA427915A0B00CEA8A0 /* DefaultRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CA327915A0B00CEA8A0 /* DefaultRefreshView.swift */; };
 		86718CA627915A5D00CEA8A0 /* RefreshViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CA527915A5D00CEA8A0 /* RefreshViewAnimator.swift */; };
 		86718CA827915A8F00CEA8A0 /* DefaultViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CA727915A8F00CEA8A0 /* DefaultViewAnimator.swift */; };
@@ -180,6 +181,7 @@
 		8637814127E9A399000A0C22 /* CallManager+CallTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallManager+CallTime.swift"; sourceTree = "<group>"; };
 		8637814327E9AE6B000A0C22 /* CallManager+Minimized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallManager+Minimized.swift"; sourceTree = "<group>"; };
 		8637814527EB05CF000A0C22 /* CallManager+DeviceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallManager+DeviceService.swift"; sourceTree = "<group>"; };
+		8637814727EEB867000A0C22 /* CallUIKit.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CallUIKit.xcassets; sourceTree = "<group>"; };
 		86718CA327915A0B00CEA8A0 /* DefaultRefreshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultRefreshView.swift; sourceTree = "<group>"; };
 		86718CA527915A5D00CEA8A0 /* RefreshViewAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshViewAnimator.swift; sourceTree = "<group>"; };
 		86718CA727915A8F00CEA8A0 /* DefaultViewAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultViewAnimator.swift; sourceTree = "<group>"; };
@@ -389,10 +391,15 @@
 		8637812B27E45F32000A0C22 /* ZEGOCallUIKit */ = {
 			isa = PBXGroup;
 			children = (
+				86B19963278D63E30004C997 /* AppDefine.swift */,
+				8E7756E627DF47CE00BFB5F6 /* RingResource */,
+				86B198FB278D63430004C997 /* Helper */,
 				8637812D27E46124000A0C22 /* CallUI */,
 				8637812F27E46EFF000A0C22 /* CallManager */,
 				8637812C27E46108000A0C22 /* CallInterface */,
 				8637813427E47634000A0C22 /* CallInterfaceIMP */,
+				8637814727EEB867000A0C22 /* CallUIKit.xcassets */,
+				868F6358279E923200D0B5DC /* Call.strings */,
 			);
 			path = ZEGOCallUIKit;
 			sourceTree = "<group>";
@@ -496,14 +503,11 @@
 			isa = PBXGroup;
 			children = (
 				8E703EFD27EC0B3C00CC87CE /* ZEGOCallDemo.entitlements */,
-				8E7756E627DF47CE00BFB5F6 /* RingResource */,
 				86B198AD278BE25F0004C997 /* Network */,
-				86B198FB278D63430004C997 /* Helper */,
 				86B198EF278D28B20004C997 /* CorePages */,
 				86B198A6278BE1C60004C997 /* AppCenter */,
 				86B19891278BDD7D0004C997 /* AppDelegate.swift */,
 				86B19893278BDD7E0004C997 /* SceneDelegate.swift */,
-				86B19963278D63E30004C997 /* AppDefine.swift */,
 				8E77570E27E1E70A00BFB5F6 /* GoogleService-Info.plist */,
 				86B19968278D6AAC0004C997 /* ZEGOCallDemo-Bridging-Header.h */,
 				86B19897278BDD7E0004C997 /* Main.storyboard */,
@@ -511,7 +515,6 @@
 				86B1989C278BDD7F0004C997 /* LaunchScreen.storyboard */,
 				86B1989F278BDD7F0004C997 /* Info.plist */,
 				868F636127A1647000D0B5DC /* InfoPlist.strings */,
-				868F6358279E923200D0B5DC /* Call.strings */,
 			);
 			path = ZEGOCallDemo;
 			sourceTree = "<group>";
@@ -1074,6 +1077,7 @@
 				86B1997F278D96A80004C997 /* GeneralWebVC.xib in Resources */,
 				8637812727E31822000A0C22 /* SettingSecondLevelCell.xib in Resources */,
 				86B19994278EBDC10004C997 /* CallingTakeView.xib in Resources */,
+				8637814827EEB868000A0C22 /* CallUIKit.xcassets in Resources */,
 				86B19954278D63440004C997 /* CMakeLists.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

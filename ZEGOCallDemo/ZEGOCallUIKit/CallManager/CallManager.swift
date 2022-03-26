@@ -205,7 +205,7 @@ class CallManager: NSObject {
         }
     }
     
-    func refusedCall(_ userID: String) {
+    func declineCall(_ userID: String) {
         if currentCallUserInfo?.userID == userID {
             currentCallStatus = .free
             currentCallUserInfo = nil
@@ -224,7 +224,7 @@ class CallManager: NSObject {
         if ServiceManager.shared.callService.status == .calling {
             ServiceManager.shared.callService.endCall(nil)
         } else {
-            refusedCall(userID)
+            declineCall(userID)
         }
     }
     
