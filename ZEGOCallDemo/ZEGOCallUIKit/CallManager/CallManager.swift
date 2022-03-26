@@ -252,11 +252,11 @@ class CallManager: NSObject {
         guard let userRoomInfo = ServiceManager.shared.userService.localUserInfo else { return }
         if let vc = currentCallVC {
             if vc.vcType == .voice {
-                ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic, callback: nil)
+                ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic)
                 ServiceManager.shared.streamService.startPlaying(userID, streamView: nil)
             } else {
-                ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic, callback: nil)
-                ServiceManager.shared.deviceService.enableCamera(userRoomInfo.camera, callback: nil)
+                ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic)
+                ServiceManager.shared.deviceService.enableCamera(userRoomInfo.camera)
                 if let mainStreamID = currentCallVC?.mainStreamUserID {
                     ServiceManager.shared.streamService.startPlaying(mainStreamID, streamView: vc.mainPreviewView)
                 } else {
@@ -270,7 +270,7 @@ class CallManager: NSObject {
             }
             ServiceManager.shared.deviceService.enableSpeaker(false)
         } else {
-            ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic, callback: nil)
+            ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic)
             ServiceManager.shared.streamService.startPlaying(userID, streamView: nil)
         }
     }

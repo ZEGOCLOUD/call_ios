@@ -48,6 +48,7 @@ extension CallServiceImpl: CallService {
             switch result {
             case .success(_):
                 callResult = .success(())
+                ServiceManager.shared.roomService.joinRoom(callID, token)
             case .failure(let error):
                 callResult = .failure(error)
                 self.status = .free
@@ -62,13 +63,14 @@ extension CallServiceImpl: CallService {
         command.calleeID = userID
         command.callID = callInfo.callID
         
+        ServiceManager.shared.roomService.leaveRoom()
+        
         command.excute { result in
             var callResult: ZegoResult = .success(())
             switch result {
-            case .success(let dict):
+            case .success(_):
                 self.status = .free
-                //TODO: to add call success logic.
-                
+                self.callInfo = CallInfo()
             case .failure(let error):
                 callResult = .failure(error)
             }
@@ -86,6 +88,9 @@ extension CallServiceImpl: CallService {
             switch result {
             case .success(_):
                 self.status = .calling
+                if let roomID = self.callInfo.callID {
+                    ServiceManager.shared.roomService.joinRoom(roomID, token)
+                }
                 callResult = .success(())
             case .failure(let error):
                 callResult = .failure(error)
@@ -120,6 +125,8 @@ extension CallServiceImpl: CallService {
         let command = EndCallCommand()
         command.userID = ServiceManager.shared.userService.localUserInfo?.userID ?? ""
         command.callID = callInfo.callID
+        
+        ServiceManager.shared.roomService.leaveRoom()
         
         command.excute { result in
             var callResult: ZegoResult = .success(())
@@ -161,13 +168,13 @@ extension CallServiceImpl {
             for user in ServiceManager.shared.userService.userList {
                 guard let userID = user.userID else { continue }
                 if userID == callerID {
-                    self.callInfo.caller = user
                     caller = user
                 }
                 if calleeIDs.contains(userID) {
                     self.callInfo.callees.append(user)
                 }
             }
+            self.callInfo.caller = caller
             self.delegate?.onReceiveCallInvited(caller, type: callType)
         })
         
@@ -182,6 +189,7 @@ extension CallServiceImpl {
             if self.callInfo.caller?.userID != callerID { return }
             guard let caller = self.callInfo.caller else { return }
             self.status = .free
+            self.callInfo = CallInfo()
             self.delegate?.onReceiveCallCanceled(caller)
         })
         
@@ -213,7 +221,9 @@ extension CallServiceImpl {
             guard let callee = self.callInfo.callees.filter({ $0.userID == calleeID }).first else {
                 return
             }
+            ServiceManager.shared.roomService.leaveRoom()
             self.status = .free
+            self.callInfo = CallInfo()
             self.delegate?.onReceiveCallDeclined(callee, type: type)
         })
         
@@ -232,6 +242,7 @@ extension CallServiceImpl {
                 !self.callInfo.callees.compactMap({ $0.userID }).contains(userID) {
                 return
             }
+            ServiceManager.shared.roomService.leaveRoom()
             self.status = .free
             self.callInfo = CallInfo()
             self.delegate?.onReceiveCallEnded()
@@ -243,6 +254,16 @@ extension CallServiceImpl {
         
         listener?.registerListener(self, for: Notify_User_Error, callback: { result in
             
+        })
+        
+        listener?.registerListener(self, for: Notify_User_Error, callback: { result in
+            guard let code = result["error"] as? Int else { return }
+            guard let error = UserError.init(rawValue: code) else { return }
+            if error == .kickedOut {
+                self.status = .free
+                self.callInfo = CallInfo()
+                ServiceManager.shared.roomService.leaveRoom()
+            }
         })
     }
 }

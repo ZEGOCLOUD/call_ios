@@ -73,12 +73,12 @@ extension CallMainVC: CallActionDelegate {
     func startPlayingStream(_ userID: String) {
         if let userRoomInfo = ServiceManager.shared.userService.localUserInfo {
             if vcType == .voice {
-                ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic, callback: nil)
+                ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic)
                 guard let callUser = callUser else { return }
                 ServiceManager.shared.streamService.startPlaying(callUser.userID, streamView: nil)
             } else {
-                ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic, callback: nil)
-                ServiceManager.shared.deviceService.enableCamera(userRoomInfo.camera, callback: nil)
+                ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic)
+                ServiceManager.shared.deviceService.enableCamera(userRoomInfo.camera)
                 let mainUserID = mainStreamUserID != nil ? mainStreamUserID : ServiceManager.shared.userService.localUserInfo?.userID
                 ServiceManager.shared.streamService.startPlaying(mainUserID, streamView: mainPreviewView)
                 
@@ -103,7 +103,7 @@ extension CallMainVC: CallActionDelegate {
     }
     
     func callOpenMic(_ callView: CallBaseView, isOpen: Bool) {
-        ServiceManager.shared.deviceService.enableMic(isOpen, callback: nil)
+        ServiceManager.shared.deviceService.enableMic(isOpen)
     }
     
     func callOpenVoice(_ callView: CallBaseView, isOpen: Bool) {
@@ -111,7 +111,7 @@ extension CallMainVC: CallActionDelegate {
     }
     
     func callOpenVideo(_ callView: CallBaseView, isOpen: Bool) {
-        ServiceManager.shared.deviceService.enableCamera(isOpen, callback: nil)
+        ServiceManager.shared.deviceService.enableCamera(isOpen)
     }
     
     func callFlipCamera(_ callView: CallBaseView) {
