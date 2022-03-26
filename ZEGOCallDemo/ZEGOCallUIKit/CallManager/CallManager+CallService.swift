@@ -72,6 +72,7 @@ extension CallManager: CallServiceDelegate {
         }
         currentCallUserInfo = userInfo
         currentCallStatus = .calling
+        vc.otherUserRoomInfo = userInfo
         vc.updateCallType(vc.vcType, userInfo: userInfo, status: .calling)
         callTimeManager.callStart()
         startPlayingStream(userInfo.userID)
