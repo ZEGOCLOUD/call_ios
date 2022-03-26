@@ -49,6 +49,16 @@ class GoogleLoginVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.isNavigationBarHidden = false
+    }
+    
     @IBAction func loginClick(_ sender: Any) {
         if !isAgreePolicy {
             HUDHelper.showMessage(message: ZGLocalizedString("toast_login_service_privacy"))
@@ -65,7 +75,11 @@ class GoogleLoginVC: UIViewController {
         guard let clientID = FirebaseApp.app()?.options.clientID else { return }
         let config = GIDConfiguration(clientID: clientID)
         GIDSignIn.sharedInstance.signIn(with: config, presenting: self) { user, error in
-            guard let token = user?.authentication.idToken else { return }
+            guard let token = user?.authentication.idToken else {
+                let message = String(format: "%@", error?.localizedDescription ?? "")
+                TipView.showWarn(message)
+                return
+            }
             HUDHelper.showNetworkLoading()
             CallManager.shared.login(token) { result in
                 HUDHelper.hideNetworkLoading()

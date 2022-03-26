@@ -13,7 +13,7 @@ extension CallManager: CallServiceDelegate {
         delegate?.onReceiveCallInvite(userInfo, type: type)
         if currentCallStatus == .calling || currentCallStatus == .wait || currentCallStatus == .waitAccept {
             guard let userID = userInfo.userID else { return }
-            refusedCall(userID)
+            declineCall(userID)
             return
         }
         startTimeIdentify = Int(Date().timeIntervalSince1970)
@@ -110,19 +110,23 @@ extension CallManager: CallServiceDelegate {
     
     func onReceiveCallTimeout(_ type: CallTimeoutType, info: UserInfo) {
         delegate?.onReceiveCallTimeout(type, info: info)
-//        switch type {
-//        case .caller:
-//            if currentCallStatus == .wait {
-//
-//            } else if currentCallStatus == .waitAccept {
-//
-//            }
-//        case .callee:
-//            if currentCallStatus == .wait {
-//
-//            } else if currentCallStatus == .waitAccept {
-//
-//            }
-//        }
+        switch type {
+        case .connecting:
+            if currentCallStatus == .wait {
+                CallAcceptTipView.dismiss()
+                self.currentCallStatus = .free
+                self.currentCallUserInfo = nil
+                self.audioPlayer?.stop()
+                self.endSystemCall()
+            } else if currentCallStatus == .waitAccept {
+                minmizedManager.dismissCallMinView()
+                guard let vc = currentCallVC else { return }
+                vc.cancelCall(vc.callUser?.userID ?? "", callType: vc.vcType, isTimeout: true)
+                vc.changeCallStatusText(.miss)
+                vc.callDelayDismiss()
+            }
+        case .calling:
+            break
+        }
     }
 }
