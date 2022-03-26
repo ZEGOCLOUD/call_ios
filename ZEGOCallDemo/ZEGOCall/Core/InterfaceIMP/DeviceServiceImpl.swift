@@ -92,10 +92,12 @@ class DeviceServiceImpl: NSObject, DeviceService {
         
     func enableMic(_ enable: Bool) {
         ZegoExpressEngine.shared().muteMicrophone(!enable)
+        ServiceManager.shared.userService.localUserInfo?.mic = enable
     }
     
     func enableCamera(_ enable: Bool) {
         ZegoExpressEngine.shared().enableCamera(enable)
+        ServiceManager.shared.userService.localUserInfo?.camera = enable
     }
     
     func useFrontCamera(_ isFront: Bool) {

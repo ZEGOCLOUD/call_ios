@@ -58,7 +58,7 @@ class UserServiceImpl: NSObject {
         
         // ServiceManager didn't finish init at this time.
         DispatchQueue.main.async {
-            
+            ServiceManager.shared.addExpressEventHandler(self)
         }
     }
 }
@@ -130,5 +130,43 @@ extension UserServiceImpl {
 extension UserServiceImpl: ZegoEventHandler {
     func onNetworkQuality(_ userID: String, upstreamQuality: ZegoStreamQualityLevel, downstreamQuality: ZegoStreamQualityLevel) {
         delegate?.onNetworkQuality(userID, upstreamQuality: upstreamQuality)
+    }
+    
+    func onRemoteCameraStateUpdate(_ state: ZegoRemoteDeviceState, streamID: String) {
+        let userIDs = streamID.components(separatedBy: ["_"])
+        if userIDs.count < 2 { return }
+        let userID = userIDs[1]
+        print("++++++++++++camera state: \(state.rawValue), \(userID)")
+        
+        if state != .open && state != .disable { return }
+        
+        var remoteUser: UserInfo?
+        if userID == ServiceManager.shared.callService.callInfo.caller?.userID {
+            remoteUser = ServiceManager.shared.callService.callInfo.caller
+        } else {
+            remoteUser = ServiceManager.shared.callService.callInfo.callees.filter({ $0.userID == userID }).first
+        }
+        remoteUser?.camera = state == .open
+        guard let remoteUser = remoteUser else { return }
+        delegate?.onUserInfoUpdate(remoteUser)
+    }
+    
+    func onRemoteMicStateUpdate(_ state: ZegoRemoteDeviceState, streamID: String) {
+        let userIDs = streamID.components(separatedBy: ["_"])
+        if userIDs.count >= 2 { return }
+        let userID = userIDs[1]
+        print("++++++++++++mic state: \(state.rawValue), \(userID)")
+        
+        if state != .open && state != .mute { return }
+        
+        var remoteUser: UserInfo?
+        if userID == ServiceManager.shared.callService.callInfo.caller?.userID {
+            remoteUser = ServiceManager.shared.callService.callInfo.caller
+        } else {
+            remoteUser = ServiceManager.shared.callService.callInfo.callees.filter({ $0.userID == userID }).first
+        }
+        remoteUser?.mic = state == .open
+        guard let remoteUser = remoteUser else { return }
+        delegate?.onUserInfoUpdate(remoteUser)
     }
 }

@@ -139,4 +139,16 @@ extension ServiceManager: ZegoEventHandler {
             delegate.onAudioRouteChange?(audioRoute)
         }
     }
+    
+    func onRemoteCameraStateUpdate(_ state: ZegoRemoteDeviceState, streamID: String) {
+        for delegate in rtcEventDelegates.allObjects {
+            delegate.onRemoteCameraStateUpdate?(state, streamID: streamID)
+        }
+    }
+    
+    func onRemoteMicStateUpdate(_ state: ZegoRemoteDeviceState, streamID: String) {
+        for delegate in rtcEventDelegates.allObjects {
+            delegate.onRemoteMicStateUpdate?(state, streamID: streamID)
+        }
+    }
 }
