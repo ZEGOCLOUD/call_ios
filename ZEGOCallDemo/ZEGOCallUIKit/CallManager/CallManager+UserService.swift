@@ -42,8 +42,4 @@ extension CallManager: UserServiceDelegate {
         
     }
     
-    func onReceiveCallingUserDisconnected(_ userInfo: UserInfo) {
-        delegate?.onReceiveCallingUserDisconnected(userInfo)
-    }
-    
 }
