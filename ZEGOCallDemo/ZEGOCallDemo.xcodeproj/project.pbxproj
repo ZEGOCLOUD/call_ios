@@ -38,12 +38,6 @@
 		8637814427E9AE6B000A0C22 /* CallManager+Minimized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637814327E9AE6B000A0C22 /* CallManager+Minimized.swift */; };
 		8637814627EB05CF000A0C22 /* CallManager+DeviceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637814527EB05CF000A0C22 /* CallManager+DeviceService.swift */; };
 		8637814827EEB868000A0C22 /* CallUIKit.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8637814727EEB867000A0C22 /* CallUIKit.xcassets */; };
-		86718CA427915A0B00CEA8A0 /* DefaultRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CA327915A0B00CEA8A0 /* DefaultRefreshView.swift */; };
-		86718CA627915A5D00CEA8A0 /* RefreshViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CA527915A5D00CEA8A0 /* RefreshViewAnimator.swift */; };
-		86718CA827915A8F00CEA8A0 /* DefaultViewAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CA727915A8F00CEA8A0 /* DefaultViewAnimator.swift */; };
-		86718CAA27915AC100CEA8A0 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CA927915AC100CEA8A0 /* State.swift */; };
-		86718CAC27915ADE00CEA8A0 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CAB27915ADE00CEA8A0 /* PullToRefresh.swift */; };
-		86718CAE27915B2B00CEA8A0 /* UIScrollView+PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718CAD27915B2B00CEA8A0 /* UIScrollView+PullToRefresh.swift */; };
 		86718D2D2797E56D00CEA8A0 /* ProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718D2C2797E56D00CEA8A0 /* ProviderDelegate.swift */; };
 		868F6356279E923200D0B5DC /* Call.strings in Resources */ = {isa = PBXBuildFile; fileRef = 868F6358279E923200D0B5DC /* Call.strings */; };
 		868F635F27A1647000D0B5DC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 868F636127A1647000D0B5DC /* InfoPlist.strings */; };
@@ -182,12 +176,6 @@
 		8637814327E9AE6B000A0C22 /* CallManager+Minimized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallManager+Minimized.swift"; sourceTree = "<group>"; };
 		8637814527EB05CF000A0C22 /* CallManager+DeviceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallManager+DeviceService.swift"; sourceTree = "<group>"; };
 		8637814727EEB867000A0C22 /* CallUIKit.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CallUIKit.xcassets; sourceTree = "<group>"; };
-		86718CA327915A0B00CEA8A0 /* DefaultRefreshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultRefreshView.swift; sourceTree = "<group>"; };
-		86718CA527915A5D00CEA8A0 /* RefreshViewAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshViewAnimator.swift; sourceTree = "<group>"; };
-		86718CA727915A8F00CEA8A0 /* DefaultViewAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultViewAnimator.swift; sourceTree = "<group>"; };
-		86718CA927915AC100CEA8A0 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
-		86718CAB27915ADE00CEA8A0 /* PullToRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefresh.swift; sourceTree = "<group>"; };
-		86718CAD27915B2B00CEA8A0 /* UIScrollView+PullToRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+PullToRefresh.swift"; sourceTree = "<group>"; };
 		86718D2C2797E56D00CEA8A0 /* ProviderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderDelegate.swift; sourceTree = "<group>"; };
 		868F6353279E913800D0B5DC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		868F6357279E923200D0B5DC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Call.strings; sourceTree = "<group>"; };
@@ -416,7 +404,6 @@
 			isa = PBXGroup;
 			children = (
 				86718D2B2797E54800CEA8A0 /* Provider */,
-				86DE03C527981AF2000EE3C5 /* CallShow */,
 				86B19984278EB6C40004C997 /* View */,
 				8637811227E2D6F3000A0C22 /* Model */,
 				8637812E27E4617A000A0C22 /* VC */,
@@ -446,6 +433,10 @@
 				8637814127E9A399000A0C22 /* CallManager+CallTime.swift */,
 				8637814327E9AE6B000A0C22 /* CallManager+Minimized.swift */,
 				8637814527EB05CF000A0C22 /* CallManager+DeviceService.swift */,
+				86AC134327997B5C00607277 /* CallManager+Stream.swift */,
+				86AC134527997D7F00607277 /* CallManager+CallKit.swift */,
+				8637810C27E1EA5F000A0C22 /* MinimizedDisplayManager.swift */,
+				8637813F27E9A0FC000A0C22 /* CallTimeManager.swift */,
 			);
 			path = CallManager;
 			sourceTree = "<group>";
@@ -456,19 +447,6 @@
 				8637813527E47686000A0C22 /* AppleCallKitServiceIMP.swift */,
 			);
 			path = CallInterfaceIMP;
-			sourceTree = "<group>";
-		};
-		86718CA2279159BA00CEA8A0 /* Refresh */ = {
-			isa = PBXGroup;
-			children = (
-				86718CA327915A0B00CEA8A0 /* DefaultRefreshView.swift */,
-				86718CA727915A8F00CEA8A0 /* DefaultViewAnimator.swift */,
-				86718CA527915A5D00CEA8A0 /* RefreshViewAnimator.swift */,
-				86718CAB27915ADE00CEA8A0 /* PullToRefresh.swift */,
-				86718CA927915AC100CEA8A0 /* State.swift */,
-				86718CAD27915B2B00CEA8A0 /* UIScrollView+PullToRefresh.swift */,
-			);
-			path = Refresh;
 			sourceTree = "<group>";
 		};
 		86718D2B2797E54800CEA8A0 /* Provider */ = {
@@ -632,7 +610,6 @@
 		86B198FB278D63430004C997 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				86718CA2279159BA00CEA8A0 /* Refresh */,
 				86B198FC278D63430004C997 /* Token */,
 				86B19949278D63430004C997 /* MBProgressHUD.h */,
 				86B19943278D63430004C997 /* MBProgressHUD.m */,
@@ -903,17 +880,6 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
-		86DE03C527981AF2000EE3C5 /* CallShow */ = {
-			isa = PBXGroup;
-			children = (
-				86AC134327997B5C00607277 /* CallManager+Stream.swift */,
-				86AC134527997D7F00607277 /* CallManager+CallKit.swift */,
-				8637810C27E1EA5F000A0C22 /* MinimizedDisplayManager.swift */,
-				8637813F27E9A0FC000A0C22 /* CallTimeManager.swift */,
-			);
-			path = CallShow;
-			sourceTree = "<group>";
-		};
 		8E7756E627DF47CE00BFB5F6 /* RingResource */ = {
 			isa = PBXGroup;
 			children = (
@@ -1131,7 +1097,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				86718CA627915A5D00CEA8A0 /* RefreshViewAnimator.swift in Sources */,
 				8E7756F927E09D3600BFB5F6 /* CallServiceImpl.swift in Sources */,
 				86B1995C278D63440004C997 /* StringTool.swift in Sources */,
 				8637811727E2D7EB000A0C22 /* SettingSwitchCell.swift in Sources */,
@@ -1167,14 +1132,12 @@
 				86B19A1427901FAF0004C997 /* CallBaseView.swift in Sources */,
 				8637810D27E1EA5F000A0C22 /* MinimizedDisplayManager.swift in Sources */,
 				86B19896278BDD7E0004C997 /* LoginVC.swift in Sources */,
-				86718CAC27915ADE00CEA8A0 /* PullToRefresh.swift in Sources */,
 				8E703EF227E816BD00CC87CE /* GetUserCommand.swift in Sources */,
 				86B19962278D63440004C997 /* UIImage+Zego.swift in Sources */,
 				86B198E6278BE2600004C997 /* RoomServiceImpl.swift in Sources */,
 				8E77571927E477A700BFB5F6 /* CancelCallCommand.swift in Sources */,
 				86DE03C927983D98000EE3C5 /* CallMainVC+Stream.swift in Sources */,
 				8637811B27E2DA49000A0C22 /* SettingParamDisplayCell.swift in Sources */,
-				86718CA827915A8F00CEA8A0 /* DefaultViewAnimator.swift in Sources */,
 				8E7756F527E0906D00BFB5F6 /* CallInfo.swift in Sources */,
 				86B198D4278BE2600004C997 /* String+Stream.swift in Sources */,
 				8E7756ED27E084FE00BFB5F6 /* UserService.swift in Sources */,
@@ -1200,7 +1163,6 @@
 				86B198E0278BE2600004C997 /* RoomInfo.swift in Sources */,
 				86B19892278BDD7D0004C997 /* AppDelegate.swift in Sources */,
 				8E703EF827EB176600CC87CE /* AcceptCallCommand.swift in Sources */,
-				86718CAA27915AC100CEA8A0 /* State.swift in Sources */,
 				8E77570B27E19F2C00BFB5F6 /* ListenerUpdater.swift in Sources */,
 				86B198EC278BE2600004C997 /* ZegoJsonTool.swift in Sources */,
 				8637813E27E81949000A0C22 /* GoogleLoginVC.swift in Sources */,
@@ -1229,14 +1191,12 @@
 				8637811E27E2DA61000A0C22 /* SettingBaseCell.swift in Sources */,
 				8E77571327E46F2F00BFB5F6 /* UserListCommand.swift in Sources */,
 				86B19986278EB89F0004C997 /* CallAcceptView.swift in Sources */,
-				86718CA427915A0B00CEA8A0 /* DefaultRefreshView.swift in Sources */,
 				8637814227E9A399000A0C22 /* CallManager+CallTime.swift in Sources */,
 				8E77570727E19E9300BFB5F6 /* Listener.swift in Sources */,
 				86B198EB278BE2600004C997 /* DictionaryArray.swift in Sources */,
 				86B19A1127901B550004C997 /* CallMainVC.swift in Sources */,
 				86B19A1727911D740004C997 /* CallMainVC+Operation.swift in Sources */,
 				86B19960278D63440004C997 /* ZegoTimer.swift in Sources */,
-				86718CAE27915B2B00CEA8A0 /* UIScrollView+PullToRefresh.swift in Sources */,
 				86B1995A278D63440004C997 /* HUDHelper.swift in Sources */,
 				86B1998A278EBB7D0004C997 /* CallingPhoneView.swift in Sources */,
 				86B19894278BDD7E0004C997 /* SceneDelegate.swift in Sources */,
