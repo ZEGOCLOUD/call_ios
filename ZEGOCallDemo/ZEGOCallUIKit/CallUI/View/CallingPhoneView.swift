@@ -26,7 +26,7 @@ class CallingPhoneView: CallBaseView {
     }
     
     @IBAction func voiceButtonClick(_ sender: UIButton) {
-        if ServiceManager.shared.deviceService.routeType != .receiver ||
+        if ServiceManager.shared.deviceService.routeType != .receiver &&
             ServiceManager.shared.deviceService.routeType != .speaker {
             return
         }
