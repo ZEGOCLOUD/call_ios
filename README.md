@@ -45,7 +45,7 @@ Before getting started with the ZEGOCLOUD Call application, **contact us to acti
 
 2. Open Xcode, click the **Any iOS Device** in the upper left corner, select the iOS device you are using.
 
-3. Click the **Build** button in the upper left corner to run the sample code and experience the Live Audio Room service.
+3. Click the **Build** button in the upper left corner to run the sample code and experience the call service.
 
       <img height="500px" src="images/app_ios.png"/>
 
@@ -67,19 +67,68 @@ Directory path:
 
 ```
 .
+├── Command																		  	  ---  Firebase requests function encapsulation
 ├── Core
-│   ├── Define.swift               --- Common definitions and error codes of ZEGOCall.
-│   ├── Extensions                 --- Service related extensions
-│   ├── Manager
-│   │   ├── RoomManager.swift      --- Room related instances that used to initialize the SDK, and provide the capabilities for service implementation.
-│   │   └── ZIMManager.swift       --- The ZIM instances for the SDK use.
-│   ├── Model                      --- Models, such as UserInfo, RoomInfo, and more.
-│   └── Service
-│       ├── DeviceService.swift    --- Streaming and device related service, such as stream publishing, playing and configure audio and video settings.
-│       ├── RoomService.swift      --- Room related service, such as join/leave a room, update room information, and more.
-│       └── UserService.swift      --- User related service, such as start/end call, turn on/off the microphone/camera, and more.
-└── Tool
+│   ├── Commands 																    --- Firebase relate command, such as Login in/out of Firebase, getting user lists, and call related.
+│   ├── Define.swift															  --- Common definitions and error codes of ZEGOCall.
+│   ├── Interface
+│   │   ├── CallService.swift												--- Call related interface, such as start/end call, accept call and more
+│   │   ├── DeviceService.swift										  --- Device related service, such as turn on/off the  microphone/camera, and more.
+│   │   ├── RoomService.swift												--- Room related service, such as join/leave a room, update room information, and more.
+│   │   ├── StreamService.swift											--- Stream related service, such as play/stop stream.
+│   │   └── UserService.swift												---  User related service, such as login/loginOut, get user list and more.
+│   ├── InterfaceIMP															  --- The implementation logic of the interface
+│   ├── Manager																		
+│   │   └── ServiceManager.swift										--- Room related instances that used to initialize the SDK, and provide the capabilities for service implementation.
+│   └── Model																			  --- Models, such as UserInfo, RoomInfo, and CallInfo.
+├── Listener
+│   ├── Listener.swift
+│   ├── ListenerManager.swift
+│   └── ListenerUpdater.swift
+├── Reqeust																				  --- Firebase related request
+├── Tool
 ```
+
+### ZEGOCallUIKit
+
+The ZEGOCallUIKit module is a layer of ZEGOCall packaging, simplified interactive video scene access, internal complete call logic and call UI.
+
+Directory path: 
+
+```
+{your_project_root_path}/call_ios/ZEGOCallDemo/ZEGOCallUIKit
+```
+
+```
+.															
+├── CallInterface
+│   └── AppleCallKitService.swift													--- AppleCallKit interface
+├── CallInterfaceIMP
+│   └── AppleCallKitServiceIMP.swift											--- AppleCallKit implementation
+├── CallManager																				 
+│   ├── CallManager+AcceptTipAction.swift
+│   ├── CallManager+CallKit.swift
+│   ├── CallManager+CallService.swift
+│   ├── CallManager+CallTime.swift
+│   ├── CallManager+DeviceService.swift
+│   ├── CallManager+Minimized.swift
+│   ├── CallManager+Stream.swift
+│   ├── CallManager+UserService.swift
+│   ├── CallManager.swift															   --- Room related instances that used to initialize the SDK, and provide the capabilities for service implementation.
+│   ├── CallTimeManager.swift
+│   └── MinimizedDisplayManager.swift
+├── CallUI
+│   ├── Model
+│   ├── Provider
+│   │   └── ProviderDelegate.swift
+│   ├── VC																						   --- Call ViewController
+│   └── View																					   --- Call related View
+├── CallUIKit.xcassets																	 --- Images, colors, and more resources
+├── Helper																							 --- Utilities
+
+```
+
+
 
 ### ZEGOCallDemo
 
@@ -96,13 +145,11 @@ Directory path:
 ├── AppCenter            --- AppID, AppSign, ServerSecret and more
 ├── Assets.xcassets      --- Images, colors, and more resources
 ├── CorePages            --- UI and business logic of core features 
-│   ├── Call             --- The showing page when making calls
 │   ├── Home             --- Homepage
 │   ├── Login            --- Login
 │   ├── Setting          --- The Settings page
 │   ├── User             --- The online contacts page
 │   └── WebPages         --- The Web page
-├── Helper               --- Utilities
 ├── Network
 ├── Request
 ```
