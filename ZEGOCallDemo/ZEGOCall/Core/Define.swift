@@ -47,23 +47,32 @@ enum ZegoError: Error {
 }
 
 enum DeclineType: Int {
+    /// decline: Manually reject the call invitation
     case decline = 1
+    /// busy: The other is busy
     case busy = 2
 }
 
 enum CancelType: Int {
+    /// intent: The caller cancelled the call
     case intent = 1
 }
 
 enum CallType: Int {
+    /// voice: audio call type
     case voice = 1
+    /// video: video call type
     case video = 2
 }
 
 enum LocalUserStatus: Int {
+    /// free: Indicates that the state is idle
     case free = 0
+    /// outgoing: Indicates that a call is being made
     case outgoing = 1
+    /// incoming: Indicates that an incoming call is received
     case incoming = 2
+    /// calling: Indicates that the call is ongoing
     case calling = 3
 }
 
@@ -138,11 +147,14 @@ enum DeviceType {
 }
 
 enum CallTimeoutType {
+    /// connecting: A call timed out during connection. Procedure
     case connecting
+    /// calling: The call timed out
     case calling
 }
 
 enum UserError: Int {
+    /// kickedOut: The user is kicked out
     case kickedOut = 1
 }
 

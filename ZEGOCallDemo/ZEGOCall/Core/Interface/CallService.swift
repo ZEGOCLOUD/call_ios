@@ -24,8 +24,19 @@ protocol CallServiceDelegate  {
     /// - Parameter userInfo: refers to the caller information.
     func onReceiveCallCanceled(_ userInfo: UserInfo)
     
+    /// Callback for receive a accept call
+    ///
+    /// Description: This callback will be triggered when the callee accept the received call.
+    ///
+    /// - Parameter userInfo: refers to the callee information.
     func onReceiveCallAccepted(_ userInfo: UserInfo)
     
+    /// Callback for receive a decline call
+    ///
+    /// Description: This callback will be triggered when the callee hang up the received call.
+    ///
+    /// - Parameter userInfo: refers to the callee information.
+    /// - Parameter type: refers to the decline type
     func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType)
     
     /// Callback for end a call
@@ -33,6 +44,10 @@ protocol CallServiceDelegate  {
     /// - Description: This callback will be triggered when the caller or called user ends the call.
     func onReceiveCallEnded()
     
+    
+    /// Callback for timeout a call
+    ///
+    /// - Description: This callback will be triggered when the caller or called user ends the call.
     func onReceiveCallTimeout(_ type: CallTimeoutType, info: UserInfo)
 }
 
@@ -74,8 +89,22 @@ protocol CallService {
     /// - Parameter callback: refers to the callback for cancel a call.
     func cancelCall(userID: String, cancelType: CancelType, callback: RoomCallback?)
     
+    /// Accept a call
+    ///
+    /// Description: This method can be used to accept a call. And the called user receives a notification through callback that the call has been accept.
+    ///
+    /// Call this method at: After the user login
+    /// - Parameter callback: refers to the callback for accept a call.
     func acceptCall(_ token: String, callback: RoomCallback?)
     
+    /// Refused a call
+    ///
+    /// Description: This method can be used to refused a call. And the called user receives a notification through callback that the call has been refused.
+    ///
+    /// Call this method at: After the user login
+    /// - Parameter userID: refers to the ID of the calling user.
+    /// - Parameter type: decline type
+    /// - Parameter callback: refers to the callback for refused a call.
     func declineCall(_ userID: String, type: DeclineType, callback: RoomCallback?)
     
     /// End a call
