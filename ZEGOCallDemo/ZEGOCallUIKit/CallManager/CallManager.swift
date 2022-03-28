@@ -76,8 +76,6 @@ class CallManager: NSObject {
     var currentCallStatus: callStatus = .free
     var appIsActive: Bool = true
     var currentTipView: CallAcceptTipView?
-    let timer = ZegoTimer(1000)
-    var startTimeIdentify: Int = 0
     var startCallTime: Int = 0
     var otherUserRoomInfo: UserInfo?
     var isConnected: Bool = true
@@ -124,18 +122,6 @@ class CallManager: NSObject {
         NotificationCenter.default.addObserver(self, selector: #selector(muteSpeaker(notif:)), name: Notification.Name(CALL_NOTI_MUTE), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackGround), name: UIApplication.didEnterBackgroundNotification, object: nil)
-        
-        timer.setEventHandler {
-            let currentTime = Int(Date().timeIntervalSince1970)
-            if self.currentCallStatus == .wait && currentTime - self.startTimeIdentify > 60 {
-                CallAcceptTipView.dismiss()
-                self.currentCallStatus = .free
-                self.currentCallUserInfo = nil
-                self.audioPlayer?.stop()
-                self.endSystemCall()
-            }
-        }
-        timer.start()
         
         ServiceManager.shared.userService.delegate = self
         ServiceManager.shared.callService.delegate = self

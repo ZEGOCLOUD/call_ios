@@ -12,18 +12,11 @@ extension CallMainVC: CallActionDelegate {
     func callhandUp(_ callView: CallBaseView) {
         if let userID = self.callUser?.userID {
             if self.statusType == .calling {
-                ServiceManager.shared.callService.endCall() { result in
-                    switch result {
-                    case .success():
-                        CallManager.shared.audioPlayer?.stop()
-                        CallManager.shared.currentCallStatus = .free
-                        self.changeCallStatusText(.completed)
-                        self.callDelayDismiss()
-                    case .failure(let error):
-                        let message = String(format: ZGLocalizedString("end_call_failed"), error.code)
-                        TipView.showWarn(message)
-                    }
-                }
+                ServiceManager.shared.callService.endCall(nil)
+                CallManager.shared.audioPlayer?.stop()
+                CallManager.shared.currentCallStatus = .free
+                self.changeCallStatusText(.completed)
+                self.callDelayDismiss()
             } else {
                 cancelCall(userID, callType: self.vcType)
             }
@@ -31,21 +24,13 @@ extension CallMainVC: CallActionDelegate {
     }
     
     func cancelCall(_ userID: String, callType: CallType, isTimeout: Bool = false) {
-        ServiceManager.shared.callService.cancelCall(userID: userID) { result in
-            switch result {
-            case .success():
-                CallManager.shared.audioPlayer?.stop()
-                CallManager.shared.currentCallStatus = .free
-                if isTimeout {
-                    self.changeCallStatusText(.miss)
-                } else {
-                    self.changeCallStatusText(.canceled)
-                }
-                self.callDelayDismiss()
-            case .failure(let error):
-                let message = String(format: ZGLocalizedString("cancel_call_failed"), error.code)
-                TipView.showWarn(message)
-            }
+        ServiceManager.shared.callService.cancelCall(userID: userID, callback: nil)
+        CallManager.shared.audioPlayer?.stop()
+        CallManager.shared.currentCallStatus = .free
+        if isTimeout {
+            self.changeCallStatusText(.miss)
+        } else {
+            self.changeCallStatusText(.canceled)
         }
     }
     
@@ -91,14 +76,11 @@ extension CallMainVC: CallActionDelegate {
     
     func callDecline(_ callView: CallBaseView) {
         if let userID = self.callUser?.userID {
-            ServiceManager.shared.callService.declineCall(userID, type: .decline) { result in
-                if result.isSuccess {
-                    CallManager.shared.audioPlayer?.stop()
-                    CallManager.shared.currentCallStatus = .free
-                    self.changeCallStatusText(.decline)
-                    self.callDelayDismiss()
-                }
-            }
+            ServiceManager.shared.callService.declineCall(userID, type: .decline, callback: nil)
+            CallManager.shared.audioPlayer?.stop()
+            CallManager.shared.currentCallStatus = .free
+            self.changeCallStatusText(.decline)
+            self.callDelayDismiss()
         }
     }
     

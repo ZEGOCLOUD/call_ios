@@ -16,7 +16,6 @@ extension CallManager: CallServiceDelegate {
             declineCall(userID, type:.busy)
             return
         }
-        startTimeIdentify = Int(Date().timeIntervalSince1970)
         currentCallStatus = .wait
         currentCallUserInfo = userInfo
         callKitCallType = type

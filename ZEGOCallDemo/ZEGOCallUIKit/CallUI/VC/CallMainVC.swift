@@ -255,28 +255,12 @@ class CallMainVC: UIViewController {
         
         vc.timer.setEventHandler {
             switch vc.statusType {
-            case .take:
-                let currentTime = Int(Date().timeIntervalSince1970)
-                if currentTime - vc.callWaitTime > 60 {
-                    vc.cancelCall(vc.callUser?.userID ?? "", callType: vc.vcType, isTimeout: true)
-                    vc.changeCallStatusText(.miss)
-                    vc.timer.stop()
-                    vc.callDelayDismiss()
-                }
             case .calling:
                 let currentTime = Int(Date().timeIntervalSince1970)
                 DispatchQueue.main.async {
                     vc.timeLabel.text = String.getTimeFormate(currentTime - vc.callTime)
                 }
-            case .accept:
-                let currentTime = Int(Date().timeIntervalSince1970)
-                if currentTime - CallManager.shared.startTimeIdentify > 60 {
-                    CallManager.shared.audioPlayer?.stop()
-                    vc.changeCallStatusText(.miss)
-                    vc.timer.stop()
-                    vc.callDelayDismiss()
-                }
-            case .canceled,.decline,.miss,.completed,.busy:
+            case .accept,.take,.canceled,.decline,.miss,.completed,.busy:
                 break
             }
         }
