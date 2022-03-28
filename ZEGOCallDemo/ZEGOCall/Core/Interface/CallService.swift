@@ -85,9 +85,8 @@ protocol CallService {
     ///
     /// Call this method at: After the user login
     /// - Parameter userID: refers to the ID of the user you are calling.
-    /// - Parameter cancelType: cancel type
     /// - Parameter callback: refers to the callback for cancel a call.
-    func cancelCall(userID: String, cancelType: CancelType, callback: RoomCallback?)
+    func cancelCall(userID: String, callback: RoomCallback?)
     
     /// Accept a call
     ///

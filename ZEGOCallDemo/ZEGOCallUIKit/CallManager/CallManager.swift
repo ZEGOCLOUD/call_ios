@@ -277,13 +277,13 @@ class CallManager: NSObject {
         }
     }
     
-    func declineCall(_ userID: String) {
+    func declineCall(_ userID: String, type: DeclineType) {
         if currentCallUserInfo?.userID == userID {
             currentCallStatus = .free
             currentCallUserInfo = nil
             otherUserRoomInfo = nil
         }
-        ServiceManager.shared.callService.declineCall(userID, type: .decline, callback: nil)
+        ServiceManager.shared.callService.declineCall(userID, type: type, callback: nil)
     }
     
     func endCall(_ userID: String) {
@@ -296,12 +296,12 @@ class CallManager: NSObject {
         if ServiceManager.shared.callService.status == .calling {
             ServiceManager.shared.callService.endCall(nil)
         } else {
-            declineCall(userID)
+            declineCall(userID, type: .decline)
         }
     }
     
     func cancelCall(_ userID: String, callType: CallType, isTimeout: Bool = false) {
-        ServiceManager.shared.callService.cancelCall(userID: userID, cancelType: .intent) { result in
+        ServiceManager.shared.callService.cancelCall(userID: userID) { result in
             switch result {
             case .success():
                 CallManager.shared.audioPlayer?.stop()

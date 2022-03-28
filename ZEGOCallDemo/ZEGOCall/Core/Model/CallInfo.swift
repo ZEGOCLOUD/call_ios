@@ -8,10 +8,10 @@
 import Foundation
 
 class CallInfo: NSObject {
-    /// A call identify, To initiate a call, a callID is generated
+    /// 一个通话的标识
     var callID: String?
-    /// Information about the user who initiates the call
+    /// 呼叫者的用户信息
     var caller: UserInfo?
-    /// User information of the called user
+    /// 被呼叫者的用户信息
     var callees = [UserInfo]()
 }

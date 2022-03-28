@@ -53,11 +53,6 @@ enum DeclineType: Int {
     case busy = 2
 }
 
-enum CancelType: Int {
-    /// intent: The caller cancelled the call
-    case intent = 1
-}
-
 enum CallType: Int {
     /// voice: audio call type
     case voice = 1
