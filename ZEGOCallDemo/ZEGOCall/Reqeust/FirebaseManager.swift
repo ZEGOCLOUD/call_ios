@@ -176,6 +176,7 @@ extension FirebaseManager {
         let caller = FirebaseCallUser()
         caller.caller_id = userID
         caller.user_id = userID
+        caller.user_name = parameter["caller_name"] as? String
         caller.start_time = startTime
         caller.status = .connecting
         callModel.users.append(caller)
@@ -418,7 +419,8 @@ extension FirebaseManager {
             let data: [String: Any] = [
                 "call_id": model.call_id,
                 "call_type": model.call_type.rawValue,
-                "caller_id": firebaseUser.caller_id,
+                "caller_id": caller.caller_id,
+                "caller_name": caller.user_name ?? caller.user_id,
                 "callee_ids": calleeIDs
             ]
             self.listener?.receiveUpdate(Notify_Call_Invited, parameter: data)

@@ -38,6 +38,7 @@ extension CallServiceImpl: CallService {
         command.userID = callerUserID
         command.callees = [userID]
         command.callID = callID
+        command.callerName = ServiceManager.shared.userService.localUserInfo?.userName
         command.type = type
         
         callInfo.callID = callID
@@ -165,6 +166,7 @@ extension CallServiceImpl {
         _ = listener?.addListener(Notify_Call_Invited, listener: { result in
             guard let callID = result["call_id"] as? String,
                   let callerID = result["caller_id"] as? String,
+                  let callerName = result["caller_name"] as? String,
                   let callTypeOld = result["call_type"] as? Int,
                   let calleeIDs = result["callee_ids"] as? [String]
             else { return }
@@ -175,7 +177,7 @@ extension CallServiceImpl {
             self.callInfo.callID = callID
             self.addCallTimer()
             
-            var caller = UserInfo(userID: callerID, userName: "")
+            var caller = UserInfo(userID: callerID, userName: callerName)
             for user in ServiceManager.shared.userService.userList {
                 guard let userID = user.userID else { continue }
                 if userID == callerID {
