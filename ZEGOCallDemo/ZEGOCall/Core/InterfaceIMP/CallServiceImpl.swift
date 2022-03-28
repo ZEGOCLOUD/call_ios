@@ -151,8 +151,8 @@ extension CallServiceImpl {
     }
     
     private func registerListener() {
-        
-        listener?.registerListener(self, for: Notify_Call_Invited, callback: { result in
+                
+        _ = listener?.addListener(Notify_Call_Invited, listener: { result in
             guard let callID = result["call_id"] as? String,
                   let callerID = result["caller_id"] as? String,
                   let callTypeOld = result["call_type"] as? Int,
@@ -178,7 +178,7 @@ extension CallServiceImpl {
             self.delegate?.onReceiveCallInvited(caller, type: callType)
         })
         
-        listener?.registerListener(self, for: Notify_Call_Canceled, callback: { result in
+        _ = listener?.addListener(Notify_Call_Canceled, listener: { result in
             guard let callID = result["call_id"] as? String,
                   let callerID = result["caller_id"] as? String
             else {
@@ -193,7 +193,7 @@ extension CallServiceImpl {
             self.delegate?.onReceiveCallCanceled(caller)
         })
         
-        listener?.registerListener(self, for: Notify_Call_Accept, callback: { result in
+        _ = listener?.addListener(Notify_Call_Accept, listener: { result in
             guard let callID = result["call_id"] as? String,
                   let calleeID = result["callee_id"] as? String
             else {
@@ -207,8 +207,8 @@ extension CallServiceImpl {
             self.status = .calling
             self.delegate?.onReceiveCallAccepted(callee)
         })
-        
-        listener?.registerListener(self, for: Notify_Call_Decline, callback: { result in
+
+        _ = listener?.addListener(Notify_Call_Decline, listener: { result in
             guard let callID = result["call_id"] as? String,
                   let calleeID = result["callee_id"] as? String,
                   let typeOld = result["type"] as? Int,
@@ -227,7 +227,7 @@ extension CallServiceImpl {
             self.delegate?.onReceiveCallDeclined(callee, type: type)
         })
         
-        listener?.registerListener(self, for: Notify_Call_End, callback: { result in
+        _ = listener?.addListener(Notify_Call_End, listener: { result in
             guard let callID = result["call_id"] as? String,
                   let userID = result["user_id"] as? String
             else {
@@ -248,15 +248,11 @@ extension CallServiceImpl {
             self.delegate?.onReceiveCallEnded()
         })
         
-        listener?.registerListener(self, for: Notify_Call_Timeout, callback: { result in
+        _ = listener?.addListener(Notify_Call_Timeout, listener: { result in
             
         })
         
-        listener?.registerListener(self, for: Notify_User_Error, callback: { result in
-            
-        })
-        
-        listener?.registerListener(self, for: Notify_User_Error, callback: { result in
+        _ = listener?.addListener(Notify_User_Error, listener: { result in
             guard let code = result["error"] as? Int else { return }
             guard let error = UserError.init(rawValue: code) else { return }
             if error == .kickedOut {

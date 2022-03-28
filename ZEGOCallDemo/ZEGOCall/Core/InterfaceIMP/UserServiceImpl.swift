@@ -119,7 +119,7 @@ extension UserServiceImpl: UserService {
 
 extension UserServiceImpl {
     private func registerListener() {
-        listener?.registerListener(self, for: Notify_User_Error, callback: { result in
+        _ = listener?.addListener(Notify_User_Error, listener: { result in
             guard let code = result["error"] as? Int else { return }
             guard let error = UserError.init(rawValue: code) else { return }
             self.delegate?.onReceiveUserError(error)

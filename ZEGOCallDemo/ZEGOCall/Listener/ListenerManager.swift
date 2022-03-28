@@ -9,8 +9,12 @@ import Foundation
 
 class ListenerHandler {
     var path: String?
-    weak var listener: AnyObject?
-    var callback: NotifyCallback?
+    var uid: UUID
+    var listener: NotifyCallback?
+    
+    init(uid: UUID) {
+        self.uid = uid
+    }
 }
 
 class ListenerManager {
@@ -23,7 +27,7 @@ class ListenerManager {
 }
 
 extension ListenerManager: Listener {
-    func registerListener(_ listener: AnyObject, for path: String, callback: @escaping NotifyCallback) {
+    func addListener(_ path: String, listener: @escaping NotifyCallback) -> UUID {
         lock()
         defer {
             unlock()
@@ -33,33 +37,27 @@ extension ListenerManager: Listener {
             arrary = [ListenerHandler]()
         }
         
-        for handler in arrary! {
-            guard let oldListener = handler.listener else { break }
-            if oldListener === listener {
-                handler.listener = listener
-                handler.callback = callback
-                return
-            }
-        }
-        
-        let handler = ListenerHandler()
+        let handler = ListenerHandler(uid: UUID())
         handler.path = path
         handler.listener = listener
-        handler.callback = callback
         
         arrary?.append(handler)
         listenerDict[path] = arrary
+        
+        return handler.uid
     }
     
-    func removeListener(_ listener: AnyObject, for path: String) {
+    func removeListener(_ uid: UUID, for path: String) {
         lock()
         defer {
             unlock()
         }
+        
         let arrary = listenerDict[path]
-        if arrary?.count == 0 { return }
-        guard var arrary = arrary else { return }
-        arrary = arrary.filter { $0.listener !== listener }
+        guard var arrary = arrary, arrary.count > 0 else { return }
+        
+        arrary = arrary.filter { $0.uid != uid }
+        
         listenerDict[path] = arrary
     }
 }
@@ -72,17 +70,11 @@ extension ListenerManager: ListenerUpdater {
         }
         let arrary = listenerDict[path]
         guard let arrary = arrary else { return }
-        var tempArrary = [ListenerHandler]()
+        
         for handler in arrary {
-            if handler.listener == nil {
-                continue
-            }
-            tempArrary.append(handler)
-            if let callback = handler.callback {
-                callback(parameter)
-            }
+            guard let listener = handler.listener else { continue }
+            listener(parameter)
         }
-        listenerDict[path] = tempArrary
     }
 }
 
