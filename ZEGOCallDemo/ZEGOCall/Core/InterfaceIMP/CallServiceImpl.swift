@@ -17,6 +17,8 @@ class CallServiceImpl: NSObject {
     
     private weak var listener = ListenerManager.shared
     
+    private var callTask: Task?
+    
     override init() {
         super.init()
         
@@ -49,6 +51,7 @@ extension CallServiceImpl: CallService {
             case .success(_):
                 callResult = .success(())
                 ServiceManager.shared.roomService.joinRoom(callID, token)
+                self.addCallTimer()
             case .failure(let error):
                 callResult = .failure(error)
                 self.status = .free
@@ -65,12 +68,15 @@ extension CallServiceImpl: CallService {
         
         ServiceManager.shared.roomService.leaveRoom()
         
+        self.status = .free
+        self.callInfo = CallInfo()
+        self.cancelCallTimer()
+        
         command.excute { result in
             var callResult: ZegoResult = .success(())
             switch result {
             case .success(_):
-                self.status = .free
-                self.callInfo = CallInfo()
+                break
             case .failure(let error):
                 callResult = .failure(error)
             }
@@ -91,6 +97,7 @@ extension CallServiceImpl: CallService {
                 if let roomID = self.callInfo.callID {
                     ServiceManager.shared.roomService.joinRoom(roomID, token)
                 }
+                self.cancelCallTimer()
                 callResult = .success(())
             case .failure(let error):
                 callResult = .failure(error)
@@ -107,11 +114,13 @@ extension CallServiceImpl: CallService {
         command.callerID = callInfo.caller?.userID
         command.type = type
         
+        self.status = .free
+        self.cancelCallTimer()
+        
         command.excute { result in
             var callResult: ZegoResult = .success(())
             switch result {
             case .success(_):
-                self.status = .free
                 callResult = .success(())
             case .failure(let error):
                 callResult = .failure(error)
@@ -127,12 +136,13 @@ extension CallServiceImpl: CallService {
         command.callID = callInfo.callID
         
         ServiceManager.shared.roomService.leaveRoom()
+        self.status = .free
+        self.cancelCallTimer()
         
         command.excute { result in
             var callResult: ZegoResult = .success(())
             switch result {
             case .success(_):
-                self.status = .free
                 callResult = .success(())
             case .failure(let error):
                 callResult = .failure(error)
@@ -163,6 +173,7 @@ extension CallServiceImpl {
             if self.status != .free { return }
             self.status = .incoming
             self.callInfo.callID = callID
+            self.addCallTimer()
             
             var caller = UserInfo(userID: callerID, userName: "")
             for user in ServiceManager.shared.userService.userList {
@@ -188,8 +199,11 @@ extension CallServiceImpl {
             if self.status != .incoming { return }
             if self.callInfo.caller?.userID != callerID { return }
             guard let caller = self.callInfo.caller else { return }
+            
             self.status = .free
             self.callInfo = CallInfo()
+            self.cancelCallTimer()
+            
             self.delegate?.onReceiveCallCanceled(caller)
         })
         
@@ -204,6 +218,8 @@ extension CallServiceImpl {
             guard let callee = self.callInfo.callees.filter({ $0.userID == calleeID }).first else {
                 return
             }
+            
+            self.cancelCallTimer()
             self.status = .calling
             self.delegate?.onReceiveCallAccepted(callee)
         })
@@ -221,6 +237,8 @@ extension CallServiceImpl {
             guard let callee = self.callInfo.callees.filter({ $0.userID == calleeID }).first else {
                 return
             }
+            
+            self.cancelCallTimer()
             ServiceManager.shared.roomService.leaveRoom()
             self.status = .free
             self.callInfo = CallInfo()
@@ -259,7 +277,22 @@ extension CallServiceImpl {
                 self.status = .free
                 self.callInfo = CallInfo()
                 ServiceManager.shared.roomService.leaveRoom()
+                self.cancelCallTimer()
             }
         })
+    }
+}
+
+extension CallServiceImpl {
+    func addCallTimer() {
+        callTask = delay(by: 60) { [weak self] in
+            guard let user = ServiceManager.shared.userService.localUserInfo else { return }
+            self?.delegate?.onReceiveCallTimeout(.connecting, info: user)
+        }
+    }
+    
+    func cancelCallTimer() {
+        delayCancel(callTask)
+        callTask = nil
     }
 }

@@ -397,6 +397,17 @@ extension FirebaseManager {
             let firebaseUser = model.getUser(self.user?.uid),
             firebaseUser.caller_id != firebaseUser.user_id else { return }
             
+            guard let caller = model.users
+                    .filter({ $0.caller_id == $0.user_id })
+                    .first else { return }
+            guard let startTime = caller.start_time else { return }
+            let timeInterval = Int(Date().timeIntervalSince1970 * 1000) - startTime
+            
+            // if the start time of call is beyond 60s means this call is ended.
+            if timeInterval > 60 * 1000 {
+                return
+            }
+            
             if self.callModel == nil {
                 self.callModel = model
                 self.addCallListener(model.call_id)
