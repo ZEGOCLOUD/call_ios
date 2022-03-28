@@ -58,7 +58,7 @@ extension CallServiceImpl: CallService {
         }
     }
     
-    func cancelCall(userID: String, cancelType: CancelType, callback: RoomCallback?) {
+    func cancelCall(userID: String, callback: RoomCallback?) {
         let command = CancelCallCommand()
         command.calleeID = userID
         command.callID = callInfo.callID

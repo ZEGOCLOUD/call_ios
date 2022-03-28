@@ -301,7 +301,7 @@ class CallManager: NSObject {
     }
     
     func cancelCall(_ userID: String, callType: CallType, isTimeout: Bool = false) {
-        ServiceManager.shared.callService.cancelCall(userID: userID, cancelType: .intent) { result in
+        ServiceManager.shared.callService.cancelCall(userID: userID) { result in
             switch result {
             case .success():
                 CallManager.shared.audioPlayer?.stop()
