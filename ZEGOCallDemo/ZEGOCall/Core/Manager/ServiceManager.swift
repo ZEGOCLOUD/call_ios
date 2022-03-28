@@ -35,12 +35,16 @@ class ServiceManager: NSObject {
     /// The user information management instance, contains the in-room user information management, logged-in user information and other business logic.
     open var userService: UserService
     
+    /// The call information management instance, contains start, accept, and end call and other busuness logic.
     open var callService: CallService
     
+    /// The device Information Management instance contains microphone, camera, and speaker infomation and other device Infomation.
     open var deviceService: DeviceService
     
+    /// The stream Management instance contains play and publish stream logic.
     open var streamService: StreamService
     
+    /// The room infomation Management instance contains join and leave room logic.
     var roomService: RoomService
     
     /// Initialize the SDK

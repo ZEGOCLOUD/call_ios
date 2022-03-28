@@ -24,6 +24,11 @@ protocol UserServiceDelegate : AnyObject  {
     /// - Parameter userInfo: refers to the changes on user state information
     func onUserInfoUpdate(_ userInfo: UserInfo)
     
+    /// Callback for user is kicked offline
+    ///
+    /// Description: This callback will be triggered when the user logs in from another device.
+    ///
+    /// - Parameter UserError: refers to the error type
     func onReceiveUserError(_ error: UserError)
 }
 
@@ -41,6 +46,7 @@ protocol UserService {
     /// The local logged-in user information.
     var localUserInfo: UserInfo? { get }
     
+    /// A list of users in the room
     var userList: [UserInfo] { get }
     
     
@@ -61,5 +67,8 @@ protocol UserService {
     func logout()
     
     
+    /// Gets the list of online users
+    /// - Description: This method can be used to gets a list of currently online user members
+    /// Call this method at: After the SDK initialization
     func getOnlineUserList(_ callback: UserListCallback?)
 }
