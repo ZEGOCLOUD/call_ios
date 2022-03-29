@@ -62,25 +62,24 @@ extension CallManager {
     
     
     @objc func callKitStart() {
-        if !isConnected {
-            if let userID = currentCallUserInfo?.userID {
-                endCall(userID)
-            }
-            return
-        }
+//        if !isConnected {
+//            if let userID = currentCallUserInfo?.userID {
+//                endCall(userID)
+//            }
+//            return
+//        }
         currentCallStatus = .calling
+        callTimeManager.callStart()
         if let userID = currentCallUserInfo?.userID {
             let rtcToken = AppToken.getRtcToken(withRoomID: userID)
             guard let rtcToken = rtcToken else { return }
             ServiceManager.shared.callService.acceptCall(rtcToken) { result in
                 switch result {
                 case .success():
-                    self.startCallTime = Int(Date().timeIntervalSince1970)
                     if self.appIsActive {
                         if let callVC = self.currentCallVC {
                             guard let userInfo = self.currentCallUserInfo else { return }
                             callVC.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
-                            //callVC.callTime = self.startCallTime
                             if let controller = self.getCurrentViewController() {
                                 if controller is CallMainVC {
                                     self.currentCallVC?.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
@@ -95,7 +94,6 @@ extension CallManager {
                             guard let userInfo = self.currentCallUserInfo else { return }
                             let callVC: CallMainVC = CallMainVC.loadCallMainVC(self.callKitCallType, userInfo: userInfo, status: .calling)
                             self.currentCallVC = callVC
-                            //callVC.callTime = self.startCallTime
                             if let controller = self.getCurrentViewController() {
                                 controller.present(callVC, animated: true) {
                                     self.startPlayingStream(userID)

@@ -76,9 +76,7 @@ class CallManager: NSObject {
     var currentCallStatus: callStatus = .free
     var appIsActive: Bool = true
     var currentTipView: CallAcceptTipView?
-    var startCallTime: Int = 0
     var otherUserRoomInfo: UserInfo?
-    var isConnected: Bool = true
     
     var enableCallKit = true
     var callKitService: AppleCallKitServiceIMP?
