@@ -577,6 +577,7 @@
 				86B198CF278BE2600004C997 /* DictionaryArray.swift */,
 				86B198D0278BE2600004C997 /* ZegoJsonTool.swift */,
 				8E08EFCE27F1DD2E0003030A /* Delay.swift */,
+				86B1994C278D63430004C997 /* ZegoTimer.swift */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -624,7 +625,6 @@
 				86B1994A278D63430004C997 /* AppToken.swift */,
 				86B1994B278D63430004C997 /* String+Head.swift */,
 				86AC134727998A4000607277 /* String+Time.swift */,
-				86B1994C278D63430004C997 /* ZegoTimer.swift */,
 				86B1994D278D63430004C997 /* AuthorizedCheck.swift */,
 				86B1994E278D63430004C997 /* UIImage+Zego.swift */,
 			);

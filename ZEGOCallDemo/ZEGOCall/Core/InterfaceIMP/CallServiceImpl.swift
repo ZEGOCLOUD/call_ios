@@ -18,6 +18,7 @@ class CallServiceImpl: NSObject {
     private weak var listener = ListenerManager.shared
     
     private var callTask: Task?
+    private let heartbeatTimer = ZegoTimer(10 * 1000)
     
     override init() {
         super.init()
@@ -99,6 +100,8 @@ extension CallServiceImpl: CallService {
                     ServiceManager.shared.roomService.joinRoom(roomID, token)
                 }
                 self.cancelCallTimer()
+                self.startHeartbeatTimer()
+                
                 callResult = .success(())
             case .failure(let error):
                 callResult = .failure(error)
@@ -138,7 +141,7 @@ extension CallServiceImpl: CallService {
         
         ServiceManager.shared.roomService.leaveRoom()
         self.status = .free
-        self.cancelCallTimer()
+        self.stopHeartbeatTimer()
         
         command.excute { result in
             var callResult: ZegoResult = .success(())
@@ -222,6 +225,8 @@ extension CallServiceImpl {
             }
             
             self.cancelCallTimer()
+            self.startHeartbeatTimer()
+            
             self.status = .calling
             self.delegate?.onReceiveCallAccepted(callee)
         })
@@ -262,6 +267,7 @@ extension CallServiceImpl {
                 !self.callInfo.callees.compactMap({ $0.userID }).contains(userID) {
                 return
             }
+            self.stopHeartbeatTimer()
             ServiceManager.shared.roomService.leaveRoom()
             self.status = .free
             self.callInfo = CallInfo()
@@ -269,7 +275,7 @@ extension CallServiceImpl {
         })
         
         _ = listener?.addListener(Notify_Call_Timeout, listener: { result in
-            
+            self.stopHeartbeatTimer()
         })
         
         _ = listener?.addListener(Notify_User_Error, listener: { result in
@@ -280,6 +286,7 @@ extension CallServiceImpl {
                 self.callInfo = CallInfo()
                 ServiceManager.shared.roomService.leaveRoom()
                 self.cancelCallTimer()
+                self.stopHeartbeatTimer()
             }
         })
     }
@@ -296,5 +303,19 @@ extension CallServiceImpl {
     func cancelCallTimer() {
         delayCancel(callTask)
         callTask = nil
+    }
+    
+    func startHeartbeatTimer() {
+        heartbeatTimer.setEventHandler { [weak self] in
+            let command = HeartbeatCommand()
+            command.userID = ServiceManager.shared.userService.localUserInfo?.userID
+            command.callID = self?.callInfo.callID
+            command.excute(callback: nil)
+        }
+        heartbeatTimer.start()
+    }
+    
+    func stopHeartbeatTimer() {
+        heartbeatTimer.stop()
     }
 }

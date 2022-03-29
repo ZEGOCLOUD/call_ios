@@ -53,6 +53,7 @@ class FirebaseManager: NSObject {
         functionsMap[API_Accept_Call] = acceptCall
         functionsMap[API_Decline_Call] = declineCall
         functionsMap[API_End_Call] = endCall
+        functionsMap[API_Call_Heartbeat] = heartbeat
     }
     
     func resetData(_ removeUserData: Bool = true) {
@@ -305,6 +306,28 @@ extension FirebaseManager {
                 callback(.failure(.failed))
             }
         }
+    }
+    
+    private func heartbeat(_ parameter: [String: AnyObject], callback: @escaping RequestCallback) {
+        guard let userID = parameter["id"] as? String,
+              let callID = parameter["call_id"] as? String,
+              let callModel = callModel
+        else {
+            return
+        }
+        
+        if callModel.call_status != .calling ||
+            callModel.call_id != callID {
+            return
+        }
+        
+        guard let user = callModel.getUser(userID) else { return }
+        
+        let heartbeatTime = Int(Date().timeIntervalSince1970 * 1000)
+        user.heartbeat_time = heartbeatTime
+        
+        let userRef = ref.child("call/\(callID)/users/\(userID)")
+        userRef.updateChildValues(["heartbeat_time" : heartbeatTime])
     }
 }
 
