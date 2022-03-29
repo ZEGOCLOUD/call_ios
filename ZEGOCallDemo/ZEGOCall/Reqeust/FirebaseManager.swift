@@ -176,6 +176,7 @@ extension FirebaseManager {
         let caller = FirebaseCallUser()
         caller.caller_id = userID
         caller.user_id = userID
+        caller.user_name = parameter["caller_name"] as? String
         caller.start_time = startTime
         caller.status = .connecting
         callModel.users.append(caller)
@@ -397,6 +398,17 @@ extension FirebaseManager {
             let firebaseUser = model.getUser(self.user?.uid),
             firebaseUser.caller_id != firebaseUser.user_id else { return }
             
+            guard let caller = model.users
+                    .filter({ $0.caller_id == $0.user_id })
+                    .first else { return }
+            guard let startTime = caller.start_time else { return }
+            let timeInterval = Int(Date().timeIntervalSince1970 * 1000) - startTime
+            
+            // if the start time of call is beyond 60s means this call is ended.
+            if timeInterval > 60 * 1000 {
+                return
+            }
+            
             if self.callModel == nil {
                 self.callModel = model
                 self.addCallListener(model.call_id)
@@ -407,7 +419,8 @@ extension FirebaseManager {
             let data: [String: Any] = [
                 "call_id": model.call_id,
                 "call_type": model.call_type.rawValue,
-                "caller_id": firebaseUser.caller_id,
+                "caller_id": caller.caller_id,
+                "caller_name": caller.user_name ?? caller.user_id,
                 "callee_ids": calleeIDs
             ]
             self.listener?.receiveUpdate(Notify_Call_Invited, parameter: data)

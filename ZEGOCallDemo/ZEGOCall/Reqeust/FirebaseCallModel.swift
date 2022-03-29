@@ -26,6 +26,7 @@ enum FirebaseCallType: Int {
 class FirebaseCallUser {
     var caller_id: String = ""
     var user_id: String = ""
+    var user_name: String?
     var start_time: Int?
     var connected_time: Int?
     var finish_time: Int?
@@ -36,6 +37,7 @@ class FirebaseCallUser {
         let copy = FirebaseCallUser()
         copy.caller_id = caller_id
         copy.user_id = user_id
+        copy.user_name = user_name
         copy.start_time = start_time
         copy.connected_time = connected_time
         copy.finish_time = finish_time
@@ -77,6 +79,7 @@ class FirebaseCallModel {
             }
             let user = FirebaseCallUser()
             user.user_id = userID
+            user.user_name = userDict["user_name"] as? String
             user.caller_id = callerID
             user.start_time = startTime
             user.status = status
@@ -126,6 +129,7 @@ class FirebaseCallModel {
             
             userDict["caller_id"] = user.caller_id
             userDict["user_id"] = user.user_id
+            userDict["user_name"] = user.user_name
             userDict["start_time"] = user.start_time
             userDict["connected_time"] = user.connected_time
             userDict["finish_time"] = user.finish_time

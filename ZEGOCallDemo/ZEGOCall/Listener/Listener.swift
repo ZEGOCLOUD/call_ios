@@ -8,7 +8,7 @@
 import Foundation
 
 protocol Listener {
-    func registerListener(_ listener: AnyObject, for path: String, callback: @escaping NotifyCallback)
-    
-    func removeListener(_ listener: AnyObject, for path: String)
+    @discardableResult
+    func addListener(_ path: String, listener: @escaping NotifyCallback) -> UUID
+    func removeListener(_ uid: UUID, for path: String)
 }

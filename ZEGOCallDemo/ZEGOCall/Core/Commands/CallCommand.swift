@@ -24,6 +24,12 @@ class CallCommand: Command {
         }
     }
     
+    var callerName: String? {
+        willSet {
+            parameter["caller_name"] = newValue as AnyObject
+        }
+    }
+    
     var callees: [String]? {
         willSet {
             parameter["callee_ids"] = newValue as AnyObject
