@@ -35,6 +35,7 @@ class DeviceServiceImpl: NSObject, DeviceService {
     var bitrate: AudioBitrate = .b48 {
         willSet {
             let audioConfig = ZegoAudioConfig()
+            audioConfig.codecID = .low3
             audioConfig.bitrate = 48
             switch newValue {
             case .b16: audioConfig.bitrate = 16
@@ -88,6 +89,16 @@ class DeviceServiceImpl: NSObject, DeviceService {
         DispatchQueue.main.async {
             ServiceManager.shared.addExpressEventHandler(self)
         }
+    }
+    
+    func setDeviceDefaultConfig() {
+        ZegoExpressEngine.shared().enableHardwareEncoder(true)
+        ZegoExpressEngine.shared().enableHardwareDecoder(true)
+        ZegoExpressEngine.shared().setCapturePipelineScaleMode(.post)
+//        ZegoExpressEngine.shared().enableTrafficControl(true, property: .adaptiveResolution)
+        ZegoExpressEngine.shared().setMinVideoBitrateForTrafficControl(120, mode: .ultraLowFPS)
+        ZegoExpressEngine.shared().setTrafficControlFocusOn(.founsOnRemote)
+        ZegoExpressEngine.shared().enableANS(false)
     }
         
     func enableMic(_ enable: Bool) {

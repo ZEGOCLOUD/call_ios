@@ -23,8 +23,10 @@ typealias RoomCallback = (ZegoResult) -> Void
 /// room list callback
 typealias UserListCallback = (Result<[UserInfo], ZegoError>) -> Void
 
+/// General request callback
 typealias RequestCallback = (Result<Any, ZegoError>) -> Void
 
+/// listerManager callback
 typealias NotifyCallback = ([String : Any]) -> Void
 
 
@@ -47,27 +49,27 @@ enum ZegoError: Error {
 }
 
 enum DeclineType: Int {
-    /// decline: Manually reject the call invitation
+    /// decline: the call was declined by the callee
     case decline = 1
-    /// busy: The other is busy
+    /// busy: the call was timed out because the callee is busy
     case busy = 2
 }
 
 enum CallType: Int {
-    /// voice: audio call type
+    /// voice: voice call
     case voice = 1
-    /// video: video call type
+    /// video: video call
     case video = 2
 }
 
 enum LocalUserStatus: Int {
-    /// free: Indicates that the state is idle
+    /// free: the state of user is free
     case free = 0
-    /// outgoing: Indicates that a call is being made
+    /// outgoing: the user is making a outbound call
     case outgoing = 1
-    /// incoming: Indicates that an incoming call is received
+    /// incoming: the user is receiving a call
     case incoming = 2
-    /// calling: Indicates that the call is ongoing
+    /// calling: the user is already on a call
     case calling = 3
 }
 
@@ -131,7 +133,7 @@ enum DeviceType {
     /// Volume auto-adjustment
     case volumeAdjustment
     
-    ///  video Mirror
+    ///  Video mirroring
     case videoMirror
     
     /// Video resolution
@@ -142,14 +144,14 @@ enum DeviceType {
 }
 
 enum CallTimeoutType {
-    /// connecting: A call timed out during connection. Procedure
+    /// connecting: the call timed out when try to connecting.
     case connecting
-    /// calling: The call timed out
+    /// calling: the call timed out during a call.
     case calling
 }
 
 enum UserError: Int {
-    /// kickedOut: The user is kicked out
+    /// kickedOut: the user was forced to log out.
     case kickedOut = 1
 }
 

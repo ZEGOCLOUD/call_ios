@@ -25,7 +25,6 @@ extension CallManager: CallServiceDelegate {
             callTipView.delegate = self
             audioPlayer?.play()
         } else {
-            if !enableCallKit { return }
             let uuid = UUID()
             myUUID = uuid
             callKitService?.reportInComingCall(uuid: uuid, handle: "", hasVideo: type == .video, completion: nil)
@@ -37,14 +36,13 @@ extension CallManager: CallServiceDelegate {
         if (currentCallStatus == .calling || currentCallStatus == .wait) && userInfo.userID != currentCallUserInfo?.userID {
             return
         }
-        
         currentCallStatus = .free
         currentCallUserInfo = nil
         endSystemCall()
         audioPlayer?.stop()
         CallAcceptTipView.dismiss()
         guard let currentCallVC = currentCallVC else { return }
-        minmizedManager.updateCallStatus(status: .decline, userInfo: nil)
+        minmizedManager.currentStatus = .end
         currentCallVC.changeCallStatusText(.canceled)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             UIApplication.shared.isIdleTimerDisabled = false

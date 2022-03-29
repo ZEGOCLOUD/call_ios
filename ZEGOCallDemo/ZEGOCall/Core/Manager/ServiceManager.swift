@@ -59,9 +59,9 @@ class ServiceManager: NSObject {
         
         let profile = ZegoEngineProfile()
         profile.appID = appID
-        profile.scenario = .general
+        profile.scenario = .communication
         ZegoExpressEngine.createEngine(with: profile, eventHandler: self)
-        
+        deviceService.setDeviceDefaultConfig()
         guard let callback = callback else { return }
         callback(.success(()))
     }
