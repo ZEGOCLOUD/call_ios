@@ -24,14 +24,14 @@ extension CallManager {
                         guard let userInfo = currentCallUserInfo else { return }
                         self.getCurrentViewController()?.present(currentCallVC, animated: true, completion: {
                             currentCallVC.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
-                            currentCallVC.callTime = self.startCallTime
+                            //currentCallVC.callTime = self.startCallTime
                             self.startPlayingStream(self.currentCallUserInfo?.userID)
                         })
                     } else {
                         guard let userInfo = currentCallUserInfo else { return }
                         let callVC: CallMainVC = CallMainVC.loadCallMainVC(callKitCallType, userInfo: userInfo, status: .calling)
                         currentCallVC = callVC
-                        callVC.callTime = startCallTime
+                        //callVC.callTime = startCallTime
                         getCurrentViewController()?.present(callVC, animated: true) {
                             self.startPlayingStream(userInfo.userID)
                         }
@@ -80,7 +80,7 @@ extension CallManager {
                         if let callVC = self.currentCallVC {
                             guard let userInfo = self.currentCallUserInfo else { return }
                             callVC.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
-                            callVC.callTime = self.startCallTime
+                            //callVC.callTime = self.startCallTime
                             if let controller = self.getCurrentViewController() {
                                 if controller is CallMainVC {
                                     self.currentCallVC?.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
@@ -95,7 +95,7 @@ extension CallManager {
                             guard let userInfo = self.currentCallUserInfo else { return }
                             let callVC: CallMainVC = CallMainVC.loadCallMainVC(self.callKitCallType, userInfo: userInfo, status: .calling)
                             self.currentCallVC = callVC
-                            callVC.callTime = self.startCallTime
+                            //callVC.callTime = self.startCallTime
                             if let controller = self.getCurrentViewController() {
                                 controller.present(callVC, animated: true) {
                                     self.startPlayingStream(userID)

@@ -9,48 +9,19 @@ import Foundation
 import ZegoExpressEngine
 
 extension CallMainVC: CallActionDelegate {
+    func callAccept(_ callView: CallBaseView) {
+        guard let callUser = callUser else { return }
+        CallManager.shared.acceptCall(callUser, callType: vcType, presentVC: false)
+    }
+    
     func callhandUp(_ callView: CallBaseView) {
         if let userID = self.callUser?.userID {
             if self.statusType == .calling {
-                ServiceManager.shared.callService.endCall(nil)
-                CallManager.shared.audioPlayer?.stop()
-                CallManager.shared.currentCallStatus = .free
+                CallManager.shared.endCall(userID)
                 self.changeCallStatusText(.completed)
                 self.callDelayDismiss()
             } else {
-                cancelCall(userID, callType: self.vcType)
-            }
-        }
-    }
-    
-    func cancelCall(_ userID: String, callType: CallType, isTimeout: Bool = false) {
-        ServiceManager.shared.callService.cancelCall(userID: userID, callback: nil)
-        CallManager.shared.audioPlayer?.stop()
-        CallManager.shared.currentCallStatus = .free
-        if isTimeout {
-            self.changeCallStatusText(.miss)
-        } else {
-            self.changeCallStatusText(.canceled)
-        }
-    }
-    
-    func callAccept(_ callView: CallBaseView) {
-        updateCallType(self.vcType, userInfo: self.callUser ?? UserInfo(), status: .calling)
-        if let userID = self.callUser?.userID {
-            let rtcToken = AppToken.getRtcToken(withRoomID: userID)
-            guard let rtcToken = rtcToken else { return }
-            ServiceManager.shared.callService.acceptCall(rtcToken) { result in
-                CallManager.shared.audioPlayer?.stop()
-                if result.isSuccess {
-                    CallManager.shared.currentCallStatus = .calling
-                    CallManager.shared.callTimeManager.callStart()
-                    ZegoExpressEngine.shared().useFrontCamera(true)
-                    self.startPlayingStream(userID)
-                } else {
-                    CallManager.shared.currentCallStatus = .free
-                    self.changeCallStatusText(.decline)
-                    self.callDelayDismiss()
-                }
+                CallManager.shared.cancelCall(userID, callType: self.vcType)
             }
         }
     }
@@ -75,13 +46,10 @@ extension CallMainVC: CallActionDelegate {
     }
     
     func callDecline(_ callView: CallBaseView) {
-        if let userID = self.callUser?.userID {
-            ServiceManager.shared.callService.declineCall(userID, type: .decline, callback: nil)
-            CallManager.shared.audioPlayer?.stop()
-            CallManager.shared.currentCallStatus = .free
-            self.changeCallStatusText(.decline)
-            self.callDelayDismiss()
-        }
+        changeCallStatusText(.decline)
+        callDelayDismiss()
+        guard let userID = self.callUser?.userID else { return }
+        CallManager.shared.declineCall(userID, type: .decline)
     }
     
     func callOpenMic(_ callView: CallBaseView, isOpen: Bool) {
@@ -94,6 +62,7 @@ extension CallMainVC: CallActionDelegate {
     
     func callOpenVideo(_ callView: CallBaseView, isOpen: Bool) {
         ServiceManager.shared.deviceService.enableCamera(isOpen)
+        userRoomInfoUpdate(localUserInfo)
     }
     
     func callFlipCamera(_ callView: CallBaseView) {

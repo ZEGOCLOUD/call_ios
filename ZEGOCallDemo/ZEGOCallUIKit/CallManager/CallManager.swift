@@ -128,6 +128,7 @@ class CallManager: NSObject {
         ServiceManager.shared.deviceService.delegate = self
         
         callKitService = AppleCallKitServiceIMP()
+        callKitService?.providerDelegate = ProviderDelegate()
     }
     
     
@@ -237,7 +238,7 @@ class CallManager: NSObject {
     }
     
     
-    func acceptCall(_ userInfo: UserInfo, callType: CallType) {
+    func acceptCall(_ userInfo: UserInfo, callType: CallType, presentVC:Bool = true) {
         guard let userID = userInfo.userID else { return }
         let rtcToken = AppToken.getRtcToken(withRoomID: userID)
         guard let rtcToken = rtcToken else { return }
@@ -245,19 +246,33 @@ class CallManager: NSObject {
             switch result {
             case .success():
                 self.audioPlayer?.stop()
-                let callVC: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .calling)
-                callVC.otherUserRoomInfo = self.otherUserRoomInfo
-                self.currentCallVC = callVC
                 self.currentCallStatus = .calling
+                self.otherUserRoomInfo = userInfo
                 self.currentCallUserInfo = userInfo
                 self.callTimeManager.callStart()
-                if let controller = self.getCurrentViewController() {
-                    controller.present(callVC, animated: true) {
-                        ServiceManager.shared.deviceService.useFrontCamera(true)
-                        self.startPlayingStream(userID)
+                self.minmizedManager.currentStatus = .calling
+                ServiceManager.shared.deviceService.useFrontCamera(true)
+                if presentVC {
+                    let callVC: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .calling)
+                    callVC.otherUserRoomInfo = self.otherUserRoomInfo
+                    self.currentCallVC = callVC
+                    if let controller = self.getCurrentViewController() {
+                        controller.present(callVC, animated: true) {
+                            self.startPlayingStream(userID)
+                        }
                     }
+                } else {
+                    guard let currentCallVC = self.currentCallVC else { return }
+                    currentCallVC.otherUserRoomInfo = self.otherUserRoomInfo
+                    currentCallVC.updateCallType(currentCallVC.vcType, userInfo: userInfo, status: .calling)
+                    self.startPlayingStream(userID)
                 }
             case .failure(_):
+                CallManager.shared.currentCallStatus = .free
+                if !presentVC {
+                    self.currentCallVC?.changeCallStatusText(.decline)
+                    self.currentCallVC?.callDelayDismiss()
+                }
                 break
             }
         }
@@ -269,21 +284,25 @@ class CallManager: NSObject {
             currentCallUserInfo = nil
             otherUserRoomInfo = nil
         }
+        audioPlayer?.stop()
         ServiceManager.shared.callService.declineCall(userID, type: type, callback: nil)
     }
     
     func endCall(_ userID: String) {
+        if ServiceManager.shared.callService.status == .calling {
+            minmizedManager.updateCallStatus(status: .end, userInfo: currentCallUserInfo)
+            ServiceManager.shared.callService.endCall(nil)
+        } else {
+            minmizedManager.updateCallStatus(status: .decline, userInfo: currentCallUserInfo)
+            declineCall(userID, type: .decline)
+        }
+        minmizedManager.dismissCallMinView()
         if currentCallUserInfo?.userID == userID {
             currentCallStatus = .free
             currentCallUserInfo = nil
             otherUserRoomInfo = nil
         }
         endSystemCall()
-        if ServiceManager.shared.callService.status == .calling {
-            ServiceManager.shared.callService.endCall(nil)
-        } else {
-            declineCall(userID, type: .decline)
-        }
     }
     
     func cancelCall(_ userID: String, callType: CallType, isTimeout: Bool = false) {

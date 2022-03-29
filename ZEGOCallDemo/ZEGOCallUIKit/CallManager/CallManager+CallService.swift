@@ -44,6 +44,7 @@ extension CallManager: CallServiceDelegate {
         audioPlayer?.stop()
         CallAcceptTipView.dismiss()
         guard let currentCallVC = currentCallVC else { return }
+        minmizedManager.updateCallStatus(status: .decline, userInfo: nil)
         currentCallVC.changeCallStatusText(.canceled)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             UIApplication.shared.isIdleTimerDisabled = false
@@ -68,11 +69,13 @@ extension CallManager: CallServiceDelegate {
         currentCallStatus = .calling
         vc.otherUserRoomInfo = userInfo
         vc.updateCallType(vc.vcType, userInfo: userInfo, status: .calling)
+        minmizedManager.updateCallStatus(status: .calling, userInfo: userInfo, isVideo: vc.vcType == .video)
         callTimeManager.callStart()
         startPlayingStream(userInfo.userID)
     }
     func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType) {
         delegate?.onReceiveCallDeclined(userInfo, type: type)
+        minmizedManager.updateCallStatus(status: .decline, userInfo: userInfo)
         currentCallUserInfo = nil
         currentCallStatus = .free
         let statusType: CallStatusType = type == .busy ? .busy : .decline
@@ -84,6 +87,7 @@ extension CallManager: CallServiceDelegate {
     
     func onReceiveCallEnded() {
         delegate?.onReceivedCallEnded()
+        minmizedManager.updateCallStatus(status: .end, userInfo: nil)
         audioPlayer?.stop()
         if currentCallStatus != .calling {
             currentCallVC?.changeCallStatusText(.completed,showHud: false)
