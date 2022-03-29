@@ -107,8 +107,6 @@ extension CallManager: CallServiceDelegate {
         delegate?.onReceiveCallTimeout(type, info: info)
         switch type {
         case .connecting:
-            self.currentCallStatus = .free
-            self.currentCallUserInfo = nil
             if currentCallStatus == .wait {
                 CallAcceptTipView.dismiss()
                 audioPlayer?.stop()
@@ -116,6 +114,8 @@ extension CallManager: CallServiceDelegate {
             } else if currentCallStatus == .waitAccept {
                 minmizedManager.dismissCallMinView()
             }
+            currentCallUserInfo = nil
+            currentCallStatus = .free
             guard let vc = currentCallVC else { return }
             vc.changeCallStatusText(.miss)
             vc.callDelayDismiss()

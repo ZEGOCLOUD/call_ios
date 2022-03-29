@@ -5,9 +5,9 @@
 //  Created by zego on 2022/1/19.
 //
 
-import Foundation
 import CallKit
 import AVFoundation
+import UIKit
 
 class ProviderDelegate: NSObject,CXProviderDelegate {
     private let provider:CXProvider
@@ -89,8 +89,6 @@ class ProviderDelegate: NSObject,CXProviderDelegate {
     
     func providerDidReset(_ provider: CXProvider) {
         print("Provider did reset")
-        
-
     }
     
     func provider(_ provider: CXProvider, perform action: CXStartCallAction) {
