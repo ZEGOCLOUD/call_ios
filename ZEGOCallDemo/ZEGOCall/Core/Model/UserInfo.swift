@@ -8,7 +8,7 @@
 import Foundation
 
 class UserInfo: NSObject, Codable {
-    /// User ID, refers to the user unique ID, can only contains numbers and letters.
+    /// User ID, refers to the user unique ID. It can only contains numbers and letters.
     var userID: String?
     
     /// User name, cannot be null.

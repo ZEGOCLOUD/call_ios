@@ -78,7 +78,6 @@ class CallManager: NSObject {
     var currentTipView: CallAcceptTipView?
     var otherUserRoomInfo: UserInfo?
     
-    var enableCallKit = true
     var callKitService: AppleCallKitServiceIMP?
     let localUserInfo: UserInfo? = ServiceManager.shared.userService.localUserInfo
     
@@ -205,7 +204,7 @@ class CallManager: NSObject {
     
     
     public func enableAppleCallKit(_ enable: Bool) {
-        enableCallKit = enable
+        ServiceManager.shared.deviceService.enableCallKit(enable)
     }
     
     /// Make an outbound call

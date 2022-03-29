@@ -9,45 +9,45 @@ import Foundation
 
 
 protocol CallServiceDelegate  {
-    /// Callback for receive an incoming call
+    /// Callback for received a call
     ///
-    /// Description: This callback will be triggered when receiving an incoming call.
+    /// Description: this callback will be triggered when receives a call invitation.
     ///
-    /// - Parameter userInfo: refers to the caller information.
-    /// - Parameter type: indicates the call type.  ZegoCallTypeVoice: Voice call.  ZegoCallTypeVideo: Video call.
+    /// - Parameter userInfo: the information of the caller.
+    /// - Parameter type: refers to the call type, voice call or video call.
     func onReceiveCallInvited(_ userInfo: UserInfo, type: CallType)
     
-    /// Callback for receive a canceled call
+    /// Callback for a call canceled
     ///
-    /// Description: This callback will be triggered when the caller cancel the outbound call.
+    /// Description: this callback will be triggered when a call has been cancelled.
     ///
-    /// - Parameter userInfo: refers to the caller information.
+    /// - Parameter userInfo: the information of the caller who canceles the call.
     func onReceiveCallCanceled(_ userInfo: UserInfo)
     
-    /// Callback for receive a accept call
+    /// Callback for a call accepted
     ///
-    /// Description: This callback will be triggered when the callee accept the received call.
+    /// Description: this callback will be triggered when a call was accepted.
     ///
-    /// - Parameter userInfo: refers to the callee information.
+    /// - Parameter userInfo: the information of the callee who accepts the call.
     func onReceiveCallAccepted(_ userInfo: UserInfo)
     
-    /// Callback for receive a decline call
+    /// The callback for a call declined
     ///
-    /// Description: This callback will be triggered when the callee hang up the received call.
+    /// Description: this callback will be triggered when a call was declined.
     ///
-    /// - Parameter userInfo: refers to the callee information.
-    /// - Parameter type: refers to the decline type
+    /// - Parameter userInfo: the information of the callee who declines the call.
+    /// - Parameter type: the response type of the call.
     func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType)
     
-    /// Callback for end a call
+    /// Callback for a call ended
     ///
-    /// - Description: This callback will be triggered when the caller or called user ends the call.
+    /// - Description: this callback will be triggered when a call has been ended.
     func onReceiveCallEnded()
     
     
-    /// Callback for timeout a call
+    /// Callback for a call timed out
     ///
-    /// - Description: This callback will be triggered when the caller or called user ends the call.
+    /// - Description: this callback will be triggered when a call didn't get answered for a long time/ the caller or callee timed out during the call.
     func onReceiveCallTimeout(_ type: CallTimeoutType, info: UserInfo)
 }
 
@@ -62,10 +62,13 @@ extension CallServiceDelegate {
 
 protocol CallService {
     
+    /// callService refers to the delegate instance of call service.
     var delegate: CallServiceDelegate? { get set }
     
+    /// The status of a local user.
     var status: LocalUserStatus { get }
     
+    /// The call information.
     var callInfo: CallInfo { get }
     
     /// Make an outbound call
@@ -81,36 +84,37 @@ protocol CallService {
     
     /// Cancel a call
     ///
-    /// Description: This method can be used to cancel a call. And the called user receives a notification through callback that the call has been canceled.
+    /// Description: This method can be used to cancel a call. And the called user receives a callback when the call has been canceled.
     ///
-    /// Call this method at: After the user login
+    /// Call this method at: after the user login
     /// - Parameter userID: refers to the ID of the user you are calling.
+    /// - Parameter cancelType: cancel type
     /// - Parameter callback: refers to the callback for cancel a call.
     func cancelCall(userID: String, callback: RoomCallback?)
     
     /// Accept a call
     ///
-    /// Description: This method can be used to accept a call. And the called user receives a notification through callback that the call has been accept.
+    /// Description: This method can be used to accept a call. And the caller receives a callback when the call has been accepted by the callee.
     ///
     /// Call this method at: After the user login
     /// - Parameter callback: refers to the callback for accept a call.
     func acceptCall(_ token: String, callback: RoomCallback?)
     
-    /// Refused a call
+    /// Decline a call
     ///
-    /// Description: This method can be used to refused a call. And the called user receives a notification through callback that the call has been refused.
+    /// Description: This method can be used to decline a call. And the caller receives a callback when the call has been declined by the callee.
     ///
-    /// Call this method at: After the user login
-    /// - Parameter userID: refers to the ID of the calling user.
-    /// - Parameter type: decline type
-    /// - Parameter callback: refers to the callback for refused a call.
+    /// Call this method at: after the user login
+    /// - Parameter userID: the ID of the caller
+    /// - Parameter type: refers to the response type.
+    /// - Parameter callback: refers to the callback for decline a call.
     func declineCall(_ userID: String, type: DeclineType, callback: RoomCallback?)
     
     /// End a call
     ///
-    /// Description: This method can be used to end a call. After the call is ended, both the caller and called user will be logged out from the room, and the stream publishing and playing stop upon ending.
+    /// Description: This method can be used to end a call. And the called user receives a callback when the call has ended.
     ///
-    /// Call this method at: After the user login
-    /// - Parameter callback refers to the callback for end a call.
+    /// Call this method at: after the user login
+    /// - Parameter callback: refers to the callback for end a call.  
     func endCall(_ callback: RoomCallback?)
 }

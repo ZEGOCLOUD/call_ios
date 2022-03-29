@@ -9,22 +9,22 @@ import Foundation
 
 protocol StreamService {
     
-    /// start playing stream
+    /// Start playing streams
     ///
-    /// Description: This method can be used to play audio or video streams
+    /// Description: this can be used to play audio or video streams.
     ///
-    /// Call this method at: After joining the room
+    /// Call this method at: after joining a room
     ///
-    /// - Parameter userID: refers to the ID of the caller
-    /// - Parameter streamView: refers to the preview the view control for the stream
+    /// - Parameter userID: the ID of the user you are connecting
+    /// - Parameter streamView: refers to the view of local video preview
     func startPlaying(_ userID: String?, streamView: UIView?)
     
-    /// stop playing stream
+    /// Stop playing streams
     ///
-    /// Description: This method can be used to stop play audio or video streams
+    /// Description: this can be used to stop playing audio or video streams.
     ///
-    /// Call this method at: After joining the room
+    /// Call this method at: after joining a room
     ///
-    /// - Parameter userID: refers to the ID of the caller
+    /// - Parameter userID:  the ID of the user you are connecting
     func stopPlaying(_ userID: String?)
 }

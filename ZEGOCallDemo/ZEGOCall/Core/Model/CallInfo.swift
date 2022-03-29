@@ -8,10 +8,10 @@
 import Foundation
 
 class CallInfo: NSObject {
-    /// 一个通话的标识
+    /// The ID of the call.
     var callID: String?
-    /// 呼叫者的用户信息
+    /// The information of the caller.
     var caller: UserInfo?
-    /// 被呼叫者的用户信息
+    /// The information of the callee.
     var callees = [UserInfo]()
 }
