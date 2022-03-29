@@ -80,7 +80,7 @@ protocol CallService {
     /// - Parameter token: refers to the authentication token. To get this, see the documentation: https://docs.zegocloud.com/article/11648
     /// - Parameter type: refers to the call type.  ZegoCallTypeVoice: Voice call.  ZegoCallTypeVideo: Video call.
     /// - Parameter callback: refers to the callback for make a outbound call.
-    func callUser(_ userID: String, token: String, type: CallType, callback: RoomCallback?)
+    func callUser(_ userID: String, token: String, type: CallType, callback: ZegoCallback?)
     
     /// Cancel a call
     ///
@@ -90,7 +90,7 @@ protocol CallService {
     /// - Parameter userID: refers to the ID of the user you are calling.
     /// - Parameter cancelType: cancel type
     /// - Parameter callback: refers to the callback for cancel a call.
-    func cancelCall(userID: String, callback: RoomCallback?)
+    func cancelCall(userID: String, callback: ZegoCallback?)
     
     /// Accept a call
     ///
@@ -98,7 +98,7 @@ protocol CallService {
     ///
     /// Call this method at: After the user login
     /// - Parameter callback: refers to the callback for accept a call.
-    func acceptCall(_ token: String, callback: RoomCallback?)
+    func acceptCall(_ token: String, callback: ZegoCallback?)
     
     /// Decline a call
     ///
@@ -108,7 +108,7 @@ protocol CallService {
     /// - Parameter userID: the ID of the caller
     /// - Parameter type: refers to the response type.
     /// - Parameter callback: refers to the callback for decline a call.
-    func declineCall(_ userID: String, type: DeclineType, callback: RoomCallback?)
+    func declineCall(_ userID: String, type: DeclineType, callback: ZegoCallback?)
     
     /// End a call
     ///
@@ -116,5 +116,5 @@ protocol CallService {
     ///
     /// Call this method at: after the user login
     /// - Parameter callback: refers to the callback for end a call.  
-    func endCall(_ callback: RoomCallback?)
+    func endCall(_ callback: ZegoCallback?)
 }

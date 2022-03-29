@@ -64,7 +64,7 @@ class UserServiceImpl: NSObject {
 }
 
 extension UserServiceImpl: UserService {
-    func login(_ token: String, callback: RoomCallback?) {
+    func login(_ token: String, callback: ZegoCallback?) {
         loginCommand.token = token
         loginCommand.excute { result in
             var loginResult: ZegoResult = .success(())

@@ -28,7 +28,7 @@ class CallServiceImpl: NSObject {
 }
 
 extension CallServiceImpl: CallService {
-    func callUser(_ userID: String, token: String, type: CallType, callback: RoomCallback?) {
+    func callUser(_ userID: String, token: String, type: CallType, callback: ZegoCallback?) {
         
         self.status = .outgoing
         
@@ -63,7 +63,7 @@ extension CallServiceImpl: CallService {
         }
     }
     
-    func cancelCall(userID: String, callback: RoomCallback?) {
+    func cancelCall(userID: String, callback: ZegoCallback?) {
         let command = CancelCallCommand()
         command.calleeID = userID
         command.callID = callInfo.callID
@@ -87,7 +87,7 @@ extension CallServiceImpl: CallService {
         }
     }
     
-    func acceptCall(_ token: String, callback: RoomCallback?) {
+    func acceptCall(_ token: String, callback: ZegoCallback?) {
         let command = AcceptCallCommand()
         command.userID = ServiceManager.shared.userService.localUserInfo?.userID ?? ""
         command.callID = callInfo.callID
@@ -111,7 +111,7 @@ extension CallServiceImpl: CallService {
         }
     }
     
-    func declineCall(_ userID: String, type: DeclineType, callback: RoomCallback?) {
+    func declineCall(_ userID: String, type: DeclineType, callback: ZegoCallback?) {
         let command = DeclineCallCommand()
         command.userID = userID
         command.callID = callInfo.callID
@@ -134,7 +134,7 @@ extension CallServiceImpl: CallService {
         }
     }
     
-    func endCall(_ callback: RoomCallback?) {
+    func endCall(_ callback: ZegoCallback?) {
         let command = EndCallCommand()
         command.userID = ServiceManager.shared.userService.localUserInfo?.userID ?? ""
         command.callID = callInfo.callID

@@ -18,7 +18,7 @@ typealias ZegoResult = Result<Void, ZegoError>
 ///            0: Operation successful.
 ///            100xxxx: The Express SDK error code. For details, refer to the error code documentation. [iOS]: https://doc-en.zego.im/article/5547 [Android]: https://doc-en.zego.im/article/5548
 ///            600xxxx: The ZIM SDK error code. For details, refer to the error code documentation. [iOS]: https://docs.zegocloud.com/article/13791 [Android]: https://docs.zegocloud.com/article/13792
-typealias RoomCallback = (ZegoResult) -> Void
+typealias ZegoCallback = (ZegoResult) -> Void
 
 /// room list callback
 typealias UserListCallback = (Result<[UserInfo], ZegoError>) -> Void

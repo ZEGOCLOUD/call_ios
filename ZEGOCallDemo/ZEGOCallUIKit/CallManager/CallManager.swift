@@ -136,7 +136,7 @@ class CallManager: NSObject {
     /// Call this method at: Before you log in. We recommend you call this method when the application starts.
     ///
     /// - Parameter appID: refers to the project ID. To get this, go to ZEGOCLOUD Admin Console: https://console.zego.im/dashboard?lang=en
-    public func initWithAppID(_ appID: UInt32, callback: RoomCallback?) {
+    public func initWithAppID(_ appID: UInt32, callback: ZegoCallback?) {
         ServiceManager.shared.initWithAppID(appID: appID, callback: callback)
     }
     
@@ -147,7 +147,7 @@ class CallManager: NSObject {
     /// Call this method at: After the SDK initialization
     ///
     /// - Parameter callback: refers to the callback for log in.
-    public func login(_ token: String, callback: RoomCallback?) {
+    public func login(_ token: String, callback: ZegoCallback?) {
         ServiceManager.shared.userService.login(token, callback: callback)
     }
     
@@ -198,7 +198,7 @@ class CallManager: NSObject {
     ///
     /// - Parameter fileName: refers to the name of the file you upload. We recommend you name the file in the format of "appid_platform_timestamp".
     /// - Parameter callback: refers to the callback that be triggered when the logs are upload successfully or failed to upload logs.
-    public func uploadLog(_ callback: RoomCallback?) {
+    public func uploadLog(_ callback: ZegoCallback?) {
         ServiceManager.shared.uploadLog(callback: callback)
     }
     
@@ -216,7 +216,7 @@ class CallManager: NSObject {
     /// - Parameter token: refers to the authentication token. To get this, see the documentation: https://docs.zegocloud.com/article/11648
     /// - Parameter type: refers to the call type.  ZegoCallTypeVoice: Voice call.  ZegoCallTypeVideo: Video call.
     /// - Parameter callback: refers to the callback for make a outbound call.
-    public func callUser(_ userInfo: UserInfo, token: String, callType: CallType, callback: RoomCallback?) {
+    public func callUser(_ userInfo: UserInfo, token: String, callType: CallType, callback: ZegoCallback?) {
         if currentCallStatus != .free { return }
         guard let userID = userInfo.userID else { return }
         ServiceManager.shared.callService.callUser(userID, token: token, type: callType) { result in
