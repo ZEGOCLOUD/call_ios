@@ -28,6 +28,7 @@ protocol MinimizedDisplayManagerDelegate: AnyObject {
 class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimizeCallViewDelegate {
     
     weak var delegate: MinimizedDisplayManagerDelegate?
+    var currentStatus: MinimizedCallStatus = .waiting
     
     func didClickVideoMinimizeCallView() {
         delegate?.didClickVideoMinimizedView()
@@ -66,38 +67,49 @@ class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimize
     }
     
     func showVideoStream(_ status:MinimizedCallStatus, userInfo: UserInfo?) {
-        updateCallStatus(status: status, userInfo: userInfo)
+        updateCallStatus(status: status, userInfo: userInfo, isVideo: true)
     }
     
-    func updateCallStatus(status:MinimizedCallStatus, userInfo: UserInfo?) {
+    func updateCallStatus(status:MinimizedCallStatus, userInfo: UserInfo?, isVideo: Bool = false) {
+        currentStatus = status
         guard let localUserInfo = ServiceManager.shared.userService.localUserInfo else { return }
-        if let userInfo = userInfo {
-            if userInfo.camera || localUserInfo.camera {
-                audioMinView.isHidden = true
-                videoMinView.isHidden = false
-                let streamID = userInfo.camera ? userInfo.userID : localUserInfo.userID
-                ServiceManager.shared.streamService.startPlaying(streamID, streamView: videoMinView.videoPreview)
+        if isVideo {
+            if let userInfo = userInfo,
+               status == .calling {
+                if userInfo.camera || localUserInfo.camera {
+                    audioMinView.isHidden = true
+                    videoMinView.isHidden = false
+                    let streamID = userInfo.camera ? userInfo.userID : localUserInfo.userID
+                    ServiceManager.shared.streamService.startPlaying(streamID, streamView: videoMinView.videoPreview)
+                } else {
+                    audioMinView.isHidden = false
+                    audioMinView.updateCallText(getDisplayText(status))
+                    videoMinView.isHidden = true
+                }
             } else {
-                audioMinView.isHidden = false
-                audioMinView.updateCallText(getDisplayText(status))
-                videoMinView.isHidden = true
+                if localUserInfo.camera {
+                    audioMinView.isHidden = true
+                    videoMinView.isHidden = false
+                    let streamID = localUserInfo.userID
+                    ServiceManager.shared.streamService.startPlaying(streamID, streamView: videoMinView.videoPreview)
+                } else {
+                    audioMinView.isHidden = false
+                    audioMinView.updateCallText(getDisplayText(status))
+                    videoMinView.isHidden = true
+                }
             }
         } else {
-            if localUserInfo.camera {
-                audioMinView.isHidden = true
-                videoMinView.isHidden = false
-                let streamID = localUserInfo.userID
-                ServiceManager.shared.streamService.startPlaying(streamID, streamView: videoMinView.videoPreview)
-            } else {
-                audioMinView.isHidden = false
-                audioMinView.updateCallText(getDisplayText(status))
-                videoMinView.isHidden = true
-            }
+            audioMinView.isHidden = false
+            audioMinView.updateCallText(getDisplayText(status))
+            videoMinView.isHidden = true
         }
+        
     }
     
     func updateCallTimeText(_ text: String?) {
-        audioMinView.updateCallText(text)
+        if currentStatus == .calling {
+            audioMinView.updateCallText(text)
+        }
     }
     
     func getDisplayText(_ status: MinimizedCallStatus) -> String? {

@@ -163,9 +163,6 @@ class CallMainVC: UIViewController {
     
     var bgImage: UIImage?
     var smallBgImage: UIImage?
-    let timer = ZegoTimer(1000)
-    var callTime: Int = 0
-    var callWaitTime: Int = 0
     var netWorkStatus: NetWorkStatus = .good
     var localUserInfo: UserInfo = {
         return ServiceManager.shared.userService.localUserInfo ?? UserInfo()
@@ -233,15 +230,6 @@ class CallMainVC: UIViewController {
         vc.vcType = type
         vc.statusType = status
         
-        if status == .calling {
-            vc.callTime = Int(Date().timeIntervalSince1970)
-        } else if status == .take {
-            vc.callWaitTime = Int(Date().timeIntervalSince1970)
-        } else if status == .accept {
-            
-        }
-        
-        
         switch type {
         case .voice:
             vc.bgImage = UIImage(named: String.getMakImageName(userName: vc.localUserInfo.userName))
@@ -252,19 +240,6 @@ class CallMainVC: UIViewController {
             vc.mainStreamUserID = vc.localUserInfo.userID
             vc.streamUserID = userInfo.userID
         }
-        
-        vc.timer.setEventHandler {
-            switch vc.statusType {
-            case .calling:
-                let currentTime = Int(Date().timeIntervalSince1970)
-                DispatchQueue.main.async {
-                    vc.timeLabel.text = String.getTimeFormate(currentTime - vc.callTime)
-                }
-            case .accept,.take,.canceled,.decline,.miss,.completed,.busy:
-                break
-            }
-        }
-        vc.timer.start()
         return vc
     }
     
@@ -303,7 +278,6 @@ class CallMainVC: UIViewController {
             headImage.isHidden = false
             minimizeButton.isHidden = false
             settingButton.isHidden = false
-            timer.start()
             if vcType == .video {
                 ServiceManager.shared.streamService.startPlaying(mainStreamUserID, streamView: mainPreviewView)
             }
@@ -319,7 +293,6 @@ class CallMainVC: UIViewController {
             settingButton.isHidden = true
             takeStatusFlipButton.isHidden = true
             acceptView.setCallAcceptViewType(vcType == .video)
-            timer.start()
         case .calling:
             takeView.isHidden = true
             acceptView.isHidden = true
@@ -345,7 +318,6 @@ class CallMainVC: UIViewController {
                 ServiceManager.shared.streamService.startPlaying(mainStreamUserID, streamView: mainPreviewView)
                 ServiceManager.shared.streamService.startPlaying(streamUserID, streamView: previewView)
             }
-            timer.start()
         case .canceled,.decline,.miss,.completed,.busy:
             minimizeButton.isHidden = false
             settingButton.isHidden = false
@@ -374,13 +346,6 @@ class CallMainVC: UIViewController {
                 streamUserID = userInfo.userID
             }
             setPreviewUserName()
-        }
-        
-        if statusType != .calling {
-            callTime = Int(Date().timeIntervalSince1970)
-        }
-        if status != .take {
-            callWaitTime = Int(Date().timeIntervalSince1970)
         }
         statusType = status
         configUI()
@@ -459,10 +424,7 @@ class CallMainVC: UIViewController {
     }
     
     func resetTime() {
-        timer.stop()
         timeLabel.text = ""
-        callTime = 0
-        callWaitTime = 0
     }
     
     func setBackGroundImageHidden() {
