@@ -87,6 +87,49 @@ extension UserServiceImpl: UserService {
         logoutCommand.excute(callback: nil)
     }
     
+    func getToken(_ userID: String, callback: TokenCallback?) {
+        
+        func realGetToken(tokenCallback: TokenCallback?) {
+            let command = TokenCommand()
+            command.userID = userID
+            // 24h
+            let effectiveTimeInSeconds = 24 * 3600
+            command.effectiveTimeInSeconds = effectiveTimeInSeconds
+            
+            command.excute { result in
+                var tokenResult: Result<String, ZegoError> = .failure(.failed)
+                switch result {
+                case .success(let dict):
+                    if let dict = dict as? [String: Any] {
+                        if let token = dict["token"] as? String {
+                            tokenResult = .success(token)
+                            TokenManager.shared.saveToken(token, effectiveTimeInSeconds)
+                        }
+                    }
+                case .failure(let error):
+                    tokenResult = .failure(error)
+                }
+                guard let tokenCallback = tokenCallback else { return }
+                tokenCallback(tokenResult)
+            }
+        }
+        
+        guard let token = TokenManager.shared.token,
+              token.isTokenValid()
+        else {
+            realGetToken(tokenCallback: callback)
+            return
+        }
+        
+        if let callback = callback {
+            callback(.success(token.token))
+        }
+        
+        if TokenManager.shared.needUpdateToken() {
+            realGetToken(tokenCallback: nil)
+        }
+    }
+    
     func getOnlineUserList(_ callback: UserListCallback?) {
         
         userListCommand.excute { result in

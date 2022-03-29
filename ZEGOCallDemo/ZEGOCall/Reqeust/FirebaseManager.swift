@@ -11,6 +11,7 @@ import FirebaseCore
 import FirebaseAuth
 import FirebaseDatabase
 import FirebaseMessaging
+import FirebaseFunctions
 
 class FirebaseManager: NSObject {
     
@@ -44,7 +45,7 @@ class FirebaseManager: NSObject {
         addConnectedListener()
         
         // add functions
-        functionsMap[API_GetUser] = getUser
+        functionsMap[API_Get_User] = getUser
         functionsMap[API_Login] = login
         functionsMap[API_Logout] = logout
         functionsMap[API_Get_Users] = getUserList
@@ -54,6 +55,7 @@ class FirebaseManager: NSObject {
         functionsMap[API_Decline_Call] = declineCall
         functionsMap[API_End_Call] = endCall
         functionsMap[API_Call_Heartbeat] = heartbeat
+        functionsMap[API_Get_Token] = getToken
     }
     
     func resetData(_ removeUserData: Bool = true) {
@@ -328,6 +330,35 @@ extension FirebaseManager {
         
         let userRef = ref.child("call/\(callID)/users/\(userID)")
         userRef.updateChildValues(["heartbeat_time" : heartbeatTime])
+    }
+    
+    private func getToken(_ parameter: [String: AnyObject], callback: @escaping RequestCallback) {
+        guard let userID = parameter["id"] as? String,
+              let effectiveTimeInSeconds = parameter["effective_time"] as? Int
+        else {
+            callback(.failure(.failed))
+            return
+        }
+        let functions = Functions.functions()
+        let data: [String: Any] = [
+            "id": userID,
+            "effective_time": effectiveTimeInSeconds
+        ]
+        functions.httpsCallable("getToken").call(data) { result, error in
+            if let error = error as NSError? {
+                print("[*] Get token failed: \(error)")
+                callback(.failure(.failed))
+                return
+            }
+            guard let dict = result?.data as? [String: Any],
+                  let token = dict["token"] as? String
+            else {
+                callback(.failure(.failed))
+                return
+            }
+            let tokenData = ["token": token]
+            callback(.success(tokenData))
+        }
     }
 }
 

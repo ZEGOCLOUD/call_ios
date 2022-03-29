@@ -113,6 +113,7 @@
 		86DE03C727981B3D000EE3C5 /* CallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE03C627981B3D000EE3C5 /* CallManager.swift */; };
 		86DE03C927983D98000EE3C5 /* CallMainVC+Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */; };
 		8E08EFCF27F1DD2E0003030A /* Delay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E08EFCE27F1DD2E0003030A /* Delay.swift */; };
+		8E08EFD127F2E4D50003030A /* TokenCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E08EFD027F2E4D50003030A /* TokenCommand.swift */; };
 		8E703EF227E816BD00CC87CE /* GetUserCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E703EF127E816BD00CC87CE /* GetUserCommand.swift */; };
 		8E703EF827EB176600CC87CE /* AcceptCallCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E703EF727EB176500CC87CE /* AcceptCallCommand.swift */; };
 		8E703EFA27EB177000CC87CE /* DeclineCallCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E703EF927EB177000CC87CE /* DeclineCallCommand.swift */; };
@@ -142,6 +143,7 @@
 		8E77571D27E47A8D00BFB5F6 /* EndCallCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77571C27E47A8D00BFB5F6 /* EndCallCommand.swift */; };
 		8E77571F27E5879600BFB5F6 /* StreamService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77571E27E5879600BFB5F6 /* StreamService.swift */; };
 		8E77572127E5888000BFB5F6 /* StreamServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77572027E5888000BFB5F6 /* StreamServiceImpl.swift */; };
+		8E7F92D427F339A20059F833 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7F92D327F339A20059F833 /* TokenManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -305,6 +307,7 @@
 		86DE03C627981B3D000EE3C5 /* CallManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallManager.swift; sourceTree = "<group>"; };
 		86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallMainVC+Stream.swift"; sourceTree = "<group>"; };
 		8E08EFCE27F1DD2E0003030A /* Delay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delay.swift; sourceTree = "<group>"; };
+		8E08EFD027F2E4D50003030A /* TokenCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenCommand.swift; sourceTree = "<group>"; };
 		8E703EF127E816BD00CC87CE /* GetUserCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserCommand.swift; sourceTree = "<group>"; };
 		8E703EF727EB176500CC87CE /* AcceptCallCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptCallCommand.swift; sourceTree = "<group>"; };
 		8E703EF927EB177000CC87CE /* DeclineCallCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeclineCallCommand.swift; sourceTree = "<group>"; };
@@ -335,6 +338,7 @@
 		8E77571C27E47A8D00BFB5F6 /* EndCallCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndCallCommand.swift; sourceTree = "<group>"; };
 		8E77571E27E5879600BFB5F6 /* StreamService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamService.swift; sourceTree = "<group>"; };
 		8E77572027E5888000BFB5F6 /* StreamServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamServiceImpl.swift; sourceTree = "<group>"; };
+		8E7F92D327F339A20059F833 /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
 		95F1BBF3114F32302EC88A9C /* Pods-ZEGOCallDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZEGOCallDemo.debug.xcconfig"; path = "Target Support Files/Pods-ZEGOCallDemo/Pods-ZEGOCallDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -578,6 +582,7 @@
 				86B198D0278BE2600004C997 /* ZegoJsonTool.swift */,
 				8E08EFCE27F1DD2E0003030A /* Delay.swift */,
 				86B1994C278D63430004C997 /* ZegoTimer.swift */,
+				8E7F92D327F339A20059F833 /* TokenManager.swift */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -896,6 +901,7 @@
 			children = (
 				8E77570C27E1D70900BFB5F6 /* LoginCommand.swift */,
 				8E77571027E3660700BFB5F6 /* LogoutCommand.swift */,
+				8E08EFD027F2E4D50003030A /* TokenCommand.swift */,
 				8E703EF127E816BD00CC87CE /* GetUserCommand.swift */,
 				8E77571227E46F2F00BFB5F6 /* UserListCommand.swift */,
 				8E77571427E4721300BFB5F6 /* HeartbeatCommand.swift */,
@@ -1133,6 +1139,7 @@
 				86B19964278D63E30004C997 /* AppDefine.swift in Sources */,
 				8E77571D27E47A8D00BFB5F6 /* EndCallCommand.swift in Sources */,
 				86B19A1427901FAF0004C997 /* CallBaseView.swift in Sources */,
+				8E08EFD127F2E4D50003030A /* TokenCommand.swift in Sources */,
 				8637810D27E1EA5F000A0C22 /* MinimizedDisplayManager.swift in Sources */,
 				8E08EFCF27F1DD2E0003030A /* Delay.swift in Sources */,
 				86B19896278BDD7E0004C997 /* LoginVC.swift in Sources */,
@@ -1177,6 +1184,7 @@
 				86B19956278D63440004C997 /* aes.cpp in Sources */,
 				86B198D9278BE2600004C997 /* ServiceManager.swift in Sources */,
 				8637812A27E31AD8000A0C22 /* CallMainVC+Setting.swift in Sources */,
+				8E7F92D427F339A20059F833 /* TokenManager.swift in Sources */,
 				86B1994F278D63440004C997 /* ZegoToken.mm in Sources */,
 				8E77570927E19ECC00BFB5F6 /* ListenerManager.swift in Sources */,
 				8E77571527E4721300BFB5F6 /* HeartbeatCommand.swift in Sources */,

@@ -8,7 +8,7 @@
 import Foundation
 
 class GetUserCommand: Command {
-    let path: String = API_GetUser
+    let path: String = API_Get_User
     var parameter = [String : AnyObject]()
     
     var userID: String? {
