@@ -43,7 +43,8 @@ protocol DeviceService {
     /// The delegate instance of the device service.
     var delegate: DeviceServiceDelegate? { get set }
     
-    func setDeviceDefaultConfig()
+    /// 设置互动视频最佳配置
+    func setBestConfig()
     
     /// Mutes or unmutes the microphone
     ///
@@ -79,13 +80,5 @@ protocol DeviceService {
     ///
     /// @param enable determines whether to use the speaker or the receiver. true: use the speaker. false: use the receiver.
     func enableSpeaker(_ enable: Bool)
-    
-    
-    /// Support/Not support for callkit
-    ///
-    /// Description: This can be used to set whether to support the callkit or not.
-    ///
-    /// @param enable determines whether to support the callkit. true: support. false: not supported.
-    func enableCallKit(_ enable: Bool)
     
 }
