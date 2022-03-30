@@ -16,7 +16,26 @@ class LoginManager {
     
     static let shared = LoginManager()
     
-    var user: UserInfo?
+    private var _user: UserInfo? {
+        willSet {
+            if newValue?.userID != _user?.userID && newValue != nil {
+                UserListManager.shared.addOnlineUsersListener()
+            } else if newValue == nil {
+                UserListManager.shared.removeOnlineUsersListener()
+            }
+        }
+    }
+    var user: UserInfo? {
+        get {
+            if _user != nil {
+                return _user
+            } else {
+                guard let firebaseUser = Auth.auth().currentUser else { return nil }
+                _user = UserInfo(firebaseUser.uid, firebaseUser.displayName ?? firebaseUser.uid)
+                return _user
+            }
+        }
+    }
     
     func login(_ token: String, callback: @escaping loginCallback) {
         
@@ -28,20 +47,13 @@ class LoginManager {
                 callback(nil, 1)
                 return
             }
-            self.user = UserInfo(userID: user.uid, userName: user.displayName ?? user.uid)
+            self._user = UserInfo(userID: user.uid, userName: user.displayName ?? user.uid)
             callback(self.user, 0)
         }
     }
     
     func logout() {
         try? Auth.auth().signOut()
-    }
-    
-    func isUserLogin() -> Bool {
-        guard let user = Auth.auth().currentUser else {
-            return false
-        }
-        self.user = UserInfo(user.uid, user.displayName ?? user.uid)
-        return true
+        _user = nil
     }
 }

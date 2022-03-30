@@ -25,7 +25,7 @@ class UserListManager {
     
     private var ref: DatabaseReference
     
-    private func addOnlineUsersListener() {
+    func addOnlineUsersListener() {
         let usersQuery = self.ref.child("online_user").queryOrdered(byChild: "last_changed")
         
         usersQuery.observe(.value) { snapshot in
@@ -43,5 +43,10 @@ class UserListManager {
                 self.userList.append(user)
             }
         }
+    }
+    
+    func removeOnlineUsersListener() {
+        let usersRef = self.ref.child("online_user")
+        usersRef.removeAllObservers()
     }
 }

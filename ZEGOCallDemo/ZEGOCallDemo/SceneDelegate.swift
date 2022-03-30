@@ -62,11 +62,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let rootVC: GoogleLoginVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GoogleLoginVC") as! GoogleLoginVC
         let nav: UINavigationController = UINavigationController.init(rootViewController: rootVC)
         self.window?.rootViewController = nav
-        if LoginManager.shared.isUserLogin() {
-            CallManager.shared.setLocalUser(LoginManager.shared.user!.userID!, userName: LoginManager.shared.user!.userName!)
+        if let user = LoginManager.shared.user {
 //            if !AuthorizedCheck.isCameraAuthorized() || !AuthorizedCheck.isMicrophoneAuthorized() { return }
-            guard let user = LoginManager.shared.user,
-                  let userID = user.userID,
+            guard let userID = user.userID,
                   let userName = user.userName
             else { return }
             CallManager.shared.setLocalUser(userID, userName: userName)
