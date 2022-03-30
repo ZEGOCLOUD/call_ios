@@ -67,7 +67,7 @@ protocol UserService {
     /// Call this method at: After the user login
     func logout()
     
-    func getToken(_ userID: String, callback: TokenCallback?)
+    func getToken(_ userID: String, callback: RequestCallback?)
     
     /// Get the online user list
     /// - Description: this method can be used to get the current online user list.

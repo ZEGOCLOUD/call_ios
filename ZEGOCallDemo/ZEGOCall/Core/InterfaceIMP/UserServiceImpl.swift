@@ -87,9 +87,9 @@ extension UserServiceImpl: UserService {
         logoutCommand.excute(callback: nil)
     }
     
-    func getToken(_ userID: String, callback: TokenCallback?) {
+    func getToken(_ userID: String, callback: RequestCallback?) {
         
-        func realGetToken(tokenCallback: TokenCallback?) {
+        func realGetToken(tokenCallback: RequestCallback?) {
             let command = TokenCommand()
             command.userID = userID
             // 24h
@@ -97,7 +97,7 @@ extension UserServiceImpl: UserService {
             command.effectiveTimeInSeconds = effectiveTimeInSeconds
             
             command.excute { result in
-                var tokenResult: Result<String, ZegoError> = .failure(.failed)
+                var tokenResult: Result<Any, ZegoError> = .failure(.failed)
                 switch result {
                 case .success(let dict):
                     if let dict = dict as? [String: Any] {
