@@ -7,10 +7,15 @@
 
 import Foundation
 
+/// The call status
 enum callStatus: Int {
+    /// Free
     case free
+    /// Receives a call and the call waits to be answered
     case wait
+    /// The call waits to be answered by the peer side
     case waitAccept
+    /// Connecting
     case calling
 }
 
@@ -71,14 +76,14 @@ protocol CallManagerInterface {
     
     /// The delegate instance of the call manager.
     var delegate: CallManagerDelegate? { get set }
-    
+        
     /// The local logged-in user information.
     var localUserInfo: UserInfo? { get }
-    
-    /// 当前通话的状态
+        
+    /// The state of the current call
     var currentCallStatus: callStatus! { get }
-    
-    /// Get CallManager instance
+        
+    /// Get a CallManager instance
     static var shared: CallManager! { get }
     
     /// Initialize the SDK
@@ -90,30 +95,30 @@ protocol CallManagerInterface {
     /// - Parameter appID: refers to the project ID. To get this, go to ZEGOCLOUD Admin Console: https://console.zego.im/dashboard?lang=en
     func initWithAppID(_ appID: UInt32, callback: ZegoCallback?)
     
-    /// 获取Token
+    /// Get a Token
     ///
-    /// Description: Call this method with user ID to get token
+    /// Description: this method can be used to get a Token with userID.
     ///
-    /// Call this method at: call sdk 初始化之后
+    /// Call this method at: after the SDK initialization
     ///
-    /// - Parameter callback: token请求的结果回调
+    /// - Parameter callback: refers to the callback for request the Token for authentication
     func getToken(_ userID: String, callback: RequestCallback?)
     
-    /// 设置本地用户信息
+    /// Set the local user info
     ///
-    /// Description: 通过这个方法把用户信息保存到本地
+    /// Description: this can be used to save the user information locally.
     ///
-    /// Call this method at: 登录后
+    /// Call this method at: after the login
     ///
-    /// - Parameter userID: 用户的ID
-    /// - Parameter userName: 用户的名称
+    /// - Parameter userID: the user ID.
+    /// - Parameter userName: the username.
     func setLocalUser(_ userID: String, userName: String)
     
-    /// 清除一些缓存的数据
+    /// Clear cached data
     ///
-    /// - Description: 这方法用于清除一些CallManager单利的缓存信息
+    /// - Description: this can be used to clear data cached by the CallManager.
     ///
-    /// Call this method at:当退出登录时或者被踢下线时
+    /// Call this method at: when logging out from a room or being removed from a room.
     func resetCallData()
     
     /// Gets the list of online users
@@ -135,7 +140,7 @@ protocol CallManagerInterface {
     /// Description: This method can be used to initiate a call to a online user. The called user receives a notification once this method gets called. And if the call is not answered in 60 seconds, you will need to call a method to cancel the call.
     ///
     /// Call this method at: After the user login
-    /// - Parameter userID: refers to the ID of the user you want call.
+    /// - Parameter userInfo: The information of the user you want to call, including the userID and userName.
     /// - Parameter token: refers to the authentication token. To get this, see the documentation: https://docs.zegocloud.com/article/11648
     /// - Parameter type: refers to the call type.  ZegoCallTypeVoice: Voice call.  ZegoCallTypeVideo: Video call.
     /// - Parameter callback: refers to the callback for make a outbound call.
