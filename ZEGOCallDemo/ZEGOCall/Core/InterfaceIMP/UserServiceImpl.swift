@@ -17,28 +17,7 @@ class UserServiceImpl: NSObject {
     weak var delegate: UserServiceDelegate?
     
     /// The local logged-in user information.
-    private var _localUserInfo: UserInfo?
-    var localUserInfo: UserInfo? {
-        get {
-            if _localUserInfo != nil {
-                return _localUserInfo
-            } else {
-                var user: UserInfo?
-                getUserCommand.excute { result in
-                    if result.isFailure { return }
-                    guard let userDict = result.success as? [String : String] else { return }
-                    guard let userID = userDict["id"] else { return }
-                    let userName = userDict["name"] ?? ""
-                    user = UserInfo(userID, userName)
-                }
-                _localUserInfo = user
-                if user != nil && !userList.compactMap({ $0.userID }).contains(user?.userID) {
-                    userList.append(user!)
-                }
-                return user
-            }
-        }
-    }
+    var localUserInfo: UserInfo?
     
     /// In-room user list, can be used when displaying the user list in the room.
     var userList = [UserInfo]()
@@ -64,27 +43,13 @@ class UserServiceImpl: NSObject {
 }
 
 extension UserServiceImpl: UserService {
-    func login(_ token: String, callback: ZegoCallback?) {
-        loginCommand.token = token
-        loginCommand.excute { result in
-            var loginResult: ZegoResult = .success(())
-            switch result {
-            case .success(let dict):
-                let userDict = dict as! [String : String]
-                let userID = userDict["id"] ?? ""
-                let userName = userDict["name"] ?? ""
-                self._localUserInfo = UserInfo(userID: userID, userName: userName)
-            case .failure(let error):
-                loginResult = .failure(error)
-            }
-            guard let callback = callback else { return }
-            callback(loginResult)
+    
+    func setLocalUser(_ userID: String, userName: String) {
+        let user = UserInfo(userID, userName)
+        self.localUserInfo = user
+        if self.userList.compactMap({ $0.userID }).contains(userID) == false {
+            self.userList.append(user)
         }
-    }
-    
-    
-    func logout() {
-        logoutCommand.excute(callback: nil)
     }
     
     func getToken(_ userID: String, callback: RequestCallback?) {

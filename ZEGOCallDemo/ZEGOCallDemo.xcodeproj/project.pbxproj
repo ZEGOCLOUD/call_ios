@@ -145,6 +145,7 @@
 		8E77571F27E5879600BFB5F6 /* StreamService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77571E27E5879600BFB5F6 /* StreamService.swift */; };
 		8E77572127E5888000BFB5F6 /* StreamServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77572027E5888000BFB5F6 /* StreamServiceImpl.swift */; };
 		8E7F92D427F339A20059F833 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7F92D327F339A20059F833 /* TokenManager.swift */; };
+		8E7F92D727F4614F0059F833 /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7F92D627F4614F0059F833 /* LoginManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -341,6 +342,7 @@
 		8E77571E27E5879600BFB5F6 /* StreamService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamService.swift; sourceTree = "<group>"; };
 		8E77572027E5888000BFB5F6 /* StreamServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamServiceImpl.swift; sourceTree = "<group>"; };
 		8E7F92D327F339A20059F833 /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
+		8E7F92D627F4614F0059F833 /* LoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
 		95F1BBF3114F32302EC88A9C /* Pods-ZEGOCallDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZEGOCallDemo.debug.xcconfig"; path = "Target Support Files/Pods-ZEGOCallDemo/Pods-ZEGOCallDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -489,6 +491,7 @@
 		86B19890278BDD7D0004C997 /* ZEGOCallDemo */ = {
 			isa = PBXGroup;
 			children = (
+				8E7F92D527F461150059F833 /* Firebase */,
 				8E703EFD27EC0B3C00CC87CE /* ZEGOCallDemo.entitlements */,
 				86B198AD278BE25F0004C997 /* Network */,
 				86B198EF278D28B20004C997 /* CorePages */,
@@ -970,6 +973,14 @@
 			path = Listener;
 			sourceTree = "<group>";
 		};
+		8E7F92D527F461150059F833 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				8E7F92D627F4614F0059F833 /* LoginManager.swift */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1118,6 +1129,7 @@
 				8E7756EF27E0851C00BFB5F6 /* RoomService.swift in Sources */,
 				86B1995E278D63440004C997 /* AppToken.swift in Sources */,
 				8E77571F27E5879600BFB5F6 /* StreamService.swift in Sources */,
+				8E7F92D727F4614F0059F833 /* LoginManager.swift in Sources */,
 				86B19996278EC1050004C997 /* CallAcceptTipView.swift in Sources */,
 				86B19A082790034B0004C997 /* OnlineUserListVC+Call.swift in Sources */,
 				86B198AC278BE1C60004C997 /* AppCenter.swift in Sources */,

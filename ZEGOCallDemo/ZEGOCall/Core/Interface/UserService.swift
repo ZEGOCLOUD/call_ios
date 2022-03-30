@@ -51,21 +51,8 @@ protocol UserService {
     var userList: [UserInfo] { get }
     
     
-    /// User to log in
-    ///
-    /// Description: Call this method with user ID and username to log in to the LiveAudioRoom service.
-    ///
-    /// Call this method at: After the SDK initialization
-    ///
-    /// - Parameter callback: refers to the callback for log in.
-    func login(_ token: String, callback: ZegoCallback?)
+    func setLocalUser(_ userID: String, userName: String)
     
-    /// User to log out
-    ///
-    /// - Description: This method can be used to log out from the current user account.
-    ///
-    /// Call this method at: After the user login
-    func logout()
     
     func getToken(_ userID: String, callback: RequestCallback?)
     
