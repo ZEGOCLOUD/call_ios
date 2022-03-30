@@ -20,8 +20,6 @@ typealias ZegoResult = Result<Void, ZegoError>
 ///            600xxxx: The ZIM SDK error code. For details, refer to the error code documentation. [iOS]: https://docs.zegocloud.com/article/13791 [Android]: https://docs.zegocloud.com/article/13792
 typealias ZegoCallback = (ZegoResult) -> Void
 
-typealias TokenCallback = (Result<String, ZegoError>) -> Void
-
 typealias UserListCallback = (Result<[UserInfo], ZegoError>) -> Void
 
 /// General request callback
