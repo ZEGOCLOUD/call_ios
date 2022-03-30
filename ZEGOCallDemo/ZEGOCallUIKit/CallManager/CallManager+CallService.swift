@@ -19,15 +19,16 @@ extension CallManager: CallServiceDelegate {
         currentCallStatus = .wait
         currentCallUserInfo = userInfo
         callKitCallType = type
-        if UIApplication.shared.applicationState != .background {
+        if let callKitService = callKitService,
+           UIApplication.shared.applicationState == .background {
+            let uuid = UUID()
+            myUUID = uuid
+            callKitService.reportInComingCall(uuid: uuid, handle: "", hasVideo: type == .video, completion: nil)
+        } else {
             let callTipView: CallAcceptTipView = CallAcceptTipView.showTipView(type, userInfo: userInfo)
             currentTipView = callTipView
             callTipView.delegate = self
             audioPlayer?.play()
-        } else {
-            let uuid = UUID()
-            myUUID = uuid
-            callKitService?.reportInComingCall(uuid: uuid, handle: "", hasVideo: type == .video, completion: nil)
         }
     }
     
@@ -51,6 +52,7 @@ extension CallManager: CallServiceDelegate {
             currentCallVC.dismiss(animated: true, completion: nil)
         }
     }
+    
     func onReceiveCallAccepted(_ userInfo: UserInfo) {
         delegate?.onReceiveCallAccepted(userInfo)
         guard let vc = self.currentCallVC else { return }
@@ -71,6 +73,7 @@ extension CallManager: CallServiceDelegate {
         callTimeManager.callStart()
         startPlayingStream(userInfo.userID)
     }
+    
     func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType) {
         delegate?.onReceiveCallDeclined(userInfo, type: type)
         minmizedManager.updateCallStatus(status: .decline, userInfo: userInfo)
