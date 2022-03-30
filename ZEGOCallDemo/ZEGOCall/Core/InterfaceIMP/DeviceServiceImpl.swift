@@ -91,7 +91,7 @@ class DeviceServiceImpl: NSObject, DeviceService {
         }
     }
     
-    func setDeviceDefaultConfig() {
+    func setBestConfig() {
         ZegoExpressEngine.shared().enableHardwareEncoder(true)
         ZegoExpressEngine.shared().enableHardwareDecoder(true)
         ZegoExpressEngine.shared().setCapturePipelineScaleMode(.post)
@@ -99,6 +99,9 @@ class DeviceServiceImpl: NSObject, DeviceService {
         ZegoExpressEngine.shared().setMinVideoBitrateForTrafficControl(120, mode: .ultraLowFPS)
         ZegoExpressEngine.shared().setTrafficControlFocusOn(.founsOnRemote)
         ZegoExpressEngine.shared().enableANS(false)
+        let config = ZegoEngineConfig()
+        config.advancedConfig = ["support_apple_callkit" : "true"]
+        ZegoExpressEngine.setEngineConfig(config)
     }
         
     func enableMic(_ enable: Bool) {
@@ -117,13 +120,6 @@ class DeviceServiceImpl: NSObject, DeviceService {
     
     func enableSpeaker(_ enable: Bool) {
         ZegoExpressEngine.shared().setAudioRouteToSpeaker(enable)
-    }
-    
-    func enableCallKit(_ enable: Bool) {
-        let config = ZegoEngineConfig()
-        let enableStr = enable ? "true" : "false"
-        config.advancedConfig = ["support_apple_callkit" : enableStr]
-        ZegoExpressEngine.setEngineConfig(config)
     }
 }
 

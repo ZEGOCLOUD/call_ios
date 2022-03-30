@@ -70,17 +70,18 @@ extension CallManager {
 //        }
         currentCallStatus = .calling
         callTimeManager.callStart()
-        if let userID = currentCallUserInfo?.userID {
-            let rtcToken = AppToken.getRtcToken(withRoomID: userID)
-            guard let rtcToken = rtcToken else { return }
-            ServiceManager.shared.callService.acceptCall(rtcToken) { result in
-                switch result {
-                case .success():
-                    if self.appIsActive {
-                        if let callVC = self.currentCallVC {
-                            guard let userInfo = self.currentCallUserInfo else { return }
-                            callVC.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
-                            if let controller = self.getCurrentViewController() {
+        guard let userID = currentCallUserInfo?.userID else { return }
+        getToken(localUserID) { result in
+            switch result {
+            case .success(let token):
+                ServiceManager.shared.callService.acceptCall(token as! String) { result in
+                    if result.isSuccess {
+                        if self.appIsActive {
+                            self.endSystemCall()
+                            if let callVC = self.currentCallVC {
+                                guard let userInfo = self.currentCallUserInfo else { return }
+                                callVC.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
+                                guard let controller = self.getCurrentViewController() else { return }
                                 if controller is CallMainVC {
                                     self.currentCallVC?.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
                                     self.startPlayingStream(userID)
@@ -89,24 +90,22 @@ extension CallManager {
                                         self.startPlayingStream(userID)
                                     }
                                 }
-                            }
-                        } else {
-                            guard let userInfo = self.currentCallUserInfo else { return }
-                            let callVC: CallMainVC = CallMainVC.loadCallMainVC(self.callKitCallType, userInfo: userInfo, status: .calling)
-                            self.currentCallVC = callVC
-                            if let controller = self.getCurrentViewController() {
+                            } else {
+                                guard let userInfo = self.currentCallUserInfo else { return }
+                                let callVC: CallMainVC = CallMainVC.loadCallMainVC(self.callKitCallType, userInfo: userInfo, status: .calling)
+                                self.currentCallVC = callVC
+                                guard let controller = self.getCurrentViewController() else { return }
                                 controller.present(callVC, animated: true) {
                                     self.startPlayingStream(userID)
                                 }
                             }
+                        } else {
+                            self.startPlayingStream(userID)
                         }
-                        self.endSystemCall()
-                    } else {
-                        self.startPlayingStream(userID)
                     }
-                case .failure(_):
-                    break
                 }
+            case .failure(_):
+                break
             }
         }
         
@@ -114,31 +113,33 @@ extension CallManager {
         
     @objc func callKitEnd() {
         if appIsActive { return }
-        if currentCallStatus == .calling {
-            ServiceManager.shared.callService.endCall() { result in
-                switch result {
-                case .success():
-                    self.currentCallStatus = .free
-                    self.currentCallUserInfo = nil
-                    HUDHelper.showMessage(message: "Complete")
-                case .failure(let error):
-                    //HUDHelper.showMessage(message: "")
-                    break
-                }
-            }
-        } else {
-            endCall(currentCallUserInfo?.userID ?? "")
-            currentCallStatus = .free
-            currentCallUserInfo = nil
-        }
+        guard let userID = currentCallUserInfo?.userID else { return }
+        endCall(userID)
+//        if currentCallStatus == .calling {
+//            endCall(currentCallUserInfo?.userID)
+//            ServiceManager.shared.callService.endCall() { result in
+//                switch result {
+//                case .success():
+//                    self.currentCallStatus = .free
+//                    self.currentCallUserInfo = nil
+//                    HUDHelper.showMessage(message: "Complete")
+//                case .failure(let error):
+//                    //HUDHelper.showMessage(message: "")
+//                    break
+//                }
+//            }
+//        } else {
+//            endCall(currentCallUserInfo?.userID ?? "")
+//            currentCallStatus = .free
+//            currentCallUserInfo = nil
+//        }
     }
     
     @objc func muteSpeaker(notif:NSNotification) {
-        if let localUserInfo = ServiceManager.shared.userService.localUserInfo {
-            localUserInfo.mic = !(notif.userInfo!["isMute"] as? Bool)!
-            ServiceManager.shared.deviceService.enableMic(localUserInfo.mic)
-            currentCallVC?.changeBottomButtonDisplayStatus()
-        }
+        guard let localUserInfo = ServiceManager.shared.userService.localUserInfo else { return }
+        localUserInfo.mic = !(notif.userInfo!["isMute"] as? Bool)!
+        ServiceManager.shared.deviceService.enableMic(localUserInfo.mic)
+        currentCallVC?.changeBottomButtonDisplayStatus()
     }
     
     func endSystemCall() {

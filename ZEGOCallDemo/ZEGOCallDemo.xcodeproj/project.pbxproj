@@ -38,6 +38,7 @@
 		8637814427E9AE6B000A0C22 /* CallManager+Minimized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637814327E9AE6B000A0C22 /* CallManager+Minimized.swift */; };
 		8637814627EB05CF000A0C22 /* CallManager+DeviceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637814527EB05CF000A0C22 /* CallManager+DeviceService.swift */; };
 		8637814827EEB868000A0C22 /* CallUIKit.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8637814727EEB867000A0C22 /* CallUIKit.xcassets */; };
+		8637814C27F455FC000A0C22 /* CallManagerInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637814B27F455FC000A0C22 /* CallManagerInterface.swift */; };
 		86718D2D2797E56D00CEA8A0 /* ProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718D2C2797E56D00CEA8A0 /* ProviderDelegate.swift */; };
 		868F6356279E923200D0B5DC /* Call.strings in Resources */ = {isa = PBXBuildFile; fileRef = 868F6358279E923200D0B5DC /* Call.strings */; };
 		868F635F27A1647000D0B5DC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 868F636127A1647000D0B5DC /* InfoPlist.strings */; };
@@ -179,6 +180,7 @@
 		8637814327E9AE6B000A0C22 /* CallManager+Minimized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallManager+Minimized.swift"; sourceTree = "<group>"; };
 		8637814527EB05CF000A0C22 /* CallManager+DeviceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallManager+DeviceService.swift"; sourceTree = "<group>"; };
 		8637814727EEB867000A0C22 /* CallUIKit.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CallUIKit.xcassets; sourceTree = "<group>"; };
+		8637814B27F455FC000A0C22 /* CallManagerInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallManagerInterface.swift; sourceTree = "<group>"; };
 		86718D2C2797E56D00CEA8A0 /* ProviderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderDelegate.swift; sourceTree = "<group>"; };
 		868F6353279E913800D0B5DC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		868F6357279E923200D0B5DC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Call.strings; sourceTree = "<group>"; };
@@ -433,6 +435,7 @@
 			isa = PBXGroup;
 			children = (
 				86DE03C627981B3D000EE3C5 /* CallManager.swift */,
+				8637814B27F455FC000A0C22 /* CallManagerInterface.swift */,
 				8637813727E5AD95000A0C22 /* CallManager+UserService.swift */,
 				8637813927E5AEAE000A0C22 /* CallManager+CallService.swift */,
 				8637813B27E5B0C3000A0C22 /* CallManager+AcceptTipAction.swift */,
@@ -1157,6 +1160,7 @@
 				8E7756F127E0852400BFB5F6 /* CallService.swift in Sources */,
 				8E703EFA27EB177000CC87CE /* DeclineCallCommand.swift in Sources */,
 				8637814427E9AE6B000A0C22 /* CallManager+Minimized.swift in Sources */,
+				8637814C27F455FC000A0C22 /* CallManagerInterface.swift in Sources */,
 				8E77571127E3660700BFB5F6 /* LogoutCommand.swift in Sources */,
 				8637813627E47686000A0C22 /* AppleCallKitServiceIMP.swift in Sources */,
 				86B19953278D63440004C997 /* ZegoServerAssistant.cpp in Sources */,
