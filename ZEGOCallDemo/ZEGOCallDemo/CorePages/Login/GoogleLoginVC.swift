@@ -81,14 +81,18 @@ class GoogleLoginVC: UIViewController {
                 return
             }
             HUDHelper.showNetworkLoading()
-            CallManager.shared.login(token) { result in
+            LoginManager.shared.login(token) { user, error in
                 HUDHelper.hideNetworkLoading()
-                switch result {
-                case.success():
+                if error == 0 {
+                    guard let user = user,
+                          let userID = user.userID,
+                          let userName = user.userName
+                    else { return }
+                    CallManager.shared.setLocalUser(userID, userName: userName)
                     let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
                     self.navigationController?.pushViewController(vc, animated: true)
-                case .failure(let error):
-                    let message = String(format: ZGLocalizedString("toast_login_fail"), error.code)
+                } else {
+                    let message = String(format: ZGLocalizedString("toast_login_fail"), error)
                     TipView.showWarn(message)
                 }
             }

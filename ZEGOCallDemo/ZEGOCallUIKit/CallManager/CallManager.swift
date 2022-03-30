@@ -81,15 +81,9 @@ class CallManager: NSObject, CallManagerInterface {
         ServiceManager.shared.userService.getToken(userID, callback: callback)
     }
     
-    public func login(_ token: String, callback: ZegoCallback?) {
-        ServiceManager.shared.userService.login(token, callback: callback)
+    public func setLocalUser(_ userID: String, userName: String) {
+        ServiceManager.shared.userService.setLocalUser(userID, userName: userName)
     }
-    
-    public func logout() {
-        resetCallData()
-        ServiceManager.shared.userService.logout()
-    }
-    
     
     public func resetCallData() {
         minmizedManager.dismissCallMinView()

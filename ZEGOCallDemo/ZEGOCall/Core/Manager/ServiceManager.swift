@@ -105,6 +105,10 @@ extension ServiceManager {
 
 extension ServiceManager: ZegoEventHandler {
     
+    func onRoomStateUpdate(_ state: ZegoRoomState, errorCode: Int32, extendedData: [AnyHashable : Any]?, roomID: String) {
+        
+    }
+    
     func onRoomStreamUpdate(_ updateType: ZegoUpdateType, streamList: [ZegoStream], extendedData: [AnyHashable : Any]?, roomID: String) {
         
         for stream in streamList {
