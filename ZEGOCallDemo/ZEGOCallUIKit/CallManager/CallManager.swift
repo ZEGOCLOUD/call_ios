@@ -8,23 +8,16 @@
 import UIKit
 import ZegoExpressEngine
 
-enum callStatus: Int {
-    case free
-    case wait
-    case waitAccept
-    case calling
-}
-
 class CallManager: NSObject, CallManagerInterface {
-    
+
     static var shared: CallManager! = CallManager()
     weak var delegate: CallManagerDelegate?
     var localUserInfo: UserInfo? = ServiceManager.shared.userService.localUserInfo
+    var currentCallStatus: callStatus! = .free
     
     var currentCallVC: CallMainVC?
     var currentCallUserInfo: UserInfo?
     var callKitCallType: CallType = .voice
-    var currentCallStatus: callStatus = .free
     var appIsActive: Bool = true
     var currentTipView: CallAcceptTipView?
     var otherUserRoomInfo: UserInfo?
@@ -73,19 +66,19 @@ class CallManager: NSObject, CallManagerInterface {
         callKitService?.providerDelegate = ProviderDelegate()
     }
     
-    public func initWithAppID(_ appID: UInt32, callback: ZegoCallback?) {
+    func initWithAppID(_ appID: UInt32, callback: ZegoCallback?) {
         ServiceManager.shared.initWithAppID(appID: appID, callback: callback)
     }
     
-    public func getToken(_ userID: String, callback: RequestCallback?) {
+    func getToken(_ userID: String, callback: RequestCallback?) {
         ServiceManager.shared.userService.getToken(userID, callback: callback)
     }
     
-    public func setLocalUser(_ userID: String, userName: String) {
+    func setLocalUser(_ userID: String, userName: String) {
         ServiceManager.shared.userService.setLocalUser(userID, userName: userName)
     }
     
-    public func resetCallData() {
+    func resetCallData() {
         minmizedManager.dismissCallMinView()
         switch currentCallStatus {
         case .free:
@@ -103,29 +96,32 @@ class CallManager: NSObject, CallManagerInterface {
         case .calling:
             guard let userID = currentCallUserInfo?.userID else { return }
             endCall(userID)
+        case .none:
+            break
         }
     }
     
-    public func getOnlineUserList(_ callback: UserListCallback?)  {
+    func getOnlineUserList(_ callback: UserListCallback?)  {
         ServiceManager.shared.userService.getOnlineUserList(callback)
     }
     
-    public func uploadLog(_ callback: ZegoCallback?) {
+    func uploadLog(_ callback: ZegoCallback?) {
         ServiceManager.shared.uploadLog(callback: callback)
     }
     
-    public func callUser(_ userInfo: UserInfo, token: String, callType: CallType, callback: ZegoCallback?) {
+    func callUser(_ userInfo: UserInfo, token: String, callType: CallType, callback: ZegoCallback?) {
         if currentCallStatus != .free { return }
         guard let userID = userInfo.userID else { return }
         ServiceManager.shared.callService.callUser(userID, token: token, type: callType) { result in
-            if result.isSuccess {
+            switch result {
+            case .success():
                 let vc: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .take)
                 self.currentCallVC = vc
                 self.currentCallStatus = .waitAccept
                 self.currentCallUserInfo = userInfo
                 self.getCurrentViewController()?.present(vc, animated: true, completion: nil)
                 ServiceManager.shared.deviceService.useFrontCamera(true)
-            } else {
+            case .failure(_):
                 guard let callback = callback else { return }
                 callback(result)
             }
@@ -205,23 +201,12 @@ class CallManager: NSObject, CallManagerInterface {
         endSystemCall()
     }
     
-    func cancelCall(_ userID: String, callType: CallType, isTimeout: Bool = false) {
-        ServiceManager.shared.callService.cancelCall(userID: userID) { result in
-            switch result {
-            case .success():
-                CallManager.shared.audioPlayer?.stop()
-                CallManager.shared.currentCallStatus = .free
-                if isTimeout {
-                    self.currentCallVC?.changeCallStatusText(.miss)
-                } else {
-                    self.currentCallVC?.changeCallStatusText(.canceled)
-                }
-                self.currentCallVC?.callDelayDismiss()
-            case .failure(let error):
-                let message = String(format: ZGLocalizedString("cancel_call_failed"), error.code)
-                TipView.showWarn(message)
-            }
-        }
+    func cancelCall(_ userID: String, callType: CallType) {
+        audioPlayer?.stop()
+        currentCallStatus = .free
+        currentCallVC?.changeCallStatusText(.canceled)
+        currentCallVC?.callDelayDismiss()
+        ServiceManager.shared.callService.cancelCall(userID: userID, callback: nil)
     }
     
     func startPlayingStream(_ userID: String?) {

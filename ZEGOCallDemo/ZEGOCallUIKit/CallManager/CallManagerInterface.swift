@@ -7,6 +7,13 @@
 
 import Foundation
 
+enum callStatus: Int {
+    case free
+    case wait
+    case waitAccept
+    case calling
+}
+
 protocol CallManagerDelegate: AnyObject {
     /// Callback for receive an incoming call
     ///
@@ -68,6 +75,9 @@ protocol CallManagerInterface {
     /// The local logged-in user information.
     var localUserInfo: UserInfo? { get }
     
+    /// 当前通话的状态
+    var currentCallStatus: callStatus! { get }
+    
     /// Get CallManager instance
     static var shared: CallManager! { get }
     
@@ -80,10 +90,30 @@ protocol CallManagerInterface {
     /// - Parameter appID: refers to the project ID. To get this, go to ZEGOCLOUD Admin Console: https://console.zego.im/dashboard?lang=en
     func initWithAppID(_ appID: UInt32, callback: ZegoCallback?)
     
-    
+    /// 获取Token
+    ///
+    /// Description: Call this method with user ID to get token
+    ///
+    /// Call this method at: call sdk 初始化之后
+    ///
+    /// - Parameter callback: token请求的结果回调
     func getToken(_ userID: String, callback: RequestCallback?)
     
+    /// 设置本地用户信息
+    ///
+    /// Description: 通过这个方法把用户信息保存到本地
+    ///
+    /// Call this method at: 登录后
+    ///
+    /// - Parameter userID: 用户的ID
+    /// - Parameter userName: 用户的名称
+    func setLocalUser(_ userID: String, userName: String)
     
+    /// 清除一些缓存的数据
+    ///
+    /// - Description: 这方法用于清除一些CallManager单利的缓存信息
+    ///
+    /// Call this method at:当退出登录时或者被踢下线时
     func resetCallData()
     
     /// Gets the list of online users
