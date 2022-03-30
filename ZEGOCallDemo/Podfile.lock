@@ -17,6 +17,9 @@ PODS:
   - Firebase/Database (8.13.0):
     - Firebase/CoreOnly
     - FirebaseDatabase (~> 8.13.0)
+  - Firebase/Functions (8.13.0):
+    - Firebase/CoreOnly
+    - FirebaseFunctions (~> 8.13.0)
   - Firebase/Messaging (8.13.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 8.13.0)
@@ -62,6 +65,9 @@ PODS:
   - FirebaseDatabase (8.13.0):
     - FirebaseCore (~> 8.0)
     - leveldb-library (~> 1.22)
+  - FirebaseFunctions (8.13.0):
+    - FirebaseCore (~> 8.0)
+    - GTMSessionFetcher/Core (~> 1.5)
   - FirebaseInstallations (8.13.0):
     - FirebaseCore (~> 8.0)
     - GoogleUtilities/Environment (~> 7.7)
@@ -142,6 +148,7 @@ DEPENDENCIES:
   - Firebase/Analytics
   - Firebase/Crashlytics
   - Firebase/Database
+  - Firebase/Functions
   - Firebase/Messaging
   - FirebaseAuth
   - GoogleSignIn
@@ -157,6 +164,7 @@ SPEC REPOS:
     - FirebaseCoreDiagnostics
     - FirebaseCrashlytics
     - FirebaseDatabase
+    - FirebaseFunctions
     - FirebaseInstallations
     - FirebaseMessaging
     - GoogleAppMeasurement
@@ -179,6 +187,7 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnostics: c2836d254a8f0bbb4121ff18f2c2ea39d118fd08
   FirebaseCrashlytics: 3b6eafb7e508c26d37ff7a256d0f74406f7e47bd
   FirebaseDatabase: c610ab55bcb033d5eb3d17acba57301068a28497
+  FirebaseFunctions: 70ad685853e225677aa4f2a0710ac77a7e7ff3f5
   FirebaseInstallations: 60edbf7e11d91ae4c751d26c200dfd037099abe0
   FirebaseMessaging: 8cddb4c478663611d58c03b353e10dd0ed6468f6
   GoogleAppMeasurement: 135c2fbcf5038e0f37dbce04fa641a702fc275d1
@@ -192,6 +201,6 @@ SPEC CHECKSUMS:
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   ZegoExpressEngine: 718bfb624f56b10ac06705f18f8aba4ab12a4ade
 
-PODFILE CHECKSUM: ec671cffe33a802b53ded84a75c618280e640af8
+PODFILE CHECKSUM: 54213ce8660fe2e167b0eb838d9e1ec9e40b241a
 
 COCOAPODS: 1.11.2

@@ -18,6 +18,7 @@ class CallServiceImpl: NSObject {
     private weak var listener = ListenerManager.shared
     
     private var callTask: Task?
+    private let heartbeatTimer = ZegoTimer(10 * 1000)
     
     override init() {
         super.init()
@@ -27,7 +28,7 @@ class CallServiceImpl: NSObject {
 }
 
 extension CallServiceImpl: CallService {
-    func callUser(_ userID: String, token: String, type: CallType, callback: RoomCallback?) {
+    func callUser(_ userID: String, token: String, type: CallType, callback: ZegoCallback?) {
         
         self.status = .outgoing
         
@@ -62,7 +63,7 @@ extension CallServiceImpl: CallService {
         }
     }
     
-    func cancelCall(userID: String, callback: RoomCallback?) {
+    func cancelCall(userID: String, callback: ZegoCallback?) {
         let command = CancelCallCommand()
         command.calleeID = userID
         command.callID = callInfo.callID
@@ -86,7 +87,7 @@ extension CallServiceImpl: CallService {
         }
     }
     
-    func acceptCall(_ token: String, callback: RoomCallback?) {
+    func acceptCall(_ token: String, callback: ZegoCallback?) {
         let command = AcceptCallCommand()
         command.userID = ServiceManager.shared.userService.localUserInfo?.userID ?? ""
         command.callID = callInfo.callID
@@ -99,6 +100,8 @@ extension CallServiceImpl: CallService {
                     ServiceManager.shared.roomService.joinRoom(roomID, token)
                 }
                 self.cancelCallTimer()
+                self.startHeartbeatTimer()
+                
                 callResult = .success(())
             case .failure(let error):
                 callResult = .failure(error)
@@ -108,7 +111,7 @@ extension CallServiceImpl: CallService {
         }
     }
     
-    func declineCall(_ userID: String, type: DeclineType, callback: RoomCallback?) {
+    func declineCall(_ userID: String, type: DeclineType, callback: ZegoCallback?) {
         let command = DeclineCallCommand()
         command.userID = userID
         command.callID = callInfo.callID
@@ -131,14 +134,14 @@ extension CallServiceImpl: CallService {
         }
     }
     
-    func endCall(_ callback: RoomCallback?) {
+    func endCall(_ callback: ZegoCallback?) {
         let command = EndCallCommand()
         command.userID = ServiceManager.shared.userService.localUserInfo?.userID ?? ""
         command.callID = callInfo.callID
         
         ServiceManager.shared.roomService.leaveRoom()
         self.status = .free
-        self.cancelCallTimer()
+        self.stopHeartbeatTimer()
         
         command.excute { result in
             var callResult: ZegoResult = .success(())
@@ -222,6 +225,8 @@ extension CallServiceImpl {
             }
             
             self.cancelCallTimer()
+            self.startHeartbeatTimer()
+            
             self.status = .calling
             self.delegate?.onReceiveCallAccepted(callee)
         })
@@ -262,6 +267,7 @@ extension CallServiceImpl {
                 !self.callInfo.callees.compactMap({ $0.userID }).contains(userID) {
                 return
             }
+            self.stopHeartbeatTimer()
             ServiceManager.shared.roomService.leaveRoom()
             self.status = .free
             self.callInfo = CallInfo()
@@ -269,7 +275,7 @@ extension CallServiceImpl {
         })
         
         _ = listener?.addListener(Notify_Call_Timeout, listener: { result in
-            
+            self.stopHeartbeatTimer()
         })
         
         _ = listener?.addListener(Notify_User_Error, listener: { result in
@@ -280,6 +286,7 @@ extension CallServiceImpl {
                 self.callInfo = CallInfo()
                 ServiceManager.shared.roomService.leaveRoom()
                 self.cancelCallTimer()
+                self.stopHeartbeatTimer()
             }
         })
     }
@@ -296,5 +303,19 @@ extension CallServiceImpl {
     func cancelCallTimer() {
         delayCancel(callTask)
         callTask = nil
+    }
+    
+    func startHeartbeatTimer() {
+        heartbeatTimer.setEventHandler { [weak self] in
+            let command = HeartbeatCommand()
+            command.userID = ServiceManager.shared.userService.localUserInfo?.userID
+            command.callID = self?.callInfo.callID
+            command.excute(callback: nil)
+        }
+        heartbeatTimer.start()
+    }
+    
+    func stopHeartbeatTimer() {
+        heartbeatTimer.stop()
     }
 }

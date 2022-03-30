@@ -55,7 +55,7 @@ class ServiceManager: NSObject {
     ///
     /// - Parameter appID: refers to the project ID. To get this, go to ZEGOCLOUD Admin Console: https://console.zego.im/dashboard?lang=en
     /// - Parameter appSign: refers to the secret key for authentication. To get this, go to ZEGOCLOUD Admin Console: https://console.zego.im/dashboard?lang=en
-    func initWithAppID(appID: UInt32, callback: RoomCallback?) {
+    func initWithAppID(appID: UInt32, callback: ZegoCallback?) {
         
         let profile = ZegoEngineProfile()
         profile.appID = appID
@@ -84,7 +84,7 @@ class ServiceManager: NSObject {
     ///
     /// - Parameter fileName: refers to the name of the file you upload. We recommend you name the file in the format of "appid_platform_timestamp".
     /// - Parameter callback: refers to the callback that be triggered when the logs are upload successfully or failed to upload logs.
-    func uploadLog(callback: RoomCallback?) {
+    func uploadLog(callback: ZegoCallback?) {
         guard let callback = callback else { return }
         ZegoExpressEngine.shared().uploadLog { error in
             if error == 0 {

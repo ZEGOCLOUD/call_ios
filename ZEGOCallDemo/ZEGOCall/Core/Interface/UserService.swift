@@ -58,7 +58,7 @@ protocol UserService {
     /// Call this method at: After the SDK initialization
     ///
     /// - Parameter callback: refers to the callback for log in.
-    func login(_ token: String, callback: RoomCallback?)
+    func login(_ token: String, callback: ZegoCallback?)
     
     /// User to log out
     ///
@@ -67,6 +67,7 @@ protocol UserService {
     /// Call this method at: After the user login
     func logout()
     
+    func getToken(_ userID: String, callback: TokenCallback?)
     
     /// Get the online user list
     /// - Description: this method can be used to get the current online user list.
