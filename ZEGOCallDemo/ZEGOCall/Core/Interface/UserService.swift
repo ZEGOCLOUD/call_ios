@@ -55,9 +55,4 @@ protocol UserService {
     
     
     func getToken(_ userID: String, callback: RequestCallback?)
-    
-    /// Get the online user list
-    /// - Description: this method can be used to get the current online user list.
-    /// Call this method at: after the SDK initialization
-    func getOnlineUserList(_ callback: UserListCallback?)
 }

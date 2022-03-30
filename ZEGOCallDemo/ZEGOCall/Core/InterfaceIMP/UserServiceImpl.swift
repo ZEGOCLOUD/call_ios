@@ -22,11 +22,6 @@ class UserServiceImpl: NSObject {
     /// In-room user list, can be used when displaying the user list in the room.
     var userList = [UserInfo]()
     
-    // request command
-    private let getUserCommand = GetUserCommand()
-    private let loginCommand = LoginCommand()
-    private let logoutCommand = LogoutCommand()
-    private let userListCommand = UserListCommand()
     
     private weak var listener = ListenerManager.shared
     
@@ -92,35 +87,6 @@ extension UserServiceImpl: UserService {
         
         if TokenManager.shared.needUpdateToken() {
             realGetToken(tokenCallback: nil)
-        }
-    }
-    
-    func getOnlineUserList(_ callback: UserListCallback?) {
-        
-        userListCommand.excute { result in
-            var listResult: Result<[UserInfo], ZegoError> = .failure(.failed)
-            defer {
-                if callback != nil {
-                    callback!(listResult)
-                }
-            }
-            
-            switch result {
-            case .success(let userDicts):
-                guard let userDicts = userDicts as? [[String: Any]] else { return }
-                var users = [UserInfo]()
-                for userDict in userDicts {
-                    let user = UserInfo()
-                    user.userID = userDict["user_id"] as? String
-                    user.userName = userDict["display_name"] as? String
-                    if user.userID == self.localUserInfo?.userID { continue }
-                    users.append(user)
-                }
-                self.userList = users
-                listResult = .success(users)
-            case .failure(let error):
-                listResult = .failure(error)
-            }
         }
     }
 }

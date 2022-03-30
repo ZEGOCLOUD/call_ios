@@ -62,6 +62,10 @@ class ServiceManager: NSObject {
         profile.scenario = .communication
         ZegoExpressEngine.createEngine(with: profile, eventHandler: self)
         deviceService.setBestConfig()
+        
+        let initCommand = InitCommand()
+        initCommand.excute(callback: nil)
+        
         guard let callback = callback else { return }
         callback(.success(()))
     }

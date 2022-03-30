@@ -12,8 +12,12 @@ class CallManager: NSObject, CallManagerInterface {
 
     static var shared: CallManager! = CallManager()
     weak var delegate: CallManagerDelegate?
-    var localUserInfo: UserInfo? = ServiceManager.shared.userService.localUserInfo
     var currentCallStatus: callStatus! = .free
+    var localUserInfo: UserInfo? {
+        get {
+            ServiceManager.shared.userService.localUserInfo
+        }
+    }
     
     var currentCallVC: CallMainVC?
     var currentCallUserInfo: UserInfo?
@@ -100,19 +104,14 @@ class CallManager: NSObject, CallManagerInterface {
             break
         }
     }
-    
-    func getOnlineUserList(_ callback: UserListCallback?)  {
-        ServiceManager.shared.userService.getOnlineUserList(callback)
-    }
-    
-    func uploadLog(_ callback: ZegoCallback?) {
+        
+    public func uploadLog(_ callback: ZegoCallback?) {
         ServiceManager.shared.uploadLog(callback: callback)
     }
     
     func callUser(_ userInfo: UserInfo, token: String, callType: CallType, callback: ZegoCallback?) {
         if currentCallStatus != .free { return }
-        guard let userID = userInfo.userID else { return }
-        ServiceManager.shared.callService.callUser(userID, token: token, type: callType) { result in
+        ServiceManager.shared.callService.callUser(userInfo, token: token, type: callType) { result in
             switch result {
             case .success():
                 let vc: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .take)

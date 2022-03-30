@@ -120,11 +120,7 @@ protocol CallManagerInterface {
     ///
     /// Call this method at: when logging out from a room or being removed from a room.
     func resetCallData()
-    
-    /// Gets the list of online users
-    /// - Parameter callback: <#callback description#>
-    func getOnlineUserList(_ callback: UserListCallback?)
-    
+        
     /// Upload local logs to the ZEGOCLOUD Server
     ///
     /// Description: You can call this method to upload the local logs to the ZEGOCLOUD Server for troubleshooting when exception occurs.

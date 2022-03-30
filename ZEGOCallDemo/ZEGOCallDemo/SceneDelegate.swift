@@ -63,6 +63,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let nav: UINavigationController = UINavigationController.init(rootViewController: rootVC)
         self.window?.rootViewController = nav
         if LoginManager.shared.isUserLogin() {
+            CallManager.shared.setLocalUser(LoginManager.shared.user!.userID!, userName: LoginManager.shared.user!.userName!)
 //            if !AuthorizedCheck.isCameraAuthorized() || !AuthorizedCheck.isMicrophoneAuthorized() { return }
             guard let user = LoginManager.shared.user,
                   let userID = user.userID,

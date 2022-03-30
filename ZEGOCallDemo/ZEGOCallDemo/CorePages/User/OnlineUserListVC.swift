@@ -59,21 +59,13 @@ class OnlineUserListVC: UIViewController {
     
     // MARK: action
     @objc func refreshUserList() {
-        
-        CallManager.shared.getOnlineUserList { result in
-            switch result {
-            case .success(let userList):
-                self.userInfoList = userList
-                self.emptyLabel.isHidden = self.userInfoList.count > 0
-                self.emptyImage.isHidden = self.userInfoList.count > 0
-                self.userListTableView.reloadData()
-                break
-            case .failure(let error):
-                break
-            }
-            DispatchQueue.main.async {
-                self.refreshControl.endRefreshing()
-            }
+                
+        self.userInfoList = UserListManager.shared.userList
+        self.emptyLabel.isHidden = self.userInfoList.count > 0
+        self.emptyImage.isHidden = self.userInfoList.count > 0
+        self.userListTableView.reloadData()
+        DispatchQueue.main.async {
+            self.refreshControl.endRefreshing()
         }
     }
     
