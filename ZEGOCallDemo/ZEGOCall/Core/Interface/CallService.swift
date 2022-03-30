@@ -80,7 +80,7 @@ protocol CallService {
     /// - Parameter token: refers to the authentication token. To get this, see the documentation: https://docs.zegocloud.com/article/11648
     /// - Parameter type: refers to the call type.  ZegoCallTypeVoice: Voice call.  ZegoCallTypeVideo: Video call.
     /// - Parameter callback: refers to the callback for make a outbound call.
-    func callUser(_ userID: String, token: String, type: CallType, callback: ZegoCallback?)
+    func callUser(_ user: UserInfo, token: String, type: CallType, callback: ZegoCallback?)
     
     /// Cancel a call
     ///

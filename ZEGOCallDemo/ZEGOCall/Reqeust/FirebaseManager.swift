@@ -24,7 +24,6 @@ class FirebaseManager: NSObject {
         willSet {
             if newValue?.uid != user?.uid && newValue != nil {
                 addUserToDatabase(newValue!)
-                addOnlineUsersListener()
                 addIncomingCallListener()
             }
         }
@@ -44,11 +43,11 @@ class FirebaseManager: NSObject {
         
         addConnectedListener()
         
+        Auth.auth().addStateDidChangeListener { auth, user in
+            self.user = user
+        }
+        
         // add functions
-        functionsMap[API_Get_User] = getUser
-        functionsMap[API_Login] = login
-        functionsMap[API_Logout] = logout
-        functionsMap[API_Get_Users] = getUserList
         functionsMap[API_Start_Call] = callUsers
         functionsMap[API_Cancel_Call] = cancelCall
         functionsMap[API_Accept_Call] = acceptCall
@@ -101,66 +100,12 @@ extension FirebaseManager: RequestProtocol {
 
 // private functions
 extension FirebaseManager {
-     func login(_ parameter: [String: AnyObject], callback: @escaping RequestCallback) {
-        
-        guard let token = parameter["token"] as? String else {
-            callback(.failure(.paramInvalid))
-            return
-        }
-        let credential = GoogleAuthProvider.credential(withIDToken: token,
-                                                       accessToken: "")
-        Auth.auth().signIn(with: credential) { result, error in
-            guard let user = result?.user else {
-                callback(.failure(.failed))
-                return
-            }
-            self.user = user
-            
-            var result = [String : String]()
-            result["id"] = user.uid
-            result["name"] = user.displayName
-            callback(.success(result))
-        }
-    }
-    
-    private func logout(_ parameter: [String: AnyObject], callback: RequestCallback) {
-        do {
-            try Auth.auth().signOut()
-            self.resetData()
-        } catch {
-            
-        }
-    }
-    
-    private func getUser(_ parameter: [String: AnyObject], callback: @escaping RequestCallback) {
-        
-        let auth = Auth.auth()
-        guard let currentUser = auth.currentUser else {
-            callback(.failure(.failed))
-            return
-        }
-        self.user = auth.currentUser
-        
-        var result = [String : String]()
-        result["id"] = currentUser.uid
-        result["name"] = currentUser.displayName
-        callback(.success(result))
-    }
-    
-    private func getUserList(_ parameter: [String: AnyObject], callback: @escaping RequestCallback) {
-                
-        if user == nil {
-            callback(.failure(.failed))
-            return
-        }
-        callback(.success(userDicts))
-    }
     
     private func callUsers(_ parameter: [String: AnyObject], callback: @escaping RequestCallback) {
         
         guard let callID = parameter["call_id"] as? String,
               let userID = parameter["id"] as? String,
-              let callees = parameter["callee_ids"] as? [String],
+              let callees = parameter["callees"] as? [UserInfo],
               let typeOld = parameter["type"] as? Int,
               let type = FirebaseCallType.init(rawValue: typeOld)
         else {
@@ -184,9 +129,10 @@ extension FirebaseManager {
         caller.status = .connecting
         callModel.users.append(caller)
         
-        for callee_id in callees {
+        for user in callees {
             let callee = caller.copy()
-            callee.user_id = callee_id
+            callee.user_id = user.userID ?? ""
+            callee.user_name = user.userName
             callModel.users.append(callee)
         }
         
@@ -424,17 +370,6 @@ extension FirebaseManager {
         }
     }
     
-    private func addOnlineUsersListener() {
-        let usersQuery = self.ref.child("online_user").queryOrdered(byChild: "last_changed")
-        
-        usersQuery.observe(.value) { snapshot in
-            let userDicts: [[String : Any]] = snapshot.children.compactMap { child in
-                return (child as? DataSnapshot)?.value as? [String : Any]
-            }
-            self.userDicts = userDicts
-        }
-    }
-    
     // a incoming call will trigger this method
     private func addIncomingCallListener() {
         let callRef = ref.child("call")
@@ -467,15 +402,16 @@ extension FirebaseManager {
                 self.callModel = model
                 self.addCallListener(model.call_id)
             }
-            let calleeIDs = model.users
+            let callees = model.users
                 .filter({ $0.caller_id != $0.user_id })
-                .compactMap({ $0.user_id })
+                .compactMap({ UserInfo($0.user_id, $0.user_name ?? $0.user_id) })
+            
             let data: [String: Any] = [
                 "call_id": model.call_id,
                 "call_type": model.call_type.rawValue,
                 "caller_id": caller.caller_id,
                 "caller_name": caller.user_name ?? caller.user_id,
-                "callee_ids": calleeIDs
+                "callees": callees
             ]
             self.listener?.receiveUpdate(Notify_Call_Invited, parameter: data)
         }

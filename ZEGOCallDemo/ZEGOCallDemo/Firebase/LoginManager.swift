@@ -9,9 +9,6 @@ import Foundation
 import Firebase
 import FirebaseCore
 import FirebaseAuth
-import FirebaseDatabase
-import FirebaseMessaging
-import FirebaseFunctions
 
 class LoginManager {
     

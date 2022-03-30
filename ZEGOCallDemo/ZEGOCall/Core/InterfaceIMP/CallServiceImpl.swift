@@ -28,7 +28,7 @@ class CallServiceImpl: NSObject {
 }
 
 extension CallServiceImpl: CallService {
-    func callUser(_ userID: String, token: String, type: CallType, callback: ZegoCallback?) {
+    func callUser(_ user: UserInfo, token: String, type: CallType, callback: ZegoCallback?) {
         
         self.status = .outgoing
         
@@ -37,14 +37,14 @@ extension CallServiceImpl: CallService {
         
         let command = CallCommand()
         command.userID = callerUserID
-        command.callees = [userID]
+        command.callees = [user]
         command.callID = callID
         command.callerName = ServiceManager.shared.userService.localUserInfo?.userName
         command.type = type
         
         callInfo.callID = callID
         callInfo.caller = ServiceManager.shared.userService.localUserInfo
-        callInfo.callees = ServiceManager.shared.userService.userList.filter({ $0.userID == userID })
+        callInfo.callees = [user]
         
         
         command.excute { result in
@@ -171,26 +171,19 @@ extension CallServiceImpl {
                   let callerID = result["caller_id"] as? String,
                   let callerName = result["caller_name"] as? String,
                   let callTypeOld = result["call_type"] as? Int,
-                  let calleeIDs = result["callee_ids"] as? [String]
+                  let callees = result["callees"] as? [UserInfo]
             else { return }
             guard let callType = CallType.init(rawValue: callTypeOld) else { return }
             
+            //TODO: update
             if self.status != .free { return }
             self.status = .incoming
             self.callInfo.callID = callID
             self.addCallTimer()
             
-            var caller = UserInfo(userID: callerID, userName: callerName)
-            for user in ServiceManager.shared.userService.userList {
-                guard let userID = user.userID else { continue }
-                if userID == callerID {
-                    caller = user
-                }
-                if calleeIDs.contains(userID) {
-                    self.callInfo.callees.append(user)
-                }
-            }
+            let caller = UserInfo(userID: callerID, userName: callerName)
             self.callInfo.caller = caller
+            self.callInfo.callees = callees
             self.delegate?.onReceiveCallInvited(caller, type: callType)
         })
         
@@ -276,6 +269,7 @@ extension CallServiceImpl {
         
         _ = listener?.addListener(Notify_Call_Timeout, listener: { result in
             self.stopHeartbeatTimer()
+            //TODO: todo
         })
         
         _ = listener?.addListener(Notify_User_Error, listener: { result in

@@ -30,9 +30,9 @@ class CallCommand: Command {
         }
     }
     
-    var callees: [String]? {
+    var callees: [UserInfo]? {
         willSet {
-            parameter["callee_ids"] = newValue as AnyObject
+            parameter["callees"] = newValue as AnyObject
         }
     }
     
