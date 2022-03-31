@@ -33,13 +33,19 @@ class TokenManager {
     var token: Token?
 
     
-    func saveToken(_ token: String, _ effectiveTimeInSeconds: Int) {
-        let expiryTime = Int(Date().timeIntervalSince1970) + effectiveTimeInSeconds
-        self.token = Token(token, expiryTime: expiryTime)
+    func saveToken(_ token: String?, _ effectiveTimeInSeconds: Int) {
+        
+        let expiryTime: Int = Int(Date().timeIntervalSince1970) + effectiveTimeInSeconds
         
         let defaults = UserDefaults.standard
         defaults.set(token, forKey: "zego_token_key")
         defaults.set(expiryTime, forKey: "zego_token_expiry_time_key")
+        
+        guard let token = token else {
+            self.token = nil
+            return
+        }
+        self.token = Token(token, expiryTime: expiryTime)
     }
     
     func needUpdateToken() -> Bool {

@@ -110,7 +110,9 @@ extension ServiceManager {
 extension ServiceManager: ZegoEventHandler {
     
     func onRoomStateUpdate(_ state: ZegoRoomState, errorCode: Int32, extendedData: [AnyHashable : Any]?, roomID: String) {
-        
+        for delegate in rtcEventDelegates.allObjects {
+            delegate.onRoomStateUpdate?(state, errorCode: errorCode, extendedData: extendedData, roomID: roomID)
+        }
     }
     
     func onRoomStreamUpdate(_ updateType: ZegoUpdateType, streamList: [ZegoStream], extendedData: [AnyHashable : Any]?, roomID: String) {
@@ -161,6 +163,12 @@ extension ServiceManager: ZegoEventHandler {
     func onRemoteMicStateUpdate(_ state: ZegoRemoteDeviceState, streamID: String) {
         for delegate in rtcEventDelegates.allObjects {
             delegate.onRemoteMicStateUpdate?(state, streamID: streamID)
+        }
+    }
+    
+    func onRoomTokenWillExpire(_ remainTimeInSecond: Int32, roomID: String) {
+        for delegate in rtcEventDelegates.allObjects {
+            delegate.onRoomTokenWillExpire?(remainTimeInSecond, roomID: roomID)
         }
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import ZegoExpressEngine
 
 class CallServiceImpl: NSObject {
     
@@ -24,6 +25,11 @@ class CallServiceImpl: NSObject {
         super.init()
         
         registerListener()
+        
+        // ServiceManager didn't finish init at this time.
+        DispatchQueue.main.async {
+            ServiceManager.shared.addExpressEventHandler(self)
+        }
     }
 }
 
@@ -311,5 +317,16 @@ extension CallServiceImpl {
     
     func stopHeartbeatTimer() {
         heartbeatTimer.stop()
+    }
+}
+
+extension CallServiceImpl: ZegoEventHandler {
+    func onRoomStateUpdate(_ state: ZegoRoomState, errorCode: Int32, extendedData: [AnyHashable : Any]?, roomID: String) {
+        // if myself disconnected, just callback the `timeout`.
+        if state == .disconnected && self.status == .calling {
+            guard let user = ServiceManager.shared.userService.localUserInfo else { return }
+            delegate?.onReceiveCallTimeout(.calling, info: user)
+            stopHeartbeatTimer()
+        }
     }
 }

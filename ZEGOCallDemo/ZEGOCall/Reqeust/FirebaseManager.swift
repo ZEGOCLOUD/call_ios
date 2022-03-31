@@ -274,8 +274,8 @@ extension FirebaseManager {
         let heartbeatTime = Int(Date().timeIntervalSince1970 * 1000)
         user.heartbeat_time = heartbeatTime
         
-        let userRef = ref.child("call/\(callID)/users/\(userID)")
-        userRef.updateChildValues(["heartbeat_time" : heartbeatTime])
+        let heartbeatRef = ref.child("call/\(callID)/users/\(userID)/heartbeat_time")
+        heartbeatRef.setValue(ServerValue.timestamp())
     }
     
     private func getToken(_ parameter: [String: AnyObject], callback: @escaping RequestCallback) {
