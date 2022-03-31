@@ -18,6 +18,7 @@ extension CallManager: MinimizedDisplayManagerDelegate {
     }
     
     func showCallPage(_ callType: CallType) {
+        CallManager.shared.minmizedManager.viewHiden = true
         if let currentCallVC = currentCallVC,
            let currentCallUserInfo = currentCallUserInfo
         {

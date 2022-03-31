@@ -52,7 +52,22 @@ class HomeVC: UIViewController {
         self.navigationController?.navigationBar.standardAppearance.shadowColor = UIColor.clear
         
         CallManager.shared.delegate = self
+        getToken()
+    }
     
+    func getToken() {
+        if TokenManager.shared.token == nil {
+            guard let userID = CallManager.shared.localUserInfo?.userID else { return }
+            CallManager.shared.getToken(userID) { result in
+                switch result {
+                case .success(let token):
+                    TokenManager.shared.saveToken(token as? String, 24 * 3600)
+                    CallManager.shared.token = token as? String
+                case .failure(_):
+                    break
+                }
+            }
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -136,6 +151,7 @@ class HomeVC: UIViewController {
 extension HomeVC: CallManagerDelegate {
     func onReceiveUserError(_ error: UserError) {
         if error == .kickedOut {
+            HUDHelper.showMessage(message: ZGLocalizedString("toast_login_kick_out"))
             CallManager.shared.resetCallData()
             self.navigationController?.popToRootViewController(animated: true)
         }
