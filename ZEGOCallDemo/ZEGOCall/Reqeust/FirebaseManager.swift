@@ -169,7 +169,13 @@ extension FirebaseManager {
         }
         
         let callRef = ref.child("call/\(callID)")
-        callRef.updateChildValues(model.toDict()) { error, _ in
+        callRef.runTransactionBlock { currentData in
+            guard let _ = currentData.value as? [String: Any] else {
+                return .abort()
+            }
+            currentData.value = model.toDict()
+            return .success(withValue: currentData)
+        } andCompletionBlock: { error, bool, snapshot in
             if error == nil {
                 callback(.success(()))
                 self.callModel = nil
@@ -194,7 +200,13 @@ extension FirebaseManager {
         }
         
         let callRef = ref.child("call").child(callID)
-        callRef.updateChildValues(model.toDict()) { error, reference in
+        callRef.runTransactionBlock { currentData in
+            guard let _ = currentData.value as? [String: Any] else {
+                return .abort()
+            }
+            currentData.value = model.toDict()
+            return .success(withValue: currentData)
+        } andCompletionBlock: { error, bool, snapshot in
             if error == nil {
                 callback(.success(()))
             } else {
@@ -220,7 +232,13 @@ extension FirebaseManager {
         }
         
         let callRef = ref.child("call").child(callID)
-        callRef.updateChildValues(model.toDict()) { error, reference in
+        callRef.runTransactionBlock { currentData in
+            guard let _ = currentData.value as? [String: Any] else {
+                return .abort()
+            }
+            currentData.value = model.toDict()
+            return .success(withValue: currentData)
+        } andCompletionBlock: { error, bool, snapshot in
             if error == nil {
                 callback(.success(()))
                 self.callModel = nil
@@ -246,7 +264,13 @@ extension FirebaseManager {
         }
         
         let callRef = ref.child("call").child(callID)
-        callRef.updateChildValues(model.toDict()) { error, reference in
+        callRef.runTransactionBlock { currentData in
+            guard let _ = currentData.value as? [String: Any] else {
+                return .abort()
+            }
+            currentData.value = model.toDict()
+            return .success(withValue: currentData)
+        } andCompletionBlock: { error, bool, snapshot in
             if error == nil {
                 callback(.success(()))
                 self.callModel = nil
@@ -516,6 +540,7 @@ extension FirebaseManager {
                             "user_id": otherUser.user_id
                         ]
                         self.listener?.receiveUpdate(Notify_Call_Timeout, parameter: data)
+                        snapshot.ref.updateChildValues(["call_status": 3])
                     }
                 }
                 self.callModel = model
