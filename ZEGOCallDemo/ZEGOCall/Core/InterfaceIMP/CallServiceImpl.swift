@@ -344,12 +344,13 @@ extension CallServiceImpl {
 
 extension CallServiceImpl: ZegoEventHandler {
     func onRoomStateUpdate(_ state: ZegoRoomState, errorCode: Int32, extendedData: [AnyHashable : Any]?, roomID: String) {
+        print("[*] onRoomStateUpdate: \(state.rawValue), errorCode: \(errorCode), roomID: \(roomID)")
         // if myself disconnected, just callback the `timeout`.
         if state == .disconnected && self.status == .calling {
-            guard let user = ServiceManager.shared.userService.localUserInfo else { return }
-            ServiceManager.shared.roomService.leaveRoom()
-            delegate?.onReceiveCallTimeout(.calling, info: user)
-            stopHeartbeatTimer()
+//            guard let user = ServiceManager.shared.userService.localUserInfo else { return }
+//            ServiceManager.shared.roomService.leaveRoom()
+//            delegate?.onReceiveCallTimeout(.calling, info: user)
+//            stopHeartbeatTimer()
         }
     }
 }

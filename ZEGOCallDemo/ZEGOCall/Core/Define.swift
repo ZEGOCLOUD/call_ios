@@ -154,10 +154,7 @@ enum UserError: Int {
 }
 
 
-let API_Login = "/user/login"
-let API_Logout = "/user/logout"
 let API_Get_Token = "/user/get_token"
-let API_Get_User = "/user/get"
 let API_Get_Users = "/user/get_users"
 let API_Call_Heartbeat = "/call/heartbeat"
 let API_Start_Call = "/call/start_call"
