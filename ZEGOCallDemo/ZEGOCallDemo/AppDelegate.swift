@@ -80,7 +80,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
         print(userInfo)
         
-        completionHandler([[.alert, .sound]])
+        completionHandler([[]])
     }
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {

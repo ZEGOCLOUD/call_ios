@@ -445,7 +445,7 @@ extension FirebaseManager {
             }
             
             // MARK: - caller receive call accept
-            if firebaseUser.user_id == firebaseUser.caller_id &&
+            else if firebaseUser.user_id == firebaseUser.caller_id &&
                 firebaseUser.status == .calling &&
                 self.callModel?.call_status == .connecting
             {
@@ -461,7 +461,7 @@ extension FirebaseManager {
             }
             
             // MARK: - caller receive call decline
-            if firebaseUser.user_id == firebaseUser.caller_id &&
+            else if firebaseUser.user_id == firebaseUser.caller_id &&
                 (firebaseUser.status == .declined || firebaseUser.status == .busy) &&
                 self.callModel?.call_status == .connecting
             {
@@ -480,7 +480,7 @@ extension FirebaseManager {
             }
             
             // caller and callee receive call ended
-            if model.call_status == .ended &&
+            else if model.call_status == .ended &&
                 self.callModel?.call_status == .calling
             {
                 guard let other = model.users
@@ -495,17 +495,30 @@ extension FirebaseManager {
             }
             
             // caller or callee receive connecting timeout
-            if firebaseUser.status == .connectingTimeout &&
+            else if firebaseUser.status == .connectingTimeout &&
                 self.callModel?.call_status == .connecting
             {
                 
             }
             
             // caller or callee receive calling timeout
-            if firebaseUser.status == .callingTimeout &&
+            else if model.call_status == .calling &&
                 self.callModel?.call_status == .calling
             {
-                
+                if let otherUser = model.users.filter({ $0.user_id != self.user?.uid }).first,
+                   let myself = model.users.filter({ $0.user_id == self.user?.uid }).first,
+                   let heartbeatTime = myself.heartbeat_time,
+                   let otherHeartbeatTime = otherUser.heartbeat_time {
+                    
+                    if heartbeatTime - otherHeartbeatTime > 30 * 1000 {
+                        let data: [String: Any] = [
+                            "call_id": model.call_id,
+                            "user_id": otherUser.user_id
+                        ]
+                        self.listener?.receiveUpdate(Notify_Call_Timeout, parameter: data)
+                    }
+                }
+                self.callModel = model
             }
         }
     }
