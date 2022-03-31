@@ -67,6 +67,8 @@ class HomeVC: UIViewController {
                     break
                 }
             }
+        } else {
+            CallManager.shared.token = TokenManager.shared.token?.token
         }
     }
     

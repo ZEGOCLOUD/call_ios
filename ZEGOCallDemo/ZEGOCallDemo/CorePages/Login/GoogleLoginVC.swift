@@ -40,14 +40,12 @@ class GoogleLoginVC: UIViewController {
     }
     
     var isAgreePolicy: Bool = false
-    var micPermissions: Bool = true
-    var cameraPermissions: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        applicationHasMicAndCameraAccess()
+        DeviceTool.shared.applicationHasMicAndCameraAccess(self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,11 +63,11 @@ class GoogleLoginVC: UIViewController {
             HUDHelper.showMessage(message: ZGLocalizedString("toast_login_service_privacy"))
             return
         }
-        if !cameraPermissions {
+        if !DeviceTool.shared.cameraPermission {
             AuthorizedCheck.showCameraUnauthorizedAlert(self)
             return
         }
-        if !micPermissions {
+        if !DeviceTool.shared.micPermission {
             AuthorizedCheck.showMicrophoneUnauthorizedAlert(self)
             return
         }
@@ -103,44 +101,6 @@ class GoogleLoginVC: UIViewController {
     @IBAction func selectClick(_ sender: UIButton) {
         isAgreePolicy = !isAgreePolicy
         sender.isSelected = !sender.isSelected
-    }
-    
-    func applicationHasMicAndCameraAccess() {
-        // not determined
-        if !AuthorizedCheck.isCameraAuthorizationDetermined(){
-            AuthorizedCheck.takeCameraAuthorityStatus { result in
-                if result {
-                    self.cameraPermissions = true
-                } else {
-                    self.cameraPermissions = false
-                    AuthorizedCheck.showCameraUnauthorizedAlert(self)
-                }
-            }
-        } else {
-            // determined but not authorized
-            if !AuthorizedCheck.isCameraAuthorized() {
-                cameraPermissions = false
-                AuthorizedCheck.showCameraUnauthorizedAlert(self)
-            }
-        }
-        
-        // not determined
-        if !AuthorizedCheck.isMicrophoneAuthorizationDetermined(){
-            AuthorizedCheck.takeMicPhoneAuthorityStatus { result in
-                if result {
-                    self.micPermissions = true
-                } else {
-                    self.micPermissions = false
-                    AuthorizedCheck.showMicrophoneUnauthorizedAlert(self)
-                }
-            }
-        } else {
-            // determined but not authorized
-            if !AuthorizedCheck.isMicrophoneAuthorized() {
-                AuthorizedCheck.showMicrophoneUnauthorizedAlert(self)
-                micPermissions = false
-            }
-        }
     }
 
 }

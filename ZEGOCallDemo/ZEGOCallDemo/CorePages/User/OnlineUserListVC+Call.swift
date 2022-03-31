@@ -10,7 +10,14 @@ import AVFoundation
 
 extension OnlineUserListVC: OnlineUserListCellDelegate {
     func startCall(_ type: CallType, userInfo: UserInfo) {
-        
+        if !DeviceTool.shared.cameraPermission {
+            AuthorizedCheck.showCameraUnauthorizedAlert(self)
+            return
+        }
+        if !DeviceTool.shared.micPermission {
+            AuthorizedCheck.showMicrophoneUnauthorizedAlert(self)
+            return
+        }
         if CallManager.shared.currentCallStatus != .free {
             HUDHelper.showMessage(message: ZGLocalizedString("call_page_call_unable_initiate"))
             return
