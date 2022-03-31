@@ -69,6 +69,7 @@ class CallManager: NSObject, CallManagerInterface {
         
         callKitService = AppleCallKitServiceIMP()
         callKitService?.providerDelegate = ProviderDelegate()
+        DeviceTool.shared.applicationHasMicAndCameraAccess(nil)
     }
     
     func initWithAppID(_ appID: UInt32, callback: ZegoCallback?) {
@@ -130,6 +131,16 @@ class CallManager: NSObject, CallManagerInterface {
     
     
     func acceptCall(_ userInfo: UserInfo, callType: CallType, presentVC:Bool = true) {
+        if !DeviceTool.shared.micPermission {
+            guard let currentVC = getCurrentViewController() else { return }
+            AuthorizedCheck.showMicrophoneUnauthorizedAlert(currentVC)
+            return
+        }
+        if !DeviceTool.shared.cameraPermission && callType == .video {
+            guard let currentVC = getCurrentViewController() else { return }
+            AuthorizedCheck.showCameraUnauthorizedAlert(currentVC)
+            return
+        }
         guard let userID = userInfo.userID else { return }
         guard let token = token else {
             print("call token is not exists")

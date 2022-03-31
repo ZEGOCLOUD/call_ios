@@ -39,6 +39,7 @@
 		8637814627EB05CF000A0C22 /* CallManager+DeviceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637814527EB05CF000A0C22 /* CallManager+DeviceService.swift */; };
 		8637814827EEB868000A0C22 /* CallUIKit.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8637814727EEB867000A0C22 /* CallUIKit.xcassets */; };
 		8637814C27F455FC000A0C22 /* CallManagerInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637814B27F455FC000A0C22 /* CallManagerInterface.swift */; };
+		8637814E27F5B824000A0C22 /* DeviceTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637814D27F5B824000A0C22 /* DeviceTool.swift */; };
 		86718D2D2797E56D00CEA8A0 /* ProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86718D2C2797E56D00CEA8A0 /* ProviderDelegate.swift */; };
 		868F6356279E923200D0B5DC /* Call.strings in Resources */ = {isa = PBXBuildFile; fileRef = 868F6358279E923200D0B5DC /* Call.strings */; };
 		868F635F27A1647000D0B5DC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 868F636127A1647000D0B5DC /* InfoPlist.strings */; };
@@ -180,6 +181,7 @@
 		8637814527EB05CF000A0C22 /* CallManager+DeviceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallManager+DeviceService.swift"; sourceTree = "<group>"; };
 		8637814727EEB867000A0C22 /* CallUIKit.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CallUIKit.xcassets; sourceTree = "<group>"; };
 		8637814B27F455FC000A0C22 /* CallManagerInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallManagerInterface.swift; sourceTree = "<group>"; };
+		8637814D27F5B824000A0C22 /* DeviceTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTool.swift; sourceTree = "<group>"; };
 		86718D2C2797E56D00CEA8A0 /* ProviderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderDelegate.swift; sourceTree = "<group>"; };
 		868F6353279E913800D0B5DC /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		868F6357279E923200D0B5DC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Call.strings; sourceTree = "<group>"; };
@@ -633,6 +635,7 @@
 				86AC134727998A4000607277 /* String+Time.swift */,
 				86B1994D278D63430004C997 /* AuthorizedCheck.swift */,
 				86B1994E278D63430004C997 /* UIImage+Zego.swift */,
+				8637814D27F5B824000A0C22 /* DeviceTool.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -1204,6 +1207,7 @@
 				8E77570127E1939B00BFB5F6 /* CommandManager.swift in Sources */,
 				86B1995B278D63440004C997 /* TipView.swift in Sources */,
 				8E77571727E4749500BFB5F6 /* CallCommand.swift in Sources */,
+				8637814E27F5B824000A0C22 /* DeviceTool.swift in Sources */,
 				86AC134627997D7F00607277 /* CallManager+CallKit.swift in Sources */,
 				8637813327E47603000A0C22 /* AppleCallKitService.swift in Sources */,
 				86B198F7278D625F0004C997 /* SettingCellModel.swift in Sources */,
