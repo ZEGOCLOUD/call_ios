@@ -16,7 +16,7 @@ class RoomServiceImpl: NSObject {
         
         // RoomManager didn't finish init at this time.
         DispatchQueue.main.async {
-            
+            ServiceManager.shared.addExpressEventHandler(self)
         }
     }
     
@@ -51,6 +51,21 @@ extension RoomServiceImpl: RoomService {
     func leaveRoom() {
         self.roomInfo = nil
         ZegoExpressEngine.shared().logoutRoom()
+    }
+}
+
+extension RoomServiceImpl: ZegoEventHandler {
+    func onRoomTokenWillExpire(_ remainTimeInSecond: Int32, roomID: String) {
+        guard let userID = ServiceManager.shared.userService.localUserInfo?.userID else { return }
+        ServiceManager.shared.userService.getToken(userID) { result in
+            switch result {
+            case .success(let token):
+                guard let token = token as? String else { return }
+                ZegoExpressEngine.shared().renewToken(token, roomID: roomID)
+            default:
+                break
+            }
+        }
     }
 }
 

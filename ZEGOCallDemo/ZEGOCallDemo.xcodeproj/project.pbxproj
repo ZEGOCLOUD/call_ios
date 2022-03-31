@@ -487,8 +487,8 @@
 		86B19890278BDD7D0004C997 /* ZEGOCallDemo */ = {
 			isa = PBXGroup;
 			children = (
-				8E7F92D527F461150059F833 /* Firebase */,
 				8E703EFD27EC0B3C00CC87CE /* ZEGOCallDemo.entitlements */,
+				8E7F92D527F461150059F833 /* Tool */,
 				86B198AD278BE25F0004C997 /* Network */,
 				86B198EF278D28B20004C997 /* CorePages */,
 				86B198A6278BE1C60004C997 /* AppCenter */,
@@ -584,7 +584,6 @@
 				86B198D0278BE2600004C997 /* ZegoJsonTool.swift */,
 				8E08EFCE27F1DD2E0003030A /* Delay.swift */,
 				86B1994C278D63430004C997 /* ZegoTimer.swift */,
-				8E7F92D327F339A20059F833 /* TokenManager.swift */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -966,13 +965,14 @@
 			path = Listener;
 			sourceTree = "<group>";
 		};
-		8E7F92D527F461150059F833 /* Firebase */ = {
+		8E7F92D527F461150059F833 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				8E7F92D327F339A20059F833 /* TokenManager.swift */,
 				8E7F92D627F4614F0059F833 /* LoginManager.swift */,
 				8E7F92D827F471D90059F833 /* UserListManager.swift */,
 			);
-			path = Firebase;
+			path = Tool;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

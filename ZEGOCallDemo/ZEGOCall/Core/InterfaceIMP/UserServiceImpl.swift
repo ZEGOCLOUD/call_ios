@@ -49,44 +49,26 @@ extension UserServiceImpl: UserService {
     
     func getToken(_ userID: String, callback: RequestCallback?) {
         
-        func realGetToken(tokenCallback: RequestCallback?) {
-            let command = TokenCommand()
-            command.userID = userID
-            // 24h
-            let effectiveTimeInSeconds = 24 * 3600
-            command.effectiveTimeInSeconds = effectiveTimeInSeconds
-            
-            command.excute { result in
-                var tokenResult: Result<Any, ZegoError> = .failure(.failed)
-                switch result {
-                case .success(let dict):
-                    if let dict = dict as? [String: Any] {
-                        if let token = dict["token"] as? String {
-                            tokenResult = .success(token)
-                            TokenManager.shared.saveToken(token, effectiveTimeInSeconds)
-                        }
+        let command = TokenCommand()
+        command.userID = userID
+        // 24h
+        let effectiveTimeInSeconds = 24 * 3600
+        command.effectiveTimeInSeconds = effectiveTimeInSeconds
+        
+        command.excute { result in
+            var tokenResult: Result<Any, ZegoError> = .failure(.failed)
+            switch result {
+            case .success(let dict):
+                if let dict = dict as? [String: Any] {
+                    if let token = dict["token"] as? String {
+                        tokenResult = .success(token)
                     }
-                case .failure(let error):
-                    tokenResult = .failure(error)
                 }
-                guard let tokenCallback = tokenCallback else { return }
-                tokenCallback(tokenResult)
+            case .failure(let error):
+                tokenResult = .failure(error)
             }
-        }
-        
-        guard let token = TokenManager.shared.token,
-              token.isTokenValid()
-        else {
-            realGetToken(tokenCallback: callback)
-            return
-        }
-        
-        if let callback = callback {
-            callback(.success(token.token))
-        }
-        
-        if TokenManager.shared.needUpdateToken() {
-            realGetToken(tokenCallback: nil)
+            guard let callback = callback else { return }
+            callback(tokenResult)
         }
     }
 }
@@ -104,6 +86,12 @@ extension UserServiceImpl {
 extension UserServiceImpl: ZegoEventHandler {
     func onNetworkQuality(_ userID: String, upstreamQuality: ZegoStreamQualityLevel, downstreamQuality: ZegoStreamQualityLevel) {
         delegate?.onNetworkQuality(userID, upstreamQuality: upstreamQuality)
+    }
+    
+    func onRoomStateUpdate(_ state: ZegoRoomState, errorCode: Int32, extendedData: [AnyHashable : Any]?, roomID: String) {
+        if errorCode == 1002033 {
+            delegate?.onReceiveUserError(.tokenExpire)
+        }
     }
     
     func onRemoteCameraStateUpdate(_ state: ZegoRemoteDeviceState, streamID: String) {
