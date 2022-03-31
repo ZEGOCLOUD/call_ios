@@ -70,45 +70,38 @@ extension CallManager {
 //        }
         currentCallStatus = .calling
         callTimeManager.callStart()
-        guard let userID = currentCallUserInfo?.userID else { return }
-        getToken(localUserID) { result in
-            switch result {
-            case .success(let token):
-                ServiceManager.shared.callService.acceptCall(token as! String) { result in
-                    if result.isSuccess {
-                        if self.appIsActive {
-                            self.endSystemCall()
-                            if let callVC = self.currentCallVC {
-                                guard let userInfo = self.currentCallUserInfo else { return }
-                                callVC.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
-                                guard let controller = self.getCurrentViewController() else { return }
-                                if controller is CallMainVC {
-                                    self.currentCallVC?.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
-                                    self.startPlayingStream(userID)
-                                } else {
-                                    controller.present(callVC, animated: true) {
-                                        self.startPlayingStream(userID)
-                                    }
-                                }
-                            } else {
-                                guard let userInfo = self.currentCallUserInfo else { return }
-                                let callVC: CallMainVC = CallMainVC.loadCallMainVC(self.callKitCallType, userInfo: userInfo, status: .calling)
-                                self.currentCallVC = callVC
-                                guard let controller = self.getCurrentViewController() else { return }
-                                controller.present(callVC, animated: true) {
-                                    self.startPlayingStream(userID)
-                                }
-                            }
+        guard let userID = currentCallUserInfo?.userID,
+              let token = token else { return }
+        ServiceManager.shared.callService.acceptCall(token) { result in
+            if result.isSuccess {
+                if self.appIsActive {
+                    self.endSystemCall()
+                    if let callVC = self.currentCallVC {
+                        guard let userInfo = self.currentCallUserInfo else { return }
+                        callVC.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
+                        guard let controller = self.getCurrentViewController() else { return }
+                        if controller is CallMainVC {
+                            self.currentCallVC?.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
+                            self.startPlayingStream(userID)
                         } else {
+                            controller.present(callVC, animated: true) {
+                                self.startPlayingStream(userID)
+                            }
+                        }
+                    } else {
+                        guard let userInfo = self.currentCallUserInfo else { return }
+                        let callVC: CallMainVC = CallMainVC.loadCallMainVC(self.callKitCallType, userInfo: userInfo, status: .calling)
+                        self.currentCallVC = callVC
+                        guard let controller = self.getCurrentViewController() else { return }
+                        controller.present(callVC, animated: true) {
                             self.startPlayingStream(userID)
                         }
                     }
+                } else {
+                    self.startPlayingStream(userID)
                 }
-            case .failure(_):
-                break
             }
         }
-        
     }
         
     @objc func callKitEnd() {

@@ -29,6 +29,7 @@ class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimize
     
     weak var delegate: MinimizedDisplayManagerDelegate?
     var currentStatus: MinimizedCallStatus = .waiting
+    var viewHiden: Bool = true
     
     func didClickVideoMinimizeCallView() {
         delegate?.didClickVideoMinimizedView()
@@ -103,7 +104,10 @@ class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimize
             audioMinView.updateCallText(getDisplayText(status))
             videoMinView.isHidden = true
         }
-        
+        if viewHiden {
+            audioMinView.isHidden = true
+            videoMinView.isHidden = true
+        }
     }
     
     func updateCallTimeText(_ text: String?) {
@@ -128,6 +132,7 @@ class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimize
     }
     
     func dismissCallMinView() {
+        viewHiden = true
         audioMinView.isHidden = true
         videoMinView.isHidden = true
     }

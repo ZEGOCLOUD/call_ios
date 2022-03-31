@@ -113,7 +113,10 @@ extension CallManager: CallServiceDelegate {
                 audioPlayer?.stop()
                 endSystemCall()
             } else if currentCallStatus == .waitAccept {
-                minmizedManager.dismissCallMinView()
+                minmizedManager.updateCallStatus(status: .miss, userInfo: info)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.minmizedManager.dismissCallMinView()
+                }
             }
             currentCallUserInfo = nil
             currentCallStatus = .free

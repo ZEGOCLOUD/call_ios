@@ -47,6 +47,7 @@ class GoogleLoginVC: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        applicationHasMicAndCameraAccess()
     }
     
     override func viewWillAppear(_ animated: Bool) {

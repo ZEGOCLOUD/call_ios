@@ -478,9 +478,11 @@ class CallMainVC: UIViewController {
     @IBAction func minimizeClick(_ sender: UIButton) {
         switch statusType {
         case .take:
+            CallManager.shared.minmizedManager.viewHiden = false
             CallManager.shared.minmizedManager.showCallMinView(MinimizedCallType.init(rawValue: vcType.rawValue) ?? .audio, status: .waiting, userInfo: callUser)
             self.dismiss(animated: true, completion: nil)
         case .calling:
+            CallManager.shared.minmizedManager.viewHiden = false
             CallManager.shared.minmizedManager.showCallMinView(MinimizedCallType.init(rawValue: vcType.rawValue) ?? .audio, status: .calling, userInfo: callUser)
             self.dismiss(animated: true, completion: nil)
         case .accept, .canceled,.decline,.busy,.miss,.completed:

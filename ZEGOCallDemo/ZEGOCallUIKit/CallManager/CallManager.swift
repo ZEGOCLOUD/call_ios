@@ -9,10 +9,11 @@ import UIKit
 import ZegoExpressEngine
 
 class CallManager: NSObject, CallManagerInterface {
-
+    
     static var shared: CallManager! = CallManager()
     weak var delegate: CallManagerDelegate?
     var currentCallStatus: callStatus! = .free
+    var token: String?
     var localUserInfo: UserInfo? {
         get {
             ServiceManager.shared.userService.localUserInfo
@@ -130,44 +131,41 @@ class CallManager: NSObject, CallManagerInterface {
     
     func acceptCall(_ userInfo: UserInfo, callType: CallType, presentVC:Bool = true) {
         guard let userID = userInfo.userID else { return }
-        getToken(localUserID) { result in
+        guard let token = token else {
+            print("call token is not exists")
+            return
+        }
+        ServiceManager.shared.callService.acceptCall(token) { result in
             switch result {
-            case .success(let token):
-                ServiceManager.shared.callService.acceptCall(token as! String) { result in
-                    switch result {
-                    case .success():
-                        self.audioPlayer?.stop()
-                        self.currentCallStatus = .calling
-                        self.otherUserRoomInfo = userInfo
-                        self.currentCallUserInfo = userInfo
-                        self.callTimeManager.callStart()
-                        self.minmizedManager.currentStatus = .calling
-                        ServiceManager.shared.deviceService.useFrontCamera(true)
-                        if presentVC {
-                            let callVC: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .calling)
-                            callVC.otherUserRoomInfo = self.otherUserRoomInfo
-                            self.currentCallVC = callVC
-                            if let controller = self.getCurrentViewController() {
-                                controller.present(callVC, animated: true) {
-                                    self.startPlayingStream(userID)
-                                }
-                            }
-                        } else {
-                            guard let currentCallVC = self.currentCallVC else { return }
-                            currentCallVC.otherUserRoomInfo = self.otherUserRoomInfo
-                            currentCallVC.updateCallType(currentCallVC.vcType, userInfo: userInfo, status: .calling)
+            case .success():
+                self.audioPlayer?.stop()
+                self.currentCallStatus = .calling
+                self.otherUserRoomInfo = userInfo
+                self.currentCallUserInfo = userInfo
+                self.callTimeManager.callStart()
+                self.minmizedManager.currentStatus = .calling
+                ServiceManager.shared.deviceService.useFrontCamera(true)
+                if presentVC {
+                    let callVC: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .calling)
+                    callVC.otherUserRoomInfo = self.otherUserRoomInfo
+                    self.currentCallVC = callVC
+                    if let controller = self.getCurrentViewController() {
+                        controller.present(callVC, animated: true) {
                             self.startPlayingStream(userID)
                         }
-                    case .failure(_):
-                        self.currentCallStatus = .free
-                        if !presentVC {
-                            self.currentCallVC?.changeCallStatusText(.decline)
-                            self.currentCallVC?.callDelayDismiss()
-                        }
-                        break
                     }
+                } else {
+                    guard let currentCallVC = self.currentCallVC else { return }
+                    currentCallVC.otherUserRoomInfo = self.otherUserRoomInfo
+                    currentCallVC.updateCallType(currentCallVC.vcType, userInfo: userInfo, status: .calling)
+                    self.startPlayingStream(userID)
                 }
-            case .failure(let error):
+            case .failure(_):
+                self.currentCallStatus = .free
+                if !presentVC {
+                    self.currentCallVC?.changeCallStatusText(.decline)
+                    self.currentCallVC?.callDelayDismiss()
+                }
                 break
             }
         }

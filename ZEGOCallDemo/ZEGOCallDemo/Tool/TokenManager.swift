@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AVFoundation
 
 class Token {
     var token: String
@@ -26,8 +27,27 @@ class TokenManager {
     
     static let shared = TokenManager()
     
+    private let tokenTimer = ZegoTimer(60 * 1000)
+    
     init() {
         self.token = getTokenFromDisk()
+        
+        tokenTimer.setEventHandler {
+            if self.needUpdateToken() {
+                guard let userID = CallManager.shared.localUserInfo?.userID else { return }
+                CallManager.shared.getToken(userID) { result in
+                    switch result {
+                    case .success(let token):
+                        self.saveToken(token as? String, 24 * 3600)
+                        CallManager.shared.token = token as? String
+                    case .failure(_):
+                        break
+                    }
+                }
+            }
+        }
+        tokenTimer.start()
+        
     }
     
     var token: Token?

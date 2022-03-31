@@ -86,6 +86,9 @@ protocol CallManagerInterface {
     /// Get a CallManager instance
     static var shared: CallManager! { get }
     
+    /// The token of use to call
+    var token: String? { get set }
+    
     /// Initialize the SDK
     ///
     /// Description: This method can be used to initialize the ZIM SDK and the Express-Audio SDK.
