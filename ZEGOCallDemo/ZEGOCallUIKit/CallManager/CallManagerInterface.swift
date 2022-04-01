@@ -105,7 +105,7 @@ protocol CallManagerInterface {
     /// Call this method at: after the SDK initialization
     ///
     /// - Parameter callback: refers to the callback for request the Token for authentication
-    func getToken(_ userID: String, callback: RequestCallback?)
+    func getToken(_ userID: String, _ effectiveTimeInSeconds: Int, callback: RequestCallback?)
     
     /// Set the local user info
     ///

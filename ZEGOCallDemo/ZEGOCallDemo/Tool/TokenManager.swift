@@ -35,10 +35,11 @@ class TokenManager {
         tokenTimer.setEventHandler {
             if self.needUpdateToken() {
                 guard let userID = CallManager.shared.localUserInfo?.userID else { return }
-                CallManager.shared.getToken(userID) { result in
+                let effectiveTimeInSeconds = 24 * 3600
+                CallManager.shared.getToken(userID, effectiveTimeInSeconds) { result in
                     switch result {
                     case .success(let token):
-                        self.saveToken(token as? String, 24 * 3600)
+                        self.saveToken(token as? String, effectiveTimeInSeconds)
                         CallManager.shared.token = token as? String
                     case .failure(_):
                         break

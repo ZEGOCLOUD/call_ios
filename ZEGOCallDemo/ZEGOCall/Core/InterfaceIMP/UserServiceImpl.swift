@@ -47,12 +47,10 @@ extension UserServiceImpl: UserService {
         }
     }
     
-    func getToken(_ userID: String, callback: RequestCallback?) {
+    func getToken(_ userID: String, _ effectiveTimeInSeconds: Int, callback: RequestCallback?) {
         
         let command = TokenCommand()
         command.userID = userID
-        // 24h
-        let effectiveTimeInSeconds = 24 * 3600
         command.effectiveTimeInSeconds = effectiveTimeInSeconds
         
         command.excute { result in

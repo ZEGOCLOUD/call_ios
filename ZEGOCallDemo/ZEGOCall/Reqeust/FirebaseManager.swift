@@ -23,8 +23,10 @@ class FirebaseManager: NSObject {
     private var user: User? {
         willSet {
             if newValue?.uid != user?.uid && newValue != nil {
-                addUserToDatabase(newValue!)
+                addFcmTokenToDatabase()
                 addIncomingCallListener()
+            } else if newValue == nil {
+                resetData()
             }
         }
     }
@@ -41,8 +43,6 @@ class FirebaseManager: NSObject {
         ref = Database.database().reference()
         super.init()
         
-        addConnectedListener()
-        
         Auth.auth().addStateDidChangeListener { auth, user in
             self.user = user
         }
@@ -57,9 +57,8 @@ class FirebaseManager: NSObject {
         functionsMap[API_Get_Token] = getToken
     }
     
-    func resetData(_ removeUserData: Bool = true) {
+    func resetData() {
         // remove all observers
-        ref.child("online_user").removeAllObservers()
         ref.child("call").removeAllObservers()
         
         if let callID = callModel?.call_id {
@@ -72,14 +71,6 @@ class FirebaseManager: NSObject {
                 fcmTokenRef.removeValue()
                 self.fcmToken = nil
             }
-            
-            let userRef = self.ref.child("online_user").child(uid)
-            userRef.cancelDisconnectOperations()
-            
-            if removeUserData {
-                userRef.removeValue()
-            }
-            self.user = nil
         }
         self.callModel = nil
     }
@@ -336,33 +327,17 @@ extension FirebaseManager {
 
 // notify
 extension FirebaseManager {
-    private func addConnectedListener() {
-        ref.child(".info/connected").observe(.value) { snapshot in
-            guard let connected = snapshot.value as? Bool, connected else { return }
-            guard let user = self.user else { return }
-            self.addUserToDatabase(user)
-        }
-    }
-    private func addUserToDatabase(_ user: User) {
+    private func addFcmTokenToDatabase() {
         
-        func addUser(_ user: User, token: String?) {
-            // setup database
-            let data: [String : Any?] = [
-                "user_id" : user.uid,
-                "display_name" : user.displayName,
-                "token_id" : fcmToken,
-                "last_changed" : Int(Date().timeIntervalSince1970 * 1000)
-            ]
-            let userRef = self.ref.child("online_user").child(user.uid)
-            userRef.setValue(data)
-            userRef.onDisconnectRemoveValue()
+        func addFcmToken(token: String?) {
+            guard let uid = user?.uid else { return }
+            guard let token = token else { return }
+            let fcmTokenRef = self.ref.child("push_token").child(uid).child(token)
             
-            
-            let fcmTokenRef = self.ref.child("push_token").child(user.uid).child(fcmToken ?? "")
             let tokenData: [String: Any?] = [
                 "device_type" : "ios",
-                "token_id": fcmToken,
-                "user_id": user.uid
+                "token_id": token,
+                "user_id": uid
             ]
             fcmTokenRef.setValue(tokenData)
         }
@@ -371,27 +346,10 @@ extension FirebaseManager {
             Messaging.messaging().token { token, error in
                 guard let token = token else { return }
                 self.fcmToken = token
-                addUser(user, token: self.fcmToken)
-                self.addFcmTokenListener()
+                addFcmToken(token: token)
             }
         } else {
-            addUser(user, token: self.fcmToken)
-        }
-    }
-    
-    private func addFcmTokenListener() {
-        guard let uid = user?.uid else { return }
-        let tokenRef = self.ref.child("online_user").child(uid).child("token_id")
-        tokenRef.observe(.value) { snapshot in
-            guard let token = snapshot.value as? String else { return }
-            if token == self.fcmToken { return }
-            print("[*] Current User is logging at other device.")
-                        
-            try? Auth.auth().signOut()
-            self.resetData(false)
-            
-            let data = ["error" : 1]
-            self.listener?.receiveUpdate(Notify_User_Error, parameter: data)
+            addFcmToken(token: fcmToken)
         }
     }
     

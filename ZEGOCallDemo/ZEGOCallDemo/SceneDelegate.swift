@@ -64,10 +64,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window?.rootViewController = nav
         if let user = LoginManager.shared.user {
 //            if !AuthorizedCheck.isCameraAuthorized() || !AuthorizedCheck.isMicrophoneAuthorized() { return }
-            guard let userID = user.userID,
-                  let userName = user.userName
-            else { return }
-            CallManager.shared.setLocalUser(userID, userName: userName)
+            let userName = user.displayName ?? user.uid
+            CallManager.shared.setLocalUser(user.uid, userName: userName)
             let homeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
             rootVC.navigationController?.pushViewController(homeVC, animated: false)
         }

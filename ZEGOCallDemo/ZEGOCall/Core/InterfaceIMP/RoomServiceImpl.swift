@@ -58,7 +58,7 @@ extension RoomServiceImpl: RoomService {
 extension RoomServiceImpl: ZegoEventHandler {
     func onRoomTokenWillExpire(_ remainTimeInSecond: Int32, roomID: String) {
         guard let userID = ServiceManager.shared.userService.localUserInfo?.userID else { return }
-        ServiceManager.shared.userService.getToken(userID) { result in
+        ServiceManager.shared.userService.getToken(userID, 24*3600) { result in
             switch result {
             case .success(let token):
                 guard let token = token as? String else { return }

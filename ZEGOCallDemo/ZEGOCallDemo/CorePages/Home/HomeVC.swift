@@ -58,10 +58,11 @@ class HomeVC: UIViewController {
     func getToken() {
         if TokenManager.shared.token == nil {
             guard let userID = CallManager.shared.localUserInfo?.userID else { return }
-            CallManager.shared.getToken(userID) { result in
+            let effectiveTimeInSeconds = 24 * 3600
+            CallManager.shared.getToken(userID, effectiveTimeInSeconds) { result in
                 switch result {
                 case .success(let token):
-                    TokenManager.shared.saveToken(token as? String, 24 * 3600)
+                    TokenManager.shared.saveToken(token as? String, effectiveTimeInSeconds)
                     CallManager.shared.token = token as? String
                 case .failure(_):
                     break
