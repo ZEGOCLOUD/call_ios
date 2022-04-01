@@ -46,6 +46,8 @@ class GoogleLoginVC: UIViewController {
 
         // Do any additional setup after loading the view.
         DeviceTool.shared.applicationHasMicAndCameraAccess(self)
+        
+        LoginManager.shared.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -80,12 +82,11 @@ class GoogleLoginVC: UIViewController {
                 return
             }
             HUDHelper.showNetworkLoading()
-            LoginManager.shared.login(token) { user, error in
+            LoginManager.shared.login(token) { userID, userName, error in
                 HUDHelper.hideNetworkLoading()
                 if error == 0 {
-                    guard let user = user,
-                          let userID = user.userID,
-                          let userName = user.userName
+                    guard let userID = userID,
+                          let userName = userName
                     else { return }
                     CallManager.shared.setLocalUser(userID, userName: userName)
                     let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
@@ -103,4 +104,10 @@ class GoogleLoginVC: UIViewController {
         sender.isSelected = !sender.isSelected
     }
 
+}
+
+extension GoogleLoginVC: LoginManagerDelegate {
+    func onReceiveUserKickout() {
+        self.navigationController?.popToRootViewController(animated: true)
+    }
 }
