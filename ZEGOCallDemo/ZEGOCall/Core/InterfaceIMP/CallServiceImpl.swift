@@ -42,10 +42,9 @@ extension CallServiceImpl: CallService {
         let callID = generateCallID(callerUserID)
         
         let command = CallCommand()
-        command.userID = callerUserID
+        command.caller = ServiceManager.shared.userService.localUserInfo
         command.callees = [user]
         command.callID = callID
-        command.callerName = ServiceManager.shared.userService.localUserInfo?.userName
         command.type = type
         
         callInfo.callID = callID
@@ -71,6 +70,7 @@ extension CallServiceImpl: CallService {
     
     func cancelCall(userID: String, callback: ZegoCallback?) {
         let command = CancelCallCommand()
+        command.userID = ServiceManager.shared.userService.localUserInfo?.userID
         command.calleeID = userID
         command.callID = callInfo.callID
         
@@ -186,23 +186,23 @@ extension CallServiceImpl {
                 
         _ = listener?.addListener(Notify_Call_Invited, listener: { result in
             guard let callID = result["call_id"] as? String,
-                  let callerID = result["caller_id"] as? String,
-                  let callerName = result["caller_name"] as? String,
-                  let callTypeOld = result["call_type"] as? Int,
-                  let callees = result["callees"] as? [UserInfo]
+                  let caller = result["caller"] as? UserInfo,
+                  let callees = result["callees"] as? [UserInfo],
+                  let callTypeOld = result["call_type"] as? Int
             else { return }
             guard let callType = CallType.init(rawValue: callTypeOld) else { return }
             
-            //TODO: update
+            defer {
+                self.delegate?.onReceiveCallInvited(caller, type: callType)
+            }
+            
             if self.status != .free { return }
             self.status = .incoming
             self.callInfo.callID = callID
             self.addCallTimer()
             
-            let caller = UserInfo(userID: callerID, userName: callerName)
             self.callInfo.caller = caller
             self.callInfo.callees = callees
-            self.delegate?.onReceiveCallInvited(caller, type: callType)
         })
         
         _ = listener?.addListener(Notify_Call_Canceled, listener: { result in
@@ -347,10 +347,10 @@ extension CallServiceImpl: ZegoEventHandler {
         print("[*] onRoomStateUpdate: \(state.rawValue), errorCode: \(errorCode), roomID: \(roomID)")
         // if myself disconnected, just callback the `timeout`.
         if state == .disconnected && self.status == .calling {
-//            guard let user = ServiceManager.shared.userService.localUserInfo else { return }
-//            ServiceManager.shared.roomService.leaveRoom()
-//            delegate?.onReceiveCallTimeout(.calling, info: user)
-//            stopHeartbeatTimer()
+            guard let user = ServiceManager.shared.userService.localUserInfo else { return }
+            ServiceManager.shared.roomService.leaveRoom()
+            delegate?.onReceiveCallTimeout(.calling, info: user)
+            stopHeartbeatTimer()
         }
     }
 }

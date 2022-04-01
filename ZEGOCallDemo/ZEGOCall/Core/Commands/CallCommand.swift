@@ -11,22 +11,16 @@ class CallCommand: Command {
     var path: String = API_Start_Call
     
     var parameter = [String : AnyObject]()
-    
-    var userID: String? {
-        willSet {
-            parameter["id"] = newValue as AnyObject
-        }
-    }
-    
+        
     var callID: String? {
         willSet {
             parameter["call_id"] = newValue as AnyObject
         }
     }
     
-    var callerName: String? {
+    var caller: UserInfo? {
         willSet {
-            parameter["caller_name"] = newValue as AnyObject
+            parameter["caller"] = newValue as AnyObject
         }
     }
     
