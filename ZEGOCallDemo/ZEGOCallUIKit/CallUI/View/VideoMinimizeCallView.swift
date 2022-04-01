@@ -26,10 +26,10 @@ class VideoMinimizeCallView: UIView {
     }
     
     
-    @IBOutlet weak var videoPreview: UIView! {
+    @IBOutlet weak var localVideoPreview: UIView! {
         didSet {
             let tapClick: UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(tapClick))
-            videoPreview.addGestureRecognizer(tapClick)
+            localVideoPreview.addGestureRecognizer(tapClick)
         }
     }
     
@@ -41,10 +41,5 @@ class VideoMinimizeCallView: UIView {
         let view: VideoMinimizeCallView = UINib(nibName: "VideoMinimizeCallView", bundle: nil).instantiate(withOwner: nil, options: nil).first as! VideoMinimizeCallView
         view.frame = CGRect.init(x: UIScreen.main.bounds.size.width - 78, y: UIScreen.main.bounds.size.height - 130 - 60, width: 78, height: 130)
         return view
-    }
-    
-    func updateStreamDisplay(_ streamID: String?) {
-        guard let streamID = streamID else { return }
-        ServiceManager.shared.streamService.startPlaying(streamID, streamView: videoPreview)
     }
 }

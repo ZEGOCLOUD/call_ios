@@ -635,7 +635,6 @@
 				86AC134727998A4000607277 /* String+Time.swift */,
 				86B1994D278D63430004C997 /* AuthorizedCheck.swift */,
 				86B1994E278D63430004C997 /* UIImage+Zego.swift */,
-				8637814D27F5B824000A0C22 /* DeviceTool.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -971,6 +970,7 @@
 		8E7F92D527F461150059F833 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				8637814D27F5B824000A0C22 /* DeviceTool.swift */,
 				8E7F92D327F339A20059F833 /* TokenManager.swift */,
 				8E7F92D627F4614F0059F833 /* LoginManager.swift */,
 				8E7F92D827F471D90059F833 /* UserListManager.swift */,

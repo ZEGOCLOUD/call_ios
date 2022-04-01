@@ -81,4 +81,7 @@ protocol DeviceService {
     /// @param enable determines whether to use the speaker or the receiver. true: use the speaker. false: use the receiver.
     func enableSpeaker(_ enable: Bool)
     
+    /// 重置设备配置
+    func resetDeviceConfig()
+    
 }

@@ -121,6 +121,15 @@ class DeviceServiceImpl: NSObject, DeviceService {
     func enableSpeaker(_ enable: Bool) {
         ZegoExpressEngine.shared().setAudioRouteToSpeaker(enable)
     }
+    
+    func resetDeviceConfig() {
+        videoResolution = .p720
+        bitrate = .b48
+        noiseSliming = false
+        echoCancellation = false
+        volumeAdjustment = false
+        videoMirror = false
+    }
 }
 
 extension DeviceServiceImpl: ZegoEventHandler {

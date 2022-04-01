@@ -46,7 +46,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="backGroundView" destination="bot-3q-raP" id="a22-FL-xMK"/>
-                <outlet property="videoPreview" destination="Jqm-T1-SwW" id="G6j-eY-mCs"/>
+                <outlet property="localVideoPreview" destination="Jqm-T1-SwW" id="zQM-64-uqT"/>
             </connections>
             <point key="canvasLocation" x="181.15942028985509" y="-54.910714285714285"/>
         </view>

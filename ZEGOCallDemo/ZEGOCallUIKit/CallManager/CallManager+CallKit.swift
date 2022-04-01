@@ -15,6 +15,9 @@ extension CallManager {
         // Application is back in the foreground
         if !appIsActive {
             if currentCallStatus == .calling {
+                if !minmizedManager.viewHiden {
+                    return
+                }
                 if self.getCurrentViewController() is CallMainVC {
                     guard let userInfo = currentCallUserInfo else { return }
                     currentCallVC?.updateCallType(callKitCallType, userInfo: userInfo, status: .calling)
@@ -24,14 +27,12 @@ extension CallManager {
                         guard let userInfo = currentCallUserInfo else { return }
                         self.getCurrentViewController()?.present(currentCallVC, animated: true, completion: {
                             currentCallVC.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
-                            //currentCallVC.callTime = self.startCallTime
                             self.startPlayingStream(self.currentCallUserInfo?.userID)
                         })
                     } else {
                         guard let userInfo = currentCallUserInfo else { return }
                         let callVC: CallMainVC = CallMainVC.loadCallMainVC(callKitCallType, userInfo: userInfo, status: .calling)
                         currentCallVC = callVC
-                        //callVC.callTime = startCallTime
                         getCurrentViewController()?.present(callVC, animated: true) {
                             self.startPlayingStream(userInfo.userID)
                         }
