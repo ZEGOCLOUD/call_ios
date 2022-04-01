@@ -117,15 +117,18 @@ extension CallServiceImpl: CallService {
         }
     }
     
-    func declineCall(_ userID: String, type: DeclineType, callback: ZegoCallback?) {
+    func declineCall(_ userID: String, callID: String?, type: DeclineType, callback: ZegoCallback?) {
+        
         let command = DeclineCallCommand()
-        command.userID = userID
-        command.callID = callInfo.callID
-        command.callerID = callInfo.caller?.userID
+        command.userID = ServiceManager.shared.userService.localUserInfo?.userID
+        command.callID = callID ?? self.callInfo.callID
+        command.callerID = userID
         command.type = type
         
-        self.status = .free
-        self.cancelCallTimer()
+        if callID == self.callInfo.callID || callID == nil {
+            self.status = .free
+            self.cancelCallTimer()
+        }
         
         command.excute { result in
             var callResult: ZegoResult = .success(())
@@ -193,9 +196,10 @@ extension CallServiceImpl {
             guard let callType = CallType.init(rawValue: callTypeOld) else { return }
             
             defer {
-                self.delegate?.onReceiveCallInvited(caller, type: callType)
+                self.delegate?.onReceiveCallInvited(caller, callID: callID, type: callType)
             }
             
+            // current status is not free, should decline this call.
             if self.status != .free { return }
             self.status = .incoming
             self.callInfo.callID = callID

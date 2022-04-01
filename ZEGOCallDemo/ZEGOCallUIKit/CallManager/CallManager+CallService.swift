@@ -9,11 +9,11 @@ import UIKit
 
 extension CallManager: CallServiceDelegate {
     
-    func onReceiveCallInvited(_ userInfo: UserInfo, type: CallType) {
-        delegate?.onReceiveCallInvite(userInfo, type: type)
+    func onReceiveCallInvited(_ userInfo: UserInfo, callID: String, type: CallType) {
+        delegate?.onReceiveCallInvite(userInfo, callID: callID, type: type)
         if currentCallStatus == .calling || currentCallStatus == .wait || currentCallStatus == .waitAccept {
             guard let userID = userInfo.userID else { return }
-            declineCall(userID, type:.busy)
+            declineCall(userID, callID: callID, type: .busy)
             return
         }
         currentCallStatus = .wait

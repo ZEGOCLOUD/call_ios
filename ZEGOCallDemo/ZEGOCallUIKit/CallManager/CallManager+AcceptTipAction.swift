@@ -23,7 +23,7 @@ extension CallManager: CallAcceptTipViewDelegate {
     
     func tipViewDeclineCall(_ userInfo: UserInfo, callType: CallType) {
         if let userID = userInfo.userID {
-            declineCall(userID, type: .decline)
+            declineCall(userID, callID: nil, type: .decline)
         }
         audioPlayer?.stop()
         currentTipView = nil

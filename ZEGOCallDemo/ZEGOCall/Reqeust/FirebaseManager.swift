@@ -211,26 +211,28 @@ extension FirebaseManager {
         guard let callID = parameter["call_id"] as? String,
 //              let callerID = parameter["caller_id"] as? String,
 //              let userID = parameter["id"] as? String,
-              let type = parameter["type"] as? DeclineType,
-              let model = callModel
+              let type = parameter["type"] as? DeclineType
         else {
             callback(.failure(.failed))
             return
         }
         
-        model.call_status = .ended
-        for user in model.users {
-            user.status = type == .decline ? .declined : .busy
-        }
-        
         let callRef = ref.child("call").child(callID)
+        
         callRef.runTransactionBlock { currentData in
-            guard let _ = currentData.value as? [String: Any] else {
+            guard let data = currentData.value as? [String: Any] else {
                 return .abort()
+            }
+            guard let model = FirebaseCallModel.model(with: data) else {
+                return .abort()
+            }
+            model.call_status = .ended
+            for user in model.users {
+                user.status = type == .decline ? .declined : .busy
             }
             currentData.value = model.toDict()
             return .success(withValue: currentData)
-        } andCompletionBlock: { error, bool, snapshot in
+        } andCompletionBlock: { error, flag, snapshot in
             if error == nil {
                 callback(.success(()))
                 self.callModel = nil
@@ -238,6 +240,7 @@ extension FirebaseManager {
                 callback(.failure(.failed))
             }
         }
+
     }
     
     private func endCall(_ parameter: [String: AnyObject], callback: @escaping RequestCallback) {

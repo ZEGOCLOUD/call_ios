@@ -26,7 +26,7 @@ protocol CallManagerDelegate: AnyObject {
     ///
     /// - Parameter userInfo: refers to the caller information.
     /// - Parameter type: indicates the call type.  ZegoCallTypeVoice: Voice call.  ZegoCallTypeVideo: Video call.
-    func onReceiveCallInvite(_ userInfo: UserInfo, type: CallType)
+    func onReceiveCallInvite(_ userInfo: UserInfo, callID: String, type: CallType)
     
     /// Callback for receive a canceled call
     ///
@@ -63,7 +63,7 @@ protocol CallManagerDelegate: AnyObject {
 
 // default realized
 extension CallManagerDelegate {
-    func onReceiveCallInvite(_ userInfo: UserInfo, type: CallType) { }
+    func onReceiveCallInvite(_ userInfo: UserInfo, callID: String, type: CallType) { }
     func onReceiveCallCanceled(_ userInfo: UserInfo) { }
     func onReceiveCallTimeout(_ type: CallTimeoutType, info: UserInfo) { }
     func onReceivedCallEnded() { }
