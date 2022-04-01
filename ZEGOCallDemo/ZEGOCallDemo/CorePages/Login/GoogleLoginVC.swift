@@ -46,8 +46,6 @@ class GoogleLoginVC: UIViewController {
 
         // Do any additional setup after loading the view.
         DeviceTool.shared.applicationHasMicAndCameraAccess(self)
-        
-        LoginManager.shared.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
