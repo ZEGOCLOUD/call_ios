@@ -51,6 +51,7 @@ extension RoomServiceImpl: RoomService {
     
     func leaveRoom() {
         self.roomInfo = nil
+        ZegoExpressEngine.shared().stopPublishingStream()
         ZegoExpressEngine.shared().logoutRoom()
     }
 }

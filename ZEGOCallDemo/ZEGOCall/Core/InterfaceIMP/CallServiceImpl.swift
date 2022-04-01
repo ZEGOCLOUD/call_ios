@@ -318,6 +318,9 @@ extension CallServiceImpl {
     func addCallTimer() {
         callTask = delay(by: 60) { [weak self] in
             guard let user = ServiceManager.shared.userService.localUserInfo else { return }
+            self?.status = .free
+            self?.callInfo = CallInfo()
+            ServiceManager.shared.roomService.leaveRoom()
             self?.delegate?.onReceiveCallTimeout(.connecting, info: user)
         }
     }
@@ -348,6 +351,8 @@ extension CallServiceImpl: ZegoEventHandler {
         // if myself disconnected, just callback the `timeout`.
         if state == .disconnected && self.status == .calling {
             guard let user = ServiceManager.shared.userService.localUserInfo else { return }
+            self.status = .free
+            self.callInfo = CallInfo()
             ServiceManager.shared.roomService.leaveRoom()
             delegate?.onReceiveCallTimeout(.calling, info: user)
             stopHeartbeatTimer()
