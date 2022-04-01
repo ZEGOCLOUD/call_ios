@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ZegoExpressEngine
 
 enum MinimizedCallType: Int {
     case audio = 1
@@ -21,7 +22,7 @@ enum MinimizedCallStatus: Int {
 }
 
 protocol MinimizedDisplayManagerDelegate: AnyObject {
-    func didClickAudioMinimizeView()
+    func didClickAudioMinimizeView(_ type: MinimizedCallType)
     func didClickVideoMinimizedView()
 }
 
@@ -30,13 +31,14 @@ class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimize
     weak var delegate: MinimizedDisplayManagerDelegate?
     var currentStatus: MinimizedCallStatus = .waiting
     var viewHiden: Bool = true
+    var callType: MinimizedCallType = .audio
     
     func didClickVideoMinimizeCallView() {
         delegate?.didClickVideoMinimizedView()
     }
     
     func didClickMinimizeCallView() {
-        delegate?.didClickAudioMinimizeView()
+        delegate?.didClickAudioMinimizeView(callType)
     }
     
     
@@ -57,6 +59,7 @@ class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimize
     }()
     
     func showCallMinView(_ callType: MinimizedCallType, status:MinimizedCallStatus, userInfo: UserInfo?) {
+        self.callType = callType
         switch callType {
         case .audio:
             audioMinView.isHidden = false
@@ -81,7 +84,7 @@ class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimize
                     audioMinView.isHidden = true
                     videoMinView.isHidden = false
                     let streamID = userInfo.camera ? userInfo.userID : localUserInfo.userID
-                    ServiceManager.shared.streamService.startPlaying(streamID, streamView: videoMinView.videoPreview)
+                    ServiceManager.shared.streamService.startPlaying(streamID, streamView: videoMinView.localVideoPreview)
                 } else {
                     audioMinView.isHidden = false
                     audioMinView.updateCallText(getDisplayText(status))
@@ -92,7 +95,7 @@ class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimize
                     audioMinView.isHidden = true
                     videoMinView.isHidden = false
                     let streamID = localUserInfo.userID
-                    ServiceManager.shared.streamService.startPlaying(streamID, streamView: videoMinView.videoPreview)
+                    ServiceManager.shared.streamService.startPlaying(streamID, streamView: videoMinView.localVideoPreview)
                 } else {
                     audioMinView.isHidden = false
                     audioMinView.updateCallText(getDisplayText(status))

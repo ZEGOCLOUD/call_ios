@@ -10,10 +10,8 @@ import ZegoExpressEngine
 
 extension CallManager: UserServiceDelegate {
     func onNetworkQuality(_ userID: String, upstreamQuality: ZegoStreamQualityLevel) {
-        if userID == localUserID {
-            if let currentCallVC = currentCallVC {
-                currentCallVC.callQualityChange(setNetWorkQuality(upstreamQuality: upstreamQuality), userID: userID)
-            }
+        if let currentCallVC = currentCallVC {
+            currentCallVC.callQualityChange(setNetWorkQuality(upstreamQuality: upstreamQuality), userID: userID)
         }
     }
     
@@ -21,7 +19,7 @@ extension CallManager: UserServiceDelegate {
         if upstreamQuality == .excellent || upstreamQuality == .good {
             return .good
         } else if upstreamQuality == .medium {
-            return.middle
+            return .middle
         } else if upstreamQuality == .unknown {
             return .unknow
         } else {
@@ -39,7 +37,16 @@ extension CallManager: UserServiceDelegate {
         }
         guard let currentCallVC = currentCallVC else { return }
         currentCallVC.userRoomInfoUpdate(userInfo)
-        
+        switch currentCallStatus {
+        case .calling:
+            if currentCallVC.vcType == .video && !minmizedManager.viewHiden {
+                minmizedManager.updateCallStatus(status: .calling, userInfo: userInfo, isVideo: true)
+            }
+        case .free,.wait,.waitAccept:
+            break
+        case .none:
+            break
+        }
     }
     
 }

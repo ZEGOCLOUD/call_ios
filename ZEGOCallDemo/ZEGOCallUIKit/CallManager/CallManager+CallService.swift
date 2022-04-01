@@ -56,22 +56,25 @@ extension CallManager: CallServiceDelegate {
     func onReceiveCallAccepted(_ userInfo: UserInfo) {
         delegate?.onReceiveCallAccepted(userInfo)
         guard let vc = self.currentCallVC else { return }
-        if !appIsActive {
-            if let userID = userInfo.userID {
-                if currentCallStatus == .waitAccept {
-                    endCall(userID)
-                    closeCallVC()
-                }
-            }
-            return
-        }
+//        if !appIsActive {
+//            if let userID = userInfo.userID {
+//                if currentCallStatus == .waitAccept {
+//                    endCall(userID)
+//                    closeCallVC()
+//                }
+//            }
+//            return
+//        }
         currentCallUserInfo = userInfo
         currentCallStatus = .calling
         vc.otherUserRoomInfo = userInfo
         vc.updateCallType(vc.vcType, userInfo: userInfo, status: .calling)
-        minmizedManager.updateCallStatus(status: .calling, userInfo: userInfo, isVideo: vc.vcType == .video)
         callTimeManager.callStart()
-        startPlayingStream(userInfo.userID)
+        if minmizedManager.viewHiden {
+            startPlayingStream(userInfo.userID)
+        } else {
+            minmizedManager.updateCallStatus(status: .calling, userInfo: userInfo, isVideo: vc.vcType == .video)
+        }
     }
     
     func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType) {
@@ -127,6 +130,10 @@ extension CallManager: CallServiceDelegate {
             currentCallStatus = .free
             currentCallUserInfo = nil
             endSystemCall()
+            minmizedManager.updateCallStatus(status: .end, userInfo: info)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.minmizedManager.dismissCallMinView()
+            }
             guard let vc = currentCallVC else { return }
             vc.changeCallStatusText(.completed)
             vc.callDelayDismiss()

@@ -69,7 +69,6 @@ class CallManager: NSObject, CallManagerInterface {
         
         callKitService = AppleCallKitServiceIMP()
         callKitService?.providerDelegate = ProviderDelegate()
-        DeviceTool.shared.applicationHasMicAndCameraAccess(nil)
     }
     
     func initWithAppID(_ appID: UInt32, callback: ZegoCallback?) {
@@ -113,6 +112,7 @@ class CallManager: NSObject, CallManagerInterface {
     
     func callUser(_ userInfo: UserInfo, token: String, callType: CallType, callback: ZegoCallback?) {
         if currentCallStatus != .free { return }
+        resetDeviceConfig()
         ServiceManager.shared.callService.callUser(userInfo, token: token, type: callType) { result in
             switch result {
             case .success():
@@ -131,21 +131,12 @@ class CallManager: NSObject, CallManagerInterface {
     
     
     func acceptCall(_ userInfo: UserInfo, callType: CallType, presentVC:Bool = true) {
-        if !DeviceTool.shared.micPermission {
-            guard let currentVC = getCurrentViewController() else { return }
-            AuthorizedCheck.showMicrophoneUnauthorizedAlert(currentVC)
-            return
-        }
-        if !DeviceTool.shared.cameraPermission && callType == .video {
-            guard let currentVC = getCurrentViewController() else { return }
-            AuthorizedCheck.showCameraUnauthorizedAlert(currentVC)
-            return
-        }
         guard let userID = userInfo.userID else { return }
         guard let token = token else {
             print("call token is not exists")
             return
         }
+        resetDeviceConfig()
         ServiceManager.shared.callService.acceptCall(token) { result in
             switch result {
             case .success():
@@ -214,7 +205,13 @@ class CallManager: NSObject, CallManagerInterface {
         currentCallStatus = .free
         currentCallVC?.changeCallStatusText(.canceled)
         currentCallVC?.callDelayDismiss()
+        minmizedManager.dismissCallMinView()
         ServiceManager.shared.callService.cancelCall(userID: userID, callback: nil)
+    }
+    
+    func resetDeviceConfig() {
+        ServiceManager.shared.userService.localUserInfo?.mic = true
+        ServiceManager.shared.userService.localUserInfo?.camera = true
     }
     
     func startPlayingStream(_ userID: String?) {
@@ -238,11 +235,11 @@ class CallManager: NSObject, CallManagerInterface {
                     ServiceManager.shared.streamService.startPlaying(userID, streamView: vc.previewView)
                 }
             }
-            ServiceManager.shared.deviceService.enableSpeaker(false)
         } else {
             ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic)
             ServiceManager.shared.streamService.startPlaying(userID, streamView: nil)
         }
+        ServiceManager.shared.deviceService.enableSpeaker(false)
     }
     
     

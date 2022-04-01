@@ -8,9 +8,13 @@
 import Foundation
 
 extension CallManager: MinimizedDisplayManagerDelegate {
-    
-    func didClickAudioMinimizeView() {
-        showCallPage(.voice)
+    func didClickAudioMinimizeView(_ type: MinimizedCallType) {
+        switch type {
+        case .audio:
+            showCallPage(.voice)
+        case .video:
+            showCallPage(.video)
+        }
     }
     
     func didClickVideoMinimizedView() {

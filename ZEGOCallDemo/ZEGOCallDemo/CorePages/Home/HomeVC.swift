@@ -53,6 +53,7 @@ class HomeVC: UIViewController {
         
         CallManager.shared.delegate = self
         getToken()
+        DeviceTool.shared.applicationHasMicAndCameraAccess(self)
     }
     
     func getToken() {
