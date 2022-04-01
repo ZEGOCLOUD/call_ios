@@ -39,6 +39,7 @@ extension RoomServiceImpl: RoomService {
         let user = ZegoUser(userID: userID, userName: userName)
         
         let config = ZegoRoomConfig()
+        config.isUserStatusNotify = true
         config.token = token
         ZegoExpressEngine.shared().loginRoom(roomID, user: user, config: config)
         

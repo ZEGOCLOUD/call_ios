@@ -115,6 +115,12 @@ extension ServiceManager: ZegoEventHandler {
         }
     }
     
+    func onRoomUserUpdate(_ updateType: ZegoUpdateType, userList: [ZegoUser], roomID: String) {
+        for delegate in rtcEventDelegates.allObjects {
+            delegate.onRoomUserUpdate?(updateType, userList: userList, roomID: roomID)
+        }
+    }
+    
     func onRoomStreamUpdate(_ updateType: ZegoUpdateType, streamList: [ZegoStream], extendedData: [AnyHashable : Any]?, roomID: String) {
         
         for stream in streamList {

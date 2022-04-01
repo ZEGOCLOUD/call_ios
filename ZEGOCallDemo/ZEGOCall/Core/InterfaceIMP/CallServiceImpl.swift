@@ -170,6 +170,18 @@ extension CallServiceImpl {
         return callID
     }
     
+    private func getUser(_ userID: String) -> UserInfo? {
+        if self.callInfo.caller?.userID == userID {
+            return self.callInfo.caller
+        }
+        for user in self.callInfo.callees {
+            if user.userID == userID {
+                return user
+            }
+        }
+        return nil
+    }
+    
     private func registerListener() {
                 
         _ = listener?.addListener(Notify_Call_Invited, listener: { result in
@@ -274,8 +286,18 @@ extension CallServiceImpl {
         })
         
         _ = listener?.addListener(Notify_Call_Timeout, listener: { result in
+            guard let callID = result["call_id"] as? String,
+                  let userID = result["user_id"] as? String
+            else {
+                return
+            }
+            if self.status != .calling { return }
+            if self.callInfo.callID != callID { return }
+            guard let user = self.getUser(userID) else { return }
+            self.status = .free
             self.stopHeartbeatTimer()
-            //TODO: todo
+            ServiceManager.shared.roomService.leaveRoom()
+            self.delegate?.onReceiveCallTimeout(.calling, info: user)
         })
         
         _ = listener?.addListener(Notify_User_Error, listener: { result in
@@ -322,11 +344,13 @@ extension CallServiceImpl {
 
 extension CallServiceImpl: ZegoEventHandler {
     func onRoomStateUpdate(_ state: ZegoRoomState, errorCode: Int32, extendedData: [AnyHashable : Any]?, roomID: String) {
+        print("[*] onRoomStateUpdate: \(state.rawValue), errorCode: \(errorCode), roomID: \(roomID)")
         // if myself disconnected, just callback the `timeout`.
         if state == .disconnected && self.status == .calling {
-            guard let user = ServiceManager.shared.userService.localUserInfo else { return }
-            delegate?.onReceiveCallTimeout(.calling, info: user)
-            stopHeartbeatTimer()
+//            guard let user = ServiceManager.shared.userService.localUserInfo else { return }
+//            ServiceManager.shared.roomService.leaveRoom()
+//            delegate?.onReceiveCallTimeout(.calling, info: user)
+//            stopHeartbeatTimer()
         }
     }
 }

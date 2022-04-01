@@ -94,6 +94,17 @@ extension UserServiceImpl: ZegoEventHandler {
         }
     }
     
+    func onRoomUserUpdate(_ updateType: ZegoUpdateType, userList: [ZegoUser], roomID: String) {
+        for user in userList {
+            if updateType == .add {
+                if self.userList.compactMap({ $0.userID }).contains(user.userID) { continue }
+                self.userList.append(UserInfo(user.userID, user.userName))
+            } else {
+                self.userList = self.userList.filter({ $0.userID != user.userID })
+            }
+        }
+    }
+    
     func onRemoteCameraStateUpdate(_ state: ZegoRemoteDeviceState, streamID: String) {
         let userIDs = streamID.components(separatedBy: ["_"])
         if userIDs.count < 2 { return }
@@ -102,14 +113,8 @@ extension UserServiceImpl: ZegoEventHandler {
         
         if state != .open && state != .disable { return }
         
-        var remoteUser: UserInfo?
-        if userID == ServiceManager.shared.callService.callInfo.caller?.userID {
-            remoteUser = ServiceManager.shared.callService.callInfo.caller
-        } else {
-            remoteUser = ServiceManager.shared.callService.callInfo.callees.filter({ $0.userID == userID }).first
-        }
-        remoteUser?.camera = state == .open
-        guard let remoteUser = remoteUser else { return }
+        guard let remoteUser = self.userList.filter({ $0.userID == userID }).first else { return }
+        remoteUser.camera = state == .open
         delegate?.onUserInfoUpdate(remoteUser)
     }
     
@@ -121,14 +126,8 @@ extension UserServiceImpl: ZegoEventHandler {
         
         if state != .open && state != .mute { return }
         
-        var remoteUser: UserInfo?
-        if userID == ServiceManager.shared.callService.callInfo.caller?.userID {
-            remoteUser = ServiceManager.shared.callService.callInfo.caller
-        } else {
-            remoteUser = ServiceManager.shared.callService.callInfo.callees.filter({ $0.userID == userID }).first
-        }
-        remoteUser?.mic = state == .open
-        guard let remoteUser = remoteUser else { return }
+        guard let remoteUser = self.userList.filter({ $0.userID == userID }).first else { return }
+        remoteUser.mic = state == .open
         delegate?.onUserInfoUpdate(remoteUser)
     }
 }
