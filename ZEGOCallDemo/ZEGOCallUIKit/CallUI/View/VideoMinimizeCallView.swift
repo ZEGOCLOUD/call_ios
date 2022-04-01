@@ -33,6 +33,14 @@ class VideoMinimizeCallView: UIView {
         }
     }
     
+    @IBOutlet weak var streamPreview: UIView! {
+        didSet {
+            let tapClick: UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(tapClick))
+            streamPreview.addGestureRecognizer(tapClick)
+        }
+    }
+    
+    
     @objc func tapClick() {
         delegate?.didClickVideoMinimizeCallView()
     }

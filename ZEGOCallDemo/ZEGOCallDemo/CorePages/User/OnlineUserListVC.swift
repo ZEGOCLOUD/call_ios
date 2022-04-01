@@ -59,8 +59,8 @@ class OnlineUserListVC: UIViewController {
     
     // MARK: action
     @objc func refreshUserList() {
-                
-        self.userInfoList = UserListManager.shared.userList
+        guard let localUserID = CallManager.shared.localUserInfo?.userID else { return }
+        self.userInfoList = UserListManager.shared.userList.filter( {$0.userID != localUserID} )
         self.emptyLabel.isHidden = self.userInfoList.count > 0
         self.emptyImage.isHidden = self.userInfoList.count > 0
         self.userListTableView.reloadData()

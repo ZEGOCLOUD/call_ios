@@ -80,15 +80,26 @@ class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimize
         if isVideo {
             if let userInfo = userInfo,
                status == .calling {
-                if userInfo.camera || localUserInfo.camera {
+                if userInfo.camera {
                     audioMinView.isHidden = true
                     videoMinView.isHidden = false
-                    let streamID = userInfo.camera ? userInfo.userID : localUserInfo.userID
-                    ServiceManager.shared.streamService.startPlaying(streamID, streamView: videoMinView.localVideoPreview)
+                    videoMinView.streamPreview.isHidden = false
+                    ServiceManager.shared.streamService.startPlaying(userInfo.userID, streamView: videoMinView.streamPreview)
+                    if localUserInfo.camera {
+                        ServiceManager.shared.streamService.startPlaying(localUserInfo.userID, streamView: videoMinView.localVideoPreview)
+                    }
                 } else {
-                    audioMinView.isHidden = false
-                    audioMinView.updateCallText(getDisplayText(status))
-                    videoMinView.isHidden = true
+                    videoMinView.streamPreview.isHidden = true
+                    if localUserInfo.camera {
+                        audioMinView.isHidden = true
+                        audioMinView.updateCallText(getDisplayText(status))
+                        videoMinView.isHidden = false
+                        ServiceManager.shared.streamService.startPlaying(localUserInfo.userID, streamView: videoMinView.localVideoPreview)
+                    } else {
+                        audioMinView.isHidden = false
+                        audioMinView.updateCallText(getDisplayText(status))
+                        videoMinView.isHidden = true
+                    }
                 }
             } else {
                 if localUserInfo.camera {

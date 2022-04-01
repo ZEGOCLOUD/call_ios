@@ -366,6 +366,9 @@ class CallMainVC: UIViewController {
         if userRoomInfo.userID != localUserID {
             otherUserRoomInfo = userRoomInfo
         }
+        if userRoomInfo.userID == callUser?.userID {
+            callUser = userRoomInfo
+        }
         if statusType != .calling { return }
         if !userRoomInfo.camera {
             if userRoomInfo.userID == mainStreamUserID {
