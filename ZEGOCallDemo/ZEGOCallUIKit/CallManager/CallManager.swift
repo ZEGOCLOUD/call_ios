@@ -84,7 +84,6 @@ class CallManager: NSObject, CallManagerInterface {
     }
     
     func resetCallData() {
-        minmizedManager.dismissCallMinView()
         switch currentCallStatus {
         case .free:
             break
@@ -94,6 +93,7 @@ class CallManager: NSObject, CallManagerInterface {
             currentCallUserInfo = nil
             audioPlayer?.stop()
             endSystemCall()
+            closeCallVC()
         case .waitAccept:
             guard let userID = currentCallUserInfo?.userID else { return }
             guard let currentCallVC = currentCallVC else { return }
@@ -101,6 +101,7 @@ class CallManager: NSObject, CallManagerInterface {
         case .calling:
             guard let userID = currentCallUserInfo?.userID else { return }
             endCall(userID)
+            closeCallVC()
         case .none:
             break
         }
@@ -212,27 +213,34 @@ class CallManager: NSObject, CallManagerInterface {
     func resetDeviceConfig() {
         ServiceManager.shared.userService.localUserInfo?.mic = true
         ServiceManager.shared.userService.localUserInfo?.camera = true
+        ServiceManager.shared.deviceService.resetDeviceConfig()
     }
     
     func startPlayingStream(_ userID: String?) {
         guard let userID = userID else { return }
         guard let userRoomInfo = ServiceManager.shared.userService.localUserInfo else { return }
+        
         if let vc = currentCallVC {
             if vc.vcType == .voice {
                 ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic)
                 ServiceManager.shared.streamService.startPlaying(userID, streamView: nil)
+                minmizedManager.currentStatus = .calling
             } else {
                 ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic)
                 ServiceManager.shared.deviceService.enableCamera(userRoomInfo.camera)
-                if let mainStreamID = currentCallVC?.mainStreamUserID {
-                    ServiceManager.shared.streamService.startPlaying(mainStreamID, streamView: vc.mainPreviewView)
+                if minmizedManager.viewHiden {
+                    if let mainStreamID = currentCallVC?.mainStreamUserID {
+                        ServiceManager.shared.streamService.startPlaying(mainStreamID, streamView: vc.mainPreviewView)
+                    } else {
+                        ServiceManager.shared.streamService.startPlaying(ServiceManager.shared.userService.localUserInfo?.userID, streamView: vc.mainPreviewView)
+                    }
+                    if let streamID = currentCallVC?.streamUserID {
+                        ServiceManager.shared.streamService.startPlaying(streamID, streamView: vc.previewView)
+                    } else {
+                        ServiceManager.shared.streamService.startPlaying(userID, streamView: vc.previewView)
+                    }
                 } else {
-                    ServiceManager.shared.streamService.startPlaying(ServiceManager.shared.userService.localUserInfo?.userID, streamView: vc.mainPreviewView)
-                }
-                if let streamID = currentCallVC?.streamUserID {
-                    ServiceManager.shared.streamService.startPlaying(streamID, streamView: vc.previewView)
-                } else {
-                    ServiceManager.shared.streamService.startPlaying(userID, streamView: vc.previewView)
+                    minmizedManager.updateCallStatus(status: .calling, userInfo: currentCallUserInfo, isVideo: true)
                 }
             }
         } else {

@@ -70,16 +70,12 @@ extension CallManager: CallServiceDelegate {
         vc.otherUserRoomInfo = userInfo
         vc.updateCallType(vc.vcType, userInfo: userInfo, status: .calling)
         callTimeManager.callStart()
-        if minmizedManager.viewHiden {
-            startPlayingStream(userInfo.userID)
-        } else {
-            minmizedManager.updateCallStatus(status: .calling, userInfo: userInfo, isVideo: vc.vcType == .video)
-        }
+        startPlayingStream(userInfo.userID)
     }
     
     func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType) {
         delegate?.onReceiveCallDeclined(userInfo, type: type)
-        minmizedManager.updateCallStatus(status: .decline, userInfo: userInfo)
+        minmizedManager.updateCallStatus(status: .decline, userInfo: userInfo, isVideo: currentCallVC?.vcType == .video ? true : false)
         currentCallUserInfo = nil
         currentCallStatus = .free
         let statusType: CallStatusType = type == .busy ? .busy : .decline
@@ -91,7 +87,7 @@ extension CallManager: CallServiceDelegate {
     
     func onReceiveCallEnded() {
         delegate?.onReceivedCallEnded()
-        minmizedManager.updateCallStatus(status: .end, userInfo: nil)
+        minmizedManager.updateCallStatus(status: .end, userInfo: nil, isVideo: currentCallVC?.vcType == .video ? true : false)
         audioPlayer?.stop()
         if currentCallStatus != .calling {
             currentCallVC?.changeCallStatusText(.completed,showHud: false)

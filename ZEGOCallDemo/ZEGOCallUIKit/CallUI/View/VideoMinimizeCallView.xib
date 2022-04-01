@@ -26,12 +26,20 @@
                                 <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                             </userDefinedRuntimeAttributes>
                         </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DMv-Hf-XY8">
+                            <rect key="frame" x="6" y="6" width="66" height="118"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" red="0.95294117647058818" green="0.95686274509803915" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="Jqm-T1-SwW" firstAttribute="top" secondItem="bot-3q-raP" secondAttribute="top" constant="6" id="83q-nM-K4g"/>
                         <constraint firstAttribute="bottom" secondItem="Jqm-T1-SwW" secondAttribute="bottom" constant="6" id="WLb-25-bbf"/>
+                        <constraint firstAttribute="bottom" secondItem="DMv-Hf-XY8" secondAttribute="bottom" constant="6" id="gtg-yY-t44"/>
                         <constraint firstItem="Jqm-T1-SwW" firstAttribute="leading" secondItem="bot-3q-raP" secondAttribute="leading" constant="6" id="mNg-IZ-7BZ"/>
+                        <constraint firstItem="DMv-Hf-XY8" firstAttribute="top" secondItem="bot-3q-raP" secondAttribute="top" constant="6" id="qCL-Ux-m42"/>
+                        <constraint firstItem="DMv-Hf-XY8" firstAttribute="leading" secondItem="bot-3q-raP" secondAttribute="leading" constant="6" id="qkY-x3-oSp"/>
+                        <constraint firstAttribute="trailing" secondItem="DMv-Hf-XY8" secondAttribute="trailing" constant="6" id="v2F-QD-1St"/>
                         <constraint firstAttribute="trailing" secondItem="Jqm-T1-SwW" secondAttribute="trailing" constant="6" id="xUf-yx-vwT"/>
                     </constraints>
                 </view>
@@ -47,6 +55,7 @@
             <connections>
                 <outlet property="backGroundView" destination="bot-3q-raP" id="a22-FL-xMK"/>
                 <outlet property="localVideoPreview" destination="Jqm-T1-SwW" id="zQM-64-uqT"/>
+                <outlet property="streamPreview" destination="DMv-Hf-XY8" id="8i7-Ar-3Jh"/>
             </connections>
             <point key="canvasLocation" x="181.15942028985509" y="-54.910714285714285"/>
         </view>
