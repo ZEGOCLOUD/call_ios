@@ -76,8 +76,8 @@ class CallManager: NSObject, CallManagerInterface {
         ServiceManager.shared.initWithAppID(appID: appID, callback: callback)
     }
     
-    func getToken(_ userID: String, callback: RequestCallback?) {
-        ServiceManager.shared.userService.getToken(userID, callback: callback)
+    func getToken(_ userID: String, _ effectiveTimeInSeconds: Int, callback: RequestCallback?) {
+        ServiceManager.shared.userService.getToken(userID, effectiveTimeInSeconds, callback: callback)
     }
     
     func setLocalUser(_ userID: String, userName: String) {
