@@ -511,7 +511,7 @@ extension FirebaseManager {
                         snapshot.ref.updateChildValues(["call_status": 3])
                     }
                 }
-                self.modelDict.removeValue(forKey: model.call_id)
+                self.modelDict[model.call_id] = model
             }
         }
     }
