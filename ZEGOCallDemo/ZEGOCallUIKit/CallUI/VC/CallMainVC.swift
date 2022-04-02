@@ -355,7 +355,7 @@ class CallMainVC: UIViewController {
         netWorkStatus = netWorkQuality
         if netWorkQuality == .low || netWorkQuality == .unknow {
             self.callQualityLabel.isHidden = false
-            let message = userID == localUserID ? ZGLocalizedString("call_page_call_connection_unstable_other") : ZGLocalizedString("call_page_call_connection_unstable")
+            let message = userID == localUserID ? ZGLocalizedString("call_page_call_connection_unstable") : ZGLocalizedString("call_page_call_connection_unstable_other")
             self.callQualityLabel.text = message
         } else {
             self.callQualityLabel.isHidden = true
@@ -366,8 +366,9 @@ class CallMainVC: UIViewController {
         if userRoomInfo.userID != localUserID {
             otherUserRoomInfo = userRoomInfo
         }
-        if userRoomInfo.userID == callUser?.userID {
-            callUser = userRoomInfo
+        if userRoomInfo.userID == CallManager.shared.currentCallUserInfo?.userID {
+            CallManager.shared.currentCallUserInfo = userRoomInfo
+            callUser = CallManager.shared.currentCallUserInfo
         }
         if statusType != .calling { return }
         if !userRoomInfo.camera {
