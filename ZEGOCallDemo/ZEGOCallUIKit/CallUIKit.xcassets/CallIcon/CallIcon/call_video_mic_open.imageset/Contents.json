@@ -5,12 +5,12 @@
       "scale" : "1x"
     },
     {
-      "filename" : "call_voice_open_icon@2x.png",
+      "filename" : "call_video_mic_open@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "call_voice_open_icon@3x.png",
+      "filename" : "call_video_mic_open@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
