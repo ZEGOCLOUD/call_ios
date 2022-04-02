@@ -175,14 +175,14 @@ class CallManager: NSObject, CallManagerInterface {
         }
     }
     
-    func declineCall(_ userID: String, callID: String?, type: DeclineType) {
+    func declineCall(_ userID: String, type: DeclineType) {
         if currentCallUserInfo?.userID == userID {
             currentCallStatus = .free
             currentCallUserInfo = nil
             otherUserRoomInfo = nil
         }
         audioPlayer?.stop()
-        ServiceManager.shared.callService.declineCall(userID, callID: callID, type: type, callback: nil)
+        ServiceManager.shared.callService.declineCall(userID, type: type, callback: nil)
     }
     
     func endCall(_ userID: String) {
@@ -191,7 +191,7 @@ class CallManager: NSObject, CallManagerInterface {
             ServiceManager.shared.callService.endCall(nil)
         } else {
             minmizedManager.updateCallStatus(status: .decline, userInfo: currentCallUserInfo)
-            declineCall(userID, callID: nil, type: .decline)
+            declineCall(userID, type: .decline)
         }
         minmizedManager.dismissCallMinView()
         if currentCallUserInfo?.userID == userID {

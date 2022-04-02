@@ -453,10 +453,12 @@ extension FirebaseManager {
                   let otherUser = model.users.filter({ $0.user_id != myUser.user_id }).first
             else { return }
             
+            let oldModel = self.modelDict[model.call_id]
+            
             // MARK: - callee receive call canceld
             if myUser.user_id != myUser.caller_id &&
                 myUser.status == .canceled &&
-                model.call_status == .connecting
+                oldModel?.call_status == .connecting
             {
                 self.onReceiveCanceledNotify(model.call_id, callerID: myUser.caller_id)
             }
@@ -464,7 +466,7 @@ extension FirebaseManager {
             // MARK: - caller receive call accept
             else if myUser.user_id == myUser.caller_id &&
                         myUser.status == .calling &&
-                model.call_status == .connecting
+                oldModel?.call_status == .connecting
             {
                 self.onReceiveAcceptedNotify(model, calleeID: otherUser.user_id)
             }
@@ -472,7 +474,7 @@ extension FirebaseManager {
             // MARK: - caller receive call decline
             else if myUser.user_id == myUser.caller_id &&
                 (myUser.status == .declined || myUser.status == .busy) &&
-                model.call_status == .connecting
+                oldModel?.call_status == .connecting
             {
                 if otherUser.status != .declined && otherUser.status != .busy { return }
                 let type = otherUser.status == .declined ? 1 : 2
@@ -481,7 +483,7 @@ extension FirebaseManager {
             
             // MARK: - caller and callee receive call ended
             else if model.call_status == .ended &&
-                model.call_status == .calling
+                oldModel?.call_status == .calling
             {
                 if otherUser.status != .ended { return }
                 self.onReceiveEndedNotify(model.call_id, otherUserID: otherUser.user_id)
@@ -489,14 +491,14 @@ extension FirebaseManager {
             
             // MARK: - caller or callee receive connecting timeout
             else if myUser.status == .connectingTimeout &&
-                model.call_status == .connecting
+                oldModel?.call_status == .connecting
             {
                 
             }
             
             // MARK: - caller or callee receive calling timeout
             else if model.call_status == .calling &&
-                model.call_status == .calling
+                oldModel?.call_status == .calling
             {
                 if let heartbeatTime = myUser.heartbeat_time,
                    let otherHeartbeatTime = otherUser.heartbeat_time,

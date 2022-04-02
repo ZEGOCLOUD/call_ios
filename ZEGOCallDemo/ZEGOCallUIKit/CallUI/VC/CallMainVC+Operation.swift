@@ -49,7 +49,7 @@ extension CallMainVC: CallActionDelegate {
         changeCallStatusText(.decline)
         callDelayDismiss()
         guard let userID = self.callUser?.userID else { return }
-        CallManager.shared.declineCall(userID, callID: nil, type: .decline)
+        CallManager.shared.declineCall(userID, type: .decline)
     }
     
     func callOpenMic(_ callView: CallBaseView, isOpen: Bool) {

@@ -126,20 +126,34 @@ extension CallServiceImpl: CallService {
         }
     }
     
-    func declineCall(_ userID: String, callID: String?, type: DeclineType, callback: ZegoCallback?) {
+    func declineCall(_ userID: String, type: DeclineType, callback: ZegoCallback?) {
+        
+        status = .free
+        cancelCallTimer()
+        
+        let callerID = userID
+        guard let userID = ServiceManager.shared.userService.localUserInfo?.userID,
+              let callID = callInfo.callID
+        else {
+            return
+        }
+        
+        declineCall(userID, callID: callID, callerID: callerID, type: type, callback: callback)
+    }
+    
+    private func declineCall(_ userID: String,
+                             callID: String,
+                             callerID: String,
+                             type: DeclineType,
+                             callback: ZegoCallback?) {
         
         let command = DeclineCallCommand()
-        command.userID = ServiceManager.shared.userService.localUserInfo?.userID
-        command.callID = callID ?? self.callInfo.callID
-        command.callerID = userID
+        command.userID = userID
+        command.callID = callID
+        command.callerID = callerID
         command.type = type
         
         print("[* Call] Decline Call, callID: \(String(describing: command.callID)), callerID: \(userID), userID: \(String(describing: command.userID)), type: \(type.rawValue), status: \(status)")
-        
-        if callID == self.callInfo.callID || callID == nil {
-            self.status = .free
-            self.cancelCallTimer()
-        }
         
         command.excute { result in
             var callResult: ZegoResult = .success(())
@@ -211,19 +225,25 @@ extension CallServiceImpl {
             guard let callType = CallType.init(rawValue: callTypeOld) else { return }
             
             print("[* Call] Receive Call Invited, callID: \(callID), callerID: \(String(describing: caller.userID)), type: \(callType.rawValue), status: \(self.status)")
-            
-            defer {
-                self.delegate?.onReceiveCallInvited(caller, callID: callID, type: callType)
-            }
-            
+                        
             // current status is not free, should decline this call.
-            if self.status != .free { return }
+            if self.status != .free {
+                guard let callerID = caller.userID,
+                      let userID = ServiceManager.shared.userService.localUserInfo?.userID
+                else {
+                    return
+                }
+                self.declineCall(userID, callID: callID, callerID: callerID, type: .busy, callback: nil)
+                return
+            }
             self.status = .incoming
             self.callInfo.callID = callID
             self.addCallTimer()
             
             self.callInfo.caller = caller
             self.callInfo.callees = callees
+            
+            self.delegate?.onReceiveCallInvited(caller, type: callType)
         })
         
         _ = listener?.addListener(Notify_Call_Canceled, listener: { result in
