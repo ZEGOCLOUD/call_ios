@@ -15,7 +15,7 @@ protocol CallServiceDelegate  {
     ///
     /// - Parameter userInfo: the information of the caller.
     /// - Parameter type: refers to the call type, voice call or video call.
-    func onReceiveCallInvited(_ userInfo: UserInfo, type: CallType)
+    func onReceiveCallInvited(_ userInfo: UserInfo, callID: String, type: CallType)
     
     /// Callback for a call canceled
     ///
@@ -52,7 +52,7 @@ protocol CallServiceDelegate  {
 }
 
 extension CallServiceDelegate {
-    func onReceiveCallInvited(_ userInfo: UserInfo , type: CallType) { }
+    func onReceiveCallInvited(_ userInfo: UserInfo, callID: String?, type: CallType) { }
     func onReceiveCallCanceled(_ userInfo: UserInfo) { }
     func onReceiveCallAccepted(_ userInfo: UserInfo) { }
     func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType) { }
@@ -108,7 +108,7 @@ protocol CallService {
     /// - Parameter userID: the ID of the caller
     /// - Parameter type: refers to the response type.
     /// - Parameter callback: refers to the callback for decline a call.
-    func declineCall(_ userID: String, type: DeclineType, callback: ZegoCallback?)
+    func declineCall(_ userID: String, callID: String?, type: DeclineType, callback: ZegoCallback?)
     
     /// End a call
     ///

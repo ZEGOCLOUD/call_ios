@@ -60,6 +60,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func setRootViewController() {
         let rootVC: GoogleLoginVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "GoogleLoginVC") as! GoogleLoginVC
+        LoginManager.shared.delegate = rootVC
         let nav: UINavigationController = UINavigationController.init(rootViewController: rootVC)
         self.window?.rootViewController = nav
         if let user = LoginManager.shared.user {
