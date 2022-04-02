@@ -73,7 +73,7 @@ class LoginManager {
 extension LoginManager {
     
     private func resetData(_ removeUserData: Bool = true) {
-        if let uid = user?.uid {
+        if let uid = _user?.uid {
             let tokenRef = self.ref.child("online_user").child(uid).child("token_id")
             tokenRef.removeAllObservers()
             

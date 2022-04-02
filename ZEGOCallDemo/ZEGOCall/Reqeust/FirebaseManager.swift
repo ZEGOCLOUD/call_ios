@@ -406,106 +406,159 @@ extension FirebaseManager {
         let callRef = ref.child("call/\(callID)")
         callRef.observe(.value) { snapshot in
             
-            guard let callDict = snapshot.value as? [String: Any],
-                  let callStatus = callDict["call_status"] as? Int,
-                  callStatus != 1
+            guard let callDict = snapshot.value as? [String: Any]
             else {
+                
+                guard let model = self.callModel else { return }
+                guard let myUser = model.getUser(self.user?.uid) else { return }
+                guard let otherUser = self.callModel?.users
+                        .filter({ $0.user_id != myUser.user_id })
+                        .first else { return }
+                
+                // if the call data is nil, means this call is ended.
+                
+                // if the current status is `connecting`:
+                // 1. user decline the call
+                // 2. user cancel the call
+                if model.call_status == .connecting {
+                    // caller receive the declined message.
+                    if myUser.caller_id == myUser.user_id {
+                        self.onReceiveDeclinedNotify(model.call_id, calleeID: otherUser.user_id, type: 1)
+                    }
+                    // callee receive the canceled message.
+                    else {
+                        self.onReceiveCanceledNotify(model.call_id, callerID: otherUser.caller_id)
+                    }
+                }
+                
+                // if the current status is `calling`
+                // 1. user ended the call
+                else if self.callModel?.call_status == .calling {
+                    self.onReceiveEndedNotify(model.call_id, otherUserID: otherUser.user_id)
+                }
+                
+                self.callModel = nil
                 return
             }
             
+            guard let callStatus = callDict["call_status"] as? Int,
+            callStatus != 1
+            else { return }
+            
+            
             guard let model = FirebaseCallModel.model(with: callDict),
-                  let firebaseUser = model.getUser(self.user?.uid) else { return }
+                  let myUser = model.users.filter({ $0.user_id == self.user?.uid }).first,
+                  let otherUser = model.users.filter({ $0.user_id != myUser.user_id }).first
+            else { return }
             
             // MARK: - callee receive call canceld
-            if firebaseUser.user_id != firebaseUser.caller_id &&
-                firebaseUser.status == .canceled &&
+            if myUser.user_id != myUser.caller_id &&
+                myUser.status == .canceled &&
                 self.callModel?.call_status == .connecting
             {
-                let data: [String: Any] = [
-                    "call_id": model.call_id,
-                    "caller_id": firebaseUser.caller_id
-                ]
-                self.listener?.receiveUpdate(Notify_Call_Canceled, parameter: data)
-                self.callModel = nil
+                self.onReceiveCanceledNotify(model.call_id, callerID: myUser.caller_id)
             }
             
             // MARK: - caller receive call accept
-            else if firebaseUser.user_id == firebaseUser.caller_id &&
-                firebaseUser.status == .calling &&
+            else if myUser.user_id == myUser.caller_id &&
+                        myUser.status == .calling &&
                 self.callModel?.call_status == .connecting
             {
-                guard let callee = model.users
-                        .filter({ $0.user_id != firebaseUser.user_id })
-                        .first else { return }
-                let data: [String: Any] = [
-                    "call_id": model.call_id,
-                    "callee_id": callee.user_id
-                ]
-                self.listener?.receiveUpdate(Notify_Call_Accept, parameter: data)
-                self.callModel = model
+                self.onReceiveAcceptedNotify(model, calleeID: otherUser.user_id)
             }
             
             // MARK: - caller receive call decline
-            else if firebaseUser.user_id == firebaseUser.caller_id &&
-                (firebaseUser.status == .declined || firebaseUser.status == .busy) &&
+            else if myUser.user_id == myUser.caller_id &&
+                (myUser.status == .declined || myUser.status == .busy) &&
                 self.callModel?.call_status == .connecting
             {
-                guard let callee = model.users
-                        .filter({ $0.user_id != firebaseUser.user_id })
-                        .first else { return }
-                if callee.status != .declined && callee.status != .busy { return }
-                let type = callee.status == .declined ? 1 : 2
-                let data: [String: Any] = [
-                    "call_id": model.call_id,
-                    "callee_id": callee.user_id,
-                    "type": type
-                ]
-                self.listener?.receiveUpdate(Notify_Call_Decline, parameter: data)
-                self.callModel = nil
+                if otherUser.status != .declined && otherUser.status != .busy { return }
+                let type = otherUser.status == .declined ? 1 : 2
+                self.onReceiveDeclinedNotify(model.call_id, calleeID: otherUser.user_id, type: type)
             }
             
-            // caller and callee receive call ended
+            // MARK: - caller and callee receive call ended
             else if model.call_status == .ended &&
                 self.callModel?.call_status == .calling
             {
-                guard let other = model.users
-                        .filter({ $0.user_id != firebaseUser.user_id && $0.status == .ended })
-                        .first else { return }
-                let data: [String: Any] = [
-                    "call_id": model.call_id,
-                    "user_id": other.user_id
-                ]
-                self.listener?.receiveUpdate(Notify_Call_End, parameter: data)
-                self.callModel = nil
+                if otherUser.status != .ended { return }
+                self.onReceiveEndedNotify(model.call_id, otherUserID: otherUser.user_id)
             }
             
-            // caller or callee receive connecting timeout
-            else if firebaseUser.status == .connectingTimeout &&
+            // MARK: - caller or callee receive connecting timeout
+            else if myUser.status == .connectingTimeout &&
                 self.callModel?.call_status == .connecting
             {
                 
             }
             
-            // caller or callee receive calling timeout
+            // MARK: - caller or callee receive calling timeout
             else if model.call_status == .calling &&
                 self.callModel?.call_status == .calling
             {
-                if let otherUser = model.users.filter({ $0.user_id != self.user?.uid }).first,
-                   let myself = model.users.filter({ $0.user_id == self.user?.uid }).first,
-                   let heartbeatTime = myself.heartbeat_time,
+                if let heartbeatTime = myUser.heartbeat_time,
                    let otherHeartbeatTime = otherUser.heartbeat_time {
                     
                     if heartbeatTime - otherHeartbeatTime > 30 * 1000 {
-                        let data: [String: Any] = [
-                            "call_id": model.call_id,
-                            "user_id": otherUser.user_id
-                        ]
-                        self.listener?.receiveUpdate(Notify_Call_Timeout, parameter: data)
+                        self.onReceiveTimeoutNotify(model.call_id, otherUserID: otherUser.user_id)
                         snapshot.ref.updateChildValues(["call_status": 3])
                     }
                 }
                 self.callModel = model
             }
         }
+    }
+}
+
+// MARK: - Notify
+extension FirebaseManager {
+    
+    /// callee receive the call canceled
+    private func onReceiveCanceledNotify(_ callID: String, callerID: String) {
+        let data: [String: Any] = [
+            "call_id": callID,
+            "caller_id": callerID
+        ]
+        self.listener?.receiveUpdate(Notify_Call_Canceled, parameter: data)
+        self.callModel = nil
+    }
+    
+    /// caller receive the accepted
+    private func onReceiveAcceptedNotify(_ model: FirebaseCallModel, calleeID: String) {
+        let data: [String: Any] = [
+            "call_id": model.call_id,
+            "callee_id": calleeID
+        ]
+        self.listener?.receiveUpdate(Notify_Call_Accept, parameter: data)
+        self.callModel = model
+    }
+    
+    /// caller receive the callee declined the call
+    private func onReceiveDeclinedNotify(_ callID: String, calleeID: String, type: Int) {
+        let data: [String: Any] = [
+            "call_id": callID,
+            "callee_id": calleeID,
+            "type": type
+        ]
+        self.listener?.receiveUpdate(Notify_Call_Decline, parameter: data)
+        self.callModel = nil
+    }
+    
+    /// receive other user ended the call.
+    private func onReceiveEndedNotify(_ callID: String, otherUserID: String) {
+        let data: [String: Any] = [
+            "call_id": callID,
+            "user_id": otherUserID
+        ]
+        self.listener?.receiveUpdate(Notify_Call_End, parameter: data)
+        self.callModel = nil
+    }
+    
+    private func onReceiveTimeoutNotify(_ callID: String, otherUserID: String) {
+        let data: [String: Any] = [
+            "call_id": callID,
+            "user_id": otherUserID
+        ]
+        self.listener?.receiveUpdate(Notify_Call_Timeout, parameter: data)
     }
 }
