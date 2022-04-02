@@ -499,7 +499,10 @@ extension FirebaseManager {
                 model.call_status == .calling
             {
                 if let heartbeatTime = myUser.heartbeat_time,
-                   let otherHeartbeatTime = otherUser.heartbeat_time {
+                   let otherHeartbeatTime = otherUser.heartbeat_time,
+                   heartbeatTime > 0,
+                   otherHeartbeatTime > 0
+                {
                     
                     if heartbeatTime - otherHeartbeatTime > 30 * 1000 {
                         self.onReceiveTimeoutNotify(model.call_id, otherUserID: otherUser.user_id)
