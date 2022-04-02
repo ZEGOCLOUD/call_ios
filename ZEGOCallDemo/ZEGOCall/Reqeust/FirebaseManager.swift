@@ -33,7 +33,7 @@ class FirebaseManager: NSObject {
     
     private var fcmToken: String?
     private var ref: DatabaseReference
-    private var callModel: FirebaseCallModel?
+    private var modelDict = [String: FirebaseCallModel]()
     private var userDicts = [[String : Any]]()
     
     private var functionsMap = [String : functionType]()
@@ -61,7 +61,7 @@ class FirebaseManager: NSObject {
         // remove all observers
         ref.child("call").removeAllObservers()
         
-        if let callID = callModel?.call_id {
+        for callID in modelDict.keys {
             ref.child("call").child(callID).removeAllObservers()
         }
         
@@ -72,13 +72,13 @@ class FirebaseManager: NSObject {
                 self.fcmToken = nil
             }
         }
-        self.callModel = nil
+        modelDict.removeAll()
     }
 }
 
 extension FirebaseManager: RequestProtocol {
     func request(_ path: String, parameter: [String : AnyObject], callback: RequestCallback?) {
-        print("[*] Firebase request: \(path),  parameter:\(parameter)")
+        print("[* Firebase] Firebase request: \(path),  parameter:\(parameter)")
         guard let function = functionsMap[path] else { return }
         
         var callback = callback
@@ -103,8 +103,7 @@ extension FirebaseManager {
             callback(.failure(.failed))
             return
         }
-        callModel = FirebaseCallModel()
-        guard let callModel = callModel else { return }
+        let callModel = FirebaseCallModel()
         
         callModel.call_id = callID
         callModel.call_type = type
@@ -131,6 +130,7 @@ extension FirebaseManager {
         callRef.setValue(callModel.toDict()) { error, reference in
             if error == nil {
                 callback(.success(()))
+                self.modelDict[callID] = callModel
                 self.addCallListener(callID)
             } else {
                 callback(.failure(.failed))
@@ -147,7 +147,7 @@ extension FirebaseManager {
             return
         }
         
-        guard let model = callModel?.copy() else {
+        guard let model = modelDict[callID]?.copy() else {
             callback(.failure(.failed))
             return
         }
@@ -170,7 +170,7 @@ extension FirebaseManager {
         } andCompletionBlock: { error, bool, snapshot in
             if error == nil {
                 callback(.success(()))
-                self.callModel = nil
+                self.modelDict.removeValue(forKey: callID)
             } else {
                 callback(.failure(.failed))
             }
@@ -179,7 +179,7 @@ extension FirebaseManager {
     
     private func acceptCall(_ parameter: [String: AnyObject], callback: @escaping RequestCallback) {
         guard let callID = parameter["call_id"] as? String,
-              let model = callModel
+              let model = modelDict[callID]
         else {
             callback(.failure(.failed))
             return
@@ -235,7 +235,7 @@ extension FirebaseManager {
         } andCompletionBlock: { error, flag, snapshot in
             if error == nil {
                 callback(.success(()))
-                self.callModel = nil
+                self.modelDict.removeValue(forKey: callID)
             } else {
                 callback(.failure(.failed))
             }
@@ -246,7 +246,7 @@ extension FirebaseManager {
     private func endCall(_ parameter: [String: AnyObject], callback: @escaping RequestCallback) {
         guard let callID = parameter["call_id"] as? String,
 //              let userID = parameter["id"] as? String,
-              let model = callModel
+              let model = modelDict[callID]
         else {
             callback(.failure(.failed))
             return
@@ -268,7 +268,7 @@ extension FirebaseManager {
         } andCompletionBlock: { error, bool, snapshot in
             if error == nil {
                 callback(.success(()))
-                self.callModel = nil
+                self.modelDict.removeValue(forKey: callID)
             } else {
                 callback(.failure(.failed))
             }
@@ -278,7 +278,7 @@ extension FirebaseManager {
     private func heartbeat(_ parameter: [String: AnyObject], callback: @escaping RequestCallback) {
         guard let userID = parameter["id"] as? String,
               let callID = parameter["call_id"] as? String,
-              let callModel = callModel
+              let callModel = modelDict[callID]
         else {
             return
         }
@@ -311,7 +311,7 @@ extension FirebaseManager {
         ]
         functions.httpsCallable("getToken").call(data) { result, error in
             if let error = error as NSError? {
-                print("[*] Get token failed: \(error)")
+                print("[* Firebase] Get token failed: \(error)")
                 callback(.failure(.failed))
                 return
             }
@@ -384,10 +384,11 @@ extension FirebaseManager {
                 return
             }
             
-            if self.callModel == nil {
-                self.callModel = model
+            if self.modelDict[model.call_id] == nil {
+                self.modelDict[model.call_id] = model
                 self.addCallListener(model.call_id)
             }
+            
             let callees = model.users
                 .filter({ $0.caller_id != $0.user_id })
                 .compactMap({ UserInfo($0.user_id, $0.user_name ?? $0.user_id) })
@@ -403,15 +404,16 @@ extension FirebaseManager {
     }
     
     private func addCallListener(_ callID: String) {
+        print("[* Firebase] Start Listen Call, callID: \(callID)")
         let callRef = ref.child("call/\(callID)")
         callRef.observe(.value) { snapshot in
             
             guard let callDict = snapshot.value as? [String: Any]
             else {
                 
-                guard let model = self.callModel else { return }
+                guard let model = self.modelDict[snapshot.key] else { return }
                 guard let myUser = model.getUser(self.user?.uid) else { return }
-                guard let otherUser = self.callModel?.users
+                guard let otherUser = model.users
                         .filter({ $0.user_id != myUser.user_id })
                         .first else { return }
                 
@@ -433,11 +435,11 @@ extension FirebaseManager {
                 
                 // if the current status is `calling`
                 // 1. user ended the call
-                else if self.callModel?.call_status == .calling {
+                else if model.call_status == .calling {
                     self.onReceiveEndedNotify(model.call_id, otherUserID: otherUser.user_id)
                 }
                 
-                self.callModel = nil
+                self.modelDict.removeValue(forKey: model.call_id)
                 return
             }
             
@@ -454,7 +456,7 @@ extension FirebaseManager {
             // MARK: - callee receive call canceld
             if myUser.user_id != myUser.caller_id &&
                 myUser.status == .canceled &&
-                self.callModel?.call_status == .connecting
+                model.call_status == .connecting
             {
                 self.onReceiveCanceledNotify(model.call_id, callerID: myUser.caller_id)
             }
@@ -462,7 +464,7 @@ extension FirebaseManager {
             // MARK: - caller receive call accept
             else if myUser.user_id == myUser.caller_id &&
                         myUser.status == .calling &&
-                self.callModel?.call_status == .connecting
+                model.call_status == .connecting
             {
                 self.onReceiveAcceptedNotify(model, calleeID: otherUser.user_id)
             }
@@ -470,7 +472,7 @@ extension FirebaseManager {
             // MARK: - caller receive call decline
             else if myUser.user_id == myUser.caller_id &&
                 (myUser.status == .declined || myUser.status == .busy) &&
-                self.callModel?.call_status == .connecting
+                model.call_status == .connecting
             {
                 if otherUser.status != .declined && otherUser.status != .busy { return }
                 let type = otherUser.status == .declined ? 1 : 2
@@ -479,7 +481,7 @@ extension FirebaseManager {
             
             // MARK: - caller and callee receive call ended
             else if model.call_status == .ended &&
-                self.callModel?.call_status == .calling
+                model.call_status == .calling
             {
                 if otherUser.status != .ended { return }
                 self.onReceiveEndedNotify(model.call_id, otherUserID: otherUser.user_id)
@@ -487,14 +489,14 @@ extension FirebaseManager {
             
             // MARK: - caller or callee receive connecting timeout
             else if myUser.status == .connectingTimeout &&
-                self.callModel?.call_status == .connecting
+                model.call_status == .connecting
             {
                 
             }
             
             // MARK: - caller or callee receive calling timeout
             else if model.call_status == .calling &&
-                self.callModel?.call_status == .calling
+                model.call_status == .calling
             {
                 if let heartbeatTime = myUser.heartbeat_time,
                    let otherHeartbeatTime = otherUser.heartbeat_time {
@@ -504,7 +506,7 @@ extension FirebaseManager {
                         snapshot.ref.updateChildValues(["call_status": 3])
                     }
                 }
-                self.callModel = model
+                self.modelDict.removeValue(forKey: model.call_id)
             }
         }
     }
@@ -520,7 +522,7 @@ extension FirebaseManager {
             "caller_id": callerID
         ]
         self.listener?.receiveUpdate(Notify_Call_Canceled, parameter: data)
-        self.callModel = nil
+        self.modelDict.removeValue(forKey: callID)
     }
     
     /// caller receive the accepted
@@ -530,7 +532,7 @@ extension FirebaseManager {
             "callee_id": calleeID
         ]
         self.listener?.receiveUpdate(Notify_Call_Accept, parameter: data)
-        self.callModel = model
+        self.modelDict[model.call_id] = model
     }
     
     /// caller receive the callee declined the call
@@ -541,7 +543,7 @@ extension FirebaseManager {
             "type": type
         ]
         self.listener?.receiveUpdate(Notify_Call_Decline, parameter: data)
-        self.callModel = nil
+        self.modelDict.removeValue(forKey: callID)
     }
     
     /// receive other user ended the call.
@@ -551,7 +553,7 @@ extension FirebaseManager {
             "user_id": otherUserID
         ]
         self.listener?.receiveUpdate(Notify_Call_End, parameter: data)
-        self.callModel = nil
+        self.modelDict.removeValue(forKey: callID)
     }
     
     private func onReceiveTimeoutNotify(_ callID: String, otherUserID: String) {

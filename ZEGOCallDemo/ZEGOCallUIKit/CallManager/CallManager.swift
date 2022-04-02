@@ -113,17 +113,18 @@ class CallManager: NSObject, CallManagerInterface {
     
     func callUser(_ userInfo: UserInfo, token: String, callType: CallType, callback: ZegoCallback?) {
         if currentCallStatus != .free { return }
+        self.currentCallStatus = .waitAccept
         resetDeviceConfig()
         ServiceManager.shared.callService.callUser(userInfo, token: token, type: callType) { result in
             switch result {
             case .success():
                 let vc: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .take)
                 self.currentCallVC = vc
-                self.currentCallStatus = .waitAccept
                 self.currentCallUserInfo = userInfo
                 self.getCurrentViewController()?.present(vc, animated: true, completion: nil)
                 ServiceManager.shared.deviceService.useFrontCamera(true)
             case .failure(_):
+                self.currentCallStatus = .free
                 guard let callback = callback else { return }
                 callback(result)
             }
