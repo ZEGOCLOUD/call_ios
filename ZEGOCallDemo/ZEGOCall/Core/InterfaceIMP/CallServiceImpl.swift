@@ -35,14 +35,13 @@ class CallServiceImpl: NSObject {
 
 extension CallServiceImpl: CallService {
     func callUser(_ user: UserInfo, token: String, type: CallType, callback: ZegoCallback?) {
-        
-        self.status = .outgoing
-        
-        let callerUserID = ServiceManager.shared.userService.localUserInfo?.userID ?? ""
+                
+        let caller = ServiceManager.shared.userService.localUserInfo
+        let callerUserID = caller?.userID ?? ""
         let callID = generateCallID(callerUserID)
         
         let command = CallCommand()
-        command.caller = ServiceManager.shared.userService.localUserInfo
+        command.caller = caller
         command.callees = [user]
         command.callID = callID
         command.type = type
@@ -51,6 +50,9 @@ extension CallServiceImpl: CallService {
         callInfo.caller = ServiceManager.shared.userService.localUserInfo
         callInfo.callees = [user]
         
+        print("[* Call] Start Call, callID: \(callID), callerID: \(String(describing: caller?.userID)), calleeID: \(String(describing: user.userID)), type: \(type.rawValue), status: \(status)")
+        
+        self.status = .outgoing
         
         command.excute { result in
             var callResult: ZegoResult = .success(())
@@ -74,6 +76,8 @@ extension CallServiceImpl: CallService {
         command.calleeID = userID
         command.callID = callInfo.callID
         
+        print("[* Call] Cancel Call, callID: \(String(describing: callInfo.callID)), calleeID: \(userID), status: \(status)")
+        
         ServiceManager.shared.roomService.leaveRoom()
         
         self.status = .free
@@ -94,9 +98,14 @@ extension CallServiceImpl: CallService {
     }
     
     func acceptCall(_ token: String, callback: ZegoCallback?) {
+        
+        let userID = ServiceManager.shared.userService.localUserInfo?.userID ?? ""
         let command = AcceptCallCommand()
-        command.userID = ServiceManager.shared.userService.localUserInfo?.userID ?? ""
+        command.userID = userID
         command.callID = callInfo.callID
+        
+        print("[* Call] Accept Call, callID: \(String(describing: callInfo.callID)), userID: \(userID), status: \(status)")
+        
         command.excute { result in
             var callResult: ZegoResult = .success(())
             switch result {
@@ -125,6 +134,8 @@ extension CallServiceImpl: CallService {
         command.callerID = userID
         command.type = type
         
+        print("[* Call] Decline Call, callID: \(String(describing: command.callID)), callerID: \(userID), userID: \(String(describing: command.userID)), type: \(type.rawValue), status: \(status)")
+        
         if callID == self.callInfo.callID || callID == nil {
             self.status = .free
             self.cancelCallTimer()
@@ -144,9 +155,13 @@ extension CallServiceImpl: CallService {
     }
     
     func endCall(_ callback: ZegoCallback?) {
+        
+        let userID = ServiceManager.shared.userService.localUserInfo?.userID ?? ""
         let command = EndCallCommand()
-        command.userID = ServiceManager.shared.userService.localUserInfo?.userID ?? ""
+        command.userID = userID
         command.callID = callInfo.callID
+        
+        print("[* Call] End Call, callID: \(String(describing: callInfo.callID)), userID: \(userID), status: \(status)")
         
         ServiceManager.shared.roomService.leaveRoom()
         self.status = .free
@@ -195,6 +210,8 @@ extension CallServiceImpl {
             else { return }
             guard let callType = CallType.init(rawValue: callTypeOld) else { return }
             
+            print("[* Call] Receive Call Invited, callID: \(callID), callerID: \(String(describing: caller.userID)), type: \(callType.rawValue), status: \(self.status)")
+            
             defer {
                 self.delegate?.onReceiveCallInvited(caller, callID: callID, type: callType)
             }
@@ -215,6 +232,9 @@ extension CallServiceImpl {
             else {
                 return
             }
+            
+            print("[* Call] Recieve Call Canceled, callID: \(callID), callerID: \(callerID), status: \(self.status)")
+            
             if self.callInfo.callID != callID { return }
             if self.status != .incoming { return }
             if self.callInfo.caller?.userID != callerID { return }
@@ -233,6 +253,9 @@ extension CallServiceImpl {
             else {
                 return
             }
+            
+            print("[* Call] Receive Call Accepted, callID: \(callID), calleeID: \(calleeID), status: \(self.status)")
+            
             if self.callInfo.callID != callID { return }
             if self.status != .outgoing { return }
             guard let callee = self.callInfo.callees.filter({ $0.userID == calleeID }).first else {
@@ -254,6 +277,9 @@ extension CallServiceImpl {
             else {
                 return
             }
+            
+            print("[* Call] Receive Call Declined, callID: \(callID), calleeID: \(calleeID), type: \(type.rawValue), status: \(self.status)")
+            
             if self.callInfo.callID != callID { return }
             if self.status != .outgoing { return }
             guard let callee = self.callInfo.callees.filter({ $0.userID == calleeID }).first else {
@@ -273,6 +299,9 @@ extension CallServiceImpl {
             else {
                 return
             }
+            
+            print("[* Call] Receive Call Ended, callID: \(callID), userID: \(userID), status: \(self.status)")
+            
             if self.callInfo.callID != callID { return }
             if self.status != .calling { return }
             // cann't receive myself ended call
@@ -295,6 +324,9 @@ extension CallServiceImpl {
             else {
                 return
             }
+            
+            print("[* Call] Receive Call Timeout, callID: \(callID), userID: \(userID), status: \(self.status)")
+            
             if self.status != .calling { return }
             if self.callInfo.callID != callID { return }
             guard let user = self.getUser(userID) else { return }
@@ -322,6 +354,7 @@ extension CallServiceImpl {
     func addCallTimer() {
         callTask = delay(by: 60) { [weak self] in
             guard let user = ServiceManager.shared.userService.localUserInfo else { return }
+            print("[* Call] Receive Connecting Timeout, callID: \(String(describing: self?.callInfo.callID)), userID: \(String(describing: user.userID)) status: \(String(describing: self?.status))")
             self?.status = .free
             self?.callInfo = CallInfo()
             ServiceManager.shared.roomService.leaveRoom()
@@ -351,7 +384,7 @@ extension CallServiceImpl {
 
 extension CallServiceImpl: ZegoEventHandler {
     func onRoomStateUpdate(_ state: ZegoRoomState, errorCode: Int32, extendedData: [AnyHashable : Any]?, roomID: String) {
-        print("[*] onRoomStateUpdate: \(state.rawValue), errorCode: \(errorCode), roomID: \(roomID)")
+        print("[*] onRoomStateUpdate: \(state.rawValue), errorCode: \(errorCode), roomID: \(roomID), status: \(self.status)")
         // if myself disconnected, just callback the `timeout`.
         if state == .disconnected && self.status == .calling {
             guard let user = ServiceManager.shared.userService.localUserInfo else { return }
