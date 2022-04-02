@@ -54,26 +54,26 @@ class CallingVideoView: CallBaseView {
         let cameraImage = userInfo.camera ? "call_camera_open_icon" : "call_camera_close_icon"
         videoButton.setImage(UIImage(named: cameraImage), for: .normal)
         
-        let micImage = userInfo.mic ? "call_audio_mic_open" : "call_audio_mic_close"
+        let micImage = userInfo.mic ? "call_video_mic_open" : "call_video_mic_close"
         micButton.setImage(UIImage(named: micImage), for: .normal)
         
         let routeType = ServiceManager.shared.deviceService.routeType
-        var voiceImage =  "call_audio_voice_close"
+        var voiceImage =  "call_video_voice_close"
         switch routeType {
         case .speaker:
-            voiceImage = "call_audio_voice_open"
+            voiceImage = "call_video_voice_open"
         case .headphone:
-            voiceImage = "call_audio_voice_close"
+            voiceImage = "call_video_voice_close"
         case .bluetooth:
             voiceImage = "call_voice_bluetooth_icon"
         case .receiver:
-            voiceImage = "call_audio_voice_close"
+            voiceImage = "call_video_voice_close"
         case .externalUSB:
-            voiceImage = "call_audio_voice_close"
+            voiceImage = "call_video_voice_close"
         case .airPlay:
-            voiceImage = "call_audio_voice_close"
+            voiceImage = "call_video_voice_close"
         @unknown default:
-            voiceImage = "call_audio_voice_close"
+            voiceImage = "call_video_voice_close"
         }
         voiceButton.setImage(UIImage(named: voiceImage), for: .normal)
     }
