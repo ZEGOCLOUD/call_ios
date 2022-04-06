@@ -43,6 +43,7 @@ class HUDHelper: NSObject {
     static func showNetworkLoading(_ message: String) {
         DispatchQueue.main.async {
             let hud = MBProgressHUD.showAdded(to: KeyWindow(), animated: true)
+            hud.accessibilityIdentifier = "NetWorkLoading"
             hud.mode = .text
             hud.detailsLabel.text = message
             hud.detailsLabel.font = UIFont.systemFont(ofSize: 15)
@@ -53,10 +54,12 @@ class HUDHelper: NSObject {
     static func hideNetworkLoading() -> Void {
         DispatchQueue.main.async {
             for subview in KeyWindow().subviews {
-                if subview is MBProgressHUD {
+                if subview is MBProgressHUD{
                     let hud:MBProgressHUD = subview as! MBProgressHUD
+                    if hud.accessibilityIdentifier == "NetWorkLoading" {
                         hud.removeFromSuperViewOnHide = true
                         hud.hide(animated: true)
+                    }
                 }
             }
         }
