@@ -20,6 +20,7 @@ class CallServiceImpl: NSObject {
     
     private var callTask: Task?
     private let heartbeatTimer = ZegoTimer(10 * 1000)
+    private var currentRoomID: String?
     
     override init() {
         super.init()
@@ -417,5 +418,17 @@ extension CallServiceImpl: ZegoEventHandler {
             delegate?.onReceiveCallTimeout(.calling, info: user)
             stopHeartbeatTimer()
         }
+        if currentRoomID == roomID {
+            var callingState: CallingState = .connected
+            switch state {
+            case .disconnected: callingState = .disconnected
+            case .connecting: callingState = .connecting
+            case .connected: callingState = .connected
+            default:
+                break
+            }
+            delegate?.onCallingStateUpdated(callingState)
+        }
+        currentRoomID = roomID
     }
 }

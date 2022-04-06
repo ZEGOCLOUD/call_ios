@@ -70,6 +70,12 @@ enum LocalUserStatus: Int {
     case calling = 3
 }
 
+enum CallingState: Int {
+    case disconnected = 0
+    case connecting = 1
+    case connected = 2
+}
+
 /// Class video resolution
 ///
 /// Description: This class contains the video resolution information. To set the video resolution, call the setVideoResolution method.

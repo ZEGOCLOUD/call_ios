@@ -50,9 +50,7 @@ protocol UserService {
     /// A list of users in the room
     var userList: [UserInfo] { get }
     
-    
     func setLocalUser(_ userID: String, userName: String)
-    
     
     func getToken(_ userID: String, _ effectiveTimeInSeconds: Int, callback: RequestCallback?)
 }
