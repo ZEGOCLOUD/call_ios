@@ -35,7 +35,8 @@ class HUDHelper: NSObject {
     /// Display network loading HUD
     static func showNetworkLoading() -> Void {
         DispatchQueue.main.async {
-            MBProgressHUD.showAdded(to: KeyWindow(), animated: true)
+            let hud: MBProgressHUD = MBProgressHUD.showAdded(to: KeyWindow(), animated: true)
+            hud.accessibilityIdentifier = "NetWorkLoading"
         }
     }
     
