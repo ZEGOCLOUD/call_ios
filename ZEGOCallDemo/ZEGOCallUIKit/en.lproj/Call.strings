@@ -65,6 +65,7 @@
 "call_page_call_unable_initiate" = "On the line. Unable to initiate a new call";
 "call_page_call_connection_unstable" = "Your connection is unstable";
 "call_page_call_connection_unstable_other" = "Other user's connection is unstable.";
+"call_page_call_disconnection" = "The call has dropped. Please wait...";
 
 "call_user_list_refresh" = "Refreshing";
 

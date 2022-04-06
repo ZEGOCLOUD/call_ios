@@ -137,12 +137,10 @@ extension CallManager: CallServiceDelegate {
     
     func onCallingStateUpdated(_ state: CallingState) {
         switch state {
-        case .disconnected:
-            break
+        case .disconnected,.connected:
+            HUDHelper.hideNetworkLoading()
         case .connecting:
-            break
-        case .connected:
-            break
+            HUDHelper.showNetworkLoading(ZGLocalizedString("call_page_call_disconnection"))
         }
     }
 }
