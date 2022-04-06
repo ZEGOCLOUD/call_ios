@@ -107,26 +107,7 @@ extension CallManager {
         
     @objc func callKitEnd() {
         if appIsActive { return }
-        guard let userID = currentCallUserInfo?.userID else { return }
-        endCall(userID)
-//        if currentCallStatus == .calling {
-//            endCall(currentCallUserInfo?.userID)
-//            ServiceManager.shared.callService.endCall() { result in
-//                switch result {
-//                case .success():
-//                    self.currentCallStatus = .free
-//                    self.currentCallUserInfo = nil
-//                    HUDHelper.showMessage(message: "Complete")
-//                case .failure(let error):
-//                    //HUDHelper.showMessage(message: "")
-//                    break
-//                }
-//            }
-//        } else {
-//            endCall(currentCallUserInfo?.userID ?? "")
-//            currentCallStatus = .free
-//            currentCallUserInfo = nil
-//        }
+        endCall()
     }
     
     @objc func muteSpeaker(notif:NSNotification) {

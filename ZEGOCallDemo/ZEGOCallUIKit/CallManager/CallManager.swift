@@ -95,12 +95,9 @@ class CallManager: NSObject, CallManagerInterface {
             endSystemCall()
             closeCallVC()
         case .waitAccept:
-            guard let userID = currentCallUserInfo?.userID else { return }
-            guard let currentCallVC = currentCallVC else { return }
-            cancelCall(userID, callType: currentCallVC.vcType)
+            cancelCall()
         case .calling:
-            guard let userID = currentCallUserInfo?.userID else { return }
-            endCall(userID)
+            endCall()
             closeCallVC()
         case .none:
             break
@@ -175,40 +172,36 @@ class CallManager: NSObject, CallManagerInterface {
         }
     }
     
-    func declineCall(_ userID: String, type: DeclineType) {
-        if currentCallUserInfo?.userID == userID {
-            currentCallStatus = .free
-            currentCallUserInfo = nil
-            otherUserRoomInfo = nil
-        }
+    func declineCall() {
+        currentCallStatus = .free
+        currentCallUserInfo = nil
+        otherUserRoomInfo = nil
         audioPlayer?.stop()
-        ServiceManager.shared.callService.declineCall(userID, type: type, callback: nil)
+        ServiceManager.shared.callService.declineCall(nil)
     }
     
-    func endCall(_ userID: String) {
+    func endCall() {
         if ServiceManager.shared.callService.status == .calling {
             minmizedManager.updateCallStatus(status: .end, userInfo: currentCallUserInfo)
             ServiceManager.shared.callService.endCall(nil)
         } else {
             minmizedManager.updateCallStatus(status: .decline, userInfo: currentCallUserInfo)
-            declineCall(userID, type: .decline)
+            declineCall()
         }
         minmizedManager.dismissCallMinView()
-        if currentCallUserInfo?.userID == userID {
-            currentCallStatus = .free
-            currentCallUserInfo = nil
-            otherUserRoomInfo = nil
-        }
+        currentCallStatus = .free
+        currentCallUserInfo = nil
+        otherUserRoomInfo = nil
         endSystemCall()
     }
     
-    func cancelCall(_ userID: String, callType: CallType) {
+    func cancelCall() {
         audioPlayer?.stop()
         currentCallStatus = .free
         currentCallVC?.changeCallStatusText(.canceled)
         currentCallVC?.callDelayDismiss()
         minmizedManager.dismissCallMinView()
-        ServiceManager.shared.callService.cancelCall(userID: userID, callback: nil)
+        ServiceManager.shared.callService.cancelCall(nil)
     }
     
     func resetDeviceConfig() {

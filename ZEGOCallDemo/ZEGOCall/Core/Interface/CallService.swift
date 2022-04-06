@@ -87,10 +87,8 @@ protocol CallService {
     /// Description: This method can be used to cancel a call. And the called user receives a callback when the call has been canceled.
     ///
     /// Call this method at: after the user login
-    /// - Parameter userID: refers to the ID of the user you are calling.
-    /// - Parameter cancelType: cancel type
     /// - Parameter callback: refers to the callback for cancel a call.
-    func cancelCall(userID: String, callback: ZegoCallback?)
+    func cancelCall(_ callback: ZegoCallback?)
     
     /// Accept a call
     ///
@@ -105,10 +103,8 @@ protocol CallService {
     /// Description: This method can be used to decline a call. And the caller receives a callback when the call has been declined by the callee.
     ///
     /// Call this method at: after the user login
-    /// - Parameter userID: the ID of the caller
-    /// - Parameter type: refers to the response type.
     /// - Parameter callback: refers to the callback for decline a call.
-    func declineCall(_ userID: String, type: DeclineType, callback: ZegoCallback?)
+    func declineCall(_ callback: ZegoCallback?)
     
     /// End a call
     ///
