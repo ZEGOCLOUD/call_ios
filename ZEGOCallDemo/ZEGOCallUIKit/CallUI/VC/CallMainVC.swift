@@ -46,18 +46,19 @@ class CallMainVC: UIViewController {
     @IBOutlet weak var callStatusLabel: UILabel!
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var callQualityLabel: UILabel!
-    @IBOutlet weak var mainPreviewView: UIView! {
+    
+    @IBOutlet weak var bigPreviewView: UIView! {
         didSet {
-            localPreviewView = mainPreviewView
+            localPreviewView = bigPreviewView
         }
     }
-    @IBOutlet weak var previewView: UIView! {
+    @IBOutlet weak var smallPreviewView: UIView! {
         didSet {
             let tapClick = UITapGestureRecognizer.init(target: self, action: #selector(ExchangeVideoStream))
-            previewView.addGestureRecognizer(tapClick)
-            previewView.layer.masksToBounds = true
-            previewView.layer.cornerRadius = 6
-            remotePreviewView = previewView
+            smallPreviewView.addGestureRecognizer(tapClick)
+            smallPreviewView.layer.masksToBounds = true
+            smallPreviewView.layer.cornerRadius = 6
+            remotePreviewView = smallPreviewView
         }
     }
     
@@ -370,19 +371,19 @@ class CallMainVC: UIViewController {
         
         if statusType != .calling { return }
         if !userRoomInfo.camera {
-            if userRoomInfo.userID == mainPreviewView.accessibilityIdentifier {
+            if userRoomInfo.userID == bigPreviewView.accessibilityIdentifier {
                 backGroundImage.isHidden = false
                 bgImage = UIImage(named: String.getCallCoverImageName(userName: userRoomInfo.userName))
                 backGroundImage.image = bgImage
-            } else if userRoomInfo.userID == previewView.accessibilityIdentifier {
+            } else if userRoomInfo.userID == smallPreviewView.accessibilityIdentifier {
                 smallHeadImage.isHidden = false
                 smallBgImage = UIImage(named: String.getCallCoverImageName(userName: userRoomInfo.userName))
                 smallHeadImage.image = smallBgImage
             }
         } else {
-            if userRoomInfo.userID == mainPreviewView.accessibilityIdentifier {
+            if userRoomInfo.userID == bigPreviewView.accessibilityIdentifier {
                 backGroundImage.isHidden = vcType == .voice ? false : true
-            } else if userRoomInfo.userID == previewView.accessibilityIdentifier {
+            } else if userRoomInfo.userID == smallPreviewView.accessibilityIdentifier {
                 smallHeadImage.isHidden = true
             }
         }
@@ -390,7 +391,7 @@ class CallMainVC: UIViewController {
     
     func setPreviewUserName() {
         if let otherUserRoomInfo = otherUser {
-            previewNameLabel.text = previewView.accessibilityIdentifier != localUserInfo.userID ? otherUserRoomInfo.userName : ZGLocalizedString("me")
+            previewNameLabel.text = smallPreviewView.accessibilityIdentifier != localUserInfo.userID ? otherUserRoomInfo.userName : ZGLocalizedString("me")
         } else {
             previewNameLabel.text = otherUser?.userName
         }
@@ -436,7 +437,7 @@ class CallMainVC: UIViewController {
             bgImage = UIImage(named: String.getMakImageName(userName: otherUser?.userName))
         } else {
             if statusType == .calling {
-                if localUserID == mainPreviewView.accessibilityIdentifier {
+                if localUserID == bigPreviewView.accessibilityIdentifier {
                     if let localUserRoomInfo = ServiceManager.shared.userService.localUserInfo {
                         backGroundImage.isHidden = localUserRoomInfo.camera
                     }
