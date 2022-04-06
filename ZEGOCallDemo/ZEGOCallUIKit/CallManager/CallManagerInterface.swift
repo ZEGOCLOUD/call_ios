@@ -98,6 +98,13 @@ protocol CallManagerInterface {
     /// - Parameter appID: refers to the project ID. To get this, go to ZEGOCLOUD Admin Console: https://console.zego.im/dashboard?lang=en
     func initWithAppID(_ appID: UInt32, callback: ZegoCallback?)
     
+    /// The method to deinitialize the SDK
+    ///
+    /// Description: This method can be used to deinitialize the SDK and release the resources it occupies.
+    ///
+    /// Call this method at: When the SDK is no longer be used. We recommend you call this method when the application exits.
+    func uninit()
+    
     /// Get a Token
     ///
     /// Description: this method can be used to get a Token with userID.
@@ -140,8 +147,7 @@ protocol CallManagerInterface {
     ///
     /// Call this method at: After the user login
     /// - Parameter userInfo: The information of the user you want to call, including the userID and userName.
-    /// - Parameter token: refers to the authentication token. To get this, see the documentation: https://docs.zegocloud.com/article/11648
     /// - Parameter type: refers to the call type.  ZegoCallTypeVoice: Voice call.  ZegoCallTypeVideo: Video call.
     /// - Parameter callback: refers to the callback for make a outbound call.
-    func callUser(_ userInfo: UserInfo, token: String, callType: CallType, callback: ZegoCallback?)
+    func callUser(_ userInfo: UserInfo, callType: CallType, callback: ZegoCallback?)
 }

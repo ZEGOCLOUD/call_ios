@@ -10,6 +10,7 @@ import ZegoExpressEngine
 
 class CallManager: NSObject, CallManagerInterface {
     
+    
     static var shared: CallManager! = CallManager()
     weak var delegate: CallManagerDelegate?
     var currentCallStatus: callStatus! = .free
@@ -75,6 +76,10 @@ class CallManager: NSObject, CallManagerInterface {
         ServiceManager.shared.initWithAppID(appID: appID, callback: callback)
     }
     
+    func uninit() {
+        ServiceManager.shared.uninit()
+    }
+    
     func getToken(_ userID: String, _ effectiveTimeInSeconds: Int, callback: RequestCallback?) {
         ServiceManager.shared.userService.getToken(userID, effectiveTimeInSeconds, callback: callback)
     }
@@ -108,7 +113,8 @@ class CallManager: NSObject, CallManagerInterface {
         ServiceManager.shared.uploadLog(callback: callback)
     }
     
-    func callUser(_ userInfo: UserInfo, token: String, callType: CallType, callback: ZegoCallback?) {
+    func callUser(_ userInfo: UserInfo, callType: CallType, callback: ZegoCallback?) {
+        guard let token = token else { return }
         if currentCallStatus != .free { return }
         self.currentCallStatus = .waitAccept
         resetDeviceConfig()

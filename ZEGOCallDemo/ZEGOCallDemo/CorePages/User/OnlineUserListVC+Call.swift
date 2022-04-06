@@ -22,10 +22,9 @@ extension OnlineUserListVC: OnlineUserListCellDelegate {
             HUDHelper.showMessage(message: ZGLocalizedString("call_page_call_unable_initiate"))
             return
         }
-        guard let token = TokenManager.shared.token?.token else { return }
         switch type {
         case .voice:
-            CallManager.shared.callUser(userInfo, token: token, callType: .voice) { result in
+            CallManager.shared.callUser(userInfo, callType: .voice) { result in
                 switch result {
                 case .success():
                     break
@@ -34,7 +33,7 @@ extension OnlineUserListVC: OnlineUserListCellDelegate {
                 }
             }
         case .video:
-            CallManager.shared.callUser(userInfo, token: token, callType: .video) { result in
+            CallManager.shared.callUser(userInfo, callType: .video) { result in
                 switch result {
                 case .success():
                     break
