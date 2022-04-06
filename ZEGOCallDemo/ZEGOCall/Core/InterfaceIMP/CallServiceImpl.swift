@@ -70,13 +70,16 @@ extension CallServiceImpl: CallService {
         }
     }
     
-    func cancelCall(userID: String, callback: ZegoCallback?) {
+    func cancelCall(_ callback: ZegoCallback?) {
+        
+        guard let calleeID = callInfo.callees.first?.userID else { return }
+        
         let command = CancelCallCommand()
         command.userID = ServiceManager.shared.userService.localUserInfo?.userID
-        command.calleeID = userID
+        command.calleeID = calleeID
         command.callID = callInfo.callID
         
-        print("[* Call] Cancel Call, callID: \(String(describing: callInfo.callID)), calleeID: \(userID), status: \(status)")
+        print("[* Call] Cancel Call, callID: \(String(describing: callInfo.callID)), calleeID: \(calleeID), status: \(status)")
         
         ServiceManager.shared.roomService.leaveRoom()
         
@@ -126,19 +129,19 @@ extension CallServiceImpl: CallService {
         }
     }
     
-    func declineCall(_ userID: String, type: DeclineType, callback: ZegoCallback?) {
+    func declineCall(_ callback: ZegoCallback?) {
         
         status = .free
         cancelCallTimer()
         
-        let callerID = userID
         guard let userID = ServiceManager.shared.userService.localUserInfo?.userID,
-              let callID = callInfo.callID
+              let callID = callInfo.callID,
+              let callerID = callInfo.caller?.userID
         else {
             return
         }
         
-        declineCall(userID, callID: callID, callerID: callerID, type: type, callback: callback)
+        declineCall(userID, callID: callID, callerID: callerID, type: .decline, callback: callback)
     }
     
     private func declineCall(_ userID: String,

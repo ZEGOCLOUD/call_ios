@@ -15,14 +15,12 @@ extension CallMainVC: CallActionDelegate {
     }
     
     func callhandUp(_ callView: CallBaseView) {
-        if let userID = self.callUser?.userID {
-            if self.statusType == .calling {
-                CallManager.shared.endCall(userID)
-                self.changeCallStatusText(.completed)
-                self.callDelayDismiss()
-            } else {
-                CallManager.shared.cancelCall(userID, callType: self.vcType)
-            }
+        if self.statusType == .calling {
+            CallManager.shared.endCall()
+            self.changeCallStatusText(.completed)
+            self.callDelayDismiss()
+        } else {
+            CallManager.shared.cancelCall()
         }
     }
     
@@ -48,8 +46,7 @@ extension CallMainVC: CallActionDelegate {
     func callDecline(_ callView: CallBaseView) {
         changeCallStatusText(.decline)
         callDelayDismiss()
-        guard let userID = self.callUser?.userID else { return }
-        CallManager.shared.declineCall(userID, type: .decline)
+        CallManager.shared.declineCall()
     }
     
     func callOpenMic(_ callView: CallBaseView, isOpen: Bool) {
