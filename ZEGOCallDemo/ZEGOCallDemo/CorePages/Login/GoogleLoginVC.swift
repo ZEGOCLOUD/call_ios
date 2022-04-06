@@ -18,6 +18,29 @@ class GoogleLoginVC: UIViewController {
             PrivacyLabel.text = ZGLocalizedString("login_page_service_privacy")
         }
     }
+    
+    @IBOutlet weak var privacyTextView: UITextView! {
+        didSet {
+            privacyTextView.delegate = self
+            privacyTextView.textContainerInset = .zero
+            let privacyStr: String = ZGLocalizedString("login_page_service_privacy")
+            let attStr = NSMutableAttributedString(string: privacyStr)
+            attStr.addAttribute(NSAttributedString.Key.foregroundColor, value: ZegoColor("7F8081"), range: NSRange(location: 0, length: privacyStr.count))
+            attStr.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 12), range: NSRange(location: 0, length: privacyStr.count))
+             //点击超链接
+             attStr.addAttribute(NSAttributedString.Key.link, value: "userProtocol://", range: (privacyStr as NSString).range(of: ZGLocalizedString("terms_of_service")))
+             //点击超链接
+            attStr.addAttribute(NSAttributedString.Key.link, value: "privacyPolicy://", range: (privacyStr as NSString).range(of: ZGLocalizedString("policy_privacy_name")))
+            privacyTextView.linkTextAttributes = [NSAttributedString.Key.foregroundColor: ZegoColor("0055FF")]
+            let paragraph = NSMutableParagraphStyle()
+            paragraph.lineSpacing = 0
+            paragraph.paragraphSpacing = 0
+            attStr.addAttribute(.paragraphStyle, value: paragraph, range: NSRange(location: 0, length: privacyStr.count))
+            privacyTextView.attributedText = attStr
+        }
+    }
+    
+    
     @IBOutlet weak var selectedButton: UIButton! {
         didSet {
             selectedButton.setImage(UIImage(named: "privacy_select_default"), for: .normal)
@@ -107,5 +130,28 @@ class GoogleLoginVC: UIViewController {
 extension GoogleLoginVC: LoginManagerDelegate {
     func onReceiveUserKickout() {
         self.navigationController?.popToRootViewController(animated: true)
+    }
+}
+
+extension GoogleLoginVC: UITextViewDelegate {
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        return false
+    }
+    
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        if URL.scheme  ==  "userProtocol"{
+            pushToWeb("https://www.zegocloud.com/policy?index=0")
+            return false
+        }else if URL.scheme == "privacyPolicy"{
+            pushToWeb("https://www.zegocloud.com/policy?index=1")
+            return false
+        }
+        return true
+    }
+    
+    func pushToWeb(_ url: String) {
+        let vc: GeneralWebVC = UINib(nibName: "GeneralWebVC", bundle: nil).instantiate(withOwner: nil, options: nil).first as! GeneralWebVC
+        vc.loadUrl(url)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

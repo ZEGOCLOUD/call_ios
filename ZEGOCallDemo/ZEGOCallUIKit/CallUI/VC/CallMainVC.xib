@@ -13,20 +13,20 @@
             <connections>
                 <outlet property="backGroundImage" destination="jUE-Ex-rtP" id="uEa-G7-nQV"/>
                 <outlet property="backGroundView" destination="UGq-gf-GMi" id="DdN-Ad-c57"/>
+                <outlet property="bigPreviewView" destination="k3E-XM-kJs" id="gmq-85-XeP"/>
                 <outlet property="bottomMaskImageView" destination="y1f-2k-huW" id="SCF-MV-zkv"/>
                 <outlet property="bottomView" destination="WpY-gi-mHI" id="v09-DO-5wM"/>
                 <outlet property="bottomViewHeight" destination="2cQ-s2-tmF" id="yud-RR-4Sy"/>
                 <outlet property="callQualityLabel" destination="FXF-MN-Utr" id="pGW-oM-U2I"/>
                 <outlet property="callStatusLabel" destination="7wa-uL-Azy" id="DhR-H6-6iD"/>
                 <outlet property="headImage" destination="5G2-Zx-Cu3" id="lXu-y6-jq6"/>
-                <outlet property="mainPreviewView" destination="k3E-XM-kJs" id="btB-6D-ZEB"/>
                 <outlet property="minimizeButton" destination="iKE-Hu-GT3" id="05f-Uo-cgl"/>
                 <outlet property="nameMaskView" destination="ONC-Jv-Oj0" id="c5C-cW-a5O"/>
                 <outlet property="preciewContentView" destination="X9Y-cC-uIR" id="tkx-TV-Yo4"/>
                 <outlet property="previewNameLabel" destination="PPJ-4l-tMg" id="XXr-Zb-F5N"/>
-                <outlet property="previewView" destination="OQH-C7-3x8" id="xdV-Jk-Nha"/>
                 <outlet property="settingButton" destination="m9q-73-yg9" id="cK1-cV-5tw"/>
                 <outlet property="smallHeadImage" destination="nn1-Dm-67f" id="Ye2-jU-ZKy"/>
+                <outlet property="smallPreviewView" destination="OQH-C7-3x8" id="tTc-1K-1hq"/>
                 <outlet property="takeStatusFlipButton" destination="byE-AS-eJC" id="Zfc-pd-JFW"/>
                 <outlet property="timeLabel" destination="hhF-a9-GgM" id="oEf-0M-AOr"/>
                 <outlet property="toBottomDistance" destination="xXE-Kk-AW1" id="ZIF-d7-ybd"/>

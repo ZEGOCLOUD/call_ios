@@ -132,7 +132,7 @@ class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimize
     func getDisplayText(_ status: MinimizedCallStatus) -> String? {
         switch status {
         case .waiting:
-            return "wait..."
+            return "waiting..."
         case .decline:
             return "Declined"
         case .calling:

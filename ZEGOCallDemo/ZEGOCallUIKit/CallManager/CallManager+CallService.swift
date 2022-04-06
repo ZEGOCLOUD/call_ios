@@ -134,4 +134,13 @@ extension CallManager: CallServiceDelegate {
             break
         }
     }
+    
+    func onCallingStateUpdated(_ state: CallingState) {
+        switch state {
+        case .disconnected,.connected:
+            HUDHelper.hideNetworkLoading()
+        case .connecting:
+            HUDHelper.showNetworkLoading(ZGLocalizedString("call_page_call_disconnection"))
+        }
+    }
 }
