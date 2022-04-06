@@ -43,7 +43,7 @@ protocol DeviceService {
     /// The delegate instance of the device service.
     var delegate: DeviceServiceDelegate? { get set }
     
-    /// 设置互动视频最佳配置
+    /// Set optimal configuration
     func setBestConfig()
     
     /// Mutes or unmutes the microphone
@@ -81,7 +81,7 @@ protocol DeviceService {
     /// @param enable determines whether to use the speaker or the receiver. true: use the speaker. false: use the receiver.
     func enableSpeaker(_ enable: Bool)
     
-    /// 重置设备配置
+    /// Reset device configuration
     func resetDeviceConfig()
     
 }
