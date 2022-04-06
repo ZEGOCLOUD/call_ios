@@ -44,11 +44,12 @@ protocol CallServiceDelegate  {
     /// - Description: this callback will be triggered when a call has been ended.
     func onReceiveCallEnded()
     
-    
     /// Callback for a call timed out
     ///
     /// - Description: this callback will be triggered when a call didn't get answered for a long time/ the caller or callee timed out during the call.
     func onReceiveCallTimeout(_ type: CallTimeoutType, info: UserInfo)
+    
+    func onCallingStateUpdated(_ state: CallingState)
 }
 
 extension CallServiceDelegate {
@@ -58,6 +59,7 @@ extension CallServiceDelegate {
     func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType) { }
     func onReceiveCallEnded() { }
     func onReceiveCallTimeout(_ type: CallTimeoutType, info: UserInfo) { }
+    func onCallingStateUpdated(_ state: CallingState) { }
 }
 
 protocol CallService {
