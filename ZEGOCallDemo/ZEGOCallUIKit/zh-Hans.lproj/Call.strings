@@ -91,3 +91,6 @@
 "room_settings_page_video_resolution" = "分辨率";
 "room_settings_page_audio_bitrate" = "音频码率";
 "room_settings_page_settings" = "设置";
+
+"policy_privacy_name" = "隐私政策";
+"terms_of_service" = "服务条款";

@@ -134,4 +134,15 @@ extension CallManager: CallServiceDelegate {
             break
         }
     }
+    
+    func onCallingStateUpdated(_ state: CallingState) {
+        switch state {
+        case .disconnected:
+            break
+        case .connecting:
+            break
+        case .connected:
+            break
+        }
+    }
 }
