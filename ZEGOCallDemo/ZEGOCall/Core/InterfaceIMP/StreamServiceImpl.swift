@@ -20,14 +20,17 @@ extension StreamServiceImpl: StreamService {
             guard let streamView = streamView else { return }
             let canvas = ZegoCanvas(view: streamView)
             canvas.viewMode = .aspectFill
-            if ServiceManager.shared.userService.localUserInfo?.userID == userID {
-                ZegoExpressEngine.shared().startPreview(canvas)
-            } else {
-                ZegoExpressEngine.shared().startPlayingStream(streamID, canvas: canvas)
-            }
+            ZegoExpressEngine.shared().startPlayingStream(streamID, canvas: canvas)
         } else {
             ZegoExpressEngine.shared().startPlayingStream(streamID, canvas: nil)
         }
+    }
+    
+    func startPreview(_ streamView: UIView?) {
+        guard let streamView = streamView else { return }
+        let canvas = ZegoCanvas(view: streamView)
+        canvas.viewMode = .aspectFill
+        ZegoExpressEngine.shared().startPreview(canvas)
     }
     
     func stopPlaying(_ userID: String?) {

@@ -148,7 +148,7 @@ class CallManager: NSObject, CallManagerInterface {
                 ServiceManager.shared.deviceService.useFrontCamera(true)
                 if presentVC {
                     let callVC: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .calling)
-                    callVC.otherUserRoomInfo = self.otherUserRoomInfo
+                    callVC.otherUser = self.otherUserRoomInfo
                     self.currentCallVC = callVC
                     if let controller = self.getCurrentViewController() {
                         controller.present(callVC, animated: true) {
@@ -157,7 +157,7 @@ class CallManager: NSObject, CallManagerInterface {
                     }
                 } else {
                     guard let currentCallVC = self.currentCallVC else { return }
-                    currentCallVC.otherUserRoomInfo = self.otherUserRoomInfo
+                    currentCallVC.otherUser = self.otherUserRoomInfo
                     currentCallVC.updateCallType(currentCallVC.vcType, userInfo: userInfo, status: .calling)
                     self.startPlayingStream(userID)
                 }
@@ -223,16 +223,8 @@ class CallManager: NSObject, CallManagerInterface {
                 ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic)
                 ServiceManager.shared.deviceService.enableCamera(userRoomInfo.camera)
                 if minmizedManager.viewHiden {
-                    if let mainStreamID = currentCallVC?.mainStreamUserID {
-                        ServiceManager.shared.streamService.startPlaying(mainStreamID, streamView: vc.mainPreviewView)
-                    } else {
-                        ServiceManager.shared.streamService.startPlaying(ServiceManager.shared.userService.localUserInfo?.userID, streamView: vc.mainPreviewView)
-                    }
-                    if let streamID = currentCallVC?.streamUserID {
-                        ServiceManager.shared.streamService.startPlaying(streamID, streamView: vc.previewView)
-                    } else {
-                        ServiceManager.shared.streamService.startPlaying(userID, streamView: vc.previewView)
-                    }
+                    ServiceManager.shared.streamService.startPreview(vc.localPreviewView)
+                    ServiceManager.shared.streamService.startPlaying(userID, streamView: vc.remotePreviewView)
                 } else {
                     minmizedManager.updateCallStatus(status: .calling, userInfo: currentCallUserInfo, isVideo: true)
                 }

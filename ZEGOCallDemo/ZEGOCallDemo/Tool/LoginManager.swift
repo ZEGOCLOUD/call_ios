@@ -24,7 +24,6 @@ class LoginManager {
     private var fcmToken: String?
     
     init() {
-//        Database.database().isPersistenceEnabled = true
         ref = Database.database().reference()
         
         addConnectedListener()

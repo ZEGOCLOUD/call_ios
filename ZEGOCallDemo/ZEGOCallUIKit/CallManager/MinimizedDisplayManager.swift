@@ -86,7 +86,7 @@ class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimize
                     videoMinView.streamPreview.isHidden = false
                     ServiceManager.shared.streamService.startPlaying(userInfo.userID, streamView: videoMinView.streamPreview)
                     if localUserInfo.camera {
-                        ServiceManager.shared.streamService.startPlaying(localUserInfo.userID, streamView: videoMinView.localVideoPreview)
+                        ServiceManager.shared.streamService.startPreview(videoMinView.localVideoPreview)
                     }
                 } else {
                     videoMinView.streamPreview.isHidden = true
@@ -94,7 +94,7 @@ class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimize
                         audioMinView.isHidden = true
                         audioMinView.updateCallText(getDisplayText(status))
                         videoMinView.isHidden = false
-                        ServiceManager.shared.streamService.startPlaying(localUserInfo.userID, streamView: videoMinView.localVideoPreview)
+                        ServiceManager.shared.streamService.startPreview(videoMinView.localVideoPreview)
                     } else {
                         audioMinView.isHidden = false
                         audioMinView.updateCallText(getDisplayText(status))
@@ -105,8 +105,7 @@ class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimize
                 if localUserInfo.camera {
                     audioMinView.isHidden = true
                     videoMinView.isHidden = false
-                    let streamID = localUserInfo.userID
-                    ServiceManager.shared.streamService.startPlaying(streamID, streamView: videoMinView.localVideoPreview)
+                    ServiceManager.shared.streamService.startPreview(videoMinView.localVideoPreview)
                 } else {
                     audioMinView.isHidden = false
                     audioMinView.updateCallText(getDisplayText(status))

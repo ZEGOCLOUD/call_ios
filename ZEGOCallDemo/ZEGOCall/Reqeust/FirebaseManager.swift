@@ -39,7 +39,6 @@ class FirebaseManager: NSObject {
     private var functionsMap = [String : functionType]()
     
     private override init() {
-        Database.database().isPersistenceEnabled = true
         ref = Database.database().reference()
         super.init()
         
