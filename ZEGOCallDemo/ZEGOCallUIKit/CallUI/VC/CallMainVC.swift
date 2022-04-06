@@ -46,13 +46,18 @@ class CallMainVC: UIViewController {
     @IBOutlet weak var callStatusLabel: UILabel!
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var callQualityLabel: UILabel!
-    @IBOutlet weak var mainPreviewView: UIView!
+    @IBOutlet weak var mainPreviewView: UIView! {
+        didSet {
+            localPreviewView = mainPreviewView
+        }
+    }
     @IBOutlet weak var previewView: UIView! {
         didSet {
             let tapClick = UITapGestureRecognizer.init(target: self, action: #selector(ExchangeVideoStream))
             previewView.addGestureRecognizer(tapClick)
             previewView.layer.masksToBounds = true
             previewView.layer.cornerRadius = 6
+            remotePreviewView = previewView
         }
     }
     
@@ -80,11 +85,7 @@ class CallMainVC: UIViewController {
     
     @IBOutlet weak var previewNameLabel: UILabel! {
         didSet {
-            if streamUserID == localUserInfo.userID {
-                previewNameLabel.text = localUserInfo.userName
-            } else {
-                previewNameLabel.text = callUser?.userName
-            }
+            previewNameLabel.text = otherUser?.userName
         }
     }
     @IBOutlet weak var topMaksImageView: UIImageView!
@@ -146,12 +147,17 @@ class CallMainVC: UIViewController {
     
     
     @objc func ExchangeVideoStream() {
-        let tempID = mainStreamUserID
-        mainStreamUserID = streamUserID
-        ServiceManager.shared.streamService.startPlaying(mainStreamUserID, streamView: mainPreviewView)
-        streamUserID = tempID
+        
+        let tempView = localPreviewView
+        localPreviewView = remotePreviewView
+        remotePreviewView = tempView
+        localPreviewView?.accessibilityIdentifier = localUserInfo.userID
+        remotePreviewView?.accessibilityIdentifier = otherUser?.userID
+        
+        ServiceManager.shared.streamService.startPreview(localPreviewView)
+        ServiceManager.shared.streamService.startPlaying(otherUser?.userID, streamView: remotePreviewView)
+        
         setPreviewUserName()
-        ServiceManager.shared.streamService.startPlaying(streamUserID, streamView: previewView)
         setCallBgImage()
     }
     
@@ -167,7 +173,7 @@ class CallMainVC: UIViewController {
     var localUserInfo: UserInfo = {
         return ServiceManager.shared.userService.localUserInfo ?? UserInfo()
     }()
-    var otherUserRoomInfo: UserInfo?
+    var otherUser: UserInfo?
 
     lazy var takeView: CallingTakeView = {
         let view: CallingTakeView = UINib(nibName: "CallingTakeView", bundle: nil).instantiate(withOwner: nil, options: nil).first as! CallingTakeView
@@ -208,13 +214,17 @@ class CallMainVC: UIViewController {
     var vcType: CallType = .voice
     var statusType: CallStatusType = .take
     var useFrontCamera: Bool = true
-    var mainStreamUserID: String?
-    var streamUserID: String?
-    var callUser: UserInfo?
+    
+    var localPreviewView: UIView?
+    var remotePreviewView: UIView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        localPreviewView?.accessibilityIdentifier = localUserInfo.userID
+        remotePreviewView?.accessibilityIdentifier = otherUser?.userID
+        
         configUI()
     }
     
@@ -226,19 +236,16 @@ class CallMainVC: UIViewController {
     static func loadCallMainVC(_ type: CallType, userInfo: UserInfo, status: CallStatusType) -> CallMainVC {
         let vc: CallMainVC = CallMainVC(nibName :"CallMainVC",bundle : nil)
         vc.modalPresentationStyle = .fullScreen;
-        vc.callUser = userInfo
+        vc.otherUser = userInfo
         vc.vcType = type
         vc.statusType = status
         
         switch type {
         case .voice:
             vc.bgImage = UIImage(named: String.getMakImageName(userName: vc.localUserInfo.userName))
-            vc.mainStreamUserID = vc.localUserInfo.userID
         case .video:
             vc.bgImage = UIImage(named: String.getMakImageName(userName: vc.localUserInfo.userName))
             vc.smallBgImage = UIImage(named: String.getMakImageName(userName: userInfo.userName))
-            vc.mainStreamUserID = vc.localUserInfo.userID
-            vc.streamUserID = userInfo.userID
         }
         return vc
     }
@@ -253,8 +260,8 @@ class CallMainVC: UIViewController {
         setBackGroundImageHidden()
         backGroundImage.image = bgImage
         smallHeadImage.image = smallBgImage
-        headImage.image = UIImage(named: String.getHeadImageName(userName: callUser?.userName))
-        userNameLabel.text = callUser?.userName
+        headImage.image = UIImage(named: String.getHeadImageName(userName: otherUser?.userName))
+        userNameLabel.text = otherUser?.userName
         setPreviewUserName()
         if vcType == .voice {
             takeStatusFlipButton.isHidden = true
@@ -279,7 +286,7 @@ class CallMainVC: UIViewController {
             minimizeButton.isHidden = false
             settingButton.isHidden = false
             if vcType == .video {
-                ServiceManager.shared.streamService.startPlaying(mainStreamUserID, streamView: mainPreviewView)
+                ServiceManager.shared.streamService.startPreview(localPreviewView)
             }
         case .accept:
             bottomViewHeight.constant = 85
@@ -304,9 +311,7 @@ class CallMainVC: UIViewController {
                 phoneView.isHidden = false
                 videoView.isHidden = true
                 headImage.isHidden = false
-                if mainStreamUserID != localUserID{
-                    ServiceManager.shared.streamService.startPlaying(mainStreamUserID, streamView: nil)
-                }
+                ServiceManager.shared.streamService.startPlaying(otherUser?.userID, streamView: nil)
             } else {
                 phoneView.isHidden = true
                 videoView.isHidden = false
@@ -315,8 +320,8 @@ class CallMainVC: UIViewController {
                 preciewContentView.isHidden = false
                 topMaksImageView.isHidden = false
                 bottomMaskImageView.isHidden = false
-                ServiceManager.shared.streamService.startPlaying(mainStreamUserID, streamView: mainPreviewView)
-                ServiceManager.shared.streamService.startPlaying(streamUserID, streamView: previewView)
+                ServiceManager.shared.streamService.startPreview(localPreviewView)
+                ServiceManager.shared.streamService.startPlaying(otherUser?.userID, streamView: remotePreviewView)
             }
         case .canceled,.decline,.miss,.completed,.busy:
             minimizeButton.isHidden = false
@@ -328,22 +333,17 @@ class CallMainVC: UIViewController {
     
     func updateCallType(_ type: CallType, userInfo: UserInfo, status: CallStatusType) {
         
-        callUser = userInfo
+        otherUser = userInfo
         vcType = type
         
         switch type {
         case .voice:
-            mainStreamUserID = localUserInfo.userID
             bgImage = UIImage(named: String.getMakImageName(userName: localUserInfo.userName))
         case .video:
             if status == .accept || status == .take {
                 bgImage = UIImage(named: String.getMakImageName(userName: localUserInfo.userName))
             } else {
                 bgImage = UIImage(named: String.getCallCoverImageName(userName: localUserInfo.userName))
-            }
-            if statusType != status {
-                mainStreamUserID = localUserInfo.userID
-                streamUserID = userInfo.userID
             }
             setPreviewUserName()
         }
@@ -364,37 +364,35 @@ class CallMainVC: UIViewController {
     
     func userRoomInfoUpdate(_ userRoomInfo: UserInfo) {
         if userRoomInfo.userID != localUserID {
-            otherUserRoomInfo = userRoomInfo
-        }
-        if userRoomInfo.userID == CallManager.shared.currentCallUserInfo?.userID {
+            otherUser = userRoomInfo
             CallManager.shared.currentCallUserInfo = userRoomInfo
-            callUser = CallManager.shared.currentCallUserInfo
         }
+        
         if statusType != .calling { return }
         if !userRoomInfo.camera {
-            if userRoomInfo.userID == mainStreamUserID {
+            if userRoomInfo.userID == mainPreviewView.accessibilityIdentifier {
                 backGroundImage.isHidden = false
                 bgImage = UIImage(named: String.getCallCoverImageName(userName: userRoomInfo.userName))
                 backGroundImage.image = bgImage
-            } else if userRoomInfo.userID == streamUserID {
+            } else if userRoomInfo.userID == previewView.accessibilityIdentifier {
                 smallHeadImage.isHidden = false
                 smallBgImage = UIImage(named: String.getCallCoverImageName(userName: userRoomInfo.userName))
                 smallHeadImage.image = smallBgImage
             }
         } else {
-            if userRoomInfo.userID == mainStreamUserID {
+            if userRoomInfo.userID == mainPreviewView.accessibilityIdentifier {
                 backGroundImage.isHidden = vcType == .voice ? false : true
-            } else if userRoomInfo.userID == streamUserID {
+            } else if userRoomInfo.userID == previewView.accessibilityIdentifier {
                 smallHeadImage.isHidden = true
             }
         }
     }
     
     func setPreviewUserName() {
-        if let otherUserRoomInfo = otherUserRoomInfo {
-            previewNameLabel.text = mainStreamUserID == localUserInfo.userID ? otherUserRoomInfo.userName : ZGLocalizedString("me")
+        if let otherUserRoomInfo = otherUser {
+            previewNameLabel.text = previewView.accessibilityIdentifier != localUserInfo.userID ? otherUserRoomInfo.userName : ZGLocalizedString("me")
         } else {
-            previewNameLabel.text = callUser?.userName
+            previewNameLabel.text = otherUser?.userName
         }
     }
     
@@ -435,41 +433,41 @@ class CallMainVC: UIViewController {
         if vcType == .voice {
             backGroundImage.isHidden = false
             smallHeadImage.isHidden = true
-            bgImage = UIImage(named: String.getMakImageName(userName: callUser?.userName))
+            bgImage = UIImage(named: String.getMakImageName(userName: otherUser?.userName))
         } else {
             if statusType == .calling {
-                if localUserID == mainStreamUserID {
+                if localUserID == mainPreviewView.accessibilityIdentifier {
                     if let localUserRoomInfo = ServiceManager.shared.userService.localUserInfo {
                         backGroundImage.isHidden = localUserRoomInfo.camera
                     }
-                    if let otherUserRoomInfo = otherUserRoomInfo {
+                    if let otherUserRoomInfo = otherUser {
                         smallHeadImage.isHidden = otherUserRoomInfo.camera
                     } else {
                         smallHeadImage.isHidden = true
                     }
                     bgImage = UIImage(named: String.getCallCoverImageName(userName: localUserInfo.userName))
-                    smallBgImage = UIImage(named: String.getCallCoverImageName(userName: callUser?.userName))
+                    smallBgImage = UIImage(named: String.getCallCoverImageName(userName: otherUser?.userName))
                 } else {
                     if let localUserRoomInfo = ServiceManager.shared.userService.localUserInfo {
                         smallHeadImage.isHidden = localUserRoomInfo.camera
                     }
-                    if let otherUserRoomInfo = otherUserRoomInfo {
+                    if let otherUserRoomInfo = otherUser {
                         backGroundImage.isHidden = otherUserRoomInfo.camera
                     } else {
                         backGroundImage.isHidden = false
                     }
                     smallBgImage = UIImage(named: String.getCallCoverImageName(userName: localUserInfo.userName))
-                    bgImage = UIImage(named: String.getCallCoverImageName(userName: callUser?.userName))
+                    bgImage = UIImage(named: String.getCallCoverImageName(userName: otherUser?.userName))
                 }
             } else if statusType == .accept {
                 backGroundImage.isHidden = false
                 smallHeadImage.isHidden = true
-                bgImage =  UIImage(named: String.getMakImageName(userName: callUser?.userName))
+                bgImage =  UIImage(named: String.getMakImageName(userName: otherUser?.userName))
             } else {
                 backGroundImage.isHidden = vcType == .video
                 smallHeadImage.isHidden = false
                 bgImage = UIImage(named: String.getMakImageName(userName: localUserInfo.userName))
-                smallBgImage = UIImage(named: String.getMakImageName(userName: callUser?.userName))
+                smallBgImage = UIImage(named: String.getMakImageName(userName: otherUser?.userName))
             }
         }
     }
@@ -483,11 +481,11 @@ class CallMainVC: UIViewController {
         switch statusType {
         case .take:
             CallManager.shared.minmizedManager.viewHiden = false
-            CallManager.shared.minmizedManager.showCallMinView(MinimizedCallType.init(rawValue: vcType.rawValue) ?? .audio, status: .waiting, userInfo: callUser)
+            CallManager.shared.minmizedManager.showCallMinView(MinimizedCallType.init(rawValue: vcType.rawValue) ?? .audio, status: .waiting, userInfo: otherUser)
             self.dismiss(animated: true, completion: nil)
         case .calling:
             CallManager.shared.minmizedManager.viewHiden = false
-            CallManager.shared.minmizedManager.showCallMinView(MinimizedCallType.init(rawValue: vcType.rawValue) ?? .audio, status: .calling, userInfo: callUser)
+            CallManager.shared.minmizedManager.showCallMinView(MinimizedCallType.init(rawValue: vcType.rawValue) ?? .audio, status: .calling, userInfo: otherUser)
             self.dismiss(animated: true, completion: nil)
         case .accept, .canceled,.decline,.busy,.miss,.completed:
             break

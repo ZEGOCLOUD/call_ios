@@ -21,6 +21,7 @@ class CallServiceImpl: NSObject {
     private var callTask: Task?
     private let heartbeatTimer = ZegoTimer(10 * 1000)
     private var currentRoomID: String?
+    private var currentToken: String?
     
     override init() {
         super.init()
@@ -54,13 +55,14 @@ extension CallServiceImpl: CallService {
         print("[* Call] Start Call, callID: \(callID), callerID: \(String(describing: caller?.userID)), calleeID: \(String(describing: user.userID)), type: \(type.rawValue), status: \(status)")
         
         self.status = .outgoing
+        currentToken = token
         
         command.excute { result in
             var callResult: ZegoResult = .success(())
             switch result {
             case .success(_):
                 callResult = .success(())
-                ServiceManager.shared.roomService.joinRoom(callID, token)
+//                ServiceManager.shared.roomService.joinRoom(callID, token)
                 self.addCallTimer()
             case .failure(let error):
                 callResult = .failure(error)
@@ -109,6 +111,7 @@ extension CallServiceImpl: CallService {
         command.callID = callInfo.callID
         
         print("[* Call] Accept Call, callID: \(String(describing: callInfo.callID)), userID: \(userID), status: \(status)")
+        currentToken = token
         
         command.excute { result in
             var callResult: ZegoResult = .success(())
@@ -288,6 +291,9 @@ extension CallServiceImpl {
             
             self.cancelCallTimer()
             self.startHeartbeatTimer()
+            if let token = self.currentToken {
+                ServiceManager.shared.roomService.joinRoom(callID, token)
+            }
             
             self.status = .calling
             self.delegate?.onReceiveCallAccepted(callee)

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol StreamService {
     
@@ -18,6 +19,8 @@ protocol StreamService {
     /// - Parameter userID: the ID of the user you are connecting
     /// - Parameter streamView: refers to the view of local video preview
     func startPlaying(_ userID: String?, streamView: UIView?)
+    
+    func startPreview(_ streamView: UIView?)
     
     /// Stop playing streams
     ///

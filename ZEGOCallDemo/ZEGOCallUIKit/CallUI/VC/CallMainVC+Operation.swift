@@ -10,7 +10,7 @@ import ZegoExpressEngine
 
 extension CallMainVC: CallActionDelegate {
     func callAccept(_ callView: CallBaseView) {
-        guard let callUser = callUser else { return }
+        guard let callUser = otherUser else { return }
         CallManager.shared.acceptCall(callUser, callType: vcType, presentVC: false)
     }
     
@@ -21,25 +21,6 @@ extension CallMainVC: CallActionDelegate {
             self.callDelayDismiss()
         } else {
             CallManager.shared.cancelCall()
-        }
-    }
-    
-    func startPlayingStream(_ userID: String) {
-        if let userRoomInfo = ServiceManager.shared.userService.localUserInfo {
-            if vcType == .voice {
-                ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic)
-                guard let callUser = callUser else { return }
-                ServiceManager.shared.streamService.startPlaying(callUser.userID, streamView: nil)
-            } else {
-                ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic)
-                ServiceManager.shared.deviceService.enableCamera(userRoomInfo.camera)
-                let mainUserID = mainStreamUserID != nil ? mainStreamUserID : ServiceManager.shared.userService.localUserInfo?.userID
-                ServiceManager.shared.streamService.startPlaying(mainUserID, streamView: mainPreviewView)
-                
-                let previewUserID = streamUserID != nil ? streamUserID : userID
-                ServiceManager.shared.streamService.startPlaying(previewUserID, streamView: previewView)
-            }
-            ServiceManager.shared.deviceService.enableSpeaker(false)
         }
     }
     
