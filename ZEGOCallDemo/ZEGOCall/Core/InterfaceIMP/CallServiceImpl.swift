@@ -415,6 +415,7 @@ extension CallServiceImpl {
 extension CallServiceImpl: ZegoEventHandler {
     func onRoomStateUpdate(_ state: ZegoRoomState, errorCode: Int32, extendedData: [AnyHashable : Any]?, roomID: String) {
         print("[*] onRoomStateUpdate: \(state.rawValue), errorCode: \(errorCode), roomID: \(roomID), status: \(self.status)")
+        if ServiceManager.shared.roomService.roomInfo?.roomID != roomID { return }
         // if myself disconnected, just callback the `timeout`.
         if state == .disconnected && self.status == .calling {
             guard let user = ServiceManager.shared.userService.localUserInfo else { return }

@@ -334,14 +334,13 @@ extension FirebaseManager {
         func addFcmToken(token: String?) {
             guard let uid = user?.uid else { return }
             guard let token = token else { return }
-            let fcmTokenRef = self.ref.child("push_token").child(uid).child(token)
             
-            let tokenData: [String: Any?] = [
-                "device_type" : "ios",
-                "token_id": token,
-                "user_id": uid
-            ]
-            fcmTokenRef.setValue(tokenData)
+            let tokenData: [String: Any?] = [token: [
+                                                    "device_type" : "ios",
+                                                    "token_id": token,
+                                                    "user_id": uid]
+                                            ]
+            ref.child("push_token").child(uid).setValue(tokenData)
         }
         
         if fcmToken == nil {

@@ -42,6 +42,8 @@ extension RoomServiceImpl: RoomService {
         config.isUserStatusNotify = true
         config.token = token
         print("[* Join Room] current userID: \(userID), token: \(token)")
+        
+        ZegoExpressEngine.shared().logoutRoom()
         ZegoExpressEngine.shared().loginRoom(roomID, user: user, config: config)
         
         // start publish
