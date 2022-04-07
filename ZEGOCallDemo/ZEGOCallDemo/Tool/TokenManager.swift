@@ -52,6 +52,24 @@ class TokenManager {
     }
     
     var token: Token?
+    
+    func getToken() {
+        if token == nil {
+            guard let userID = CallManager.shared.localUserInfo?.userID else { return }
+            let effectiveTimeInSeconds = 24 * 3600
+            CallManager.shared.getToken(userID, effectiveTimeInSeconds) { result in
+                switch result {
+                case .success(let token):
+                    self.saveToken(token as? String, effectiveTimeInSeconds)
+                    CallManager.shared.token = token as? String
+                case .failure(_):
+                    HUDHelper.showMessage(message: ZGLocalizedString("token_get_fail"))
+                }
+            }
+        } else {
+            CallManager.shared.token = TokenManager.shared.token?.token
+        }
+    }
 
     
     func saveToken(_ token: String?, _ effectiveTimeInSeconds: Int) {

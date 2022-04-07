@@ -95,6 +95,9 @@
 "policy_privacy_name" = "Privacy Policy";
 "terms_of_service" = "Terms of Service";
 
+"token_get_fail" = "Get token fail.";
+"token_is_not_exist" = "token_not_exist";
+
 
 
 

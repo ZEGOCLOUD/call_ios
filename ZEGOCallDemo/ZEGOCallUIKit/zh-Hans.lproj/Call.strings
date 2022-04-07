@@ -95,3 +95,6 @@
 
 "policy_privacy_name" = "隐私政策";
 "terms_of_service" = "服务条款";
+
+"token_get_fail" = "获取token失败";
+"token_is_not_exist" = "token不存在";

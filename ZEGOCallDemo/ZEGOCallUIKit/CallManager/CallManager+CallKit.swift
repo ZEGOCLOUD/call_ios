@@ -52,7 +52,7 @@ extension CallManager {
     
     @objc func applicationDidEnterBackGround(notification: NSNotification) {
         // Application is back in the foreground
-        audioPlayer?.stop()
+        audioTool.stopPlay()
         if appIsActive && currentCallStatus != .free {
             if let currentCallVC = currentCallVC {
                 callKitCallType = currentCallVC.vcType

@@ -30,17 +30,9 @@ class CallManager: NSObject, CallManagerInterface {
     var callKitService: AppleCallKitServiceIMP?
     var myUUID: UUID = UUID()
     
-    lazy var audioPlayer: AVAudioPlayer? = {
-        let path = Bundle.main.path(forResource: "CallRing", ofType: "wav")!
-        let url = URL(fileURLWithPath: path)
-        do {
-            let player =  try AVAudioPlayer(contentsOf: url)
-            player.numberOfLoops = -1
-            return player
-        } catch {
-          // can't load file
-            return nil
-        }
+    lazy var audioTool: AudioPlayerTool = {
+        let audioPlayTool = AudioPlayerTool()
+        return audioPlayTool
     }()
     
     lazy var callTimeManager: CallTimeManager = {
@@ -96,7 +88,7 @@ class CallManager: NSObject, CallManagerInterface {
             CallAcceptTipView.dismiss()
             currentCallStatus = .free
             currentCallUserInfo = nil
-            audioPlayer?.stop()
+            audioTool.stopPlay()
             endSystemCall()
             closeCallVC()
         case .waitAccept:
@@ -145,7 +137,7 @@ class CallManager: NSObject, CallManagerInterface {
         ServiceManager.shared.callService.acceptCall(token) { result in
             switch result {
             case .success():
-                self.audioPlayer?.stop()
+                self.audioTool.stopPlay()
                 self.currentCallStatus = .calling
                 self.otherUserRoomInfo = userInfo
                 self.currentCallUserInfo = userInfo
@@ -182,7 +174,7 @@ class CallManager: NSObject, CallManagerInterface {
         currentCallStatus = .free
         currentCallUserInfo = nil
         otherUserRoomInfo = nil
-        audioPlayer?.stop()
+        audioTool.stopPlay()
         ServiceManager.shared.callService.declineCall(nil)
     }
     
@@ -202,7 +194,7 @@ class CallManager: NSObject, CallManagerInterface {
     }
     
     func cancelCall() {
-        audioPlayer?.stop()
+        audioTool.stopPlay()
         currentCallStatus = .free
         currentCallVC?.changeCallStatusText(.canceled)
         currentCallVC?.callDelayDismiss()

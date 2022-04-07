@@ -108,6 +108,7 @@
 		86B19A1227901B550004C997 /* CallMainVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86B19A1027901B550004C997 /* CallMainVC.xib */; };
 		86B19A1427901FAF0004C997 /* CallBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19A1327901FAF0004C997 /* CallBaseView.swift */; };
 		86B19A1727911D740004C997 /* CallMainVC+Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19A1627911D740004C997 /* CallMainVC+Operation.swift */; };
+		86D4183C27FE91C8002B0C8D /* AudioPlayerTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D4183B27FE91C7002B0C8D /* AudioPlayerTool.swift */; };
 		86DE03C727981B3D000EE3C5 /* CallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE03C627981B3D000EE3C5 /* CallManager.swift */; };
 		86DE03C927983D98000EE3C5 /* CallMainVC+Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */; };
 		8E08EFCF27F1DD2E0003030A /* Delay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E08EFCE27F1DD2E0003030A /* Delay.swift */; };
@@ -299,6 +300,7 @@
 		86B19A1027901B550004C997 /* CallMainVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CallMainVC.xib; sourceTree = "<group>"; };
 		86B19A1327901FAF0004C997 /* CallBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallBaseView.swift; sourceTree = "<group>"; };
 		86B19A1627911D740004C997 /* CallMainVC+Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallMainVC+Operation.swift"; sourceTree = "<group>"; };
+		86D4183B27FE91C7002B0C8D /* AudioPlayerTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerTool.swift; sourceTree = "<group>"; };
 		86DE03C627981B3D000EE3C5 /* CallManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallManager.swift; sourceTree = "<group>"; };
 		86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallMainVC+Stream.swift"; sourceTree = "<group>"; };
 		8E08EFCE27F1DD2E0003030A /* Delay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delay.swift; sourceTree = "<group>"; };
@@ -616,6 +618,7 @@
 				86AC134727998A4000607277 /* String+Time.swift */,
 				86B1994D278D63430004C997 /* AuthorizedCheck.swift */,
 				86B1994E278D63430004C997 /* UIImage+Zego.swift */,
+				86D4183B27FE91C7002B0C8D /* AudioPlayerTool.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -1127,6 +1130,7 @@
 				8637812127E31743000A0C22 /* CallSettingSecondView.swift in Sources */,
 				8E7756FF27E0A77500BFB5F6 /* Command.swift in Sources */,
 				86B19964278D63E30004C997 /* AppDefine.swift in Sources */,
+				86D4183C27FE91C8002B0C8D /* AudioPlayerTool.swift in Sources */,
 				8E77571D27E47A8D00BFB5F6 /* EndCallCommand.swift in Sources */,
 				86B19A1427901FAF0004C997 /* CallBaseView.swift in Sources */,
 				8E08EFD127F2E4D50003030A /* TokenCommand.swift in Sources */,
