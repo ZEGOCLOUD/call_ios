@@ -25,24 +25,19 @@ class LoginManager {
     
     init() {
         ref = Database.database().reference()
+        user = Auth.auth().currentUser
         
         addConnectedListener()
     }
     
-    private var _user: User? {
+    var user: User? {
         willSet {
-            if newValue?.uid != _user?.uid && newValue != nil {
-                UserListManager.shared.addOnlineUsersListener()
+            if newValue?.uid != user?.uid && newValue != nil {
                 addUserToDatabase(newValue!)
+                UserListManager.shared.addOnlineUsersListener()
             } else if newValue == nil {
                 UserListManager.shared.removeOnlineUsersListener()
             }
-        }
-    }
-    var user: User? {
-        get {
-            _user = Auth.auth().currentUser
-            return _user
         }
     }
     
@@ -58,7 +53,7 @@ class LoginManager {
                 callback(nil, nil, 1)
                 return
             }
-            self._user = user
+            self.user = user
             callback(user.uid, user.displayName, 0)
         }
     }
@@ -72,7 +67,7 @@ class LoginManager {
 extension LoginManager {
     
     private func resetData(_ removeUserData: Bool = true) {
-        if let uid = _user?.uid {
+        if let uid = user?.uid {
             let tokenRef = self.ref.child("online_user").child(uid).child("token_id")
             tokenRef.removeAllObservers()
             
@@ -82,7 +77,7 @@ extension LoginManager {
                 userRef.removeValue()
             }
         }
-        _user = nil
+        user = nil
     }
     
     private func addConnectedListener() {
@@ -106,6 +101,8 @@ extension LoginManager {
             let userRef = self.ref.child("online_user").child(user.uid)
             userRef.setValue(data)
             userRef.onDisconnectRemoveValue()
+            
+            self.addFcmTokenListener(user.uid)
         }
         
         if fcmToken == nil {
@@ -113,16 +110,15 @@ extension LoginManager {
                 guard let token = token else { return }
                 self.fcmToken = token
                 addUser(user, token: self.fcmToken)
-                self.addFcmTokenListener()
             }
         } else {
             addUser(user, token: self.fcmToken)
         }
     }
     
-    private func addFcmTokenListener() {
-        guard let uid = user?.uid else { return }
-        let tokenRef = self.ref.child("online_user").child(uid).child("token_id")
+    private func addFcmTokenListener(_ userID: String) {
+        let tokenRef = self.ref.child("online_user").child(userID).child("token_id")
+        tokenRef.removeAllObservers()
         tokenRef.observe(.value) { snapshot in
             guard let token = snapshot.value as? String else { return }
             if token == self.fcmToken { return }

@@ -88,7 +88,8 @@ extension UserServiceImpl: ZegoEventHandler {
     
     func onRoomStateUpdate(_ state: ZegoRoomState, errorCode: Int32, extendedData: [AnyHashable : Any]?, roomID: String) {
         if errorCode == 1002033 {
-            delegate?.onReceiveUserError(.tokenExpire)
+            print("[*] Receive token expired")
+//            delegate?.onReceiveUserError(.tokenExpire)
         }
     }
     
