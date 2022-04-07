@@ -140,10 +140,10 @@ extension GoogleLoginVC: UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         if URL.scheme  ==  "userProtocol"{
-            pushToWeb("https://www.zegocloud.com/policy?index=0")
+            pushToWeb("https://www.zegocloud.com/policy?index=1")
             return false
         }else if URL.scheme == "privacyPolicy"{
-            pushToWeb("https://www.zegocloud.com/policy?index=1")
+            pushToWeb("https://www.zegocloud.com/policy?index=0")
             return false
         }
         return true

@@ -105,7 +105,9 @@ class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimize
                 if localUserInfo.camera {
                     audioMinView.isHidden = true
                     videoMinView.isHidden = false
-                    ServiceManager.shared.streamService.startPreview(videoMinView.localVideoPreview)
+                    if status == .waiting {
+                        ServiceManager.shared.streamService.startPreview(videoMinView.localVideoPreview)
+                    }
                 } else {
                     audioMinView.isHidden = false
                     audioMinView.updateCallText(getDisplayText(status))

@@ -52,26 +52,8 @@ class HomeVC: UIViewController {
         self.navigationController?.navigationBar.standardAppearance.shadowColor = UIColor.clear
         
         CallManager.shared.delegate = self
-        getToken()
+        TokenManager.shared.getToken()
         DeviceTool.shared.applicationHasMicAndCameraAccess(self)
-    }
-    
-    func getToken() {
-        if TokenManager.shared.token == nil {
-            guard let userID = CallManager.shared.localUserInfo?.userID else { return }
-            let effectiveTimeInSeconds = 24 * 3600
-            CallManager.shared.getToken(userID, effectiveTimeInSeconds) { result in
-                switch result {
-                case .success(let token):
-                    TokenManager.shared.saveToken(token as? String, effectiveTimeInSeconds)
-                    CallManager.shared.token = token as? String
-                case .failure(_):
-                    break
-                }
-            }
-        } else {
-            CallManager.shared.token = TokenManager.shared.token?.token
-        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -158,6 +140,9 @@ extension HomeVC: CallManagerDelegate {
             HUDHelper.showMessage(message: ZGLocalizedString("toast_login_kick_out"))
             CallManager.shared.resetCallData()
             self.navigationController?.popToRootViewController(animated: true)
+        } else if error == .tokenExpire {
+            TokenManager.shared.saveToken(nil, 0)
+            TokenManager.shared.getToken()
         }
     }
 }

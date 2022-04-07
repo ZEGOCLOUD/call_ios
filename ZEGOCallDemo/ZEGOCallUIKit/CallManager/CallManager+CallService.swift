@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AudioToolbox
 
 extension CallManager: CallServiceDelegate {
     
@@ -26,7 +27,7 @@ extension CallManager: CallServiceDelegate {
             let callTipView: CallAcceptTipView = CallAcceptTipView.showTipView(type, userInfo: userInfo)
             currentTipView = callTipView
             callTipView.delegate = self
-            audioPlayer?.play()
+            audioTool.startPlay()
         }
     }
     
@@ -38,7 +39,7 @@ extension CallManager: CallServiceDelegate {
         currentCallStatus = .free
         currentCallUserInfo = nil
         endSystemCall()
-        audioPlayer?.stop()
+        audioTool.stopPlay()
         CallAcceptTipView.dismiss()
         guard let currentCallVC = currentCallVC else { return }
         minmizedManager.currentStatus = .end
@@ -86,7 +87,7 @@ extension CallManager: CallServiceDelegate {
     func onReceiveCallEnded() {
         delegate?.onReceivedCallEnded()
         minmizedManager.updateCallStatus(status: .end, userInfo: nil, isVideo: currentCallVC?.vcType == .video ? true : false)
-        audioPlayer?.stop()
+        audioTool.stopPlay()
         if currentCallStatus != .calling {
             currentCallVC?.changeCallStatusText(.completed,showHud: false)
         } else {
@@ -107,10 +108,10 @@ extension CallManager: CallServiceDelegate {
         case .connecting:
             if currentCallStatus == .wait {
                 CallAcceptTipView.dismiss()
-                audioPlayer?.stop()
+                audioTool.stopPlay()
                 endSystemCall()
             } else if currentCallStatus == .waitAccept {
-                minmizedManager.updateCallStatus(status: .miss, userInfo: info)
+                minmizedManager.updateCallStatus(status: .miss, userInfo: info, isVideo: currentCallVC?.vcType == .video ? true : false)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self.minmizedManager.dismissCallMinView()
                 }
@@ -124,7 +125,7 @@ extension CallManager: CallServiceDelegate {
             currentCallStatus = .free
             currentCallUserInfo = nil
             endSystemCall()
-            minmizedManager.updateCallStatus(status: .end, userInfo: info)
+            minmizedManager.updateCallStatus(status: .end, userInfo: info, isVideo: currentCallVC?.vcType == .video ? true : false)
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.minmizedManager.dismissCallMinView()
             }
