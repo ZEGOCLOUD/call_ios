@@ -1,0 +1,56 @@
+/* 
+  Localizable.strings
+  ZEGOCallDemo
+
+  Created by zego on 2022/4/8.
+  
+*/
+
+"app_name" = "ZEGO Call";
+"login_page_title" = "Welcome to experience\nZEGO Call";
+"login_page_user_name" = "Please enter your username";
+"login_page_login" = "Log in";
+"toast_login_fail_google" = "Failed to log in. Error code: %d (Google)";
+"login_page_input_user_name_tip" = "The username should be English characters or number.";
+"toast_login_service_privacy" = "Please tick to agree to \"Terms of Service\" and \"Privacy Policy\"";
+"login_page_service_privacy" = "I have read and agreed to ZEGOCLOUD's Terms of Service & Privacy Policy.";
+"login_page_google_login" = "Log in with Google";
+"toast_login_kick_out" = "This account has already logged in from another device.";
+
+"call_back_title" = "Back";
+
+"setting_page_settings" = "Settings";
+"setting_page_sdk_version" = "Express SDK Version";
+"setting_page_zim_sdk_version" = "ZIM SDK Version";
+"setting_page_version" = "App Version";
+"setting_page_terms_of_service" = "Terms of Use";
+"setting_page_privacy_policy" = "Privacy Policy";
+"setting_page_upload_log" = "Upload logs";
+"toast_upload_log_success" = "Logs uploaded successfully.";
+"toast_upload_log_fail" = "Failed to upload logs. Error code: %d.";
+"setting_page_logout" = "Log out";
+"toast_logout_fail" = "Failed to log out. Error code: %d.";
+
+"welcome_page_user_name" = "User name";
+"welcome_page_user_id" = "User ID";
+"welcome_page_get_more" = "Get more";
+"welcome_page_contact_us" = "Contact us";
+
+"call_user_list_refresh" = "Refreshing";
+
+"banner_call_desc" = "Deliver exceptional real-time voice and video communications regardless of distance";
+"banner_call_title" = "One-on-one call";
+
+"zego_call" = "One-on-One call";
+"online" = "Online";
+"no_online_user" = "No users online";
+
+"policy_privacy_name" = "Privacy Policy";
+"terms_of_service" = "Terms of Service";
+
+"token_get_fail" = "Get token fail.";
+"token_is_not_exist" = "token is not exist";
+
+"call_page_call_fail" = "Call failed. Error code: %d.";
+
+

@@ -1,0 +1,56 @@
+/* 
+  Localizable.strings
+  ZEGOCallDemo
+
+  Created by zego on 2022/4/8.
+  
+*/
+
+"app_name" = "ZEGO Call";
+"login_page_title" = "欢迎体验\nZEGO Call";
+"login_page_user_name" = "请输入你的用户名";
+"login_page_login" = "登录";
+"toast_login_fail" = "登录失败，错误码：%d (Google)";
+"login_page_input_user_name_tip" = "用户名应该是英文字符或数字";
+"toast_login_service_privacy" = "请阅读并同意《服务条款》和《隐私政策》";
+"login_page_service_privacy" = "我已阅读并同意《服务条款》和《隐私政策》";
+"login_page_google_login" = "通过 Google 登录";
+"toast_login_kick_out" = "此帐户已从其他设备登录";
+
+"call_back_title" = "返回";
+
+"setting_page_settings" = "设置";
+"setting_page_sdk_version" = "Express SDK 版本号";
+"setting_page_zim_sdk_version" = "ZIM SDK 版本号";
+"setting_page_version" = "App 版本号";
+"setting_page_terms_of_service" = "服务条款";
+"setting_page_privacy_policy" = "隐私政策";
+"setting_page__version" = "应用版本号";
+"setting_page_upload_log" = "上传日志";
+"toast_upload_log_success" = "日志上传成功";
+"toast_upload_log_fail" = "日志上传失败，错误码：%d";
+"setting_page_logout" = "退出登录";
+"toast_logout_fail" = "退出登录失败，错误码：%d";
+
+"welcome_page_user_name" = "用户名称";
+"welcome_page_user_id" = "用户 ID";
+"welcome_page_get_more" = "更多";
+"welcome_page_contact_us" = "联系我们";
+
+"call_user_list_refresh" = "用户列表刷新";
+
+"banner_call_desc" = "为全球用户提供卓越的1对1语音、视频通话服务，延迟<300ms";
+"banner_call_title" = "1对1通话";
+
+"zego_call" = "One-on-One call";
+"online" = "在线";
+"no_online_user" = "没有用户在线";
+
+"policy_privacy_name" = "隐私政策";
+"terms_of_service" = "服务条款";
+
+"token_get_fail" = "获取token失败";
+"token_is_not_exist" = "token不存在";
+
+"call_page_call_fail" = "呼叫失败，错误码：%d";
+

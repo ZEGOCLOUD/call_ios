@@ -356,7 +356,7 @@ class CallMainVC: UIViewController {
         netWorkStatus = netWorkQuality
         if netWorkQuality == .low || netWorkQuality == .unknow {
             self.callQualityLabel.isHidden = false
-            let message = userID == localUserID ? ZGLocalizedString("call_page_call_connection_unstable") : ZGLocalizedString("call_page_call_connection_unstable_other")
+            let message = (userID == localUserID || userID == "") ? ZGLocalizedString("call_page_call_connection_unstable",tableName: CallUIKitTable) : ZGLocalizedString("call_page_call_connection_unstable_other",tableName: CallUIKitTable)
             self.callQualityLabel.text = message
         } else {
             self.callQualityLabel.isHidden = true
@@ -391,7 +391,7 @@ class CallMainVC: UIViewController {
     
     func setPreviewUserName() {
         if let otherUserRoomInfo = otherUser {
-            previewNameLabel.text = smallPreviewView.accessibilityIdentifier != localUserInfo.userID ? otherUserRoomInfo.userName : ZGLocalizedString("me")
+            previewNameLabel.text = smallPreviewView.accessibilityIdentifier != localUserInfo.userID ? otherUserRoomInfo.userName : ZGLocalizedString("me",tableName: CallUIKitTable)
         } else {
             previewNameLabel.text = otherUser?.userName
         }
@@ -405,24 +405,24 @@ class CallMainVC: UIViewController {
     func changeCallStatusText(_ status: CallStatusType, showHud:Bool = true) {
         switch status {
         case .take:
-            callStatusLabel.text = ZGLocalizedString("call_page_status_calling")
+            callStatusLabel.text = ZGLocalizedString("call_page_status_calling",tableName: CallUIKitTable)
         case .accept:
-            callStatusLabel.text = ZGLocalizedString("call_page_status_calling")
+            callStatusLabel.text = ZGLocalizedString("call_page_status_calling",tableName: CallUIKitTable)
         case .calling:
             callStatusLabel.text = ""
         case .canceled:
-            callStatusLabel.text = ZGLocalizedString("call_page_status_canceld")
+            callStatusLabel.text = ZGLocalizedString("call_page_status_canceld",tableName: CallUIKitTable)
         case .decline:
-            callStatusLabel.text = ZGLocalizedString("call_page_status_declined")
+            callStatusLabel.text = ZGLocalizedString("call_page_status_declined",tableName: CallUIKitTable)
         case .miss:
-            callStatusLabel.text = ZGLocalizedString("call_page_status_missed")
+            callStatusLabel.text = ZGLocalizedString("call_page_status_missed",tableName: CallUIKitTable)
         case .completed:
             callStatusLabel.text = ""
             if showHud {
-                HUDHelper.showMessage(message: ZGLocalizedString("call_page_status_completed"))
+                HUDHelper.showMessage(message: ZGLocalizedString("call_page_status_completed",tableName: CallUIKitTable))
             }
         case .busy:
-            callStatusLabel.text = ZGLocalizedString("call_page_status_busy")
+            callStatusLabel.text = ZGLocalizedString("call_page_status_busy",tableName: CallUIKitTable)
         }
     }
     

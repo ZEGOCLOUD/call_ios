@@ -79,8 +79,8 @@ class AuthorizedCheck: NSObject {
     }
     
     static func showMicrophoneUnauthorizedAlert(_ viewController: UIViewController) {
-        let title: String = ZGLocalizedString("dialog_login_page_mic_cant_open")
-        let message: String = ZGLocalizedString("dialog_login_page_mic_permission")
+        let title: String = ZGLocalizedString("dialog_login_page_mic_cant_open",tableName: CallUIKitTable)
+        let message: String = ZGLocalizedString("dialog_login_page_mic_permission",tableName: CallUIKitTable)
         DispatchQueue.main.async {
             showAlert(title, message, viewController) {
                 openAppSettings()
@@ -90,8 +90,8 @@ class AuthorizedCheck: NSObject {
     
     static func showCameraUnauthorizedAlert(_ viewController: UIViewController) {
         // TODO: - need add localized string
-        let title: String = ZGLocalizedString("dialog_login_page_title_cannot_use_camera")
-        let message: String = ZGLocalizedString("dialog_login_page_massage_cannot_use_camera")
+        let title: String = ZGLocalizedString("dialog_login_page_title_cannot_use_camera",tableName: CallUIKitTable)
+        let message: String = ZGLocalizedString("dialog_login_page_massage_cannot_use_camera",tableName: CallUIKitTable)
         DispatchQueue.main.async {
             showAlert(title, message, viewController) {
                 openAppSettings()
@@ -114,8 +114,8 @@ class AuthorizedCheck: NSObject {
                                   okCompletion: @escaping () -> Void) {
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: ZGLocalizedString("dialog_login_page_cancel"), style: .cancel, handler: nil)
-        let okAction = UIAlertAction(title: ZGLocalizedString("dialog_login_page_go_to_settings"), style: .default) { action in
+        let cancelAction = UIAlertAction(title: ZGLocalizedString("dialog_login_page_cancel",tableName: CallUIKitTable), style: .cancel, handler: nil)
+        let okAction = UIAlertAction(title: ZGLocalizedString("dialog_login_page_go_to_settings",tableName: CallUIKitTable), style: .default) { action in
             okCompletion()
         }
         alert.addAction(cancelAction)

@@ -7,8 +7,8 @@
 
 import UIKit
 
-func ZGLocalizedString(_ key : String) -> String {
-    return Bundle.main.localizedString(forKey: key, value: "", table: "Call")
+func ZGLocalizedString(_ key : String, tableName: String) -> String {
+    return Bundle.main.localizedString(forKey: key, value: "", table: tableName)
 }
 
 func KeyWindow() -> UIWindow {
@@ -16,8 +16,7 @@ func KeyWindow() -> UIWindow {
     return window
 }
 
-let USER_ID_KEY = "USER_ID_KEY"
-let App_IS_LOGOUT_KEY = "IS_LOGOUT_KEY"
+let CallUIKitTable = "Call"
 let CALL_NOTI_START = "callStart"
 let CALL_NOTI_END = "callEnd"
 let CALL_NOTI_MUTE = "muteSpeaker"

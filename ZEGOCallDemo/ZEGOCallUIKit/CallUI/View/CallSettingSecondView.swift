@@ -77,10 +77,10 @@ class CallSettingSecondView: UIView, UITableViewDelegate, UITableViewDataSource 
         viewType = type
         switch type {
         case .resolution:
-            titleLabel.text = ZGLocalizedString("room_settings_page_video_resolution")
+            titleLabel.text = ZGLocalizedString("room_settings_page_video_resolution",tableName: CallUIKitTable)
             dataSource = videoDataSource
         case .audio:
-            titleLabel.text = ZGLocalizedString("room_settings_page_audio_bitrate")
+            titleLabel.text = ZGLocalizedString("room_settings_page_audio_bitrate",tableName: CallUIKitTable)
             dataSource = audioDataSource
         }
         tableView.reloadData()

@@ -87,7 +87,7 @@
 		86B19960278D63440004C997 /* ZegoTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B1994C278D63430004C997 /* ZegoTimer.swift */; };
 		86B19961278D63440004C997 /* AuthorizedCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B1994D278D63430004C997 /* AuthorizedCheck.swift */; };
 		86B19962278D63440004C997 /* UIImage+Zego.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B1994E278D63430004C997 /* UIImage+Zego.swift */; };
-		86B19964278D63E30004C997 /* AppDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19963278D63E30004C997 /* AppDefine.swift */; };
+		86B19964278D63E30004C997 /* CallUIKitDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19963278D63E30004C997 /* CallUIKitDefine.swift */; };
 		86B19972278D71820004C997 /* GeneralWebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19970278D71820004C997 /* GeneralWebVC.swift */; };
 		86B19978278D75E00004C997 /* OnlineUserListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19977278D75E00004C997 /* OnlineUserListVC.swift */; };
 		86B1997A278D75F60004C997 /* User.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86B19979278D75F60004C997 /* User.storyboard */; };
@@ -109,6 +109,9 @@
 		86B19A1427901FAF0004C997 /* CallBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19A1327901FAF0004C997 /* CallBaseView.swift */; };
 		86B19A1727911D740004C997 /* CallMainVC+Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19A1627911D740004C997 /* CallMainVC+Operation.swift */; };
 		86D4183C27FE91C8002B0C8D /* AudioPlayerTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D4183B27FE91C7002B0C8D /* AudioPlayerTool.swift */; };
+		86D4183F27FFDF42002B0C8D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 86D4184127FFDF42002B0C8D /* Localizable.strings */; };
+		86D4184427FFE28B002B0C8D /* AppDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D4184327FFE28B002B0C8D /* AppDefine.swift */; };
+		86D4184627FFE970002B0C8D /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D4184527FFE970002B0C8D /* CustomButton.swift */; };
 		86DE03C727981B3D000EE3C5 /* CallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE03C627981B3D000EE3C5 /* CallManager.swift */; };
 		86DE03C927983D98000EE3C5 /* CallMainVC+Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */; };
 		8E08EFCF27F1DD2E0003030A /* Delay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E08EFCE27F1DD2E0003030A /* Delay.swift */; };
@@ -278,7 +281,7 @@
 		86B1994C278D63430004C997 /* ZegoTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZegoTimer.swift; sourceTree = "<group>"; };
 		86B1994D278D63430004C997 /* AuthorizedCheck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizedCheck.swift; sourceTree = "<group>"; };
 		86B1994E278D63430004C997 /* UIImage+Zego.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Zego.swift"; sourceTree = "<group>"; };
-		86B19963278D63E30004C997 /* AppDefine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDefine.swift; sourceTree = "<group>"; };
+		86B19963278D63E30004C997 /* CallUIKitDefine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallUIKitDefine.swift; sourceTree = "<group>"; };
 		86B19968278D6AAC0004C997 /* ZEGOCallDemo-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZEGOCallDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 		86B19970278D71820004C997 /* GeneralWebVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralWebVC.swift; sourceTree = "<group>"; };
 		86B19977278D75E00004C997 /* OnlineUserListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineUserListVC.swift; sourceTree = "<group>"; };
@@ -301,6 +304,10 @@
 		86B19A1327901FAF0004C997 /* CallBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallBaseView.swift; sourceTree = "<group>"; };
 		86B19A1627911D740004C997 /* CallMainVC+Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallMainVC+Operation.swift"; sourceTree = "<group>"; };
 		86D4183B27FE91C7002B0C8D /* AudioPlayerTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerTool.swift; sourceTree = "<group>"; };
+		86D4184027FFDF42002B0C8D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		86D4184227FFDF47002B0C8D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		86D4184327FFE28B002B0C8D /* AppDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDefine.swift; sourceTree = "<group>"; };
+		86D4184527FFE970002B0C8D /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		86DE03C627981B3D000EE3C5 /* CallManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallManager.swift; sourceTree = "<group>"; };
 		86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallMainVC+Stream.swift"; sourceTree = "<group>"; };
 		8E08EFCE27F1DD2E0003030A /* Delay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delay.swift; sourceTree = "<group>"; };
@@ -381,7 +388,7 @@
 		8637812B27E45F32000A0C22 /* ZEGOCallUIKit */ = {
 			isa = PBXGroup;
 			children = (
-				86B19963278D63E30004C997 /* AppDefine.swift */,
+				86B19963278D63E30004C997 /* CallUIKitDefine.swift */,
 				8E7756E627DF47CE00BFB5F6 /* RingResource */,
 				86B198FB278D63430004C997 /* Helper */,
 				8637812D27E46124000A0C22 /* CallUI */,
@@ -483,6 +490,7 @@
 		86B19890278BDD7D0004C997 /* ZEGOCallDemo */ = {
 			isa = PBXGroup;
 			children = (
+				86D4184327FFE28B002B0C8D /* AppDefine.swift */,
 				8E703EFD27EC0B3C00CC87CE /* ZEGOCallDemo.entitlements */,
 				8E7F92D527F461150059F833 /* Tool */,
 				86B198EF278D28B20004C997 /* CorePages */,
@@ -496,6 +504,7 @@
 				86B1989C278BDD7F0004C997 /* LaunchScreen.storyboard */,
 				86B1989F278BDD7F0004C997 /* Info.plist */,
 				868F636127A1647000D0B5DC /* InfoPlist.strings */,
+				86D4184127FFDF42002B0C8D /* Localizable.strings */,
 			);
 			path = ZEGOCallDemo;
 			sourceTree = "<group>";
@@ -957,6 +966,7 @@
 				8E7F92D327F339A20059F833 /* TokenManager.swift */,
 				8E7F92D627F4614F0059F833 /* LoginManager.swift */,
 				8E7F92D827F471D90059F833 /* UserListManager.swift */,
+				86D4184527FFE970002B0C8D /* CustomButton.swift */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -1026,6 +1036,7 @@
 				8637810727E1D3E9000A0C22 /* MinimizeCallView.xib in Resources */,
 				86B19988278EB8B20004C997 /* CallAcceptView.xib in Resources */,
 				86B19A1227901B550004C997 /* CallMainVC.xib in Resources */,
+				86D4183F27FFDF42002B0C8D /* Localizable.strings in Resources */,
 				86B19959278D63440004C997 /* TipView.xib in Resources */,
 				8637811027E2D66D000A0C22 /* CallSettingView.xib in Resources */,
 				86B198AB278BE1C60004C997 /* AppCenter.json in Resources */,
@@ -1129,7 +1140,7 @@
 				8637810527E1D398000A0C22 /* MinimizeCallView.swift in Sources */,
 				8637812127E31743000A0C22 /* CallSettingSecondView.swift in Sources */,
 				8E7756FF27E0A77500BFB5F6 /* Command.swift in Sources */,
-				86B19964278D63E30004C997 /* AppDefine.swift in Sources */,
+				86B19964278D63E30004C997 /* CallUIKitDefine.swift in Sources */,
 				86D4183C27FE91C8002B0C8D /* AudioPlayerTool.swift in Sources */,
 				8E77571D27E47A8D00BFB5F6 /* EndCallCommand.swift in Sources */,
 				86B19A1427901FAF0004C997 /* CallBaseView.swift in Sources */,
@@ -1150,6 +1161,7 @@
 				8E703EFA27EB177000CC87CE /* DeclineCallCommand.swift in Sources */,
 				8637814427E9AE6B000A0C22 /* CallManager+Minimized.swift in Sources */,
 				8637814C27F455FC000A0C22 /* CallManagerInterface.swift in Sources */,
+				86D4184627FFE970002B0C8D /* CustomButton.swift in Sources */,
 				8637813627E47686000A0C22 /* AppleCallKitServiceIMP.swift in Sources */,
 				86B19953278D63440004C997 /* ZegoServerAssistant.cpp in Sources */,
 				86B198F6278D625F0004C997 /* SettingsVC.swift in Sources */,
@@ -1186,6 +1198,7 @@
 				86B19958278D63440004C997 /* MBProgressHUD.m in Sources */,
 				8E77570127E1939B00BFB5F6 /* CommandManager.swift in Sources */,
 				86B1995B278D63440004C997 /* TipView.swift in Sources */,
+				86D4184427FFE28B002B0C8D /* AppDefine.swift in Sources */,
 				8E77571727E4749500BFB5F6 /* CallCommand.swift in Sources */,
 				8637814E27F5B824000A0C22 /* DeviceTool.swift in Sources */,
 				86AC134627997D7F00607277 /* CallManager+CallKit.swift in Sources */,
@@ -1246,6 +1259,15 @@
 				868F6353279E913800D0B5DC /* zh-Hans */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		86D4184127FFDF42002B0C8D /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				86D4184027FFDF42002B0C8D /* en */,
+				86D4184227FFDF47002B0C8D /* zh-Hans */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

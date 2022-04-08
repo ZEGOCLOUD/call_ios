@@ -33,7 +33,7 @@
                                 <color key="textColor" name="2A2A2A"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HqS-cH-QVD">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HqS-cH-QVD" customClass="CustomButton" customModule="ZEGOCallDemo" customModuleProvider="target">
                                 <rect key="frame" x="37" y="791" width="12" height="12"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="12" id="DgM-ns-UMl"/>
