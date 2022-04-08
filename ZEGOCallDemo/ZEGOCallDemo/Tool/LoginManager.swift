@@ -27,6 +27,10 @@ class LoginManager {
         ref = Database.database().reference()
         user = Auth.auth().currentUser
         
+        if user != nil {
+            UserListManager.shared.addOnlineUsersListener()
+        }
+        
         addConnectedListener()
     }
     
