@@ -11,12 +11,15 @@ func ZGLocalizedString(_ key : String, tableName: String) -> String {
     return Bundle.main.localizedString(forKey: key, value: "", table: tableName)
 }
 
+func ZGUIKitLocalizedString(_ key: String) -> String {
+    return ZGLocalizedString(key, tableName: "Call")
+}
+
 func KeyWindow() -> UIWindow {
     let window: UIWindow = UIApplication.shared.windows.filter({ $0.isKeyWindow }).last!
     return window
 }
 
-let CallUIKitTable = "Call"
 let CALL_NOTI_START = "callStart"
 let CALL_NOTI_END = "callEnd"
 let CALL_NOTI_MUTE = "muteSpeaker"

@@ -33,7 +33,6 @@
 "call_page_call_quality_poor" = "The call quality is poor…";
 "call_page_call_disconnected" = "The call has dropped. Please wait.";
 "call_page_status_busy" = "The one you dialed is busy.";
-"call_page_call_unable_initiate" = "On the line. Unable to initiate a new call";
 "call_page_call_connection_unstable" = "Your connection is unstable";
 "call_page_call_connection_unstable_other" = "Other user's connection is unstable.";
 "call_page_call_disconnection" = "The call has dropped. Please wait...";

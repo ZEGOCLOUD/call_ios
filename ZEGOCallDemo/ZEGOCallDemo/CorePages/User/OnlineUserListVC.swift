@@ -13,18 +13,18 @@ class OnlineUserListVC: UIViewController {
     
     @IBOutlet weak var onlineLabel: UILabel!{
         didSet {
-            onlineLabel.text = ZGLocalizedString("online",tableName: AppTable)
+            onlineLabel.text = ZGAppLocalizedString("online")
         }
     }
     @IBOutlet weak var emptyImage: UIImageView!
     @IBOutlet weak var emptyLabel: UILabel! {
         didSet {
-            emptyLabel.text = ZGLocalizedString("no_online_user",tableName: AppTable)
+            emptyLabel.text = ZGAppLocalizedString("no_online_user")
         }
     }
     @IBOutlet weak var backLabel: UILabel! {
         didSet {
-            backLabel.text = ZGLocalizedString("call_back_title",tableName: AppTable)
+            backLabel.text = ZGAppLocalizedString("call_back_title")
         }
     }
     
@@ -46,7 +46,7 @@ class OnlineUserListVC: UIViewController {
     
     lazy var refreshControl: UIRefreshControl = {
         var refreshControl = UIRefreshControl()
-        refreshControl.attributedTitle = NSAttributedString(string: ZGLocalizedString("call_user_list_refresh",tableName: AppTable))
+        refreshControl.attributedTitle = NSAttributedString(string: ZGAppLocalizedString("call_user_list_refresh"))
         refreshControl.addTarget(self, action: #selector(refreshUserList), for: .valueChanged)
         return refreshControl
     }()

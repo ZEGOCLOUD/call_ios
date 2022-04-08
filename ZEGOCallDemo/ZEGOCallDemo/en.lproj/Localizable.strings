@@ -52,5 +52,6 @@
 "token_is_not_exist" = "token is not exist";
 
 "call_page_call_fail" = "Call failed. Error code: %d.";
+"call_page_call_unable_initiate" = "On the line. Unable to initiate a new call";
 
 
