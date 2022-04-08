@@ -63,7 +63,7 @@ class TokenManager {
                     self.saveToken(token as? String, effectiveTimeInSeconds)
                     CallManager.shared.token = token as? String
                 case .failure(_):
-                    HUDHelper.showMessage(message: ZGLocalizedString("token_get_fail"))
+                    HUDHelper.showMessage(message: ZGLocalizedString("token_get_fail",tableName: AppTable))
                 }
             }
         } else {

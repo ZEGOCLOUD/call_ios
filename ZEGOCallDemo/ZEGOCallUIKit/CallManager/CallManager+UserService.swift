@@ -10,6 +10,7 @@ import ZegoExpressEngine
 
 extension CallManager: UserServiceDelegate {
     func onNetworkQuality(_ userID: String, upstreamQuality: ZegoStreamQualityLevel) {
+        print("onNetworkQuality:%@ quality:%d",userID, upstreamQuality.rawValue)
         if let currentCallVC = currentCallVC {
             currentCallVC.callQualityChange(setNetWorkQuality(upstreamQuality: upstreamQuality), userID: userID)
         }

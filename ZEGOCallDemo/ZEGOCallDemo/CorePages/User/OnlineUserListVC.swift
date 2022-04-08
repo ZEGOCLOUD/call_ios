@@ -13,16 +13,20 @@ class OnlineUserListVC: UIViewController {
     
     @IBOutlet weak var onlineLabel: UILabel!{
         didSet {
-            onlineLabel.text = ZGLocalizedString("online")
+            onlineLabel.text = ZGLocalizedString("online",tableName: AppTable)
         }
     }
     @IBOutlet weak var emptyImage: UIImageView!
     @IBOutlet weak var emptyLabel: UILabel! {
         didSet {
-            emptyLabel.text = ZGLocalizedString("no_online_user")
+            emptyLabel.text = ZGLocalizedString("no_online_user",tableName: AppTable)
         }
     }
-    @IBOutlet weak var backLabel: UILabel!
+    @IBOutlet weak var backLabel: UILabel! {
+        didSet {
+            backLabel.text = ZGLocalizedString("call_back_title",tableName: AppTable)
+        }
+    }
     
     
     @IBOutlet weak var userListTableView: UITableView! {
@@ -31,11 +35,18 @@ class OnlineUserListVC: UIViewController {
         }
     }
     
+    @IBOutlet weak var backButton: CustomButton! {
+        didSet {
+            backButton.widthHot = 80
+        }
+    }
+    
+    
     var userInfoList: Array<UserInfo> = []
     
     lazy var refreshControl: UIRefreshControl = {
         var refreshControl = UIRefreshControl()
-        refreshControl.attributedTitle = NSAttributedString(string: ZGLocalizedString("call_user_list_refresh"))
+        refreshControl.attributedTitle = NSAttributedString(string: ZGLocalizedString("call_user_list_refresh",tableName: AppTable))
         refreshControl.addTarget(self, action: #selector(refreshUserList), for: .valueChanged)
         return refreshControl
     }()
@@ -43,7 +54,6 @@ class OnlineUserListVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        backLabel.text = ZGLocalizedString("call_back_title")
     }
     
     override func viewWillAppear(_ animated: Bool) {

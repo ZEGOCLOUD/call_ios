@@ -23,7 +23,7 @@ class CallSettingView: UIView, UITableViewDelegate, UITableViewDataSource, Setti
     @IBOutlet weak var topLineView: UIView!
     @IBOutlet weak var settingLabel: UILabel! {
         didSet {
-            settingLabel.text = ZGLocalizedString("room_settings_page_settings")
+            settingLabel.text = ZGLocalizedString("room_settings_page_settings",tableName: CallUIKitTable)
         }
     }
     @IBOutlet weak var settingTableView: UITableView!
@@ -104,46 +104,46 @@ class CallSettingView: UIView, UITableViewDelegate, UITableViewDataSource, Setti
         viewType = type
         if type == .video {
             containerViewHeight.constant = 382
-            settingDataSource = [["title": ZGLocalizedString("room_settings_page_noise_suppression"),
+            settingDataSource = [["title": ZGLocalizedString("room_settings_page_noise_suppression",tableName: CallUIKitTable),
                                   "subTitle": "", "selectionType": DeviceType.noiseSuppression,
                                   "switchStatus": ServiceManager.shared.deviceService.noiseSliming],
                                  
-                                 ["title": ZGLocalizedString("room_settings_page_echo_cancellation"),
+                                 ["title": ZGLocalizedString("room_settings_page_echo_cancellation",tableName: CallUIKitTable),
                                   "subTitle": "", "selectionType": DeviceType.echoCancellation,
                                   "switchStatus": ServiceManager.shared.deviceService.echoCancellation],
                                  
-                                 ["title": ZGLocalizedString("room_settings_page_mic_volume"),
+                                 ["title": ZGLocalizedString("room_settings_page_mic_volume",tableName: CallUIKitTable),
                                   "subTitle": "", "selectionType": DeviceType.volumeAdjustment,
                                   "switchStatus": ServiceManager.shared.deviceService.volumeAdjustment],
                                  
-                                 ["title": ZGLocalizedString("room_settings_page_minoring"),
+                                 ["title": ZGLocalizedString("room_settings_page_minoring",tableName: CallUIKitTable),
                                   "subTitle": "", "selectionType": DeviceType.videoMirror,
                                   "switchStatus": ServiceManager.shared.deviceService.videoMirror],
                                  
-                                 ["title": ZGLocalizedString("room_settings_page_video_resolution"),
+                                 ["title": ZGLocalizedString("room_settings_page_video_resolution",tableName: CallUIKitTable),
                                   "subTitle": "720x1280", "selectionType": DeviceType.videoResolution,
                                   "switchStatus": false],
                                  
-                                 ["title": ZGLocalizedString("room_settings_page_audio_bitrate"),
+                                 ["title": ZGLocalizedString("room_settings_page_audio_bitrate",tableName: CallUIKitTable),
                                   "subTitle": "48kbps",
                                   "selectionType": DeviceType.bitrate,
                                   "switchStatus": false]
                                 ].map{ CallSettingModel(json: $0) }
         } else if type == .audio {
             containerViewHeight.constant = 281
-            settingDataSource = [["title": ZGLocalizedString("room_settings_page_noise_suppression"),
+            settingDataSource = [["title": ZGLocalizedString("room_settings_page_noise_suppression",tableName: CallUIKitTable),
                                   "subTitle": "", "selectionType": DeviceType.noiseSuppression,
                                   "switchStatus": ServiceManager.shared.deviceService.noiseSliming],
                                  
-                                 ["title": ZGLocalizedString("room_settings_page_echo_cancellation"),
+                                 ["title": ZGLocalizedString("room_settings_page_echo_cancellation",tableName: CallUIKitTable),
                                   "subTitle": "", "selectionType": DeviceType.echoCancellation,
                                   "switchStatus": ServiceManager.shared.deviceService.echoCancellation],
                                  
-                                 ["title": ZGLocalizedString("room_settings_page_mic_volume"),
+                                 ["title": ZGLocalizedString("room_settings_page_mic_volume",tableName: CallUIKitTable),
                                   "subTitle": "", "selectionType": DeviceType.volumeAdjustment,
                                   "switchStatus": ServiceManager.shared.deviceService.volumeAdjustment],
                                  
-                                 ["title": ZGLocalizedString("room_settings_page_audio_bitrate"),
+                                 ["title": ZGLocalizedString("room_settings_page_audio_bitrate",tableName: CallUIKitTable),
                                   "subTitle": "48kbps",
                                   "selectionType": DeviceType.bitrate,
                                   "switchStatus": false]

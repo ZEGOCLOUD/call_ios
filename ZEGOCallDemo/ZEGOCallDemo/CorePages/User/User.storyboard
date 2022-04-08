@@ -197,7 +197,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e6g-9S-p6J">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="88"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="br8-bG-zK9">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="br8-bG-zK9" customClass="CustomButton" customModule="ZEGOCallDemo" customModuleProvider="target">
                                         <rect key="frame" x="10" y="49.5" width="33" height="33"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="33" id="Sc9-TD-4fD"/>
@@ -249,6 +249,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="backButton" destination="br8-bG-zK9" id="msS-5q-eqp"/>
                         <outlet property="backLabel" destination="sOf-TY-M2s" id="4FS-AO-Xc6"/>
                         <outlet property="emptyImage" destination="OjA-qy-RZJ" id="dRr-wM-LPu"/>
                         <outlet property="emptyLabel" destination="PNa-NN-jw9" id="IzF-7L-phr"/>

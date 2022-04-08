@@ -141,7 +141,7 @@ extension CallManager: CallServiceDelegate {
         case .disconnected,.connected:
             HUDHelper.hideNetworkLoading()
         case .connecting:
-            HUDHelper.showNetworkLoading(ZGLocalizedString("call_page_call_disconnection"))
+            HUDHelper.showNetworkLoading(ZGLocalizedString("call_page_call_disconnection",tableName: CallUIKitTable))
         }
     }
 }

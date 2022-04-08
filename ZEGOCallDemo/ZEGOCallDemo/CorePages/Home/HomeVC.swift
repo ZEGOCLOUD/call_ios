@@ -15,22 +15,22 @@ class HomeVC: UIViewController {
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var contactUsButton: UIButton! {
         didSet {
-            contactUsButton.setTitle(ZGLocalizedString("welcome_page_contact_us"), for: .normal)
+            contactUsButton.setTitle(ZGLocalizedString("welcome_page_contact_us",tableName: AppTable), for: .normal)
         }
     }
     @IBOutlet weak var moreButton: UIButton! {
         didSet {
-            moreButton.setTitle(ZGLocalizedString("welcome_page_get_more"), for: .normal)
+            moreButton.setTitle(ZGLocalizedString("welcome_page_get_more",tableName: AppTable), for: .normal)
         }
     }
     @IBOutlet weak var bannerDescLabel: UILabel! {
         didSet {
-            bannerDescLabel.text = ZGLocalizedString("banner_call_desc")
+            bannerDescLabel.text = ZGLocalizedString("banner_call_desc",tableName: AppTable)
         }
     }
     @IBOutlet weak var bannerNameLabel: UILabel! {
         didSet {
-            bannerNameLabel.text = ZGLocalizedString("banner_call_title")
+            bannerNameLabel.text = ZGLocalizedString("banner_call_title",tableName: AppTable)
         }
     }
     
@@ -137,7 +137,7 @@ class HomeVC: UIViewController {
 extension HomeVC: CallManagerDelegate {
     func onReceiveUserError(_ error: UserError) {
         if error == .kickedOut {
-            HUDHelper.showMessage(message: ZGLocalizedString("toast_login_kick_out"))
+            HUDHelper.showMessage(message: ZGLocalizedString("toast_login_kick_out",tableName: AppTable))
             CallManager.shared.resetCallData()
             self.navigationController?.popToRootViewController(animated: true)
         } else if error == .tokenExpire {

@@ -82,6 +82,7 @@ extension LoginManager {
             }
         }
         user = nil
+        TokenManager.shared.saveToken(nil, 0)
     }
     
     private func addConnectedListener() {
