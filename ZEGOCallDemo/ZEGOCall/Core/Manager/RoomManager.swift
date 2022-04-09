@@ -183,6 +183,12 @@ extension RoomManager: ZegoEventHandler {
     func onRoomStateUpdate(_ state: ZegoRoomState, errorCode: Int32, extendedData: [AnyHashable : Any]?, roomID: String) {
         
     }
+    
+    func onRoomTokenWillExpire(_ remainTimeInSecond: Int32, roomID: String) {
+        for delegate in rtcEventDelegates.allObjects {
+            delegate.onRoomTokenWillExpire?(remainTimeInSecond, roomID: roomID)
+        }
+    }
 }
 
 extension RoomManager: ZIMEventHandler {

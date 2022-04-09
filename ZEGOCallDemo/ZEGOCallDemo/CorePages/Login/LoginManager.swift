@@ -45,9 +45,20 @@ class LoginManager: NSObject {
                 })
             }
             self.timer.start()
-            
-            let token = AppToken.getToken(withUserID: userID) ?? ""
-            RoomManager.shared.userService.login(user, token, callback: callback)
+        
+            TokenManager.shared.getToken(userID, isForceUpdate: true) { result in
+                if result.isSuccess {
+                    let token: String? = result.success
+                    guard let token = token else {
+                        HUDHelper.hideNetworkLoading()
+                        print("token is nil")
+                        return
+                    }
+                    RoomManager.shared.userService.login(user, token, callback: callback)
+                } else {
+                    HUDHelper.showMessage(message: "get token fail")
+                }
+            }
             
         } failure: { requestStatus in
             guard let callback = callback else { return }

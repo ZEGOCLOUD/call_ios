@@ -100,6 +100,7 @@
 		86B19A1227901B550004C997 /* CallMainVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86B19A1027901B550004C997 /* CallMainVC.xib */; };
 		86B19A1427901FAF0004C997 /* CallBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19A1327901FAF0004C997 /* CallBaseView.swift */; };
 		86B19A1727911D740004C997 /* CallMainVC+Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19A1627911D740004C997 /* CallMainVC+Operation.swift */; };
+		86D4184C28017601002B0C8D /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D4184B28017601002B0C8D /* TokenManager.swift */; };
 		86DE03C727981B3D000EE3C5 /* CallBusiness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE03C627981B3D000EE3C5 /* CallBusiness.swift */; };
 		86DE03C927983D98000EE3C5 /* CallMainVC+Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */; };
 		8E0C8C7E27A3C93A00B60495 /* UserService+Express.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0C8C7D27A3C93A00B60495 /* UserService+Express.swift */; };
@@ -254,6 +255,7 @@
 		86B19A1027901B550004C997 /* CallMainVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CallMainVC.xib; sourceTree = "<group>"; };
 		86B19A1327901FAF0004C997 /* CallBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallBaseView.swift; sourceTree = "<group>"; };
 		86B19A1627911D740004C997 /* CallMainVC+Operation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallMainVC+Operation.swift"; sourceTree = "<group>"; };
+		86D4184B28017601002B0C8D /* TokenManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
 		86DE03C627981B3D000EE3C5 /* CallBusiness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallBusiness.swift; sourceTree = "<group>"; };
 		86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallMainVC+Stream.swift"; sourceTree = "<group>"; };
 		8E0C8C7D27A3C93A00B60495 /* UserService+Express.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserService+Express.swift"; sourceTree = "<group>"; };
@@ -530,6 +532,7 @@
 		86B198FC278D63430004C997 /* Token */ = {
 			isa = PBXGroup;
 			children = (
+				86D4184B28017601002B0C8D /* TokenManager.swift */,
 				86B198FD278D63430004C997 /* ZegoToken.mm */,
 				86B198FE278D63430004C997 /* ZegoToken.h */,
 				86B198FF278D63430004C997 /* TokenGenerator */,
@@ -922,6 +925,7 @@
 				86718CE5279542E300CEA8A0 /* HeartBeatRequest.swift in Sources */,
 				86B198DE278BE2600004C997 /* CustomCommand.swift in Sources */,
 				86718CA627915A5D00CEA8A0 /* RefreshViewAnimator.swift in Sources */,
+				86D4184C28017601002B0C8D /* TokenManager.swift in Sources */,
 				86B1995C278D63440004C997 /* StringTool.swift in Sources */,
 				86B198D5278BE2600004C997 /* Result+Zego.swift in Sources */,
 				8EE5264727B364B200158BBE /* LoginManager.swift in Sources */,

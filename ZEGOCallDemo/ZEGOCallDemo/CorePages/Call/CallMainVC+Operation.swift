@@ -54,18 +54,28 @@ extension CallMainVC: CallActionDelegate {
     func callAccept(_ callView: CallBaseView) {
         updateCallType(self.vcType, userInfo: self.callUser ?? UserInfo(), status: .calling)
         if let userID = self.callUser?.userID {
-            let token = AppToken.getToken(withUserID: localUserID)
-            guard let token = token else { return }
-            RoomManager.shared.userService.respondCall(userID, token:token, responseType: .accept) { result in
-                CallBusiness.shared.audioPlayer?.stop()
+            TokenManager.shared.getToken(localUserID) { result in
                 if result.isSuccess {
-                    CallBusiness.shared.currentCallStatus = .calling
-                    ZegoExpressEngine.shared().useFrontCamera(true)
-                    self.startPlayingStream(userID)
+                    let token: String? = result.success
+                    guard let token = token else {
+                        print("token is nil")
+                        HUDHelper.hideNetworkLoading()
+                        return
+                    }
+                    RoomManager.shared.userService.respondCall(userID, token:token, responseType: .accept) { result in
+                        CallBusiness.shared.audioPlayer?.stop()
+                        if result.isSuccess {
+                            CallBusiness.shared.currentCallStatus = .calling
+                            ZegoExpressEngine.shared().useFrontCamera(true)
+                            self.startPlayingStream(userID)
+                        } else {
+                            CallBusiness.shared.currentCallStatus = .free
+                            self.changeCallStatusText(.decline)
+                            self.callDelayDismiss()
+                        }
+                    }
                 } else {
-                    CallBusiness.shared.currentCallStatus = .free
-                    self.changeCallStatusText(.decline)
-                    self.callDelayDismiss()
+                    HUDHelper.showMessage(message: "get token fail")
                 }
             }
         }
@@ -92,9 +102,7 @@ extension CallMainVC: CallActionDelegate {
     
     func callDecline(_ callView: CallBaseView) {
         if let userID = self.callUser?.userID {
-            let token = AppToken.getToken(withUserID: localUserID)
-            guard let token = token else { return }
-            RoomManager.shared.userService.respondCall(userID, token: token ,responseType: .decline) { result in
+            RoomManager.shared.userService.respondCall(userID, token: "" ,responseType: .decline) { result in
                 if result.isSuccess {
                     CallBusiness.shared.audioPlayer?.stop()
                     CallBusiness.shared.currentCallStatus = .free

@@ -62,6 +62,14 @@ protocol UserServiceDelegate : AnyObject  {
     ///
     /// - Description: This callback will be triggered when the caller or called user ends the call.
     func receiveCallEnded()
+    
+    /// Callback notification that Token authentication is about to expire.
+    ///
+    /// Description:The callback notification that the Token authentication is about to expire, please use [renewToken] to update the Token authentication.
+    ///
+    /// @param remainTimeInSecond The remaining time before the token expires.
+    /// @param roomID Room ID where the user is logged in, a string of up to 128 bytes in length.
+    func onRoomTokenWillExpire(_ remainTimeInSecond: Int32, roomID: String?)
 }
 
 // default realized
@@ -73,6 +81,7 @@ extension UserServiceDelegate {
     func receiveCallCanceled(_ userInfo: UserInfo, type: CancelType) { }
     func receiveCallResponse(_ userInfo: UserInfo , responseType: CallResponseType) { }
     func receiveCallEnded() { }
+    func onRoomTokenWillExpire(_ remainTimeInSecond: Int32, roomID: String?) { }
 }
 
 
@@ -99,6 +108,7 @@ class UserService: NSObject {
         // RoomManager didn't finish init at this time.
         DispatchQueue.main.async {
             RoomManager.shared.addZIMEventHandler(self)
+            RoomManager.shared.addExpressEventHandler(self)
         }
         roomService.delegate = self
     }
@@ -314,6 +324,21 @@ class UserService: NSObject {
         // open camera
         enableCamera(enable)
     }
+    
+    /// Renew token.
+    ///
+    /// Description: After the developer receives [onRoomTokenWillExpire], they can use this API to update the token to ensure that the subsequent RTC&ZIM functions are normal.
+    ///
+    /// @param token The token that needs to be renew.
+    /// @param roomID Room ID.
+    func renewToken(_ token: String, roomID: String?) {
+        if let roomID = roomID {
+            ZegoExpressEngine.shared().renewToken(token, roomID: roomID)
+        }
+        ZIMManager.shared.zim?.renewToken(token, callback: { message, error in
+            
+        })
+    }
 }
 
 // MARK: - Private
@@ -458,6 +483,14 @@ extension UserService : ZIMEventHandler {
             }
         }
     }
+    
+    func zim(_ zim: ZIM, tokenWillExpire second: UInt32) {
+        for obj in delegates.allObjects {
+            if let delegate = obj as? UserServiceDelegate {
+                delegate.onRoomTokenWillExpire(Int32(second), roomID: nil)
+            }
+        }
+    }
 }
 
 extension UserService: ZegoEventHandler {
@@ -465,6 +498,14 @@ extension UserService: ZegoEventHandler {
         for obj in delegates.allObjects {
             if let delegate = obj as? UserServiceDelegate {
                 delegate.onNetworkQuality(userID, upstreamQuality: upstreamQuality)
+            }
+        }
+    }
+    
+    func onRoomTokenWillExpire(_ remainTimeInSecond: Int32, roomID: String) {
+        for obj in delegates.allObjects {
+            if let delegate = obj as? UserServiceDelegate {
+                delegate.onRoomTokenWillExpire(remainTimeInSecond, roomID: roomID)
             }
         }
     }

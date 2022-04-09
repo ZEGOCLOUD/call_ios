@@ -77,44 +77,54 @@ extension CallBusiness {
         }
         currentCallStatus = .calling
         if let userID = currentCallUserInfo?.userID {
-            let token = AppToken.getToken(withUserID: localUserID)
-            guard let token = token else { return }
-            RoomManager.shared.userService.respondCall(userID, token: token, responseType: .accept) { result in
-                switch result {
-                case .success():
-                    self.startCallTime = Int(Date().timeIntervalSince1970)
-                    if self.appIsActive {
-                        if let callVC = self.currentCallVC {
-                            guard let userInfo = self.currentCallUserInfo else { return }
-                            callVC.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
-                            callVC.callTime = self.startCallTime
-                            if let controller = self.getCurrentViewController() {
-                                if controller is CallMainVC {
-                                    self.currentCallVC?.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
-                                    self.startPlayingStream(userID)
+            TokenManager.shared.getToken(localUserID) { result in
+                if result.isSuccess {
+                    let token: String? = result.success
+                    guard let token = token else {
+                        print("token is nil")
+                        return
+                    }
+                    RoomManager.shared.userService.respondCall(userID, token: token, responseType: .accept) { result in
+                        switch result {
+                        case .success():
+                            self.startCallTime = Int(Date().timeIntervalSince1970)
+                            if self.appIsActive {
+                                if let callVC = self.currentCallVC {
+                                    guard let userInfo = self.currentCallUserInfo else { return }
+                                    callVC.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
+                                    callVC.callTime = self.startCallTime
+                                    if let controller = self.getCurrentViewController() {
+                                        if controller is CallMainVC {
+                                            self.currentCallVC?.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
+                                            self.startPlayingStream(userID)
+                                        } else {
+                                            controller.present(callVC, animated: true) {
+                                                self.startPlayingStream(userID)
+                                            }
+                                        }
+                                    }
                                 } else {
-                                    controller.present(callVC, animated: true) {
-                                        self.startPlayingStream(userID)
+                                    guard let userInfo = self.currentCallUserInfo else { return }
+                                    let callVC: CallMainVC = CallMainVC.loadCallMainVC(self.callKitCallType, userInfo: userInfo, status: .calling)
+                                    self.currentCallVC = callVC
+                                    callVC.callTime = self.startCallTime
+                                    if let controller = self.getCurrentViewController() {
+                                        controller.present(callVC, animated: true) {
+                                            self.startPlayingStream(userID)
+                                        }
                                     }
                                 }
+                                self.endSystemCall()
+                            } else {
+                                self.startPlayingStream(userID)
                             }
-                        } else {
-                            guard let userInfo = self.currentCallUserInfo else { return }
-                            let callVC: CallMainVC = CallMainVC.loadCallMainVC(self.callKitCallType, userInfo: userInfo, status: .calling)
-                            self.currentCallVC = callVC
-                            callVC.callTime = self.startCallTime
-                            if let controller = self.getCurrentViewController() {
-                                controller.present(callVC, animated: true) {
-                                    self.startPlayingStream(userID)
-                                }
-                            }
+                        case .failure(_):
+                            break
                         }
-                        self.endSystemCall()
-                    } else {
-                        self.startPlayingStream(userID)
                     }
-                case .failure(_):
-                    break
+                    
+                } else {
+                    HUDHelper.showMessage(message: "get token fail")
                 }
             }
         }

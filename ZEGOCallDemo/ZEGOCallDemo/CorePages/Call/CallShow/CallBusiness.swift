@@ -87,25 +87,34 @@ class CallBusiness: NSObject {
     
     private func acceptCall(_ userInfo: UserInfo, callType: CallType) {
         guard let userID = userInfo.userID else { return }
-        let token = AppToken.getToken(withUserID: localUserID)
-        guard let token = token else { return }
-        RoomManager.shared.userService.respondCall(userID, token: token, responseType:.accept) { result in
-            switch result {
-            case .success():
-                self.audioPlayer?.stop()
-                let callVC: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .calling)
-                callVC.otherUserRoomInfo = self.otherUserRoomInfo
-                self.currentCallVC = callVC
-                self.currentCallStatus = .calling
-                self.currentCallUserInfo = userInfo
-                if let controller = self.getCurrentViewController() {
-                    controller.present(callVC, animated: true) {
-                        RoomManager.shared.userService.useFrontCamera(true)
-                        self.startPlayingStream(userID)
+        TokenManager.shared.getToken(localUserID) { result in
+            if result.isSuccess {
+                let token: String? = result.success
+                guard let token = token else {
+                    print("token is nil")
+                    return
+                }
+                RoomManager.shared.userService.respondCall(userID, token: token, responseType:.accept) { result in
+                    switch result {
+                    case .success():
+                        self.audioPlayer?.stop()
+                        let callVC: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .calling)
+                        callVC.otherUserRoomInfo = self.otherUserRoomInfo
+                        self.currentCallVC = callVC
+                        self.currentCallStatus = .calling
+                        self.currentCallUserInfo = userInfo
+                        if let controller = self.getCurrentViewController() {
+                            controller.present(callVC, animated: true) {
+                                RoomManager.shared.userService.useFrontCamera(true)
+                                self.startPlayingStream(userID)
+                            }
+                        }
+                    case .failure(_):
+                        break
                     }
                 }
-            case .failure(_):
-                break
+            } else {
+                HUDHelper.showMessage(message: "get token fail")
             }
         }
     }
@@ -116,9 +125,7 @@ class CallBusiness: NSObject {
             currentCallUserInfo = nil
             otherUserRoomInfo = nil
         }
-        let token = AppToken.getToken(withUserID: localUserID)
-        guard let token = token else { return }
-        RoomManager.shared.userService.respondCall(userID, token: token, responseType: .decline, callback: nil)
+        RoomManager.shared.userService.respondCall(userID, token: "", responseType: .decline, callback: nil)
     }
     
     func endCall(_ userID: String) {
