@@ -134,15 +134,15 @@ class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimize
     func getDisplayText(_ status: MinimizedCallStatus) -> String? {
         switch status {
         case .waiting:
-            return ZGLocalizedString("call_page_status_waiting", tableName: CallUIKitTable)
+            return ZGUIKitLocalizedString("call_page_status_waiting")
         case .decline:
-            return ZGLocalizedString("call_page_status_declined", tableName: CallUIKitTable)
+            return ZGUIKitLocalizedString("call_page_status_declined")
         case .calling:
             return nil
         case .miss:
-            return ZGLocalizedString("call_page_status_missed", tableName: CallUIKitTable)
+            return ZGUIKitLocalizedString("call_page_status_missed")
         case .end:
-            return ZGLocalizedString("call_page_status_ended", tableName: CallUIKitTable)
+            return ZGUIKitLocalizedString("call_page_status_ended")
         }
     }
     

@@ -20,7 +20,7 @@ class SettingsVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = ZGLocalizedString("setting_page_settings",tableName: AppTable)
+        self.navigationItem.title = ZGAppLocalizedString("setting_page_settings")
     }
     
     func configModel(type:SettingCellType) -> SettingCellModel {
@@ -28,24 +28,24 @@ class SettingsVC: UITableViewController {
         switch type {
         case .express:
             let version : String = ZegoExpressEngine.getVersion().components(separatedBy: "_")[0]
-            model.title = ZGLocalizedString("setting_page_sdk_version",tableName: AppTable)
+            model.title = ZGAppLocalizedString("setting_page_sdk_version")
             model.subTitle = "v\(version)"
             model.type = type
         case .shareLog:
-            model.title = ZGLocalizedString("setting_page_upload_log",tableName: AppTable)
+            model.title = ZGAppLocalizedString("setting_page_upload_log")
             model.type = type
         case .logout:
-            model.title = ZGLocalizedString("setting_page_logout",tableName: AppTable)
+            model.title = ZGAppLocalizedString("setting_page_logout")
             model.type = type
         case .app:
-            model.title = ZGLocalizedString("setting_page_version",tableName: AppTable)
+            model.title = ZGAppLocalizedString("setting_page_version")
             model.subTitle = versionCheck()
             model.type = type
         case .terms:
-            model.title = ZGLocalizedString("setting_page_terms_of_service",tableName: AppTable)
+            model.title = ZGAppLocalizedString("setting_page_terms_of_service")
             model.type = type
         case .privacy:
-            model.title = ZGLocalizedString("setting_page_privacy_policy",tableName: AppTable)
+            model.title = ZGAppLocalizedString("setting_page_privacy_policy")
             model.type = type
         }
         return model
@@ -106,7 +106,6 @@ class SettingsVC: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let model = dataSource[indexPath.section][indexPath.row]
         if model.type == .logout {
-            UserDefaults.standard.set(true, forKey: App_IS_LOGOUT_KEY)
             LoginManager.shared.logout()
             CallManager.shared.resetCallData()
             self.navigationController?.popToRootViewController(animated: true)
@@ -117,10 +116,10 @@ class SettingsVC: UITableViewController {
                 HUDHelper.hideNetworkLoading()
                 switch result {
                 case .success:
-                    TipView.showTip(ZGLocalizedString("toast_upload_log_success",tableName: AppTable))
+                    TipView.showTip(ZGAppLocalizedString("toast_upload_log_success"))
                     break
                 case .failure(let error):
-                    TipView.showWarn(String(format: ZGLocalizedString("toast_upload_log_fail",tableName: AppTable), error.code))
+                    TipView.showWarn(String(format: ZGAppLocalizedString("toast_upload_log_fail"), error.code))
                     break
                 }
             }

@@ -53,4 +53,5 @@
 "token_is_not_exist" = "token不存在";
 
 "call_page_call_fail" = "呼叫失败，错误码：%d";
+"call_page_call_unable_initiate" = "正在通话中，无法发起新的通话";
 

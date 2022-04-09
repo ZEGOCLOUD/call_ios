@@ -33,7 +33,6 @@
 "call_page_call_quality_poor" = "当前通话质量差...";
 "call_page_call_disconnected" = "当前通话断线,请等待.";
 "call_page_status_busy" = "对方正忙";
-"call_page_call_unable_initiate" = "正在通话中，无法发起新的通话";
 "call_page_call_connection_unstable" = "你的连接不稳定";
 "call_page_call_connection_unstable_other" = "其他用户连接不稳定";
 "call_page_call_disconnection" = "通话失去连接.请稍等…";

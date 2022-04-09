@@ -13,12 +13,12 @@ class CallAcceptView: CallBaseView {
     @IBOutlet weak var declineButton: UIButton!
     @IBOutlet weak var acceptLabel: UILabel! {
         didSet {
-            acceptLabel.text = ZGLocalizedString("call_page_action_accept",tableName: CallUIKitTable)
+            acceptLabel.text = ZGUIKitLocalizedString("call_page_action_accept")
         }
     }
     @IBOutlet weak var declineLabel: UILabel! {
         didSet {
-            declineLabel.text = ZGLocalizedString("call_page_action_decline",tableName: CallUIKitTable)
+            declineLabel.text = ZGUIKitLocalizedString("call_page_action_decline")
         }
     }
     

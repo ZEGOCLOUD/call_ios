@@ -19,11 +19,11 @@ extension OnlineUserListVC: OnlineUserListCellDelegate {
             return
         }
         if CallManager.shared.currentCallStatus != .free {
-            HUDHelper.showMessage(message: ZGLocalizedString("call_page_call_unable_initiate",tableName: AppTable))
+            HUDHelper.showMessage(message: ZGAppLocalizedString("call_page_call_unable_initiate"))
             return
         }
         if CallManager.shared.token == nil {
-            HUDHelper.showMessage(message: ZGLocalizedString("token_is_not_exist",tableName: AppTable))
+            HUDHelper.showMessage(message: ZGAppLocalizedString("token_is_not_exist"))
             TokenManager.shared.getToken()
             return
         }
@@ -34,7 +34,7 @@ extension OnlineUserListVC: OnlineUserListCellDelegate {
                 case .success():
                     break
                 case .failure(let error):
-                    TipView.showWarn(String(format: ZGLocalizedString("call_page_call_fail",tableName: AppTable), error.code))
+                    TipView.showWarn(String(format: ZGAppLocalizedString("call_page_call_fail"), error.code))
                 }
             }
         case .video:
@@ -43,7 +43,7 @@ extension OnlineUserListVC: OnlineUserListCellDelegate {
                 case .success():
                     break
                 case .failure(let error):
-                    TipView.showWarn(String(format: ZGLocalizedString("call_page_call_fail",tableName: AppTable), error.code))
+                    TipView.showWarn(String(format: ZGAppLocalizedString("call_page_call_fail"), error.code))
                     break
                 }
             }

@@ -15,7 +15,7 @@ class GoogleLoginVC: UIViewController {
     @IBOutlet weak var PrivacyLabel: UILabel! {
         didSet {
             PrivacyLabel.numberOfLines = 2
-            PrivacyLabel.text = ZGLocalizedString("login_page_service_privacy",tableName: AppTable)
+            PrivacyLabel.text = ZGAppLocalizedString("login_page_service_privacy")
         }
     }
     
@@ -23,14 +23,14 @@ class GoogleLoginVC: UIViewController {
         didSet {
             privacyTextView.delegate = self
             privacyTextView.textContainerInset = .zero
-            let privacyStr: String = ZGLocalizedString("login_page_service_privacy",tableName: AppTable)
+            let privacyStr: String = ZGAppLocalizedString("login_page_service_privacy")
             let attStr = NSMutableAttributedString(string: privacyStr)
             attStr.addAttribute(NSAttributedString.Key.foregroundColor, value: ZegoColor("7F8081"), range: NSRange(location: 0, length: privacyStr.count))
             attStr.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 12), range: NSRange(location: 0, length: privacyStr.count))
              //点击超链接
-             attStr.addAttribute(NSAttributedString.Key.link, value: "userProtocol://", range: (privacyStr as NSString).range(of: ZGLocalizedString("terms_of_service",tableName: AppTable)))
+             attStr.addAttribute(NSAttributedString.Key.link, value: "userProtocol://", range: (privacyStr as NSString).range(of: ZGAppLocalizedString("terms_of_service")))
              //点击超链接
-            attStr.addAttribute(NSAttributedString.Key.link, value: "privacyPolicy://", range: (privacyStr as NSString).range(of: ZGLocalizedString("policy_privacy_name",tableName: AppTable)))
+            attStr.addAttribute(NSAttributedString.Key.link, value: "privacyPolicy://", range: (privacyStr as NSString).range(of: ZGAppLocalizedString("policy_privacy_name")))
             privacyTextView.linkTextAttributes = [NSAttributedString.Key.foregroundColor: ZegoColor("0055FF")]
             let paragraph = NSMutableParagraphStyle()
             paragraph.lineSpacing = 0
@@ -55,7 +55,7 @@ class GoogleLoginVC: UIViewController {
             logo.bounds = CGRect(x: 0, y: -3, width: 16, height: 16)
             let logoStr = NSAttributedString(attachment: logo)
             attriTitle.append(logoStr)
-            let titleStr: String = String(format: "  %@", ZGLocalizedString("login_page_google_login",tableName: AppTable))
+            let titleStr: String = String(format: "  %@", ZGAppLocalizedString("login_page_google_login"))
             let title: NSAttributedString = NSAttributedString(string: titleStr, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .semibold), NSAttributedString.Key.foregroundColor: ZegoColor("2A2A2A")])
             attriTitle.append(title)
             loginButton.setAttributedTitle(attriTitle, for: .normal)
@@ -84,7 +84,7 @@ class GoogleLoginVC: UIViewController {
     
     @IBAction func loginClick(_ sender: Any) {
         if !isAgreePolicy {
-            HUDHelper.showMessage(message: ZGLocalizedString("toast_login_service_privacy",tableName: AppTable))
+            HUDHelper.showMessage(message: ZGAppLocalizedString("toast_login_service_privacy"))
             return
         }
         if !DeviceTool.shared.cameraPermission {
@@ -114,7 +114,7 @@ class GoogleLoginVC: UIViewController {
                     let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
                     self.navigationController?.pushViewController(vc, animated: true)
                 } else {
-                    let message = String(format: ZGLocalizedString("toast_login_fail",tableName: AppTable), error)
+                    let message = String(format: ZGAppLocalizedString("toast_login_fail"), error)
                     TipView.showWarn(message)
                 }
             }
