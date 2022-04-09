@@ -26,11 +26,7 @@ extension CallManager: UserServiceDelegate {
             return .low
         }
     }
-    
-    func onReceiveUserError(_ error: UserError) {
-        delegate?.onReceiveUserError(error)
-    }
-    
+        
     func onUserInfoUpdate(_ userInfo: UserInfo) {
         if userInfo.userID != localUserID {
             otherUserRoomInfo = userInfo

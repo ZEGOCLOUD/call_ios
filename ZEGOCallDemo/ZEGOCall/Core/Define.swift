@@ -32,6 +32,7 @@ enum ZegoError: Error {
     /// common failed
     case failed
     case paramInvalid
+    case tokenExpired
     
     /// other error code
     case other(_ rawValue: Int32)
@@ -39,6 +40,7 @@ enum ZegoError: Error {
     var code: Int32 {
         switch self {
         case .failed: return 1
+        case .tokenExpired: return 1001
         case .paramInvalid: return 2001
         case .other(let rawValue): return rawValue
         }
@@ -153,12 +155,6 @@ enum CallTimeoutType {
     case calling
 }
 
-enum UserError: Int {
-    /// kickedOut: the user was forced to log out.
-    case kickedOut = 1
-    case tokenExpire = 2
-}
-
 
 let API_Get_Token = "/user/get_token"
 let API_Get_Users = "/user/get_users"
@@ -175,4 +171,3 @@ let Notify_Call_Accept = "/call/notify_call_accept"
 let Notify_Call_Decline = "/call/notify_call_decline"
 let Notify_Call_End = "/call/notify_call_end"
 let Notify_Call_Timeout = "/call/notify_timeout"
-let Notify_User_Error = "/user/notify_error"

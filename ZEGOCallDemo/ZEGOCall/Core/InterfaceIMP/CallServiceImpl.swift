@@ -19,9 +19,13 @@ class CallServiceImpl: NSObject {
     private weak var listener = ListenerManager.shared
     
     private var callTask: Task?
-    private let heartbeatTimer = ZegoTimer(10 * 1000)
+    private let heartbeatTimer = ZegoTimer(20 * 1000)
     private var currentRoomID: String?
-    private var currentToken: String?
+    private var callUserCallback: ZegoCallback?
+    private var acceptCallBack: ZegoCallback?
+    
+    private var callCommand = CallCommand()
+    private var acceptCommand = AcceptCallCommand()
     
     override init() {
         super.init()
@@ -38,38 +42,44 @@ class CallServiceImpl: NSObject {
 extension CallServiceImpl: CallService {
     func callUser(_ user: UserInfo, token: String, type: CallType, callback: ZegoCallback?) {
                 
+        if status != .free {
+            guard let callback = callback else { return }
+            callback(.failure(.failed))
+        }
+        
+        
         let caller = ServiceManager.shared.userService.localUserInfo
         let callerUserID = caller?.userID ?? ""
         let callID = generateCallID(callerUserID)
-        
-        let command = CallCommand()
-        command.caller = caller
-        command.callees = [user]
-        command.callID = callID
-        command.type = type
         
         callInfo.callID = callID
         callInfo.caller = ServiceManager.shared.userService.localUserInfo
         callInfo.callees = [user]
         
-        print("[* Call] Start Call, callID: \(callID), callerID: \(String(describing: caller?.userID)), calleeID: \(String(describing: user.userID)), type: \(type.rawValue), status: \(status)")
+        callUserCallback = callback
+        currentRoomID = callID
+        ServiceManager.shared.roomService.joinRoom(callID, token)
         
         self.status = .outgoing
-        currentToken = token
         
-        command.excute { result in
-            var callResult: ZegoResult = .success(())
+        print("[* Call] Start Call, callID: \(callID), callerID: \(String(describing: caller?.userID)), calleeID: \(String(describing: user.userID)), type: \(type.rawValue), status: \(status)")
+        
+        callCommand.caller = caller
+        callCommand.callees = [user]
+        callCommand.callID = callID
+        callCommand.type = type
+        
+        self.addCallTimer()
+    }
+    
+    private func callUserToServer() {
+        callCommand.excute { result in
             switch result {
             case .success(_):
-                callResult = .success(())
-//                ServiceManager.shared.roomService.joinRoom(callID, token)
-                self.addCallTimer()
+                self.handleCallUserResult(.success(()))
             case .failure(let error):
-                callResult = .failure(error)
-                self.status = .free
+                self.handleCallUserResult(.failure(error))
             }
-            guard let callback = callback else { return }
-            callback(callResult)
         }
     }
     
@@ -105,31 +115,33 @@ extension CallServiceImpl: CallService {
     
     func acceptCall(_ token: String, callback: ZegoCallback?) {
         
+        guard let callID = callInfo.callID else {
+            guard let callback = callback else { return }
+            callback(.failure(.failed))
+            return
+        }
+        
+        status = .calling
+        currentRoomID = callID
+        acceptCallBack = callback
+        
+        ServiceManager.shared.roomService.joinRoom(callID, token)
+        
         let userID = ServiceManager.shared.userService.localUserInfo?.userID ?? ""
-        let command = AcceptCallCommand()
-        command.userID = userID
-        command.callID = callInfo.callID
+        acceptCommand.userID = userID
+        acceptCommand.callID = callID
         
-        print("[* Call] Accept Call, callID: \(String(describing: callInfo.callID)), userID: \(userID), status: \(status)")
-        currentToken = token
-        
-        command.excute { result in
-            var callResult: ZegoResult = .success(())
+        print("[* Call] Accept Call, callID: \(callID), userID: \(userID), status: \(status)")
+    }
+    
+    private func acceptCallToServer() {
+        acceptCommand.excute { result in
             switch result {
             case .success(_):
-                self.status = .calling
-                if let roomID = self.callInfo.callID {
-                    ServiceManager.shared.roomService.joinRoom(roomID, token)
-                }
-                self.cancelCallTimer()
-                self.startHeartbeatTimer()
-                
-                callResult = .success(())
+                self.handleAcceptCallResult(.success(()))
             case .failure(let error):
-                callResult = .failure(error)
+                self.handleAcceptCallResult(.failure(error))
             }
-            guard let callback = callback else { return }
-            callback(callResult)
         }
     }
     
@@ -291,9 +303,6 @@ extension CallServiceImpl {
             
             self.cancelCallTimer()
             self.startHeartbeatTimer()
-            if let token = self.currentToken {
-                ServiceManager.shared.roomService.joinRoom(callID, token)
-            }
             
             self.status = .calling
             self.delegate?.onReceiveCallAccepted(callee)
@@ -365,18 +374,6 @@ extension CallServiceImpl {
             ServiceManager.shared.roomService.leaveRoom()
             self.delegate?.onReceiveCallTimeout(.calling, info: user)
         })
-        
-        _ = listener?.addListener(Notify_User_Error, listener: { result in
-            guard let code = result["error"] as? Int else { return }
-            guard let error = UserError.init(rawValue: code) else { return }
-            if error == .kickedOut {
-                self.status = .free
-                self.callInfo = CallInfo()
-                ServiceManager.shared.roomService.leaveRoom()
-                self.cancelCallTimer()
-                self.stopHeartbeatTimer()
-            }
-        })
     }
 }
 
@@ -412,10 +409,67 @@ extension CallServiceImpl {
     }
 }
 
+extension CallServiceImpl {
+    private func handleCallUserResult(_ result: ZegoResult) {
+        // if call user failed
+        if result.isFailure {
+            status = .free
+            cancelCallTimer()
+        }
+        guard let callback = self.callUserCallback else { return }
+        callUserCallback = nil
+        callback(result)
+    }
+    
+    private func handleAcceptCallResult(_ result: ZegoResult) {
+        
+        // if accept call success
+        if result.isSuccess {
+            status = .calling
+            self.cancelCallTimer()
+            self.startHeartbeatTimer()
+        }
+        guard let callback = acceptCallBack else { return }
+        acceptCallBack = nil
+        callback(result)
+    }
+}
+
 extension CallServiceImpl: ZegoEventHandler {
     func onRoomStateUpdate(_ state: ZegoRoomState, errorCode: Int32, extendedData: [AnyHashable : Any]?, roomID: String) {
         print("[*] onRoomStateUpdate: \(state.rawValue), errorCode: \(errorCode), roomID: \(roomID), status: \(self.status)")
-        if ServiceManager.shared.roomService.roomInfo?.roomID != roomID { return }
+        if roomID != currentRoomID { return }
+        
+        // if the callUserCallback is not nil, means `CallUser` method didn't finish
+        if callUserCallback != nil {
+            if state == .connecting { return }
+            if state == .disconnected {
+                var result: ZegoResult = .failure(.failed)
+                if errorCode == 1002033 {
+                    result = .failure(.tokenExpired)
+                }
+                handleCallUserResult(result)
+            } else {
+                callUserToServer()
+            }
+            return
+        }
+        
+        // if the acceptCallBack is not nil, means `acceptCall` didn't finish
+        if acceptCallBack != nil {
+            if state == .connecting { return }
+            if state == .disconnected {
+                var result: ZegoResult = .failure(.failed)
+                if errorCode == 1002033 {
+                    result = .failure(.tokenExpired)
+                }
+                handleAcceptCallResult(result)
+            } else {
+                acceptCallToServer()
+            }
+            return
+        }
+        
         // if myself disconnected, just callback the `timeout`.
         if state == .disconnected && self.status == .calling {
             guard let user = ServiceManager.shared.userService.localUserInfo else { return }
@@ -424,8 +478,7 @@ extension CallServiceImpl: ZegoEventHandler {
             ServiceManager.shared.roomService.leaveRoom()
             delegate?.onReceiveCallTimeout(.calling, info: user)
             stopHeartbeatTimer()
-        }
-        if currentRoomID == roomID {
+        } else {
             var callingState: CallingState = .connected
             switch state {
             case .disconnected: callingState = .disconnected
@@ -436,6 +489,5 @@ extension CallServiceImpl: ZegoEventHandler {
             }
             delegate?.onCallingStateUpdated(callingState)
         }
-        currentRoomID = roomID
     }
 }

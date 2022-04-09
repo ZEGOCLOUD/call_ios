@@ -23,20 +23,12 @@ protocol UserServiceDelegate : AnyObject  {
     ///
     /// - Parameter userInfo: refers to the changes on user state information
     func onUserInfoUpdate(_ userInfo: UserInfo)
-    
-    /// Callback when the user was forced to log out
-    ///
-    /// Description: this callback will be triggered when the user is logged in from another device.
-    ///
-    /// - Parameter UserError: the error type.
-    func onReceiveUserError(_ error: UserError)
 }
 
 // default realized
 extension UserServiceDelegate {
     func onNetworkQuality(_ userID: String, upstreamQuality: ZegoStreamQualityLevel) { }
     func onUserInfoUpdate(_ userInfo: UserInfo) { }
-    func onReceiveUserError(_ error: UserError) { }
 }
 
 protocol UserService {

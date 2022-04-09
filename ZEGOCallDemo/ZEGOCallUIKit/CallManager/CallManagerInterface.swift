@@ -54,11 +54,6 @@ protocol CallManagerDelegate: AnyObject {
     ///
     /// - Description: This callback will be triggered when called refused the call.
     func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType)
-    
-    /// Callback for user is kickedout
-    ///
-    /// - Description: This callback will be triggered when user is kickedout.
-    func onReceiveUserError(_ error: UserError)
 }
 
 // default realized
@@ -69,7 +64,6 @@ extension CallManagerDelegate {
     func onReceivedCallEnded() { }
     func onReceiveCallAccepted(_ userInfo: UserInfo) { }
     func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType) { }
-    func onReceiveUserError(_ error: UserError) { }
 }
 
 protocol CallManagerInterface {

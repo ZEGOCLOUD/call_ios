@@ -87,6 +87,7 @@ extension LoginManager {
     
     private func addConnectedListener() {
         ref.child(".info/connected").observe(.value) { snapshot in
+            print("[* LoginManager] The User current connected state is \(String(describing: snapshot.value))")
             guard let connected = snapshot.value as? Bool, connected else { return }
             guard let user = self.user else { return }
             self.addUserToDatabase(user)
@@ -104,7 +105,13 @@ extension LoginManager {
                 "last_changed" : Int(Date().timeIntervalSince1970 * 1000)
             ]
             let userRef = self.ref.child("online_user").child(user.uid)
-            userRef.setValue(data)
+            userRef.setValue(data) { error, reference in
+                if error == nil {
+                    print("[* LoginManager] Success to set user data to database.")
+                } else {
+                    print("[* LoginManager] Fail to set user data to database, error: \(error!)")
+                }
+            }
             userRef.onDisconnectRemoveValue()
             
             self.addFcmTokenListener(user.uid)
@@ -114,6 +121,7 @@ extension LoginManager {
             Messaging.messaging().token { token, error in
                 guard let token = token else { return }
                 self.fcmToken = token
+                print("[* LoginManager] Success get fcm token: \(token)")
                 addUser(user, token: self.fcmToken)
             }
         } else {
@@ -127,7 +135,7 @@ extension LoginManager {
         tokenRef.observe(.value) { snapshot in
             guard let token = snapshot.value as? String else { return }
             if token == self.fcmToken { return }
-            print("[*] Current User is logging at other device.")
+            print("[* LoginManager] Current User is logging at other device.")
             
             try? Auth.auth().signOut()
             self.resetData(false)

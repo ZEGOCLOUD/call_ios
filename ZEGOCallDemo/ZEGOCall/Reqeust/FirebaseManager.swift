@@ -504,7 +504,7 @@ extension FirebaseManager {
                    otherHeartbeatTime > 0
                 {
                     
-                    if heartbeatTime - otherHeartbeatTime > 30 * 1000 {
+                    if heartbeatTime - otherHeartbeatTime > 60 * 1000 {
                         self.onReceiveTimeoutNotify(model.call_id, otherUserID: otherUser.user_id)
                         snapshot.ref.updateChildValues(["call_status": 3])
                     }
