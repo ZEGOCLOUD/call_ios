@@ -28,8 +28,6 @@ class UserServiceImpl: NSObject {
     override init() {
         super.init()
         
-        registerListener()
-        
         // ServiceManager didn't finish init at this time.
         DispatchQueue.main.async {
             ServiceManager.shared.addExpressEventHandler(self)
@@ -71,28 +69,11 @@ extension UserServiceImpl: UserService {
     }
 }
 
-extension UserServiceImpl {
-    private func registerListener() {
-        _ = listener?.addListener(Notify_User_Error, listener: { result in
-            guard let code = result["error"] as? Int else { return }
-            guard let error = UserError.init(rawValue: code) else { return }
-            self.delegate?.onReceiveUserError(error)
-        })
-    }
-}
-
 extension UserServiceImpl: ZegoEventHandler {
     func onNetworkQuality(_ userID: String, upstreamQuality: ZegoStreamQualityLevel, downstreamQuality: ZegoStreamQualityLevel) {
         delegate?.onNetworkQuality(userID, upstreamQuality: upstreamQuality)
     }
-    
-    func onRoomStateUpdate(_ state: ZegoRoomState, errorCode: Int32, extendedData: [AnyHashable : Any]?, roomID: String) {
-        if errorCode == 1002033 {
-            print("[*] Receive token expired")
-//            delegate?.onReceiveUserError(.tokenExpire)
-        }
-    }
-    
+        
     func onRoomUserUpdate(_ updateType: ZegoUpdateType, userList: [ZegoUser], roomID: String) {
         for user in userList {
             if updateType == .add {

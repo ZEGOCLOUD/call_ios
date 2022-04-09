@@ -134,14 +134,5 @@ class HomeVC: UIViewController {
 }
 
 extension HomeVC: CallManagerDelegate {
-    func onReceiveUserError(_ error: UserError) {
-        if error == .kickedOut {
-            HUDHelper.showMessage(message: ZGAppLocalizedString("toast_login_kick_out"))
-            CallManager.shared.resetCallData()
-            self.navigationController?.popToRootViewController(animated: true)
-        } else if error == .tokenExpire {
-            TokenManager.shared.saveToken(nil, 0)
-            TokenManager.shared.getToken()
-        }
-    }
+    
 }

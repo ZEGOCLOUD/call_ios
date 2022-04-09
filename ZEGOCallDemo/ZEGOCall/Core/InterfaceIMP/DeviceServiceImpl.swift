@@ -100,7 +100,7 @@ class DeviceServiceImpl: NSObject, DeviceService {
         ZegoExpressEngine.shared().setTrafficControlFocusOn(.founsOnRemote)
         ZegoExpressEngine.shared().enableANS(false)
         let config = ZegoEngineConfig()
-        config.advancedConfig = ["support_apple_callkit" : "true", "room_retry_time": "30"]
+        config.advancedConfig = ["support_apple_callkit" : "true", "room_retry_time": "60"]
         ZegoExpressEngine.setEngineConfig(config)
     }
         
