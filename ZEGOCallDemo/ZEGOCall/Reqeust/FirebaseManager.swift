@@ -357,6 +357,7 @@ extension FirebaseManager {
     // a incoming call will trigger this method
     private func addIncomingCallListener() {
         let callRef = ref.child("call")
+        callRef.removeAllObservers()
         callRef.observe(.childAdded) { snapshot in
             guard let callDict = snapshot.value as? [String: Any] else {
                 return
@@ -404,6 +405,7 @@ extension FirebaseManager {
     private func addCallListener(_ callID: String) {
         print("[* Firebase] Start Listen Call, callID: \(callID)")
         let callRef = ref.child("call/\(callID)")
+        callRef.removeAllObservers()
         callRef.observe(.value) { snapshot in
             
             guard let callDict = snapshot.value as? [String: Any]

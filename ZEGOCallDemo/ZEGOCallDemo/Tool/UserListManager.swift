@@ -27,7 +27,7 @@ class UserListManager {
     
     func addOnlineUsersListener() {
         let usersQuery = self.ref.child("online_user").queryOrdered(byChild: "last_changed")
-        
+        usersQuery.removeAllObservers()
         usersQuery.observe(.value) { snapshot in
             let userDicts: [[String : Any]] = snapshot.children.compactMap { child in
                 return (child as? DataSnapshot)?.value as? [String : Any]
