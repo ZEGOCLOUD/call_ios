@@ -27,14 +27,17 @@ class CallSettingSecondView: UIView, UITableViewDelegate, UITableViewDataSource 
     
     lazy var audioDataSource: [CallSettingSecondLevelModel] = {
         let data = [
-                    ["title": "48Kbps",
-                     "isSelected": (ServiceManager.shared.deviceService.bitrate == .b48),
-                     "type": AudioBitrate.b48.rawValue],
+                    ["title": "16Kbps",
+                     "isSelected": (ServiceManager.shared.deviceService.bitrate == .b16),
+                     "type": AudioBitrate.b16.rawValue],
                     
-                    ["title": "96kbps",
-                     "isSelected": (ServiceManager.shared.deviceService.bitrate == .b96),
-                     "type": AudioBitrate.b96.rawValue],
+                    ["title": "32kbps",
+                     "isSelected": (ServiceManager.shared.deviceService.bitrate == .b32),
+                     "type": AudioBitrate.b32.rawValue],
                     
+                    ["title": "64kbps",
+                     "isSelected": (ServiceManager.shared.deviceService.bitrate == .b64),
+                     "type": AudioBitrate.b64.rawValue],
                     ["title": "128kbps",
                      "isSelected": (ServiceManager.shared.deviceService.bitrate == .b128),
                      "type": AudioBitrate.b128.rawValue]]
@@ -166,7 +169,7 @@ class CallSettingSecondView: UIView, UITableViewDelegate, UITableViewDataSource 
             let type: VideoResolution = VideoResolution(rawValue: model.type) ?? .p1080
             ServiceManager.shared.deviceService.videoResolution = type
         case .audio:
-            let type: AudioBitrate = AudioBitrate(rawValue: model.type) ?? .b48
+            let type: AudioBitrate = AudioBitrate(rawValue: model.type) ?? .b32
             ServiceManager.shared.deviceService.bitrate = type
         }
     }

@@ -46,8 +46,9 @@ class CallSettingView: UIView, UITableViewDelegate, UITableViewDataSource, Setti
     }()
     
     lazy var bitrateDic: [AudioBitrate:String] = {
-        let dic: [AudioBitrate:String] = [AudioBitrate.b48 : "48kbps",
-                                             AudioBitrate.b96 : "96kbps",
+        let dic: [AudioBitrate:String] = [AudioBitrate.b16 : "16kbps",
+                                          AudioBitrate.b32 : "32kbps",
+                                             AudioBitrate.b64 : "64kbps",
                                              AudioBitrate.b128:"128kbps"]
         return dic
     }()

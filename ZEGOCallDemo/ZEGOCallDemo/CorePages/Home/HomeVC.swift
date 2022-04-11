@@ -9,9 +9,30 @@ import UIKit
 
 class HomeVC: UIViewController {
 
-    @IBOutlet weak var headImage: UIImageView!
-    @IBOutlet weak var userNameLabel: UILabel!
-    @IBOutlet weak var userIDLabel: UILabel!
+    @IBOutlet weak var headImage: UIImageView! {
+        didSet {
+            headImage.image = UIImage(named: String.getHeadImageName(userName: ServiceManager.shared.userService.localUserInfo?.userName ?? ""))
+        }
+    }
+    @IBOutlet weak var userNameLabel: UILabel! {
+        didSet {
+            guard let userName = ServiceManager.shared.userService.localUserInfo?.userName else { return }
+            if userName.count > 16 {
+                let startIndex = userName.index(userName.startIndex, offsetBy: 0)
+                let index = userName.index(userName.startIndex, offsetBy: 16)
+                let newUserName = String(userName[startIndex...index])
+                userNameLabel.text = newUserName
+            } else {
+                userNameLabel.text = userName
+            }
+            
+        }
+    }
+    @IBOutlet weak var userIDLabel: UILabel! {
+        didSet {
+            userIDLabel.text = "ID:\(ServiceManager.shared.userService.localUserInfo?.userID ?? "")"
+        }
+    }
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var contactUsButton: UIButton! {
         didSet {
@@ -56,11 +77,6 @@ class HomeVC: UIViewController {
         DeviceTool.shared.applicationHasMicAndCameraAccess(self)
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        configUI()
-    }
-    
     @objc func applicationDidBecomeActive(notification: NSNotification) {
         appIsActive = true
         let nowTime = Int(Date().timeIntervalSince1970)
@@ -102,12 +118,6 @@ class HomeVC: UIViewController {
         super.viewDidDisappear(animated)
         UIApplication.shared.isIdleTimerDisabled = false
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true;
-    }
-    
-    func configUI() {
-        userNameLabel.text = ServiceManager.shared.userService.localUserInfo?.userName ?? ""
-        userIDLabel.text = "ID:\(ServiceManager.shared.userService.localUserInfo?.userID ?? "")"
-        headImage.image = UIImage(named: String.getHeadImageName(userName: ServiceManager.shared.userService.localUserInfo?.userName ?? ""))
     }
     
     //MARK: -Action

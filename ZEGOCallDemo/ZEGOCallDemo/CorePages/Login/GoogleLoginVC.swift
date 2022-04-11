@@ -110,6 +110,8 @@ class GoogleLoginVC: UIViewController {
                     guard let userID = userID,
                           let userName = userName
                     else { return }
+                    self.isAgreePolicy = false
+                    self.selectedButton.isSelected = self.isAgreePolicy
                     CallManager.shared.setLocalUser(userID, userName: userName)
                     let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
                     self.navigationController?.pushViewController(vc, animated: true)
@@ -130,6 +132,7 @@ class GoogleLoginVC: UIViewController {
 
 extension GoogleLoginVC: LoginManagerDelegate {
     func onReceiveUserKickout() {
+        HUDHelper.showMessage(message: ZGAppLocalizedString("toast_login_kick_out"))
         self.navigationController?.popToRootViewController(animated: true)
     }
 }
