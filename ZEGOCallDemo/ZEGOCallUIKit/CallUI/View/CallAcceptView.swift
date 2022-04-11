@@ -22,11 +22,16 @@ class CallAcceptView: CallBaseView {
         }
     }
     
-    func setCallAcceptViewType(_ isVideo: Bool = false) {
+    func setCallAcceptViewType(_ isVideo: Bool = false, statusType: CallStatusType) {
         if isVideo {
             acceptButton.setImage(UIImage(named: "call_video_icon"), for: .normal)
         } else {
             acceptButton.setImage(UIImage(named: "call_accept_icon"), for: .normal)
+        }
+        if statusType == .accepting {
+            acceptButton.isUserInteractionEnabled = false
+        } else {
+            acceptButton.isUserInteractionEnabled = true
         }
     }
     

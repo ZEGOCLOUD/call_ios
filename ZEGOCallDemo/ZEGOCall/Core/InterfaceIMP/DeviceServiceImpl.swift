@@ -32,37 +32,36 @@ class DeviceServiceImpl: NSObject, DeviceService {
         }
     }
     
-    var bitrate: AudioBitrate = .b48 {
+    var bitrate: AudioBitrate = .b32 {
         willSet {
             let audioConfig = ZegoAudioConfig()
             audioConfig.codecID = .low3
-            audioConfig.bitrate = 48
+            audioConfig.bitrate = 32
             switch newValue {
             case .b16: audioConfig.bitrate = 16
-            case .b48: audioConfig.bitrate = 48
-            case .b56: audioConfig.bitrate = 56
-            case .b96: audioConfig.bitrate = 96
+            case .b32
+                : audioConfig.bitrate = 32
+            case .b64: audioConfig.bitrate = 64
             case .b128: audioConfig.bitrate = 128
-            case .b192: audioConfig.bitrate = 192
             }
             ZegoExpressEngine.shared().setAudioConfig(audioConfig)
         }
     }
     
-    var noiseSliming: Bool = false {
+    var noiseSliming: Bool = true {
         willSet {
             ZegoExpressEngine.shared().enableANS(newValue)
             ZegoExpressEngine.shared().enableTransientANS(newValue)
         }
     }
     
-    var echoCancellation: Bool = false {
+    var echoCancellation: Bool = true {
         willSet {
             ZegoExpressEngine.shared().enableAEC(newValue)
         }
     }
     
-    var volumeAdjustment: Bool = false {
+    var volumeAdjustment: Bool = true {
         willSet {
             ZegoExpressEngine.shared().enableAGC(newValue)
         }
@@ -70,8 +69,11 @@ class DeviceServiceImpl: NSObject, DeviceService {
     
     var videoMirror: Bool = false {
         willSet {
-            //TODO: to confirm the mirror type
-            ZegoExpressEngine.shared().setVideoMirrorMode(.noMirror)
+            if videoMirror {
+                ZegoExpressEngine.shared().setVideoMirrorMode(.bothMirror)
+            } else {
+                ZegoExpressEngine.shared().setVideoMirrorMode(.noMirror)
+            }
         }
     }
     
@@ -124,11 +126,13 @@ class DeviceServiceImpl: NSObject, DeviceService {
     
     func resetDeviceConfig() {
         videoResolution = .p720
-        bitrate = .b48
-        noiseSliming = false
-        echoCancellation = false
-        volumeAdjustment = false
+        bitrate = .b32
+        noiseSliming = true
+        echoCancellation = true
+        volumeAdjustment = true
         videoMirror = false
+        ZegoExpressEngine.shared().enableCamera(true)
+        ZegoExpressEngine.shared().muteMicrophone(false)
     }
 }
 

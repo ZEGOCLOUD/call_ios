@@ -11,6 +11,7 @@ import ZegoExpressEngine
 enum CallStatusType: Int {
     case take
     case accept
+    case accepting
     case calling
     case canceled
     case decline
@@ -289,7 +290,7 @@ class CallMainVC: UIViewController {
             if vcType == .video {
                 ServiceManager.shared.streamService.startPreview(localPreviewView)
             }
-        case .accept:
+        case .accept,.accepting:
             bottomViewHeight.constant = 85
             toBottomDistance.constant = 28
             takeView.isHidden = true
@@ -300,7 +301,8 @@ class CallMainVC: UIViewController {
             minimizeButton.isHidden = true
             settingButton.isHidden = true
             takeStatusFlipButton.isHidden = true
-            acceptView.setCallAcceptViewType(vcType == .video)
+            userNameLabel.isHidden = false
+            acceptView.setCallAcceptViewType(vcType == .video, statusType: statusType)
         case .calling:
             takeView.isHidden = true
             acceptView.isHidden = true
@@ -404,10 +406,8 @@ class CallMainVC: UIViewController {
     
     func changeCallStatusText(_ status: CallStatusType, showHud:Bool = true) {
         switch status {
-        case .take:
-            callStatusLabel.text = ZGUIKitLocalizedString("call_page_status_calling")
-        case .accept:
-            callStatusLabel.text = ZGUIKitLocalizedString("call_page_status_calling")
+        case .take, .accept, .accepting:
+            callStatusLabel.text = ZGUIKitLocalizedString("call_page_status_waiting")
         case .calling:
             callStatusLabel.text = ""
         case .canceled:
@@ -488,7 +488,7 @@ class CallMainVC: UIViewController {
             CallManager.shared.minmizedManager.viewHiden = false
             CallManager.shared.minmizedManager.showCallMinView(MinimizedCallType.init(rawValue: vcType.rawValue) ?? .audio, status: .calling, userInfo: otherUser)
             self.dismiss(animated: true, completion: nil)
-        case .accept, .canceled,.decline,.busy,.miss,.completed:
+        case .accept, .accepting,.canceled,.decline,.busy,.miss,.completed:
             break
         }
     }

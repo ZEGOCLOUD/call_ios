@@ -108,20 +108,14 @@ enum AudioBitrate: Int {
     /// 16kbps
     case b16
     
-    /// 48kbps
-    case b48
+    /// 32kbps
+    case b32
     
-    /// 56kbps
-    case b56
-    
-    /// 96kbps
-    case b96
+    /// 64kbps
+    case b64
     
     /// 128kbps
     case b128
-    
-    /// 192kbps
-    case b192
 }
 
 /// Class device settings

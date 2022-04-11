@@ -110,14 +110,15 @@ class CallManager: NSObject, CallManagerInterface {
         if currentCallStatus != .free { return }
         self.currentCallStatus = .waitAccept
         resetDeviceConfig()
+        let vc: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .take)
+        currentCallVC = vc
+        currentCallUserInfo = userInfo
+        getCurrentViewController()?.present(vc, animated: true, completion: nil)
+        ServiceManager.shared.deviceService.useFrontCamera(true)
         ServiceManager.shared.callService.callUser(userInfo, token: token, type: callType) { result in
             switch result {
             case .success():
-                let vc: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .take)
-                self.currentCallVC = vc
-                self.currentCallUserInfo = userInfo
-                self.getCurrentViewController()?.present(vc, animated: true, completion: nil)
-                ServiceManager.shared.deviceService.useFrontCamera(true)
+                break
             case .failure(_):
                 self.currentCallStatus = .free
                 guard let callback = callback else { return }
@@ -134,6 +135,19 @@ class CallManager: NSObject, CallManagerInterface {
             return
         }
         resetDeviceConfig()
+        ServiceManager.shared.deviceService.useFrontCamera(true)
+        if presentVC {
+            let callVC: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .accepting)
+            callVC.otherUser = self.otherUserRoomInfo
+            self.currentCallVC = callVC
+            if let controller = self.getCurrentViewController() {
+                controller.present(callVC, animated: true, completion: nil)
+            }
+        } else {
+            guard let currentCallVC = self.currentCallVC else { return }
+            currentCallVC.otherUser = self.otherUserRoomInfo
+            currentCallVC.updateCallType(callType, userInfo: userInfo, status: .accepting)
+        }
         ServiceManager.shared.callService.acceptCall(token) { result in
             switch result {
             case .success():
@@ -143,22 +157,8 @@ class CallManager: NSObject, CallManagerInterface {
                 self.currentCallUserInfo = userInfo
                 self.callTimeManager.callStart()
                 self.minmizedManager.currentStatus = .calling
-                ServiceManager.shared.deviceService.useFrontCamera(true)
-                if presentVC {
-                    let callVC: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .calling)
-                    callVC.otherUser = self.otherUserRoomInfo
-                    self.currentCallVC = callVC
-                    if let controller = self.getCurrentViewController() {
-                        controller.present(callVC, animated: true) {
-                            self.startPlayingStream(userID)
-                        }
-                    }
-                } else {
-                    guard let currentCallVC = self.currentCallVC else { return }
-                    currentCallVC.otherUser = self.otherUserRoomInfo
-                    currentCallVC.updateCallType(currentCallVC.vcType, userInfo: userInfo, status: .calling)
-                    self.startPlayingStream(userID)
-                }
+                self.startPlayingStream(userID)
+                self.currentCallVC?.updateCallType(callType, userInfo: userInfo, status: .calling)
             case .failure(_):
                 self.currentCallStatus = .free
                 if !presentVC {
