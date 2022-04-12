@@ -19,9 +19,7 @@ protocol StreamService {
     /// - Parameter userID: the ID of the user you are connecting
     /// - Parameter streamView: refers to the view of local video preview
     func startPlaying(_ userID: String?, streamView: UIView?)
-    
-    func startPreview(_ streamView: UIView?)
-    
+        
     /// Stop playing streams
     ///
     /// Description: this can be used to stop playing audio or video streams.
@@ -30,4 +28,6 @@ protocol StreamService {
     ///
     /// - Parameter userID:  the ID of the user you are connecting
     func stopPlaying(_ userID: String?)
+    
+    func startPreview(_ streamView: UIView?)
 }

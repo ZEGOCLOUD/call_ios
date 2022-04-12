@@ -38,6 +38,7 @@ class UserServiceImpl: NSObject {
 extension UserServiceImpl: UserService {
     
     func setLocalUser(_ userID: String, userName: String) {
+        assert(userID.count <= 64, " The User ID length must be less than or equal to 64.")
         let user = UserInfo(userID, userName)
         self.localUserInfo = user
         if self.userList.compactMap({ $0.userID }).contains(userID) == false {
@@ -46,6 +47,26 @@ extension UserServiceImpl: UserService {
     }
     
     func getToken(_ userID: String, _ effectiveTimeInSeconds: Int, callback: RequestCallback?) {
+        
+        if ServiceManager.shared.isSDKInit == false {
+            assert(false, "The SDK must be initialised first.")
+            guard let callback = callback else { return }
+            callback(.failure(.notInit))
+            return
+        }
+        
+        if localUserInfo == nil {
+            assert(false, "Must be logged in first.")
+            guard let callback = callback else { return }
+            callback(.failure(.notLogin))
+            return
+        }
+        
+        if effectiveTimeInSeconds <= 0 || userID.count == 0 {
+            guard let callback = callback else { return }
+            callback(.failure(.paramInvalid))
+            return
+        }
         
         let command = TokenCommand()
         command.userID = userID

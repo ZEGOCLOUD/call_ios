@@ -99,7 +99,7 @@ extension FirebaseManager {
               let typeOld = parameter["type"] as? Int,
               let type = FirebaseCallType.init(rawValue: typeOld)
         else {
-            callback(.failure(.failed))
+            callback(.failure(.paramInvalid))
             return
         }
         let callModel = FirebaseCallModel()
@@ -132,7 +132,7 @@ extension FirebaseManager {
                 self.modelDict[callID] = callModel
                 self.addCallListener(callID)
             } else {
-                callback(.failure(.failed))
+                callback(.failure(.networkError))
             }
         }
     }
@@ -142,7 +142,7 @@ extension FirebaseManager {
               let callID = parameter["call_id"] as? String,
               let userID = parameter["id"] as? String
         else {
-            callback(.failure(.failed))
+            callback(.failure(.paramInvalid))
             return
         }
         
@@ -171,7 +171,7 @@ extension FirebaseManager {
                 callback(.success(()))
                 self.modelDict.removeValue(forKey: callID)
             } else {
-                callback(.failure(.failed))
+                callback(.failure(.networkError))
             }
         }
     }
@@ -180,7 +180,7 @@ extension FirebaseManager {
         guard let callID = parameter["call_id"] as? String,
               let model = modelDict[callID]
         else {
-            callback(.failure(.failed))
+            callback(.failure(.paramInvalid))
             return
         }
         
@@ -201,7 +201,7 @@ extension FirebaseManager {
             if error == nil {
                 callback(.success(()))
             } else {
-                callback(.failure(.failed))
+                callback(.failure(.networkError))
             }
         }
     }
@@ -212,7 +212,7 @@ extension FirebaseManager {
 //              let userID = parameter["id"] as? String,
               let type = parameter["type"] as? DeclineType
         else {
-            callback(.failure(.failed))
+            callback(.failure(.paramInvalid))
             return
         }
         
@@ -236,7 +236,7 @@ extension FirebaseManager {
                 callback(.success(()))
                 self.modelDict.removeValue(forKey: callID)
             } else {
-                callback(.failure(.failed))
+                callback(.failure(.networkError))
             }
         }
 
@@ -247,7 +247,7 @@ extension FirebaseManager {
 //              let userID = parameter["id"] as? String,
               let model = modelDict[callID]
         else {
-            callback(.failure(.failed))
+            callback(.failure(.paramInvalid))
             return
         }
         
@@ -269,7 +269,7 @@ extension FirebaseManager {
                 callback(.success(()))
                 self.modelDict.removeValue(forKey: callID)
             } else {
-                callback(.failure(.failed))
+                callback(.failure(.networkError))
             }
         }
     }
@@ -300,7 +300,7 @@ extension FirebaseManager {
         guard let userID = parameter["id"] as? String,
               let effectiveTimeInSeconds = parameter["effective_time"] as? Int
         else {
-            callback(.failure(.failed))
+            callback(.failure(.paramInvalid))
             return
         }
         let functions = Functions.functions()
@@ -311,13 +311,13 @@ extension FirebaseManager {
         functions.httpsCallable("getToken").call(data) { result, error in
             if let error = error as NSError? {
                 print("[* Firebase] Get token failed: \(error)")
-                callback(.failure(.failed))
+                callback(.failure(.networkError))
                 return
             }
             guard let dict = result?.data as? [String: Any],
                   let token = dict["token"] as? String
             else {
-                callback(.failure(.failed))
+                callback(.failure(.networkError))
                 return
             }
             let tokenData = ["token": token]

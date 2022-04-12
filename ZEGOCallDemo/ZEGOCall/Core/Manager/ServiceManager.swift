@@ -47,6 +47,8 @@ class ServiceManager: NSObject {
     /// The room infomation Management instance contains join and leave room logic.
     var roomService: RoomService
     
+    var isSDKInit: Bool = false
+    
     /// Initialize the SDK
     ///
     /// Description: This method can be used to initialize the ZIM SDK and the Express-Audio SDK.
@@ -63,6 +65,8 @@ class ServiceManager: NSObject {
         ZegoExpressEngine.createEngine(with: profile, eventHandler: self)
         deviceService.setBestConfig()
         
+        isSDKInit = true
+        
         let initCommand = InitCommand()
         initCommand.excute(callback: nil)
         
@@ -77,6 +81,7 @@ class ServiceManager: NSObject {
     ///
     /// Call this method at: When the SDK is no longer be used. We recommend you call this method when the application exits.
     func uninit() {
+        isSDKInit = false
         ZegoExpressEngine.destroy(nil)
     }
     
@@ -89,6 +94,12 @@ class ServiceManager: NSObject {
     /// - Parameter fileName: refers to the name of the file you upload. We recommend you name the file in the format of "appid_platform_timestamp".
     /// - Parameter callback: refers to the callback that be triggered when the logs are upload successfully or failed to upload logs.
     func uploadLog(callback: ZegoCallback?) {
+        if isSDKInit == false {
+            assert(false, "The SDK must be initialised first.")
+            guard let callback = callback else { return }
+            callback(.failure(.notInit))
+            return
+        }
         ZegoExpressEngine.shared().uploadLog { error in
             guard let callback = callback else { return }
             if error == 0 {
