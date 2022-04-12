@@ -25,7 +25,7 @@ class CallAcceptView: CallBaseView {
     @IBOutlet weak var loadingImage: UIImageView! {
         didSet {
             let rotationAnim = CABasicAnimation(keyPath: "transform.rotation.z")
-            rotationAnim.fromValue = 0 // 开始角度
+            rotationAnim.fromValue = 0
             rotationAnim.toValue = Double.pi * 2
             rotationAnim.repeatCount = MAXFLOAT
             rotationAnim.duration = 1
