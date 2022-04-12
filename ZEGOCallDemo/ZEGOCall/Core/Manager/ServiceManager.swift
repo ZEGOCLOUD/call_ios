@@ -89,8 +89,8 @@ class ServiceManager: NSObject {
     /// - Parameter fileName: refers to the name of the file you upload. We recommend you name the file in the format of "appid_platform_timestamp".
     /// - Parameter callback: refers to the callback that be triggered when the logs are upload successfully or failed to upload logs.
     func uploadLog(callback: ZegoCallback?) {
-        guard let callback = callback else { return }
         ZegoExpressEngine.shared().uploadLog { error in
+            guard let callback = callback else { return }
             if error == 0 {
                 callback(.success(()))
             } else {

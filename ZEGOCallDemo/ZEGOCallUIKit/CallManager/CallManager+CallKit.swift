@@ -111,9 +111,8 @@ extension CallManager {
     }
     
     @objc func muteSpeaker(notif:NSNotification) {
-        guard let localUserInfo = ServiceManager.shared.userService.localUserInfo else { return }
-        localUserInfo.mic = !(notif.userInfo!["isMute"] as? Bool)!
-        ServiceManager.shared.deviceService.enableMic(localUserInfo.mic)
+        let enableMic:Bool = !(notif.userInfo!["isMute"] as? Bool)!
+        ServiceManager.shared.deviceService.enableMic(enableMic)
         currentCallVC?.changeBottomButtonDisplayStatus()
     }
     

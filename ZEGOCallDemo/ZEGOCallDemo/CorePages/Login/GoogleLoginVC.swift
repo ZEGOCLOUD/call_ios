@@ -132,8 +132,17 @@ class GoogleLoginVC: UIViewController {
 
 extension GoogleLoginVC: LoginManagerDelegate {
     func onReceiveUserKickout() {
-        HUDHelper.showMessage(message: ZGAppLocalizedString("toast_login_kick_out"))
         self.navigationController?.popToRootViewController(animated: true)
+        showKickOutAlter()
+    }
+    
+    func showKickOutAlter() {
+        let alert = UIAlertController(title: "", message: ZGAppLocalizedString("toast_login_kick_out"), preferredStyle: .alert)
+        let okAction = UIAlertAction(title: ZGAppLocalizedString("dialog_login_page_ok"), style: .default) { action in
+            
+        }
+        alert.addAction(okAction)
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
