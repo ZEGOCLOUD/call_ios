@@ -49,21 +49,13 @@ extension CallManager: CallServiceDelegate {
             currentCallVC.statusType = .completed
             currentCallVC.resetTime()
             currentCallVC.dismiss(animated: true, completion: nil)
+            self.currentCallVC = nil
         }
     }
     
     func onReceiveCallAccepted(_ userInfo: UserInfo) {
         delegate?.onReceiveCallAccepted(userInfo)
         guard let vc = self.currentCallVC else { return }
-//        if !appIsActive {
-//            if let userID = userInfo.userID {
-//                if currentCallStatus == .waitAccept {
-//                    endCall(userID)
-//                    closeCallVC()
-//                }
-//            }
-//            return
-//        }
         currentCallUserInfo = userInfo
         currentCallStatus = .calling
         vc.otherUser = userInfo
@@ -115,6 +107,8 @@ extension CallManager: CallServiceDelegate {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self.minmizedManager.dismissCallMinView()
                 }
+            } else if currentCallStatus == .calling {
+                endSystemCall()
             }
             currentCallUserInfo = nil
             currentCallStatus = .free
@@ -132,16 +126,21 @@ extension CallManager: CallServiceDelegate {
             guard let vc = currentCallVC else { return }
             vc.changeCallStatusText(.completed)
             vc.callDelayDismiss()
-            break
         }
     }
     
     func onCallingStateUpdated(_ state: CallingState) {
         switch state {
         case .disconnected,.connected:
-            HUDHelper.hideNetworkLoading()
+            isConnecting = false
+            guard let currentCallVC = currentCallVC else { return }
+            HUDHelper.hideNetworkLoading(currentCallVC.view)
         case .connecting:
-            HUDHelper.showNetworkLoading(ZGUIKitLocalizedString("call_page_call_disconnection"))
+            isConnecting = true
+            if appIsActive {
+                guard let currentCallVC = currentCallVC else { return }
+                HUDHelper.showNetworkLoading(ZGUIKitLocalizedString("call_page_call_disconnection"), toView: currentCallVC.view)
+            }
         }
     }
 }

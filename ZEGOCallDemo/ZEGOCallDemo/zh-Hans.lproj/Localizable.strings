@@ -55,3 +55,5 @@
 "call_page_call_fail" = "呼叫失败，错误码：%d";
 "call_page_call_unable_initiate" = "正在通话中，无法发起新的通话";
 
+"dialog_login_page_ok" = "确定";
+

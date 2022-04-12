@@ -22,6 +22,19 @@ class CallAcceptView: CallBaseView {
         }
     }
     
+    @IBOutlet weak var loadingImage: UIImageView! {
+        didSet {
+            let rotationAnim = CABasicAnimation(keyPath: "transform.rotation.z")
+            rotationAnim.fromValue = 0
+            rotationAnim.toValue = Double.pi * 2
+            rotationAnim.repeatCount = MAXFLOAT
+            rotationAnim.duration = 1
+            rotationAnim.isRemovedOnCompletion = false
+            loadingImage.layer.add(rotationAnim, forKey: nil)
+        }
+    }
+    
+    
     func setCallAcceptViewType(_ isVideo: Bool = false, statusType: CallStatusType) {
         if isVideo {
             acceptButton.setImage(UIImage(named: "call_video_icon"), for: .normal)
@@ -30,8 +43,10 @@ class CallAcceptView: CallBaseView {
         }
         if statusType == .accepting {
             acceptButton.isUserInteractionEnabled = false
+            loadingImage.isHidden = false
         } else {
             acceptButton.isUserInteractionEnabled = true
+            loadingImage.isHidden = true
         }
     }
     

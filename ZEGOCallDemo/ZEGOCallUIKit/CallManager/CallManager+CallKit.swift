@@ -38,6 +38,11 @@ extension CallManager {
                         }
                     }
                 }
+                if let currentCallVC = currentCallVC,
+                    isConnecting {
+                    HUDHelper.showNetworkLoading(ZGUIKitLocalizedString("call_page_call_disconnection"), toView: currentCallVC.view)
+                }
+                    
             } else if currentCallStatus == .wait {
                 guard let currentCallUserInfo = currentCallUserInfo else { return }
                 if self.getCurrentViewController() is CallMainVC { return }
@@ -63,12 +68,6 @@ extension CallManager {
     
     
     @objc func callKitStart() {
-//        if !isConnected {
-//            if let userID = currentCallUserInfo?.userID {
-//                endCall(userID)
-//            }
-//            return
-//        }
         currentCallStatus = .calling
         callTimeManager.callStart()
         guard let userID = currentCallUserInfo?.userID,
@@ -111,9 +110,8 @@ extension CallManager {
     }
     
     @objc func muteSpeaker(notif:NSNotification) {
-        guard let localUserInfo = ServiceManager.shared.userService.localUserInfo else { return }
-        localUserInfo.mic = !(notif.userInfo!["isMute"] as? Bool)!
-        ServiceManager.shared.deviceService.enableMic(localUserInfo.mic)
+        let enableMic:Bool = !(notif.userInfo!["isMute"] as? Bool)!
+        ServiceManager.shared.deviceService.enableMic(enableMic)
         currentCallVC?.changeBottomButtonDisplayStatus()
     }
     
