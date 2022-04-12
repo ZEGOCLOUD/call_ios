@@ -116,6 +116,7 @@
 		86DE03C927983D98000EE3C5 /* CallMainVC+Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */; };
 		8E08EFCF27F1DD2E0003030A /* Delay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E08EFCE27F1DD2E0003030A /* Delay.swift */; };
 		8E08EFD127F2E4D50003030A /* TokenCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E08EFD027F2E4D50003030A /* TokenCommand.swift */; };
+		8E21BC0028059AE7006E7ED8 /* AssertErrorCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E21BBFF28059AE7006E7ED8 /* AssertErrorCode.swift */; };
 		8E703EF827EB176600CC87CE /* AcceptCallCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E703EF727EB176500CC87CE /* AcceptCallCommand.swift */; };
 		8E703EFA27EB177000CC87CE /* DeclineCallCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E703EF927EB177000CC87CE /* DeclineCallCommand.swift */; };
 		8E703EFC27EB3CE500CC87CE /* FirebaseCallModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E703EFB27EB3CE500CC87CE /* FirebaseCallModel.swift */; };
@@ -312,6 +313,7 @@
 		86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallMainVC+Stream.swift"; sourceTree = "<group>"; };
 		8E08EFCE27F1DD2E0003030A /* Delay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delay.swift; sourceTree = "<group>"; };
 		8E08EFD027F2E4D50003030A /* TokenCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenCommand.swift; sourceTree = "<group>"; };
+		8E21BBFF28059AE7006E7ED8 /* AssertErrorCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssertErrorCode.swift; sourceTree = "<group>"; };
 		8E703EF727EB176500CC87CE /* AcceptCallCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptCallCommand.swift; sourceTree = "<group>"; };
 		8E703EF927EB177000CC87CE /* DeclineCallCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeclineCallCommand.swift; sourceTree = "<group>"; };
 		8E703EFB27EB3CE500CC87CE /* FirebaseCallModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseCallModel.swift; sourceTree = "<group>"; };
@@ -578,6 +580,7 @@
 				86B198D0278BE2600004C997 /* ZegoJsonTool.swift */,
 				8E08EFCE27F1DD2E0003030A /* Delay.swift */,
 				86B1994C278D63430004C997 /* ZegoTimer.swift */,
+				8E21BBFF28059AE7006E7ED8 /* AssertErrorCode.swift */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -1202,6 +1205,7 @@
 				8E77571727E4749500BFB5F6 /* CallCommand.swift in Sources */,
 				8637814E27F5B824000A0C22 /* DeviceTool.swift in Sources */,
 				86AC134627997D7F00607277 /* CallManager+CallKit.swift in Sources */,
+				8E21BC0028059AE7006E7ED8 /* AssertErrorCode.swift in Sources */,
 				8637813327E47603000A0C22 /* AppleCallKitService.swift in Sources */,
 				86B198F7278D625F0004C997 /* SettingCellModel.swift in Sources */,
 				86B1998E278EBC7E0004C997 /* CallingVideoView.swift in Sources */,
