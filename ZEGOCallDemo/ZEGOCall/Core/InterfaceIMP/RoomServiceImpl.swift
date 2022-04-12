@@ -27,6 +27,10 @@ class RoomServiceImpl: NSObject {
 extension RoomServiceImpl: RoomService {
 
     func joinRoom(_ roomID: String, _ token: String) {
+        
+        assert(ServiceManager.shared.isSDKInit, "The SDK must be initialised first.")
+        assert(ServiceManager.shared.userService.localUserInfo != nil, "Must be logged in first.")
+        
         guard let userID = ServiceManager.shared.userService.localUserInfo?.userID else {
             assert(false, "user ID can't be nil.")
             return
@@ -53,6 +57,9 @@ extension RoomServiceImpl: RoomService {
 
     
     func leaveRoom() {
+        assert(ServiceManager.shared.isSDKInit, "The SDK must be initialised first.")
+        assert(ServiceManager.shared.userService.localUserInfo != nil, "Must be logged in first.")
+        
         self.roomInfo = nil
         ZegoExpressEngine.shared().stopPublishingStream()
         ZegoExpressEngine.shared().logoutRoom()

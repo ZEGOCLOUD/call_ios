@@ -14,7 +14,15 @@ class StreamServiceImpl: NSObject {
 
 extension StreamServiceImpl: StreamService {
     func startPlaying(_ userID: String?, streamView: UIView?) {
-        guard let roomID = ServiceManager.shared.roomService.roomInfo?.roomID else { return }
+        
+        assert(ServiceManager.shared.isSDKInit, "The SDK must be initialised first.")
+        assert(ServiceManager.shared.userService.localUserInfo != nil, "Must be logged in first.")
+        assert(userID != nil, "The user ID can not be nil.")
+        
+        guard let roomID = ServiceManager.shared.roomService.roomInfo?.roomID else {
+            assert(false, "The room ID can not be nil")
+            return
+        }
         let streamID = String.getStreamID(userID, roomID: roomID)
         if streamView != nil {
             guard let streamView = streamView else { return }
@@ -27,13 +35,25 @@ extension StreamServiceImpl: StreamService {
     }
     
     func startPreview(_ streamView: UIView?) {
-        guard let streamView = streamView else { return }
+        
+        assert(ServiceManager.shared.isSDKInit, "The SDK must be initialised first.")
+        assert(ServiceManager.shared.userService.localUserInfo != nil, "Must be logged in first.")
+        
+        guard let streamView = streamView else {
+            assert(false, "The stream view can not be nil.")
+            return
+        }
         let canvas = ZegoCanvas(view: streamView)
         canvas.viewMode = .aspectFill
         ZegoExpressEngine.shared().startPreview(canvas)
     }
     
     func stopPlaying(_ userID: String?) {
-        
+        guard let roomID = ServiceManager.shared.roomService.roomInfo?.roomID else {
+            assert(false, "The room ID can not be nil")
+            return
+        }
+        let streamID = String.getStreamID(userID, roomID: roomID)
+        ZegoExpressEngine.shared().stopPlayingStream(streamID)
     }
 }

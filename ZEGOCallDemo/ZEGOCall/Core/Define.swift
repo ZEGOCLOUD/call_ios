@@ -32,6 +32,11 @@ enum ZegoError: Error {
     /// common failed
     case failed
     case paramInvalid
+    case notInit
+    case networkError
+    case notLogin
+    
+    case callStatusWrong
     case tokenExpired
     
     /// other error code
@@ -39,9 +44,13 @@ enum ZegoError: Error {
     
     var code: Int32 {
         switch self {
-        case .failed: return 1
-        case .tokenExpired: return 1001
-        case .paramInvalid: return 2001
+        case .failed: return 1001
+        case .paramInvalid: return 1002
+        case .notInit: return 1003
+        case .networkError: return 1004
+        case .notLogin: return 1005
+        case .callStatusWrong: return 2001
+        case .tokenExpired: return 2002
         case .other(let rawValue): return rawValue
         }
     }

@@ -41,11 +41,28 @@ class CallServiceImpl: NSObject {
 
 extension CallServiceImpl: CallService {
     func callUser(_ user: UserInfo, token: String, type: CallType, callback: ZegoCallback?) {
-                
+        
+        if ServiceManager.shared.isSDKInit == false {
+            assert(false, "The SDK must be initialised first.")
+            guard let callback = callback else { return }
+            callback(.failure(.notInit))
+            return
+        }
+        
+        if ServiceManager.shared.userService.localUserInfo == nil {
+            assert(false, "Must be logged in first.")
+            guard let callback = callback else { return }
+            callback(.failure(.notLogin))
+            return
+        }
+        
+        assert(user.userID != nil && user.userID!.count <= 64,
+               " The User ID length must be less than or equal to 64.")
+        
         callUserCallback = callback
         
         if status != .free {
-            handleCallUserResult(.failure(.failed))
+            handleCallUserResult(.failure(.callStatusWrong))
             return
         }
         
@@ -85,18 +102,32 @@ extension CallServiceImpl: CallService {
     
     func cancelCall(_ callback: ZegoCallback?) {
         
-        guard let calleeID = callInfo.callees.first?.userID else {
+        if ServiceManager.shared.isSDKInit == false {
+            assert(false, "The SDK must be initialised first.")
             guard let callback = callback else { return }
-            callback(.failure(.failed))
+            callback(.failure(.notInit))
+            return
+        }
+        
+        if ServiceManager.shared.userService.localUserInfo == nil {
+            assert(false, "Must be logged in first.")
+            guard let callback = callback else { return }
+            callback(.failure(.notLogin))
             return
         }
         
         if status != .outgoing {
             guard let callback = callback else { return }
-            callback(.failure(.failed))
+            callback(.failure(.callStatusWrong))
             return
         }
         
+        guard let calleeID = callInfo.callees.first?.userID else {
+            guard let callback = callback else { return }
+            callback(.failure(.failed))
+            return
+        }
+                
         let command = CancelCallCommand()
         command.userID = ServiceManager.shared.userService.localUserInfo?.userID
         command.calleeID = calleeID
@@ -125,14 +156,28 @@ extension CallServiceImpl: CallService {
     
     func acceptCall(_ token: String, callback: ZegoCallback?) {
         
-        acceptCallBack = callback
-        
-        guard let callID = callInfo.callID else {
-            handleAcceptCallResult(.failure(.failed))
+        if ServiceManager.shared.isSDKInit == false {
+            assert(false, "The SDK must be initialised first.")
+            guard let callback = callback else { return }
+            callback(.failure(.notInit))
             return
         }
         
+        if ServiceManager.shared.userService.localUserInfo == nil {
+            assert(false, "Must be logged in first.")
+            guard let callback = callback else { return }
+            callback(.failure(.notLogin))
+            return
+        }
+        
+        acceptCallBack = callback
+        
         if status != .incoming {
+            handleAcceptCallResult(.failure(.callStatusWrong))
+            return
+        }
+        
+        guard let callID = callInfo.callID else {
             handleAcceptCallResult(.failure(.failed))
             return
         }
@@ -162,9 +207,23 @@ extension CallServiceImpl: CallService {
     
     func declineCall(_ callback: ZegoCallback?) {
         
+        if ServiceManager.shared.isSDKInit == false {
+            assert(false, "The SDK must be initialised first.")
+            guard let callback = callback else { return }
+            callback(.failure(.notInit))
+            return
+        }
+        
+        if ServiceManager.shared.userService.localUserInfo == nil {
+            assert(false, "Must be logged in first.")
+            guard let callback = callback else { return }
+            callback(.failure(.notLogin))
+            return
+        }
+        
         if status != .incoming && status != .calling {
             guard let callback = callback else { return }
-            callback(.failure(.failed))
+            callback(.failure(.callStatusWrong))
             return
         }
         
@@ -210,11 +269,25 @@ extension CallServiceImpl: CallService {
     
     func endCall(_ callback: ZegoCallback?) {
         
+        if ServiceManager.shared.isSDKInit == false {
+            assert(false, "The SDK must be initialised first.")
+            guard let callback = callback else { return }
+            callback(.failure(.notInit))
+            return
+        }
+        
+        if ServiceManager.shared.userService.localUserInfo == nil {
+            assert(false, "Must be logged in first.")
+            guard let callback = callback else { return }
+            callback(.failure(.notLogin))
+            return
+        }
+        
         if status != .calling {
             guard let callback = callback else {
                 return
             }
-            callback(.failure(.failed))
+            callback(.failure(.callStatusWrong))
             return
         }
         
@@ -478,6 +551,8 @@ extension CallServiceImpl: ZegoEventHandler {
                 var result: ZegoResult = .failure(.failed)
                 if errorCode == 1002033 {
                     result = .failure(.tokenExpired)
+                } else if errorCode > 0 {
+                    result = .failure(.other(errorCode))
                 }
                 handleCallUserResult(result)
             } else {
@@ -493,6 +568,8 @@ extension CallServiceImpl: ZegoEventHandler {
                 var result: ZegoResult = .failure(.failed)
                 if errorCode == 1002033 {
                     result = .failure(.tokenExpired)
+                } else if errorCode > 0 {
+                    result = .failure(.other(errorCode))
                 }
                 handleAcceptCallResult(result)
             } else {
