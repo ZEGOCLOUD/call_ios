@@ -42,11 +42,12 @@ class CallServiceImpl: NSObject {
 extension CallServiceImpl: CallService {
     func callUser(_ user: UserInfo, token: String, type: CallType, callback: ZegoCallback?) {
                 
-        if status != .free {
-            guard let callback = callback else { return }
-            callback(.failure(.failed))
-        }
+        callUserCallback = callback
         
+        if status != .free {
+            handleCallUserResult(.failure(.failed))
+            return
+        }
         
         let caller = ServiceManager.shared.userService.localUserInfo
         let callerUserID = caller?.userID ?? ""
@@ -56,7 +57,6 @@ extension CallServiceImpl: CallService {
         callInfo.caller = ServiceManager.shared.userService.localUserInfo
         callInfo.callees = [user]
         
-        callUserCallback = callback
         currentRoomID = callID
         ServiceManager.shared.roomService.joinRoom(callID, token)
         
@@ -85,7 +85,17 @@ extension CallServiceImpl: CallService {
     
     func cancelCall(_ callback: ZegoCallback?) {
         
-        guard let calleeID = callInfo.callees.first?.userID else { return }
+        guard let calleeID = callInfo.callees.first?.userID else {
+            guard let callback = callback else { return }
+            callback(.failure(.failed))
+            return
+        }
+        
+        if status != .outgoing {
+            guard let callback = callback else { return }
+            callback(.failure(.failed))
+            return
+        }
         
         let command = CancelCallCommand()
         command.userID = ServiceManager.shared.userService.localUserInfo?.userID
@@ -115,15 +125,20 @@ extension CallServiceImpl: CallService {
     
     func acceptCall(_ token: String, callback: ZegoCallback?) {
         
+        acceptCallBack = callback
+        
         guard let callID = callInfo.callID else {
-            guard let callback = callback else { return }
-            callback(.failure(.failed))
+            handleAcceptCallResult(.failure(.failed))
+            return
+        }
+        
+        if status != .incoming {
+            handleAcceptCallResult(.failure(.failed))
             return
         }
         
         status = .calling
         currentRoomID = callID
-        acceptCallBack = callback
         
         ServiceManager.shared.roomService.joinRoom(callID, token)
         
@@ -146,6 +161,12 @@ extension CallServiceImpl: CallService {
     }
     
     func declineCall(_ callback: ZegoCallback?) {
+        
+        if status != .incoming && status != .calling {
+            guard let callback = callback else { return }
+            callback(.failure(.failed))
+            return
+        }
         
         status = .free
         cancelCallTimer()
@@ -188,6 +209,14 @@ extension CallServiceImpl: CallService {
     }
     
     func endCall(_ callback: ZegoCallback?) {
+        
+        if status != .calling {
+            guard let callback = callback else {
+                return
+            }
+            callback(.failure(.failed))
+            return
+        }
         
         let userID = ServiceManager.shared.userService.localUserInfo?.userID ?? ""
         let command = EndCallCommand()
@@ -428,6 +457,8 @@ extension CallServiceImpl {
             status = .calling
             self.cancelCallTimer()
             self.startHeartbeatTimer()
+        } else {
+            ServiceManager.shared.roomService.leaveRoom()
         }
         guard let callback = acceptCallBack else { return }
         acceptCallBack = nil
