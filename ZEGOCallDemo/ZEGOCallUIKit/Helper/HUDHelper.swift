@@ -51,6 +51,32 @@ class HUDHelper: NSObject {
         }
     }
     
+    /// Display network loading with message on toView
+    static func showNetworkLoading(_ message: String, toView: UIView) {
+        DispatchQueue.main.async {
+            let hud = MBProgressHUD.showAdded(to: toView, animated: true)
+            hud.accessibilityIdentifier = "NetWorkLoading"
+            hud.mode = .text
+            hud.detailsLabel.text = message
+            hud.detailsLabel.font = UIFont.systemFont(ofSize: 15)
+        }
+    }
+    
+    /// Remove network loading HUD
+    static func hideNetworkLoading(_ onView: UIView) {
+        DispatchQueue.main.async {
+            for subview in onView.subviews {
+                if subview is MBProgressHUD{
+                    let hud:MBProgressHUD = subview as! MBProgressHUD
+                    if hud.accessibilityIdentifier == "NetWorkLoading" {
+                        hud.removeFromSuperViewOnHide = true
+                        hud.hide(animated: true)
+                    }
+                }
+            }
+        }
+    }
+    
     /// Remove network loading HUD
     static func hideNetworkLoading() -> Void {
         DispatchQueue.main.async {

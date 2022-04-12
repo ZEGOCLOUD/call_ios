@@ -55,5 +55,6 @@ extension CallMainVC: CallActionDelegate {
             self.resetTime()
             self.dismiss(animated: true, completion: nil)
         }
+        CallManager.shared.currentCallVC = nil
     }
 }

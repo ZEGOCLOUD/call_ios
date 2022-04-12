@@ -29,6 +29,7 @@ class CallManager: NSObject, CallManagerInterface {
     var otherUserRoomInfo: UserInfo?
     var callKitService: AppleCallKitServiceIMP?
     var myUUID: UUID = UUID()
+    var isConnecting: Bool = false
     
     lazy var audioTool: AudioPlayerTool = {
         let audioPlayTool = AudioPlayerTool()
