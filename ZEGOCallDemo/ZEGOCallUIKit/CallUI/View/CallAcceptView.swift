@@ -22,7 +22,17 @@ class CallAcceptView: CallBaseView {
         }
     }
     
-    @IBOutlet weak var loadingImage: UIImageView!
+    @IBOutlet weak var loadingImage: UIImageView! {
+        didSet {
+            let rotationAnim = CABasicAnimation(keyPath: "transform.rotation.z")
+            rotationAnim.fromValue = 0 // 开始角度
+            rotationAnim.toValue = Double.pi * 2
+            rotationAnim.repeatCount = MAXFLOAT
+            rotationAnim.duration = 1
+            rotationAnim.isRemovedOnCompletion = false
+            loadingImage.layer.add(rotationAnim, forKey: nil)
+        }
+    }
     
     
     func setCallAcceptViewType(_ isVideo: Bool = false, statusType: CallStatusType) {
