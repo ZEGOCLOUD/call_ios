@@ -229,6 +229,7 @@ extension CallServiceImpl: CallService {
         
         status = .free
         cancelCallTimer()
+        ServiceManager.shared.roomService.leaveRoom()
         
         guard let userID = ServiceManager.shared.userService.localUserInfo?.userID,
               let callID = callInfo.callID,
