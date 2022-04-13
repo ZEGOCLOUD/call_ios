@@ -8,6 +8,7 @@
 import UIKit
 
 protocol CallTimeManagerDelegate: AnyObject {
+    /// callback call time
     func onReceiceCallTimeUpdate(_ duration: Int)
 }
 
@@ -18,6 +19,7 @@ class CallTimeManager: NSObject {
     var callDuration: Int = 0
     weak var delegate: CallTimeManagerDelegate?
     
+    /// call start
     func callStart() {
         startTime = Int(Date().timeIntervalSince1970)
         timer.setEventHandler {
@@ -28,6 +30,7 @@ class CallTimeManager: NSObject {
         timer.start()
     }
     
+    /// call end
     func callEnd() {
         startTime = 0
         callDuration = 0
