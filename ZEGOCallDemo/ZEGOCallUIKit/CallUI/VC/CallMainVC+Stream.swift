@@ -14,10 +14,6 @@ extension CallMainVC {
     var localUserID: String {
         ServiceManager.shared.userService.localUserInfo?.userID ?? ""
     }
-        
-    func isUserMyself(_ userID: String?) -> Bool {
-        return localUserID == userID
-    }
 }
 
 

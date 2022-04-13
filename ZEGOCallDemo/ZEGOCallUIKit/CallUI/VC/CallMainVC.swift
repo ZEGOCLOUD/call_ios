@@ -8,29 +8,25 @@
 import UIKit
 import ZegoExpressEngine
 
+/// Call status type
 enum CallStatusType: Int {
-    case take
-    case accept
-    case accepting
-    case calling
-    case canceled
-    case decline
-    case busy
-    case miss
-    case completed
+    case take /// outgoing state
+    case accept /// incoming state
+    case accepting /// answering state
+    case calling /// calling state
+    case canceled /// cancel call state
+    case decline /// decline call state
+    case busy /// busy state
+    case miss ///  miss state
+    case completed ///  complete state
 }
 
+///NetWork quality level.
 enum NetWorkStatus: Int {
-    case unknow
-    case low
-    case middle
-    case good
-}
-
-enum ConnectStatus: Int {
-    case connecting
-    case connected
-    case disConnected
+    case unknow /// Unknown
+    case low /// Bad
+    case middle /// Normal
+    case good /// Good
 }
 
 class CallMainVC: UIViewController {
@@ -48,11 +44,13 @@ class CallMainVC: UIViewController {
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var callQualityLabel: UILabel!
     
+    /// big preview view
     @IBOutlet weak var bigPreviewView: UIView! {
         didSet {
             localPreviewView = bigPreviewView
         }
     }
+    /// small preview view
     @IBOutlet weak var smallPreviewView: UIView! {
         didSet {
             let tapClick = UITapGestureRecognizer.init(target: self, action: #selector(ExchangeVideoStream))
@@ -147,7 +145,7 @@ class CallMainVC: UIViewController {
     
     
     
-    
+    /// Swap video streams to display views
     @objc func ExchangeVideoStream() {
         
         let tempView = localPreviewView
@@ -217,7 +215,9 @@ class CallMainVC: UIViewController {
     var statusType: CallStatusType = .take
     var useFrontCamera: Bool = true
     
+    /// Local video preview view
     var localPreviewView: UIView?
+    /// Remote video preview view
     var remotePreviewView: UIView?
 
     override func viewDidLoad() {
@@ -235,6 +235,13 @@ class CallMainVC: UIViewController {
         changeBottomButtonDisplayStatus()
     }
     
+    
+    /// Creating a call page
+    /// - Parameters:
+    ///   - type: call page type: audio or video
+    ///   - userInfo: User information of the caller
+    ///   - status: call page display state
+    /// - Returns: CallMainVC instance
     static func loadCallMainVC(_ type: CallType, userInfo: UserInfo, status: CallStatusType) -> CallMainVC {
         let vc: CallMainVC = CallMainVC(nibName :"CallMainVC",bundle : nil)
         vc.modalPresentationStyle = .fullScreen;
@@ -252,12 +259,17 @@ class CallMainVC: UIViewController {
         return vc
     }
     
+    
+    /// update call time display
+    /// - Parameter duration: call duration
     func updateCallTimeDuration(_ duration: Int) {
         DispatchQueue.main.async {
             self.timeLabel.text = String.getTimeFormate(duration)
         }
     }
     
+    
+    /// config UI
     func configUI() {
         setBackGroundImageHidden()
         backGroundImage.image = bgImage
@@ -334,6 +346,12 @@ class CallMainVC: UIViewController {
         changeCallStatusText(statusType)
     }
     
+    
+    /// update call page info & state
+    /// - Parameters:
+    ///   - type: call type
+    ///   - userInfo: User information of the caller
+    ///   - status: call state
     func updateCallType(_ type: CallType, userInfo: UserInfo, status: CallStatusType) {
         
         otherUser = userInfo
@@ -354,6 +372,11 @@ class CallMainVC: UIViewController {
         configUI()
     }
     
+    
+    /// show call netwotk quality
+    /// - Parameters:
+    ///   - netWorkQuality: network quality level
+    ///   - userID: user id
     func callQualityChange(_ netWorkQuality: NetWorkStatus, userID: String) {
         netWorkStatus = netWorkQuality
         if netWorkQuality == .low || netWorkQuality == .unknow {
@@ -365,6 +388,9 @@ class CallMainVC: UIViewController {
         }
     }
     
+    
+    /// room user info update
+    /// - Parameter userRoomInfo: user info
     func userRoomInfoUpdate(_ userRoomInfo: UserInfo) {
         if userRoomInfo.userID != localUserID {
             otherUser = userRoomInfo
@@ -404,6 +430,11 @@ class CallMainVC: UIViewController {
         ZegoExpressEngine.shared().useFrontCamera(self.useFrontCamera)
     }
     
+    
+    /// <#Description#>
+    /// - Parameters:
+    ///   - status: <#status description#>
+    ///   - showHud: <#showHud description#>
     func changeCallStatusText(_ status: CallStatusType, showHud:Bool = true) {
         switch status {
         case .take, .accept, .accepting:
@@ -473,11 +504,13 @@ class CallMainVC: UIViewController {
         }
     }
     
+    /// change bottom button display state
     func changeBottomButtonDisplayStatus() {
         phoneView.changeDisplayStatus()
         videoView.changeDisplayStatus()
     }
     
+    ///Minimize click
     @IBAction func minimizeClick(_ sender: UIButton) {
         switch statusType {
         case .take:
@@ -493,6 +526,7 @@ class CallMainVC: UIViewController {
         }
     }
     
+    ///Set button click
     @IBAction func streamSetClick(_ sender: UIButton) {
         switch vcType {
         case .voice:

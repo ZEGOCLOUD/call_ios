@@ -10,7 +10,6 @@ import ZegoExpressEngine
 
 class CallManager: NSObject, CallManagerInterface {
     
-    
     static var shared: CallManager! = CallManager()
     weak var delegate: CallManagerDelegate?
     var currentCallStatus: callStatus! = .free
@@ -20,28 +19,39 @@ class CallManager: NSObject, CallManagerInterface {
             ServiceManager.shared.userService.localUserInfo
         }
     }
-    
+    /// Current call page
     var currentCallVC: CallMainVC?
+    /// Current call user info
     var currentCallUserInfo: UserInfo?
+    /// Call type
     var callKitCallType: CallType = .voice
+    /// App current state
     var appIsActive: Bool = true
+    /// current call notification message view
     var currentTipView: CallAcceptTipView?
+    /// call room other user info
     var otherUserRoomInfo: UserInfo?
+    /// call kit service
     var callKitService: AppleCallKitServiceIMP?
+    /// uuid used as call identify
     var myUUID: UUID = UUID()
+    /// current call connecting state
     var isConnecting: Bool = false
     
+    /// audio player tool
     lazy var audioTool: AudioPlayerTool = {
         let audioPlayTool = AudioPlayerTool()
         return audioPlayTool
     }()
     
+    /// call time manager
     lazy var callTimeManager: CallTimeManager = {
         let manager = CallTimeManager()
         manager.delegate = self
         return manager
     }()
     
+    /// minimization management
     lazy var minmizedManager: MinimizedDisplayManager = {
         let manager = MinimizedDisplayManager()
         manager.delegate = self
@@ -65,6 +75,7 @@ class CallManager: NSObject, CallManagerInterface {
         callKitService?.providerDelegate = ProviderDelegate()
     }
     
+    // MARK: -Public
     func initWithAppID(_ appID: UInt32, callback: ZegoCallback?) {
         ServiceManager.shared.initWithAppID(appID: appID, callback: callback)
     }
@@ -128,7 +139,13 @@ class CallManager: NSObject, CallManagerInterface {
         }
     }
     
+    //MARK: -Privare
     
+    /// Answering the call
+    /// - Parameters:
+    ///   - userInfo: The other user info
+    ///   - callType: call type
+    ///   - presentVC: Whether present the Call page: default true
     func acceptCall(_ userInfo: UserInfo, callType: CallType, presentVC:Bool = true) {
         guard let userID = userInfo.userID else { return }
         guard let token = token else {
@@ -160,17 +177,27 @@ class CallManager: NSObject, CallManagerInterface {
                 self.minmizedManager.currentStatus = .calling
                 self.startPlayingStream(userID)
                 self.currentCallVC?.updateCallType(callType, userInfo: userInfo, status: .calling)
-            case .failure(_):
+            case .failure(let error):
                 self.currentCallStatus = .free
                 if !presentVC {
                     self.currentCallVC?.changeCallStatusText(.decline)
                     self.currentCallVC?.callDelayDismiss()
                 }
-                break
+                if case .tokenExpired = error {
+                    /// token expired, get new token
+                    guard let userID = self.localUserInfo?.userID else { return }
+                    self.getToken(userID, 24 * 3600) { result in
+                        if result.isSuccess {
+                            let newToken: String? = result.success as? String
+                            self.token = newToken
+                        }
+                    }
+                }
             }
         }
     }
     
+    /// decline call
     func declineCall() {
         currentCallStatus = .free
         currentCallUserInfo = nil
@@ -179,6 +206,7 @@ class CallManager: NSObject, CallManagerInterface {
         ServiceManager.shared.callService.declineCall(nil)
     }
     
+    /// end call
     func endCall() {
         if ServiceManager.shared.callService.status == .calling {
             minmizedManager.updateCallStatus(status: .end, userInfo: currentCallUserInfo)
@@ -194,6 +222,7 @@ class CallManager: NSObject, CallManagerInterface {
         endSystemCall()
     }
     
+    /// cancel call
     func cancelCall() {
         audioTool.stopPlay()
         currentCallStatus = .free
@@ -203,12 +232,14 @@ class CallManager: NSObject, CallManagerInterface {
         ServiceManager.shared.callService.cancelCall(nil)
     }
     
+    /// reset device config
     func resetDeviceConfig() {
         ServiceManager.shared.userService.localUserInfo?.mic = true
         ServiceManager.shared.userService.localUserInfo?.camera = true
         ServiceManager.shared.deviceService.resetDeviceConfig()
     }
     
+    /// start playing stream
     func startPlayingStream(_ userID: String?) {
         guard let userID = userID else { return }
         guard let userRoomInfo = ServiceManager.shared.userService.localUserInfo else { return }
@@ -235,7 +266,7 @@ class CallManager: NSObject, CallManagerInterface {
         ServiceManager.shared.deviceService.enableSpeaker(false)
     }
     
-    
+    /// close call page
     func closeCallVC() {
         minmizedManager.dismissCallMinView()
         guard let currentCallVC = currentCallVC else { return }

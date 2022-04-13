@@ -9,20 +9,23 @@ import UIKit
 import ZegoExpressEngine
 
 enum MinimizedCallType: Int {
-    case audio = 1
-    case video = 2
+    case audio = 1 /// audio
+    case video = 2 /// video
 }
 
 enum MinimizedCallStatus: Int {
-    case waiting
-    case decline
-    case calling
-    case miss
-    case end
+    case waiting /// waiting state
+    case decline /// decline state
+    case calling /// calling state
+    case miss /// miss state
+    case end /// end state
 }
 
 protocol MinimizedDisplayManagerDelegate: AnyObject {
+    
+    /// click audio minimize view callback
     func didClickAudioMinimizeView(_ type: MinimizedCallType)
+    /// click video minimize view callback
     func didClickVideoMinimizedView()
 }
 
@@ -58,6 +61,12 @@ class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimize
         return view
     }()
     
+    
+    /// display call minimize view
+    /// - Parameters:
+    ///   - callType: call type
+    ///   - status: call state
+    ///   - userInfo: user info
     func showCallMinView(_ callType: MinimizedCallType, status:MinimizedCallStatus, userInfo: UserInfo?) {
         self.callType = callType
         switch callType {
@@ -74,6 +83,12 @@ class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimize
         updateCallStatus(status: status, userInfo: userInfo, isVideo: true)
     }
     
+    
+    /// update call state
+    /// - Parameters:
+    ///   - status: call state
+    ///   - userInfo: user info
+    ///   - isVideo: display type video or audio: default false
     func updateCallStatus(status:MinimizedCallStatus, userInfo: UserInfo?, isVideo: Bool = false) {
         currentStatus = status
         guard let localUserInfo = ServiceManager.shared.userService.localUserInfo else { return }
@@ -146,6 +161,7 @@ class MinimizedDisplayManager: NSObject, MinimizeCallViewDelegate, VideoMinimize
         }
     }
     
+    /// Hide minimize view
     func dismissCallMinView() {
         viewHiden = true
         audioMinView.isHidden = true
