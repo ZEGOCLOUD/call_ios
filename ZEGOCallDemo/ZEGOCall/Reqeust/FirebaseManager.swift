@@ -493,7 +493,7 @@ extension FirebaseManager {
             else if myUser.status == .connectingTimeout &&
                 oldModel?.call_status == .connecting
             {
-                
+                self.modelDict.removeValue(forKey: model.call_id)
             }
             
             // MARK: - caller or callee receive calling timeout

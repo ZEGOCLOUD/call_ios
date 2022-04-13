@@ -124,6 +124,7 @@ extension ServiceManager: ZegoEventHandler {
         for delegate in rtcEventDelegates.allObjects {
             delegate.onRoomStateUpdate?(state, errorCode: errorCode, extendedData: extendedData, roomID: roomID)
         }
+        assertErrorCode(errorCode)
     }
     
     func onRoomUserUpdate(_ updateType: ZegoUpdateType, userList: [ZegoUser], roomID: String) {
@@ -151,12 +152,14 @@ extension ServiceManager: ZegoEventHandler {
         for delegate in rtcEventDelegates.allObjects {
             delegate.onPlayerStateUpdate?(state, errorCode: errorCode, extendedData: extendedData, streamID: streamID)
         }
+        assertErrorCode(errorCode)
     }
     
     func onPublisherStateUpdate(_ state: ZegoPublisherState, errorCode: Int32, extendedData: [AnyHashable : Any]?, streamID: String) {
         for delegate in rtcEventDelegates.allObjects {
             delegate.onPublisherStateUpdate?(state, errorCode: errorCode, extendedData: extendedData, streamID: streamID)
         }
+        assertErrorCode(errorCode)
     }
     
     func onNetworkQuality(_ userID: String, upstreamQuality: ZegoStreamQualityLevel, downstreamQuality: ZegoStreamQualityLevel) {
