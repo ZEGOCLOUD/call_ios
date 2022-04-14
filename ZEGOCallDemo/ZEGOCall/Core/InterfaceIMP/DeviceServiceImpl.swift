@@ -67,7 +67,7 @@ class DeviceServiceImpl: NSObject, DeviceService {
         }
     }
     
-    var videoMirror: Bool = false {
+    var videoMirror: Bool = true {
         willSet {
             if videoMirror {
                 ZegoExpressEngine.shared().setVideoMirrorMode(.bothMirror)
@@ -130,7 +130,7 @@ class DeviceServiceImpl: NSObject, DeviceService {
         noiseSliming = true
         echoCancellation = true
         volumeAdjustment = true
-        videoMirror = false
+        videoMirror = true
         ZegoExpressEngine.shared().enableCamera(true)
         ZegoExpressEngine.shared().muteMicrophone(false)
     }
