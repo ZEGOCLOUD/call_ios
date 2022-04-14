@@ -13,6 +13,7 @@ class CallSettingModel: NSObject {
     var subTitle:String?
     var selectionType: DeviceType = .noiseSuppression
     var switchStatus: Bool = false
+    var isSelected: Bool = false
     
     init(json: Dictionary<String, Any>) {
         if let title = json["title"] as? String {
@@ -26,6 +27,9 @@ class CallSettingModel: NSObject {
         }
         if let switchStatus = json["switchStatus"] as? Bool {
             self.switchStatus = switchStatus
+        }
+        if let isSelected = json["isSelected"] as? Bool {
+            self.isSelected = isSelected
         }
     }
 }

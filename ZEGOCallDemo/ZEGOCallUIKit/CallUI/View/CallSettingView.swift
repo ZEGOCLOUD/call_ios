@@ -41,7 +41,7 @@ class CallSettingView: UIView, UITableViewDelegate, UITableViewDataSource, Setti
                                                 VideoResolution.p540:"540x960",
                                                 VideoResolution.p360:"360x640",
                                                 VideoResolution.p270:"270x480",
-                                                VideoResolution.p180:"182x320"]
+                                                VideoResolution.p180:"180x320"]
         return dic
     }()
     
@@ -123,12 +123,14 @@ class CallSettingView: UIView, UITableViewDelegate, UITableViewDataSource, Setti
                                  
                                  ["title": ZGUIKitLocalizedString("room_settings_page_video_resolution"),
                                   "subTitle": "720x1280", "selectionType": DeviceType.videoResolution,
-                                  "switchStatus": false],
+                                  "switchStatus": false,
+                                  "isSelected": false],
                                  
                                  ["title": ZGUIKitLocalizedString("room_settings_page_audio_bitrate"),
                                   "subTitle": "48kbps",
                                   "selectionType": DeviceType.bitrate,
-                                  "switchStatus": false]
+                                  "switchStatus": false,
+                                  "isSelected": false]
                                 ].map{ CallSettingModel(json: $0) }
         } else if type == .audio {
             containerViewHeight.constant = 281
@@ -147,7 +149,8 @@ class CallSettingView: UIView, UITableViewDelegate, UITableViewDataSource, Setti
                                  ["title": ZGUIKitLocalizedString("room_settings_page_audio_bitrate"),
                                   "subTitle": "48kbps",
                                   "selectionType": DeviceType.bitrate,
-                                  "switchStatus": false]
+                                  "switchStatus": false,
+                                  "isSelected": false]
                                 ].map{ CallSettingModel(json: $0) }
         }
         settingTableView.reloadData()
@@ -214,6 +217,18 @@ class CallSettingView: UIView, UITableViewDelegate, UITableViewDataSource, Setti
         case .videoResolution, .bitrate:
             delegate?.settingViewDidSelected(model, type: viewType)
         }
+        changeCellSelectedStatus(model.selectionType)
+    }
+    
+    func changeCellSelectedStatus(_ type: DeviceType) {
+        for model in settingDataSource {
+            if model.selectionType == type {
+                model.isSelected = true
+            } else {
+                model.isSelected = false
+            }
+        }
+        settingTableView.reloadData()
     }
     
     //MARK: - SettingSwitchCellDelegate
