@@ -147,8 +147,13 @@ class CallManager: NSObject, CallManagerInterface {
     ///   - callType: call type
     ///   - presentVC: Whether present the Call page: default true
     func acceptCall(_ userInfo: UserInfo, callType: CallType, presentVC:Bool = true) {
-        guard let userID = userInfo.userID else { return }
+        audioTool.stopPlay()
+        guard let userID = userInfo.userID else {
+            currentCallStatus = .free
+            return
+        }
         guard let token = token else {
+            currentCallStatus = .free
             print("call token is not exists")
             return
         }
@@ -169,7 +174,6 @@ class CallManager: NSObject, CallManagerInterface {
         ServiceManager.shared.callService.acceptCall(token) { result in
             switch result {
             case .success():
-                self.audioTool.stopPlay()
                 self.currentCallStatus = .calling
                 self.otherUserRoomInfo = userInfo
                 self.currentCallUserInfo = userInfo

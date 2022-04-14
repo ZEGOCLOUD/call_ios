@@ -28,7 +28,7 @@ extension CallManager: UserServiceDelegate {
     }
         
     func onUserInfoUpdate(_ userInfo: UserInfo) {
-        if userInfo.userID != localUserID {
+        if userInfo.userID != localUserInfo?.userID {
             otherUserRoomInfo = userInfo
         }
         guard let currentCallVC = currentCallVC else { return }
