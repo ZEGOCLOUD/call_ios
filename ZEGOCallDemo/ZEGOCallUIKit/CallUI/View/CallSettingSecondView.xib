@@ -30,14 +30,14 @@
                                 <constraint firstAttribute="width" constant="40" id="bzN-hV-8v0"/>
                             </constraints>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X7x-ph-Gft">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X7x-ph-Gft">
                             <rect key="frame" x="18" y="27" width="20" height="20"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="20" id="EmE-uW-G0i"/>
                                 <constraint firstAttribute="width" constant="20" id="nDj-3W-Cip"/>
                             </constraints>
                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                            <state key="normal" image="nav_back"/>
+                            <state key="normal" image="call_setting_return"/>
                             <connections>
                                 <action selector="backClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="9Aq-91-5HU"/>
                             </connections>
@@ -99,12 +99,12 @@
         </view>
     </objects>
     <resources>
-        <image name="nav_back" width="33" height="33"/>
+        <image name="call_setting_return" width="20" height="20.5"/>
         <namedColor name="2A2A2A">
             <color red="0.16500000655651093" green="0.16500000655651093" blue="0.16500000655651093" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="D8D8D8">
-            <color red="0.84705882352941175" green="0.84705882352941175" blue="0.84705882352941175" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.84700000286102295" green="0.84700000286102295" blue="0.84700000286102295" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

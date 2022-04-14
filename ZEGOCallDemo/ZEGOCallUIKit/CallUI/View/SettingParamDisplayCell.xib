@@ -45,7 +45,6 @@
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
-                <color key="backgroundColor" name="D8D8D8"/>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="p1Y-EV-IF8" secondAttribute="trailing" constant="18" id="83X-aY-ifa"/>
                     <constraint firstItem="p1Y-EV-IF8" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="8S3-ex-hoa"/>
@@ -69,9 +68,6 @@
         <image name="call_setting_arrow" width="28" height="28"/>
         <namedColor name="A4A4A4">
             <color red="0.64300000667572021" green="0.64300000667572021" blue="0.64300000667572021" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="D8D8D8">
-            <color red="0.84705882352941175" green="0.84705882352941175" blue="0.84705882352941175" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

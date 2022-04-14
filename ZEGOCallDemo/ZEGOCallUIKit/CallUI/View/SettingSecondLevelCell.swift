@@ -31,7 +31,7 @@ class SettingSecondLevelCell: UITableViewCell {
     func updateCell(_ model: CallSettingSecondLevelModel) -> Void {
         cellModel = model
         titleLabel.text = model.title
-        titleLabel.textColor = model.isSelected ? UIColor.black : ZegoColor("2A2A2A")
+        titleLabel.textColor = model.isSelected ? UIColor.black : ZegoColor("A4A4A4")
         selectedButton.isHidden = !model.isSelected
     }
     

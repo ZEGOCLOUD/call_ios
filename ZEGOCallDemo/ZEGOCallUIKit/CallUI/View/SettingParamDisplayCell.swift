@@ -22,6 +22,11 @@ class SettingParamDisplayCell: SettingBaseCell {
         cellModel = model
         titleLabel.text = model.title
         descLabel.text = model.subTitle
+        if model.isSelected {
+            self.contentView.backgroundColor = ZegoColor("D8D8D8")
+        } else {
+            self.contentView.backgroundColor = UIColor.white
+        }
     }
     
 }
