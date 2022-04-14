@@ -13,7 +13,7 @@ protocol Command {
 }
 
 extension Command {
-    func excute(callback: RequestCallback?) {
+    func execute(callback: RequestCallback?) {
         CommandManager.shared.execute(self, callback: callback)
     }
 }

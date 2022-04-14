@@ -54,6 +54,8 @@ protocol CallManagerDelegate: AnyObject {
     ///
     /// - Description: This callback will be triggered when called refused the call.
     func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType)
+    
+    func getRTCToken(_ userID: String) -> String?
 }
 
 // default realized
@@ -98,16 +100,7 @@ protocol CallManagerInterface {
     ///
     /// Call this method at: When the SDK is no longer be used. We recommend you call this method when the application exits.
     func uninit()
-    
-    /// Get a Token
-    ///
-    /// Description: this method can be used to get a Token with userID.
-    ///
-    /// Call this method at: after the SDK initialization
-    ///
-    /// - Parameter callback: refers to the callback for request the Token for authentication
-    func getToken(_ userID: String, _ effectiveTimeInSeconds: Int, callback: RequestCallback?)
-    
+        
     /// Set the local user info
     ///
     /// Description: this can be used to save the user information locally.

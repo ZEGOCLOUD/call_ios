@@ -22,6 +22,8 @@ class RoomServiceImpl: NSObject {
     
     // MARK: - Public
     var roomInfo: RoomInfo?
+    
+    var delegate: RoomServiceDelegate?
 }
 
 extension RoomServiceImpl: RoomService {
@@ -64,20 +66,15 @@ extension RoomServiceImpl: RoomService {
         ZegoExpressEngine.shared().stopPublishingStream()
         ZegoExpressEngine.shared().logoutRoom()
     }
+    
+    func renewToken(_ token: String, roomID: String) {
+        ZegoExpressEngine.shared().renewToken(token, roomID: roomID)
+    }
 }
 
 extension RoomServiceImpl: ZegoEventHandler {
     func onRoomTokenWillExpire(_ remainTimeInSecond: Int32, roomID: String) {
-        guard let userID = ServiceManager.shared.userService.localUserInfo?.userID else { return }
-        ServiceManager.shared.userService.getToken(userID, 24*3600) { result in
-            switch result {
-            case .success(let token):
-                guard let token = token as? String else { return }
-                ZegoExpressEngine.shared().renewToken(token, roomID: roomID)
-            default:
-                break
-            }
-        }
+        delegate?.onRoomTokenWillExpire(remainTimeInSecond, roomID: roomID)
     }
 }
 

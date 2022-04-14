@@ -7,11 +7,16 @@
 
 import Foundation
 
+protocol RoomServiceDelegate {
+    func onRoomTokenWillExpire(_ remainTimeInSecond: Int32, roomID: String)
+}
+
 
 protocol RoomService {
     
     var roomInfo: RoomInfo? { get }
     
+    var delegate: RoomServiceDelegate? { get set }
     
     /// Join a room
     ///
@@ -29,4 +34,6 @@ protocol RoomService {
     ///
     /// Call this method at: after joining a room
     func leaveRoom()
+    
+    func renewToken(_ token: String, roomID: String)
 }

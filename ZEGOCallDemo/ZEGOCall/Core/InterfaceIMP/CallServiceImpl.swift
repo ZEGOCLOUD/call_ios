@@ -90,7 +90,7 @@ extension CallServiceImpl: CallService {
     }
     
     private func callUserToServer() {
-        callCommand.excute { result in
+        callCommand.execute { result in
             switch result {
             case .success(_):
                 self.handleCallUserResult(.success(()))
@@ -141,7 +141,7 @@ extension CallServiceImpl: CallService {
         self.callInfo = CallInfo()
         self.cancelCallTimer()
         
-        command.excute { result in
+        command.execute { result in
             var callResult: ZegoResult = .success(())
             switch result {
             case .success(_):
@@ -195,7 +195,7 @@ extension CallServiceImpl: CallService {
     }
     
     private func acceptCallToServer() {
-        acceptCommand.excute { result in
+        acceptCommand.execute { result in
             switch result {
             case .success(_):
                 self.handleAcceptCallResult(.success(()))
@@ -255,7 +255,7 @@ extension CallServiceImpl: CallService {
         
         print("[* Call] Decline Call, callID: \(String(describing: command.callID)), callerID: \(userID), userID: \(String(describing: command.userID)), type: \(type.rawValue), status: \(status)")
         
-        command.excute { result in
+        command.execute { result in
             var callResult: ZegoResult = .success(())
             switch result {
             case .success(_):
@@ -303,7 +303,7 @@ extension CallServiceImpl: CallService {
         self.status = .free
         self.stopHeartbeatTimer()
         
-        command.excute { result in
+        command.execute { result in
             var callResult: ZegoResult = .success(())
             switch result {
             case .success(_):
@@ -502,7 +502,7 @@ extension CallServiceImpl {
             let command = HeartbeatCommand()
             command.userID = ServiceManager.shared.userService.localUserInfo?.userID
             command.callID = self?.callInfo.callID
-            command.excute(callback: nil)
+            command.execute(callback: nil)
         }
         heartbeatTimer.start()
     }

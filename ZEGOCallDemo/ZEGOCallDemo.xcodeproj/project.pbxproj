@@ -81,7 +81,6 @@
 		86B1995B278D63440004C997 /* TipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19946278D63430004C997 /* TipView.swift */; };
 		86B1995C278D63440004C997 /* StringTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19947278D63430004C997 /* StringTool.swift */; };
 		86B1995D278D63440004C997 /* ZegoColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B19948278D63430004C997 /* ZegoColor.swift */; };
-		86B1995E278D63440004C997 /* AppToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B1994A278D63430004C997 /* AppToken.swift */; };
 		86B1995F278D63440004C997 /* String+Head.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B1994B278D63430004C997 /* String+Head.swift */; };
 		86B19960278D63440004C997 /* ZegoTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B1994C278D63430004C997 /* ZegoTimer.swift */; };
 		86B19961278D63440004C997 /* AuthorizedCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B1994D278D63430004C997 /* AuthorizedCheck.swift */; };
@@ -114,7 +113,6 @@
 		86DE03C727981B3D000EE3C5 /* CallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE03C627981B3D000EE3C5 /* CallManager.swift */; };
 		86DE03C927983D98000EE3C5 /* CallMainVC+Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */; };
 		8E08EFCF27F1DD2E0003030A /* Delay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E08EFCE27F1DD2E0003030A /* Delay.swift */; };
-		8E08EFD127F2E4D50003030A /* TokenCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E08EFD027F2E4D50003030A /* TokenCommand.swift */; };
 		8E21BC0028059AE7006E7ED8 /* AssertErrorCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E21BBFF28059AE7006E7ED8 /* AssertErrorCode.swift */; };
 		8E703EF827EB176600CC87CE /* AcceptCallCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E703EF727EB176500CC87CE /* AcceptCallCommand.swift */; };
 		8E703EFA27EB177000CC87CE /* DeclineCallCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E703EF927EB177000CC87CE /* DeclineCallCommand.swift */; };
@@ -275,7 +273,6 @@
 		86B19947278D63430004C997 /* StringTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTool.swift; sourceTree = "<group>"; };
 		86B19948278D63430004C997 /* ZegoColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZegoColor.swift; sourceTree = "<group>"; };
 		86B19949278D63430004C997 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
-		86B1994A278D63430004C997 /* AppToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppToken.swift; sourceTree = "<group>"; };
 		86B1994B278D63430004C997 /* String+Head.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Head.swift"; sourceTree = "<group>"; };
 		86B1994C278D63430004C997 /* ZegoTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZegoTimer.swift; sourceTree = "<group>"; };
 		86B1994D278D63430004C997 /* AuthorizedCheck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizedCheck.swift; sourceTree = "<group>"; };
@@ -310,7 +307,6 @@
 		86DE03C627981B3D000EE3C5 /* CallManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallManager.swift; sourceTree = "<group>"; };
 		86DE03C827983D98000EE3C5 /* CallMainVC+Stream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CallMainVC+Stream.swift"; sourceTree = "<group>"; };
 		8E08EFCE27F1DD2E0003030A /* Delay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delay.swift; sourceTree = "<group>"; };
-		8E08EFD027F2E4D50003030A /* TokenCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenCommand.swift; sourceTree = "<group>"; };
 		8E21BBFF28059AE7006E7ED8 /* AssertErrorCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssertErrorCode.swift; sourceTree = "<group>"; };
 		8E703EF727EB176500CC87CE /* AcceptCallCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptCallCommand.swift; sourceTree = "<group>"; };
 		8E703EF927EB177000CC87CE /* DeclineCallCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeclineCallCommand.swift; sourceTree = "<group>"; };
@@ -622,7 +618,6 @@
 				86B19946278D63430004C997 /* TipView.swift */,
 				86B19947278D63430004C997 /* StringTool.swift */,
 				86B19948278D63430004C997 /* ZegoColor.swift */,
-				86B1994A278D63430004C997 /* AppToken.swift */,
 				86B1994B278D63430004C997 /* String+Head.swift */,
 				86AC134727998A4000607277 /* String+Time.swift */,
 				86B1994D278D63430004C997 /* AuthorizedCheck.swift */,
@@ -895,7 +890,6 @@
 			isa = PBXGroup;
 			children = (
 				8E7F92DA27F479270059F833 /* InitCommand.swift */,
-				8E08EFD027F2E4D50003030A /* TokenCommand.swift */,
 				8E77571427E4721300BFB5F6 /* HeartbeatCommand.swift */,
 				8E77571627E4749500BFB5F6 /* CallCommand.swift */,
 				8E77571827E477A700BFB5F6 /* CancelCallCommand.swift */,
@@ -1118,7 +1112,6 @@
 				8637814027E9A0FC000A0C22 /* CallTimeManager.swift in Sources */,
 				8E7756F727E09D0500BFB5F6 /* DeviceServiceImpl.swift in Sources */,
 				8E7756EF27E0851C00BFB5F6 /* RoomService.swift in Sources */,
-				86B1995E278D63440004C997 /* AppToken.swift in Sources */,
 				8E77571F27E5879600BFB5F6 /* StreamService.swift in Sources */,
 				8E7F92D727F4614F0059F833 /* LoginManager.swift in Sources */,
 				86B19996278EC1050004C997 /* CallAcceptTipView.swift in Sources */,
@@ -1143,7 +1136,6 @@
 				86D4183C27FE91C8002B0C8D /* AudioPlayerTool.swift in Sources */,
 				8E77571D27E47A8D00BFB5F6 /* EndCallCommand.swift in Sources */,
 				86B19A1427901FAF0004C997 /* CallBaseView.swift in Sources */,
-				8E08EFD127F2E4D50003030A /* TokenCommand.swift in Sources */,
 				8637810D27E1EA5F000A0C22 /* MinimizedDisplayManager.swift in Sources */,
 				8E08EFCF27F1DD2E0003030A /* Delay.swift in Sources */,
 				86B19962278D63440004C997 /* UIImage+Zego.swift in Sources */,

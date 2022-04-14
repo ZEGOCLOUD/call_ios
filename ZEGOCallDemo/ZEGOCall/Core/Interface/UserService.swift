@@ -43,6 +43,4 @@ protocol UserService {
     var userList: [UserInfo] { get }
     
     func setLocalUser(_ userID: String, userName: String)
-    
-    func getToken(_ userID: String, _ effectiveTimeInSeconds: Int, callback: RequestCallback?)
 }
