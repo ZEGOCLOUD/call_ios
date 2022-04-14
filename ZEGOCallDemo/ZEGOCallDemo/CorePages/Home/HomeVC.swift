@@ -144,5 +144,7 @@ class HomeVC: UIViewController {
 }
 
 extension HomeVC: CallManagerDelegate {
-    
+    func getRTCToken(_ userID: String) -> String? {
+        return TokenManager.shared.token?.token
+    }
 }

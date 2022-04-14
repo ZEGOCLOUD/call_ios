@@ -45,49 +45,6 @@ extension UserServiceImpl: UserService {
             self.userList.append(user)
         }
     }
-    
-    func getToken(_ userID: String, _ effectiveTimeInSeconds: Int, callback: RequestCallback?) {
-        
-        if ServiceManager.shared.isSDKInit == false {
-            assert(false, "The SDK must be initialised first.")
-            guard let callback = callback else { return }
-            callback(.failure(.notInit))
-            return
-        }
-        
-        if localUserInfo == nil {
-            assert(false, "Must be logged in first.")
-            guard let callback = callback else { return }
-            callback(.failure(.notLogin))
-            return
-        }
-        
-        if effectiveTimeInSeconds <= 0 || userID.count == 0 {
-            guard let callback = callback else { return }
-            callback(.failure(.paramInvalid))
-            return
-        }
-        
-        let command = TokenCommand()
-        command.userID = userID
-        command.effectiveTimeInSeconds = effectiveTimeInSeconds
-        
-        command.execute { result in
-            var tokenResult: Result<Any, ZegoError> = .failure(.failed)
-            switch result {
-            case .success(let dict):
-                if let dict = dict as? [String: Any] {
-                    if let token = dict["token"] as? String {
-                        tokenResult = .success(token)
-                    }
-                }
-            case .failure(let error):
-                tokenResult = .failure(error)
-            }
-            guard let callback = callback else { return }
-            callback(tokenResult)
-        }
-    }
 }
 
 extension UserServiceImpl: ZegoEventHandler {

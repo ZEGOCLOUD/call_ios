@@ -81,11 +81,7 @@ class CallManager: NSObject, CallManagerInterface {
     func uninit() {
         ServiceManager.shared.uninit()
     }
-    
-    func getToken(_ userID: String, _ effectiveTimeInSeconds: Int, callback: RequestCallback?) {
-        ServiceManager.shared.userService.getToken(userID, effectiveTimeInSeconds, callback: callback)
-    }
-    
+        
     func setLocalUser(_ userID: String, userName: String) {
         ServiceManager.shared.userService.setLocalUser(userID, userName: userName)
     }
@@ -178,21 +174,11 @@ class CallManager: NSObject, CallManagerInterface {
                 self.minmizedManager.currentStatus = .calling
                 self.startPlayingStream(userID)
                 self.currentCallVC?.updateCallType(callType, userInfo: userInfo, status: .calling)
-            case .failure(let error):
+            case .failure(_):
                 self.currentCallStatus = .free
                 if !presentVC {
                     self.currentCallVC?.changeCallStatusText(.decline)
                     self.currentCallVC?.callDelayDismiss()
-                }
-                if case .tokenExpired = error {
-                    /// token expired, get new token
-                    guard let userID = self.localUserInfo?.userID else { return }
-                    self.getToken(userID, 24 * 3600) { result in
-                        if result.isSuccess {
-                            let newToken: String? = result.success as? String
-                            self.token = newToken
-                        }
-                    }
                 }
             }
         }

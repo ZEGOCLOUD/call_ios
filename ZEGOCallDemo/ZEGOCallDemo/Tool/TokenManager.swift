@@ -7,6 +7,7 @@
 
 import Foundation
 import AVFoundation
+import FirebaseFunctions
 
 class Token {
     var token: String
@@ -25,6 +26,8 @@ class Token {
 
 class TokenManager {
     
+    typealias TokenCallback = (Result<String, ZegoError>) -> Void
+    
     static let shared = TokenManager()
     
     private let tokenTimer = ZegoTimer(60 * 1000)
@@ -36,11 +39,11 @@ class TokenManager {
             if self.needUpdateToken() {
                 guard let userID = CallManager.shared.localUserInfo?.userID else { return }
                 let effectiveTimeInSeconds = 24 * 3600
-                CallManager.shared.getToken(userID, effectiveTimeInSeconds) { result in
+                self.getTokenFromServer(userID, effectiveTimeInSeconds) { result in
                     switch result {
                     case .success(let token):
-                        self.saveToken(token as? String, effectiveTimeInSeconds)
-                        CallManager.shared.token = token as? String
+                        self.saveToken(token, effectiveTimeInSeconds)
+                        CallManager.shared.token = token
                     case .failure(_):
                         break
                     }
@@ -57,11 +60,11 @@ class TokenManager {
         if token == nil {
             guard let userID = CallManager.shared.localUserInfo?.userID else { return }
             let effectiveTimeInSeconds = 24 * 3600
-            CallManager.shared.getToken(userID, effectiveTimeInSeconds) { result in
+            self.getTokenFromServer(userID, effectiveTimeInSeconds) { result in
                 switch result {
                 case .success(let token):
-                    self.saveToken(token as? String, effectiveTimeInSeconds)
-                    CallManager.shared.token = token as? String
+                    self.saveToken(token, effectiveTimeInSeconds)
+                    CallManager.shared.token = token
                 case .failure(_):
                     HUDHelper.showMessage(message: ZGAppLocalizedString("token_get_fail"))
                 }
@@ -114,6 +117,31 @@ class TokenManager {
         }
         
         return Token(token, expiryTime: expiryTime)
+    }
+    
+    private func getTokenFromServer(_ userID: String,
+                                    _ effectiveTimeInSeconds: Int,
+                                    callback: @escaping TokenCallback) {
+        
+        let functions = Functions.functions()
+        let data: [String: Any] = [
+            "id": userID,
+            "effective_time": effectiveTimeInSeconds
+        ]
+        functions.httpsCallable("getToken").call(data) { result, error in
+            if let error = error as NSError? {
+                print("[* Firebase] Get token failed: \(error)")
+                callback(.failure(.networkError))
+                return
+            }
+            guard let dict = result?.data as? [String: Any],
+                  let token = dict["token"] as? String
+            else {
+                callback(.failure(.networkError))
+                return
+            }
+            callback(.success(token))
+        }
     }
     
 }

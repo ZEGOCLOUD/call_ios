@@ -159,7 +159,6 @@ enum CallTimeoutType {
 }
 
 
-let API_Get_Token = "/user/get_token"
 let API_Get_Users = "/user/get_users"
 let API_Call_Heartbeat = "/call/heartbeat"
 let API_Start_Call = "/call/start_call"
