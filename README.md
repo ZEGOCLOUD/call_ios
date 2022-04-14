@@ -67,25 +67,25 @@ Directory path:
 
 ```
 .
-├── Command																		  	  ---  Firebase requests function encapsulation
+├── Command                                         ---  Firebase requests function encapsulation
 ├── Core
-│   ├── Commands 																    --- Firebase relate command, such as Login in/out of Firebase, getting user lists, and call related.
-│   ├── Define.swift															  --- Common definitions and error codes of ZEGOCall.
+│   ├── Commands                                    --- Firebase relate command, such as Login in/out of Firebase, getting user lists, and call related.
+│   ├── Define.swift                                --- Common definitions and error codes of ZEGOCall.
 │   ├── Interface
-│   │   ├── CallService.swift												--- Call related interface, such as start/end call, accept call and more
-│   │   ├── DeviceService.swift										  --- Device related service, such as turn on/off the  microphone/camera, and more.
-│   │   ├── RoomService.swift												--- Room related service, such as join/leave a room, update room information, and more.
-│   │   ├── StreamService.swift											--- Stream related service, such as play/stop stream.
-│   │   └── UserService.swift												---  User related service, such as login/loginOut, get user list and more.
-│   ├── InterfaceIMP															  --- The implementation logic of the interface
+│   │   ├── CallService.swift                       --- Call related interface, such as start/end call, accept call and more
+│   │   ├── DeviceService.swift                     --- Device related service, such as turn on/off the  microphone/camera, and more.
+│   │   ├── RoomService.swift                       --- Room related service, such as join/leave a room, update room information, and more.
+│   │   ├── StreamService.swift                     --- Stream related service, such as play/stop stream.
+│   │   └── UserService.swift                       ---  User related service, such as login/loginOut, get user list and more.
+│   ├── InterfaceIMP                                --- The implementation logic of the interface
 │   ├── Manager																		
-│   │   └── ServiceManager.swift										--- Room related instances that used to initialize the SDK, and provide the capabilities for service implementation.
-│   └── Model																			  --- Models, such as UserInfo, RoomInfo, and CallInfo.
+│   │   └── ServiceManager.swift                    --- Room related instances that used to initialize the SDK, and provide the capabilities for service implementation.
+│   └── Model                                       --- Models, such as UserInfo, RoomInfo, and CallInfo.
 ├── Listener
 │   ├── Listener.swift
 │   ├── ListenerManager.swift
 │   └── ListenerUpdater.swift
-├── Reqeust																				  --- Firebase related request
+├── Reqeust                                         --- Firebase related request
 ├── Tool
 ```
 
@@ -101,31 +101,31 @@ Directory path:
 
 ```
 .
-├── CallInterface																					--- AppleCallKit interface
+├── CallInterface                                         --- AppleCallKit interface
 │   └── AppleCallKitService.swift			
 ├── CallInterfaceIMP
-│   └── AppleCallKitServiceIMP.swift											--- AppleCallKit implementation
+│   └── AppleCallKitServiceIMP.swift                      --- AppleCallKit implementation
 ├── CallManager										
-│   ├── CallManager+AcceptTipAction.swift									--- Call notice event handing
-│   ├── CallManager+CallKit.swift													--- CallKit relate logic
-│   ├── CallManager+CallService.swift											--- Call service related logic
-│   ├── CallManager+CallTime.swift												--- Call time manager callback handing
-│   ├── CallManager+DeviceService.swift										--- Device service callback handing 
-│   ├── CallManager+Minimized.swift												--- Minimize event handling
-│   ├── CallManager+UserService.swift											--- User service related logic
-│   ├── CallManager.swift                        					--- Call logic manager
-│   ├── CallManagerInterface.swift												--- CallUIKit Public API
-│   ├── CallTimeManager.swift															--- Call time manager
-│   └── MinimizedDisplayManager.swift											--- Call minimization logic manager
-├── CallUI																								--- The UI related
-│   ├── Model   																					--- Models, such as CallSettingModel and CallSettingSecondLevelModel
+│   ├── CallManager+AcceptTipAction.swift                 --- Call notice event handing
+│   ├── CallManager+CallKit.swift                         --- CallKit relate logic
+│   ├── CallManager+CallService.swift                     --- Call service related logic
+│   ├── CallManager+CallTime.swift                        --- Call time manager callback handing
+│   ├── CallManager+DeviceService.swift                   --- Device service callback handing 
+│   ├── CallManager+Minimized.swift                       --- Minimize event handling
+│   ├── CallManager+UserService.swift                     --- User service related logic
+│   ├── CallManager.swift                                 --- Call logic manager
+│   ├── CallManagerInterface.swift                        --- CallUIKit Public API
+│   ├── CallTimeManager.swift                             --- Call time manager
+│   └── MinimizedDisplayManager.swift                     --- Call minimization logic manager
+├── CallUI                                                --- The UI related
+│   ├── Model                                             --- Models, such as CallSettingModel and CallSettingSecondLevelModel
 │   ├── Provider					
-│   │   └── ProviderDelegate.swift												--- Apple CallKit relate logic and Callback
-│   ├── VC																								--- Call ViewController
-│   └── View																							--- Call related View
-├── CallUIKit.xcassets																		--- Images, colors, and more resources
-├── CallUIKitDefine.swift			 														--- Common definitions of ZEGOCallUIKit.
-├── Helper																								--- Utilities
+│   │   └── ProviderDelegate.swift                        --- Apple CallKit relate logic and Callback
+│   ├── VC                                                --- Call ViewController
+│   └── View                                              --- Call related View
+├── CallUIKit.xcassets                                    --- Images, colors, and more resources
+├── CallUIKitDefine.swift                                 --- Common definitions of ZEGOCallUIKit.
+├── Helper                                                --- Utilities
 
 ```
 
@@ -143,20 +143,20 @@ Directory path:
 
 ```
 .
-├── AppCenter            --- AppID, AppSign, ServerSecret and more
-├── Assets.xcassets      --- Images, colors, and more resources
-├── CorePages            --- UI and business logic of core features 
-│   ├── Home             --- Homepage
-│   ├── Login            --- Login
-│   ├── Setting          --- The Settings page
-│   ├── User             --- The online contacts page
-│   └── WebPages         --- The Web page
+├── AppCenter                        --- AppID, AppSign, ServerSecret and more
+├── Assets.xcassets                  --- Images, colors, and more resources
+├── CorePages                        --- UI and business logic of core features 
+│   ├── Home                         --- Homepage
+│   ├── Login                        --- Login
+│   ├── Setting                      --- The Settings page
+│   ├── User                         --- The online contacts page
+│   └── WebPages                     --- The Web page
 ├── Tool
-│   ├── CustomButton.swift					--- The custom button
-│   ├── DeviceTool.swift						--- The device permissions relate
-│   ├── LoginManager.swift					--- The login relate
-│   ├── TokenManager.swift					--- The token relate
-│   └── UserListManager.swift				--- The user list relate
+│   ├── CustomButton.swift           --- The custom button
+│   ├── DeviceTool.swift             --- The device permissions relate
+│   ├── LoginManager.swift           --- The login relate
+│   ├── TokenManager.swift           --- The token relate
+│   └── UserListManager.swift        --- The user list relate
 ```
 
  
