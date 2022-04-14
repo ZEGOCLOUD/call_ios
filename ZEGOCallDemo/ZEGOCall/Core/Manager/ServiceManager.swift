@@ -68,7 +68,7 @@ class ServiceManager: NSObject {
         isSDKInit = true
         
         let initCommand = InitCommand()
-        initCommand.excute(callback: nil)
+        initCommand.execute(callback: nil)
         
         guard let callback = callback else { return }
         callback(.success(()))

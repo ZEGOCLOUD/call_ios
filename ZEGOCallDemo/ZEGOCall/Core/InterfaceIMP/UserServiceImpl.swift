@@ -72,7 +72,7 @@ extension UserServiceImpl: UserService {
         command.userID = userID
         command.effectiveTimeInSeconds = effectiveTimeInSeconds
         
-        command.excute { result in
+        command.execute { result in
             var tokenResult: Result<Any, ZegoError> = .failure(.failed)
             switch result {
             case .success(let dict):
