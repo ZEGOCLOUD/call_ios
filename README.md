@@ -100,31 +100,32 @@ Directory path:
 ```
 
 ```
-.															
-├── CallInterface
-│   └── AppleCallKitService.swift													--- AppleCallKit interface
+.
+├── CallInterface																					--- AppleCallKit interface
+│   └── AppleCallKitService.swift			
 ├── CallInterfaceIMP
 │   └── AppleCallKitServiceIMP.swift											--- AppleCallKit implementation
-├── CallManager																				 
-│   ├── CallManager+AcceptTipAction.swift
-│   ├── CallManager+CallKit.swift
-│   ├── CallManager+CallService.swift
-│   ├── CallManager+CallTime.swift
-│   ├── CallManager+DeviceService.swift
-│   ├── CallManager+Minimized.swift
-│   ├── CallManager+Stream.swift
-│   ├── CallManager+UserService.swift
-│   ├── CallManager.swift															   --- Room related instances that used to initialize the SDK, and provide the capabilities for service implementation.
-│   ├── CallTimeManager.swift
-│   └── MinimizedDisplayManager.swift
-├── CallUI
-│   ├── Model
-│   ├── Provider
-│   │   └── ProviderDelegate.swift
-│   ├── VC																						   --- Call ViewController
-│   └── View																					   --- Call related View
-├── CallUIKit.xcassets																	 --- Images, colors, and more resources
-├── Helper																							 --- Utilities
+├── CallManager										
+│   ├── CallManager+AcceptTipAction.swift									--- Call notice event handing
+│   ├── CallManager+CallKit.swift													--- CallKit relate logic
+│   ├── CallManager+CallService.swift											--- Call service related logic
+│   ├── CallManager+CallTime.swift												--- Call time manager callback handing
+│   ├── CallManager+DeviceService.swift										--- Device service callback handing 
+│   ├── CallManager+Minimized.swift												--- Minimize event handling
+│   ├── CallManager+UserService.swift											--- User service related logic
+│   ├── CallManager.swift                        					--- Call logic manager
+│   ├── CallManagerInterface.swift												--- CallUIKit Public API
+│   ├── CallTimeManager.swift															--- Call time manager
+│   └── MinimizedDisplayManager.swift											--- Call minimization logic manager
+├── CallUI																								--- The UI related
+│   ├── Model   																					--- Models, such as CallSettingModel and CallSettingSecondLevelModel
+│   ├── Provider					
+│   │   └── ProviderDelegate.swift												--- Apple CallKit relate logic and Callback
+│   ├── VC																								--- Call ViewController
+│   └── View																							--- Call related View
+├── CallUIKit.xcassets																		--- Images, colors, and more resources
+├── CallUIKitDefine.swift			 														--- Common definitions of ZEGOCallUIKit.
+├── Helper																								--- Utilities
 
 ```
 
@@ -150,11 +151,15 @@ Directory path:
 │   ├── Setting          --- The Settings page
 │   ├── User             --- The online contacts page
 │   └── WebPages         --- The Web page
-├── Network
-├── Request
+├── Tool
+│   ├── CustomButton.swift					--- The custom button
+│   ├── DeviceTool.swift						--- The device permissions relate
+│   ├── LoginManager.swift					--- The login relate
+│   ├── TokenManager.swift					--- The token relate
+│   └── UserListManager.swift				--- The user list relate
 ```
 
-
+ 
 
 ## More documentation
 

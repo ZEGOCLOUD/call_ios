@@ -29,8 +29,6 @@ class CallManager: NSObject, CallManagerInterface {
     var appIsActive: Bool = true
     /// current call notification message view
     var currentTipView: CallAcceptTipView?
-    /// call room other user info
-    var otherUserRoomInfo: UserInfo?
     /// call kit service
     var callKitService: AppleCallKitServiceIMP?
     /// uuid used as call identify
@@ -161,21 +159,20 @@ class CallManager: NSObject, CallManagerInterface {
         ServiceManager.shared.deviceService.useFrontCamera(true)
         if presentVC {
             let callVC: CallMainVC = CallMainVC.loadCallMainVC(callType, userInfo: userInfo, status: .accepting)
-            callVC.otherUser = self.otherUserRoomInfo
+            callVC.otherUser = self.currentCallUserInfo
             self.currentCallVC = callVC
             if let controller = self.getCurrentViewController() {
                 controller.present(callVC, animated: true, completion: nil)
             }
         } else {
             guard let currentCallVC = self.currentCallVC else { return }
-            currentCallVC.otherUser = self.otherUserRoomInfo
+            currentCallVC.otherUser = self.currentCallUserInfo
             currentCallVC.updateCallType(callType, userInfo: userInfo, status: .accepting)
         }
         ServiceManager.shared.callService.acceptCall(token) { result in
             switch result {
             case .success():
                 self.currentCallStatus = .calling
-                self.otherUserRoomInfo = userInfo
                 self.currentCallUserInfo = userInfo
                 self.callTimeManager.callStart()
                 self.minmizedManager.currentStatus = .calling
@@ -205,7 +202,6 @@ class CallManager: NSObject, CallManagerInterface {
     func declineCall() {
         currentCallStatus = .free
         currentCallUserInfo = nil
-        otherUserRoomInfo = nil
         audioTool.stopPlay()
         ServiceManager.shared.callService.declineCall(nil)
     }
@@ -222,7 +218,6 @@ class CallManager: NSObject, CallManagerInterface {
         minmizedManager.dismissCallMinView()
         currentCallStatus = .free
         currentCallUserInfo = nil
-        otherUserRoomInfo = nil
         endSystemCall()
     }
     
