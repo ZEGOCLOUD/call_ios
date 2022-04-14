@@ -87,7 +87,6 @@ extension CallManager: CallServiceDelegate {
         }
         currentCallUserInfo = nil
         currentCallStatus = .free
-        otherUserRoomInfo = nil
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.endSystemCall()
             self.closeCallVC()
