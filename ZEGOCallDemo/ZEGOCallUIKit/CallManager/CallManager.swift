@@ -13,7 +13,6 @@ class CallManager: NSObject, CallManagerInterface {
     static var shared: CallManager! = CallManager()
     weak var delegate: CallManagerDelegate?
     var currentCallStatus: callStatus! = .free
-    var token: String?
     var localUserInfo: UserInfo? {
         get {
             ServiceManager.shared.userService.localUserInfo
@@ -68,6 +67,7 @@ class CallManager: NSObject, CallManagerInterface {
         ServiceManager.shared.userService.delegate = self
         ServiceManager.shared.callService.delegate = self
         ServiceManager.shared.deviceService.delegate = self
+        ServiceManager.shared.roomService.delegate = self
         
         callKitService = AppleCallKitServiceIMP()
         callKitService?.providerDelegate = ProviderDelegate()
@@ -111,8 +111,11 @@ class CallManager: NSObject, CallManagerInterface {
         ServiceManager.shared.uploadLog(callback: callback)
     }
     
+    func renewToken(_ token: String, roomID: String) {
+        ServiceManager.shared.roomService.renewToken(token, roomID: roomID)
+    }
+    
     func callUser(_ userInfo: UserInfo, callType: CallType, callback: ZegoCallback?) {
-        guard let token = token else { return }
         if currentCallStatus != .free { return }
         self.currentCallStatus = .waitAccept
         resetDeviceConfig()
@@ -121,16 +124,24 @@ class CallManager: NSObject, CallManagerInterface {
         currentCallUserInfo = userInfo
         getCurrentViewController()?.present(vc, animated: true, completion: nil)
         ServiceManager.shared.deviceService.useFrontCamera(true)
-        ServiceManager.shared.callService.callUser(userInfo, token: token, type: callType) { result in
-            switch result {
-            case .success():
-                break
-            case .failure(_):
+        
+        delegate?.getRTCToken({ token in
+            guard let token = token else {
                 self.currentCallStatus = .free
-                guard let callback = callback else { return }
-                callback(result)
+                return
             }
-        }
+            ServiceManager.shared.callService.callUser(userInfo, token: token, type: callType) { result in
+                switch result {
+                case .success():
+                    guard let callback = callback else { return }
+                    callback(.success())
+                case .failure(_):
+                    self.currentCallStatus = .free
+                    guard let callback = callback else { return }
+                    callback(result)
+                }
+            }
+        })
     }
     
     //MARK: -Privare
@@ -144,11 +155,6 @@ class CallManager: NSObject, CallManagerInterface {
         audioTool.stopPlay()
         guard let userID = userInfo.userID else {
             currentCallStatus = .free
-            return
-        }
-        guard let token = token else {
-            currentCallStatus = .free
-            print("call token is not exists")
             return
         }
         resetDeviceConfig()
@@ -165,23 +171,30 @@ class CallManager: NSObject, CallManagerInterface {
             currentCallVC.otherUser = self.currentCallUserInfo
             currentCallVC.updateCallType(callType, userInfo: userInfo, status: .accepting)
         }
-        ServiceManager.shared.callService.acceptCall(token) { result in
-            switch result {
-            case .success():
-                self.currentCallStatus = .calling
-                self.currentCallUserInfo = userInfo
-                self.callTimeManager.callStart()
-                self.minmizedManager.currentStatus = .calling
-                self.startPlayingStream(userID)
-                self.currentCallVC?.updateCallType(callType, userInfo: userInfo, status: .calling)
-            case .failure(_):
+        
+        delegate?.getRTCToken({ token in
+            guard let token = token else {
                 self.currentCallStatus = .free
-                if !presentVC {
+                self.currentCallVC?.changeCallStatusText(.decline)
+                self.currentCallVC?.callDelayDismiss()
+                return
+            }
+            ServiceManager.shared.callService.acceptCall(token) { result in
+                switch result {
+                case .success():
+                    self.currentCallStatus = .calling
+                    self.currentCallUserInfo = userInfo
+                    self.callTimeManager.callStart()
+                    self.minmizedManager.currentStatus = .calling
+                    self.startPlayingStream(userID)
+                    self.currentCallVC?.updateCallType(callType, userInfo: userInfo, status: .calling)
+                case .failure(_):
+                    self.currentCallStatus = .free
                     self.currentCallVC?.changeCallStatusText(.decline)
                     self.currentCallVC?.callDelayDismiss()
                 }
             }
-        }
+        })
     }
     
     /// decline call

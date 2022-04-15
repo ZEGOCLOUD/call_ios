@@ -20,6 +20,8 @@ func KeyWindow() -> UIWindow {
     return window
 }
 
+typealias TokenCallback = (String?) -> Void
+
 let CALL_NOTI_START = "callStart"
 let CALL_NOTI_END = "callEnd"
 let CALL_NOTI_MUTE = "muteSpeaker"

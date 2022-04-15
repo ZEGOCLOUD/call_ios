@@ -6,16 +6,17 @@
 //
 
 import Foundation
-import AVFoundation
 import FirebaseFunctions
 
 class Token {
     var token: String
     var expiryTime: Int
+    var userID: String
     
-    init(_ token: String, expiryTime: Int) {
+    init(_ token: String, expiryTime: Int, userID: String) {
         self.token = token
         self.expiryTime = expiryTime
+        self.userID = userID
     }
     
     // 10 mins buffer
@@ -36,62 +37,59 @@ class TokenManager {
         self.token = getTokenFromDisk()
         
         tokenTimer.setEventHandler {
-            if self.needUpdateToken() {
-                guard let userID = CallManager.shared.localUserInfo?.userID else { return }
-                let effectiveTimeInSeconds = 24 * 3600
-                self.getTokenFromServer(userID, effectiveTimeInSeconds) { result in
-                    switch result {
-                    case .success(let token):
-                        self.saveToken(token, effectiveTimeInSeconds)
-                        CallManager.shared.token = token
-                    case .failure(_):
-                        break
-                    }
-                }
+            guard let userID = self.token?.userID else { return }
+            if self.needUpdateToken(userID) {
+                self.updateToken(userID, callback: nil)
             }
         }
         tokenTimer.start()
         
     }
     
-    var token: Token?
+    private var token: Token?
     
-    func getToken() {
-        if token == nil {
-            guard let userID = CallManager.shared.localUserInfo?.userID else { return }
-            let effectiveTimeInSeconds = 24 * 3600
-            self.getTokenFromServer(userID, effectiveTimeInSeconds) { result in
+    func getToken(_ userID: String, callback: @escaping TokenCallback) {
+        
+        if needUpdateToken(userID) {
+            updateToken(userID) { result in
                 switch result {
                 case .success(let token):
-                    self.saveToken(token, effectiveTimeInSeconds)
-                    CallManager.shared.token = token
+                    callback(.success(token))
                 case .failure(_):
-                    HUDHelper.showMessage(message: ZGAppLocalizedString("token_get_fail"))
+                    callback(.failure(.failed))
                 }
             }
         } else {
-            CallManager.shared.token = TokenManager.shared.token?.token
+            guard let token = token else {
+                callback(.failure(.failed))
+                return
+            }
+            callback(.success(token.token))
         }
     }
 
     
-    func saveToken(_ token: String?, _ effectiveTimeInSeconds: Int) {
+    func saveToken(_ userID: String, token: String?, _ effectiveTimeInSeconds: Int) {
         
         let expiryTime: Int = Int(Date().timeIntervalSince1970) + effectiveTimeInSeconds
         
         let defaults = UserDefaults.standard
         defaults.set(token, forKey: "zego_token_key")
         defaults.set(expiryTime, forKey: "zego_token_expiry_time_key")
+        defaults.set(userID, forKey: "zego_user_id_key")
         
         guard let token = token else {
             self.token = nil
             return
         }
-        self.token = Token(token, expiryTime: expiryTime)
+        self.token = Token(token, expiryTime: expiryTime, userID: userID)
     }
     
-    func needUpdateToken() -> Bool {
+    func needUpdateToken(_ userID: String) -> Bool {
         guard let token = token else {
+            return true
+        }
+        if token.userID != userID {
             return true
         }
         // if the token invalid under 60mins, then we update the token.
@@ -116,7 +114,17 @@ class TokenManager {
             return nil
         }
         
-        return Token(token, expiryTime: expiryTime)
+        guard let userID = CallManager.shared.localUserInfo?.userID else {
+            return nil
+        }
+        
+        let oldUserID = defaults.string(forKey: "zego_user_id_key")
+        
+        if oldUserID != userID {
+            return nil
+        }
+        
+        return Token(token, expiryTime: expiryTime, userID: userID)
     }
     
     private func getTokenFromServer(_ userID: String,
@@ -141,6 +149,21 @@ class TokenManager {
                 return
             }
             callback(.success(token))
+        }
+    }
+    
+    private func updateToken(_ userID: String, callback: TokenCallback?) {
+        let effectiveTimeInSeconds = 24 * 3600
+        self.getTokenFromServer(userID, effectiveTimeInSeconds) { result in
+            switch result {
+            case .success(let token):
+                self.saveToken(userID, token: token, effectiveTimeInSeconds)
+                guard let callback = callback else { return }
+                callback(.success(token))
+            case .failure(let error):
+                guard let callback = callback else { return }
+                callback(.failure(error))
+            }
         }
     }
     

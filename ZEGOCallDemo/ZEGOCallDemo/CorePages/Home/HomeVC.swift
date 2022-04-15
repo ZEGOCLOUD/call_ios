@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class HomeVC: UIViewController {
 
@@ -73,8 +74,12 @@ class HomeVC: UIViewController {
         self.navigationController?.navigationBar.standardAppearance.shadowColor = UIColor.clear
         
         CallManager.shared.delegate = self
-        TokenManager.shared.getToken()
         DeviceTool.shared.applicationHasMicAndCameraAccess(self)
+        if let userID = CallManager.shared.localUserInfo?.userID {
+            TokenManager.shared.getToken(userID) { result in
+                
+            }
+        }
     }
     
     @objc func applicationDidBecomeActive(notification: NSNotification) {
@@ -144,7 +149,28 @@ class HomeVC: UIViewController {
 }
 
 extension HomeVC: CallManagerDelegate {
-    func getRTCToken(_ userID: String) -> String? {
-        return TokenManager.shared.token?.token
+    func getRTCToken(_ callback: @escaping TokenCallback) {
+        guard let userID = CallManager.shared.localUserInfo?.userID else {
+            callback(nil)
+            return
+        }
+        TokenManager.shared.getToken(userID) { result in
+            if result.isSuccess {
+                let token: String? = result.success
+                callback(token)
+            } else {
+                callback(nil)
+            }
+        }
+    }
+    
+    func onRoomTokenWillExpire(_ remainTimeInSecond: Int32, roomID: String) {
+        guard let userID = CallManager.shared.localUserInfo?.userID else { return }
+        TokenManager.shared.getToken(userID) { result in
+            if result.isSuccess {
+                guard let token = result.success else { return }
+                CallManager.shared.renewToken(token, roomID: roomID)
+            }
+        }
     }
 }

@@ -70,38 +70,48 @@ extension CallManager {
     @objc func callKitStart() {
         currentCallStatus = .calling
         callTimeManager.callStart()
-        guard let userID = currentCallUserInfo?.userID,
-              let token = token else { return }
-        ServiceManager.shared.callService.acceptCall(token) { result in
-            if result.isSuccess {
-                if self.appIsActive {
-                    self.endSystemCall()
-                    if let callVC = self.currentCallVC {
-                        guard let userInfo = self.currentCallUserInfo else { return }
-                        callVC.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
-                        guard let controller = self.getCurrentViewController() else { return }
-                        if controller is CallMainVC {
-                            self.currentCallVC?.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
-                            self.startPlayingStream(userID)
+        guard let userID = currentCallUserInfo?.userID else {
+            currentCallStatus = .free
+            return
+        }
+        
+        delegate?.getRTCToken({ token in
+            guard let token = token else {
+                self.currentCallStatus = .free
+                return
+            }
+            ServiceManager.shared.callService.acceptCall(token) { result in
+                if result.isSuccess {
+                    if self.appIsActive {
+                        self.endSystemCall()
+                        if let callVC = self.currentCallVC {
+                            guard let userInfo = self.currentCallUserInfo else { return }
+                            callVC.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
+                            guard let controller = self.getCurrentViewController() else { return }
+                            if controller is CallMainVC {
+                                self.currentCallVC?.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
+                                self.startPlayingStream(userID)
+                            } else {
+                                controller.present(callVC, animated: true) {
+                                    self.startPlayingStream(userID)
+                                }
+                            }
                         } else {
+                            guard let userInfo = self.currentCallUserInfo else { return }
+                            let callVC: CallMainVC = CallMainVC.loadCallMainVC(self.callKitCallType, userInfo: userInfo, status: .calling)
+                            self.currentCallVC = callVC
+                            guard let controller = self.getCurrentViewController() else { return }
                             controller.present(callVC, animated: true) {
                                 self.startPlayingStream(userID)
                             }
                         }
                     } else {
-                        guard let userInfo = self.currentCallUserInfo else { return }
-                        let callVC: CallMainVC = CallMainVC.loadCallMainVC(self.callKitCallType, userInfo: userInfo, status: .calling)
-                        self.currentCallVC = callVC
-                        guard let controller = self.getCurrentViewController() else { return }
-                        controller.present(callVC, animated: true) {
-                            self.startPlayingStream(userID)
-                        }
+                        self.startPlayingStream(userID)
                     }
-                } else {
-                    self.startPlayingStream(userID)
                 }
             }
-        }
+        })
+        
     }
         
     @objc func callKitEnd() {
