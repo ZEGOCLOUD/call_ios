@@ -22,9 +22,6 @@ class UserServiceImpl: NSObject {
     /// In-room user list, can be used when displaying the user list in the room.
     var userList = [UserInfo]()
     
-    
-    private weak var listener = ListenerManager.shared
-    
     override init() {
         super.init()
         
