@@ -144,7 +144,11 @@ class HomeVC: UIViewController {
 }
 
 extension HomeVC: CallManagerDelegate {
-    func getRTCToken(_ userID: String) -> String? {
-        return TokenManager.shared.token?.token
+    func getRTCToken() -> String? {
+        guard let token = TokenManager.shared.token?.token else {
+            HUDHelper.showMessage(message: ZGAppLocalizedString("token_is_not_exist"))
+            return nil
+        }
+        return token
     }
 }

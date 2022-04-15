@@ -70,8 +70,15 @@ extension CallManager {
     @objc func callKitStart() {
         currentCallStatus = .calling
         callTimeManager.callStart()
-        guard let userID = currentCallUserInfo?.userID,
-              let token = token else { return }
+        guard let userID = currentCallUserInfo?.userID else {
+            currentCallStatus = .free
+            return
+        }
+        let token = delegate?.getRTCToken()
+        guard let token = token else {
+            currentCallStatus = .free
+            return
+        }
         ServiceManager.shared.callService.acceptCall(token) { result in
             if result.isSuccess {
                 if self.appIsActive {

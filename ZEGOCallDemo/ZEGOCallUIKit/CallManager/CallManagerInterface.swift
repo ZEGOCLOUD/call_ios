@@ -55,7 +55,9 @@ protocol CallManagerDelegate: AnyObject {
     /// - Description: This callback will be triggered when called refused the call.
     func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType)
     
-    func getRTCToken(_ userID: String) -> String?
+    func onRoomTokenWillExpire(_ remainTimeInSecond: Int32, roomID: String)
+    
+    func getRTCToken() -> String?
 }
 
 // default realized
@@ -66,6 +68,7 @@ extension CallManagerDelegate {
     func onReceivedCallEnded() { }
     func onReceiveCallAccepted(_ userInfo: UserInfo) { }
     func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType) { }
+    func onRoomTokenWillExpire(_ remainTimeInSecond: Int32, roomID: String) { }
 }
 
 protocol CallManagerInterface {
@@ -81,9 +84,6 @@ protocol CallManagerInterface {
         
     /// Get a CallManager instance
     static var shared: CallManager! { get }
-    
-    /// The token of use to call
-    var token: String? { get set }
     
     /// Initialize the SDK
     ///
@@ -137,4 +137,6 @@ protocol CallManagerInterface {
     /// - Parameter type: refers to the call type.  ZegoCallTypeVoice: Voice call.  ZegoCallTypeVideo: Video call.
     /// - Parameter callback: refers to the callback for make a outbound call.
     func callUser(_ userInfo: UserInfo, callType: CallType, callback: ZegoCallback?)
+    
+    func renewToken(_ token: String, roomID: String)
 }

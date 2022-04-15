@@ -22,11 +22,6 @@ extension OnlineUserListVC: OnlineUserListCellDelegate {
             HUDHelper.showMessage(message: ZGAppLocalizedString("call_page_call_unable_initiate"))
             return
         }
-        if CallManager.shared.token == nil {
-            HUDHelper.showMessage(message: ZGAppLocalizedString("token_is_not_exist"))
-            TokenManager.shared.getToken()
-            return
-        }
         switch type {
         case .voice:
             CallManager.shared.callUser(userInfo, callType: .voice) { result in

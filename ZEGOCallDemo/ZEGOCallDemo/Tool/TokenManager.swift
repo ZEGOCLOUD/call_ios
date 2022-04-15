@@ -12,10 +12,12 @@ import FirebaseFunctions
 class Token {
     var token: String
     var expiryTime: Int
+    var userID: String
     
-    init(_ token: String, expiryTime: Int) {
+    init(_ token: String, expiryTime: Int, userID: String) {
         self.token = token
         self.expiryTime = expiryTime
+        self.userID = userID
     }
     
     // 10 mins buffer
@@ -37,17 +39,7 @@ class TokenManager {
         
         tokenTimer.setEventHandler {
             if self.needUpdateToken() {
-                guard let userID = CallManager.shared.localUserInfo?.userID else { return }
-                let effectiveTimeInSeconds = 24 * 3600
-                self.getTokenFromServer(userID, effectiveTimeInSeconds) { result in
-                    switch result {
-                    case .success(let token):
-                        self.saveToken(token, effectiveTimeInSeconds)
-                        CallManager.shared.token = token
-                    case .failure(_):
-                        break
-                    }
-                }
+                self.updateToken()
             }
         }
         tokenTimer.start()
@@ -64,13 +56,14 @@ class TokenManager {
                 switch result {
                 case .success(let token):
                     self.saveToken(token, effectiveTimeInSeconds)
-                    CallManager.shared.token = token
                 case .failure(_):
                     HUDHelper.showMessage(message: ZGAppLocalizedString("token_get_fail"))
                 }
             }
         } else {
-            CallManager.shared.token = TokenManager.shared.token?.token
+            if needUpdateToken() {
+                updateToken()
+            }
         }
     }
 
@@ -82,16 +75,24 @@ class TokenManager {
         let defaults = UserDefaults.standard
         defaults.set(token, forKey: "zego_token_key")
         defaults.set(expiryTime, forKey: "zego_token_expiry_time_key")
+        defaults.set(CallManager.shared.localUserInfo?.userID, forKey: "zego_user_id_key")
         
         guard let token = token else {
             self.token = nil
             return
         }
-        self.token = Token(token, expiryTime: expiryTime)
+        guard let userID = CallManager.shared.localUserInfo?.userID else { return }
+        self.token = Token(token, expiryTime: expiryTime, userID: userID)
     }
     
     func needUpdateToken() -> Bool {
         guard let token = token else {
+            return true
+        }
+        guard let userID = CallManager.shared.localUserInfo?.userID else {
+            return false
+        }
+        if token.userID != userID {
             return true
         }
         // if the token invalid under 60mins, then we update the token.
@@ -116,7 +117,17 @@ class TokenManager {
             return nil
         }
         
-        return Token(token, expiryTime: expiryTime)
+        guard let userID = CallManager.shared.localUserInfo?.userID else {
+            return nil
+        }
+        
+        let oldUserID = defaults.string(forKey: "zego_user_id_key")
+        
+        if oldUserID != userID {
+            return nil
+        }
+        
+        return Token(token, expiryTime: expiryTime, userID: userID)
     }
     
     private func getTokenFromServer(_ userID: String,
@@ -141,6 +152,19 @@ class TokenManager {
                 return
             }
             callback(.success(token))
+        }
+    }
+    
+    private func updateToken() {
+        guard let userID = CallManager.shared.localUserInfo?.userID else { return }
+        let effectiveTimeInSeconds = 24 * 3600
+        self.getTokenFromServer(userID, effectiveTimeInSeconds) { result in
+            switch result {
+            case .success(let token):
+                self.saveToken(token, effectiveTimeInSeconds)
+            case .failure(_):
+                break
+            }
         }
     }
     

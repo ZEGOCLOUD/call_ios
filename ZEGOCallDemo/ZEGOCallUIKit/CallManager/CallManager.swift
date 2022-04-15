@@ -13,7 +13,6 @@ class CallManager: NSObject, CallManagerInterface {
     static var shared: CallManager! = CallManager()
     weak var delegate: CallManagerDelegate?
     var currentCallStatus: callStatus! = .free
-    var token: String?
     var localUserInfo: UserInfo? {
         get {
             ServiceManager.shared.userService.localUserInfo
@@ -68,6 +67,7 @@ class CallManager: NSObject, CallManagerInterface {
         ServiceManager.shared.userService.delegate = self
         ServiceManager.shared.callService.delegate = self
         ServiceManager.shared.deviceService.delegate = self
+        ServiceManager.shared.roomService.delegate = self
         
         callKitService = AppleCallKitServiceIMP()
         callKitService?.providerDelegate = ProviderDelegate()
@@ -111,7 +111,12 @@ class CallManager: NSObject, CallManagerInterface {
         ServiceManager.shared.uploadLog(callback: callback)
     }
     
+    func renewToken(_ token: String, roomID: String) {
+        ServiceManager.shared.roomService.renewToken(token, roomID: roomID)
+    }
+    
     func callUser(_ userInfo: UserInfo, callType: CallType, callback: ZegoCallback?) {
+        let token = self.delegate?.getRTCToken()
         guard let token = token else { return }
         if currentCallStatus != .free { return }
         self.currentCallStatus = .waitAccept
@@ -146,6 +151,7 @@ class CallManager: NSObject, CallManagerInterface {
             currentCallStatus = .free
             return
         }
+        let token = self.delegate?.getRTCToken()
         guard let token = token else {
             currentCallStatus = .free
             print("call token is not exists")
