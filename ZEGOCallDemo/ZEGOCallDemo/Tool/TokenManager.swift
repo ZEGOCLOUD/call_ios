@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import AVFoundation
 import FirebaseFunctions
 
 class Token {
@@ -38,8 +37,9 @@ class TokenManager {
         self.token = getTokenFromDisk()
         
         tokenTimer.setEventHandler {
-            if self.needUpdateToken() {
-                self.updateToken(nil)
+            guard let userID = self.token?.userID else { return }
+            if self.needUpdateToken(userID) {
+                self.updateToken(userID, callback: nil)
             }
         }
         tokenTimer.start()
@@ -48,64 +48,46 @@ class TokenManager {
     
     private var token: Token?
     
-    func getToken(_ callback: @escaping TokenCallback) {
-        if token == nil {
-            guard let userID = CallManager.shared.localUserInfo?.userID else { return }
-            let effectiveTimeInSeconds = 24 * 3600
-            self.getTokenFromServer(userID, effectiveTimeInSeconds) { result in
+    func getToken(_ userID: String, callback: @escaping TokenCallback) {
+        
+        if needUpdateToken(userID) {
+            updateToken(userID) { result in
                 switch result {
                 case .success(let token):
-                    self.saveToken(token, effectiveTimeInSeconds)
                     callback(.success(token))
                 case .failure(_):
                     callback(.failure(.failed))
-                    HUDHelper.showMessage(message: ZGAppLocalizedString("token_get_fail"))
                 }
             }
         } else {
-            if needUpdateToken() {
-                updateToken { result in
-                    switch result {
-                    case .success(let token):
-                        callback(.success(token))
-                    case .failure(_):
-                        callback(.failure(.failed))
-                    }
-                }
-            } else {
-                guard let token = token else {
-                    callback(.failure(.failed))
-                    return
-                }
-                callback(.success(token.token))
+            guard let token = token else {
+                callback(.failure(.failed))
+                return
             }
+            callback(.success(token.token))
         }
     }
 
     
-    func saveToken(_ token: String?, _ effectiveTimeInSeconds: Int) {
+    func saveToken(_ userID: String, token: String?, _ effectiveTimeInSeconds: Int) {
         
         let expiryTime: Int = Int(Date().timeIntervalSince1970) + effectiveTimeInSeconds
         
         let defaults = UserDefaults.standard
         defaults.set(token, forKey: "zego_token_key")
         defaults.set(expiryTime, forKey: "zego_token_expiry_time_key")
-        defaults.set(CallManager.shared.localUserInfo?.userID, forKey: "zego_user_id_key")
+        defaults.set(userID, forKey: "zego_user_id_key")
         
         guard let token = token else {
             self.token = nil
             return
         }
-        guard let userID = CallManager.shared.localUserInfo?.userID else { return }
         self.token = Token(token, expiryTime: expiryTime, userID: userID)
     }
     
-    func needUpdateToken() -> Bool {
+    func needUpdateToken(_ userID: String) -> Bool {
         guard let token = token else {
             return true
-        }
-        guard let userID = CallManager.shared.localUserInfo?.userID else {
-            return false
         }
         if token.userID != userID {
             return true
@@ -170,13 +152,12 @@ class TokenManager {
         }
     }
     
-    private func updateToken(_ callback: TokenCallback?) {
-        guard let userID = CallManager.shared.localUserInfo?.userID else { return }
+    private func updateToken(_ userID: String, callback: TokenCallback?) {
         let effectiveTimeInSeconds = 24 * 3600
         self.getTokenFromServer(userID, effectiveTimeInSeconds) { result in
             switch result {
             case .success(let token):
-                self.saveToken(token, effectiveTimeInSeconds)
+                self.saveToken(userID, token: token, effectiveTimeInSeconds)
                 guard let callback = callback else { return }
                 callback(.success(token))
             case .failure(let error):
