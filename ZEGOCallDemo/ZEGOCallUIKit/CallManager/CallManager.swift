@@ -133,7 +133,8 @@ class CallManager: NSObject, CallManagerInterface {
             ServiceManager.shared.callService.callUser(userInfo, token: token, type: callType) { result in
                 switch result {
                 case .success():
-                    break
+                    guard let callback = callback else { return }
+                    callback(.success())
                 case .failure(_):
                     self.currentCallStatus = .free
                     guard let callback = callback else { return }
