@@ -134,7 +134,7 @@ class CallManager: NSObject, CallManagerInterface {
                 switch result {
                 case .success():
                     guard let callback = callback else { return }
-                    callback(.success())
+                    callback(result)
                 case .failure(_):
                     self.currentCallStatus = .free
                     guard let callback = callback else { return }
