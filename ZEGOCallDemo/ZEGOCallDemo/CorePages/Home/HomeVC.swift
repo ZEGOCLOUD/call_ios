@@ -150,7 +150,10 @@ class HomeVC: UIViewController {
 
 extension HomeVC: CallManagerDelegate {
     func getRTCToken(_ callback: @escaping TokenCallback) {
-        guard let userID = CallManager.shared.localUserInfo?.userID else { return }
+        guard let userID = CallManager.shared.localUserInfo?.userID else {
+            callback(nil)
+            return
+        }
         TokenManager.shared.getToken(userID) { result in
             if result.isSuccess {
                 let token: String? = result.success
