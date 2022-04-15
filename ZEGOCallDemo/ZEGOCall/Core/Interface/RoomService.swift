@@ -8,6 +8,12 @@
 import Foundation
 
 protocol RoomServiceDelegate {
+    /// Callback notification that room Token authentication is about to expire.
+    ///
+    /// Description: The callback notification that the room Token authentication is about to expire, please use [renewToken] to update the room Token authentication.
+    ///
+    /// @param remainTimeInSecond The remaining time before the token expires.
+    /// @param roomID Room ID where the user is logged in, a string of up to 128 bytes in length.
     func onRoomTokenWillExpire(_ remainTimeInSecond: Int32, roomID: String)
 }
 
@@ -35,5 +41,11 @@ protocol RoomService {
     /// Call this method at: after joining a room
     func leaveRoom()
     
+    /// Renew token.
+    ///
+    /// Description: After the developer receives [onRoomTokenWillExpire], they can use this API to update the token to ensure that the subsequent RTC functions are normal.
+    ///
+    /// @param token The token that needs to be renew.
+    /// @param roomID Room ID.
     func renewToken(_ token: String, roomID: String)
 }
