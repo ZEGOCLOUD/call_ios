@@ -57,7 +57,8 @@ protocol CallManagerDelegate: AnyObject {
     
     func onRoomTokenWillExpire(_ remainTimeInSecond: Int32, roomID: String)
     
-    func getRTCToken() -> String?
+    func getRTCToken(_ callback: @escaping TokenCallback)
+//    func getRTCToken() -> String?
 }
 
 // default realized

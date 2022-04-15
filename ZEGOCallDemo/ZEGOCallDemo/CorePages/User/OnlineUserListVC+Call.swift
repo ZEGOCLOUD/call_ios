@@ -29,9 +29,6 @@ extension OnlineUserListVC: OnlineUserListCellDelegate {
                 case .success():
                     break
                 case .failure(let error):
-                    if case .tokenExpired = error {
-                        TokenManager.shared.getToken()
-                    }
                     TipView.showWarn(String(format: ZGAppLocalizedString("call_page_call_fail"), error.code))
                 }
             }

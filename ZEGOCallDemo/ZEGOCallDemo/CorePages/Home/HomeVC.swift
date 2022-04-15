@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class HomeVC: UIViewController {
 
@@ -73,7 +74,9 @@ class HomeVC: UIViewController {
         self.navigationController?.navigationBar.standardAppearance.shadowColor = UIColor.clear
         
         CallManager.shared.delegate = self
-        TokenManager.shared.getToken()
+        TokenManager.shared.getToken { result in
+            
+        }
         DeviceTool.shared.applicationHasMicAndCameraAccess(self)
     }
     
@@ -144,11 +147,23 @@ class HomeVC: UIViewController {
 }
 
 extension HomeVC: CallManagerDelegate {
-    func getRTCToken() -> String? {
-        guard let token = TokenManager.shared.token?.token else {
-            HUDHelper.showMessage(message: ZGAppLocalizedString("token_is_not_exist"))
-            return nil
+    func getRTCToken(_ callback: @escaping TokenCallback) {
+        TokenManager.shared.getToken { result in
+            if result.isSuccess {
+                let token: String? = result.success
+                callback(token)
+            } else {
+                callback(nil)
+            }
         }
-        return token
+    }
+    
+    func onRoomTokenWillExpire(_ remainTimeInSecond: Int32, roomID: String) {
+        TokenManager.shared.getToken { result in
+            if result.isSuccess {
+                guard let token = result.success else { return }
+                CallManager.shared.renewToken(token, roomID: roomID)
+            }
+        }
     }
 }

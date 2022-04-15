@@ -39,16 +39,16 @@ class TokenManager {
         
         tokenTimer.setEventHandler {
             if self.needUpdateToken() {
-                self.updateToken()
+                self.updateToken(nil)
             }
         }
         tokenTimer.start()
         
     }
     
-    var token: Token?
+    private var token: Token?
     
-    func getToken() {
+    func getToken(_ callback: @escaping TokenCallback) {
         if token == nil {
             guard let userID = CallManager.shared.localUserInfo?.userID else { return }
             let effectiveTimeInSeconds = 24 * 3600
@@ -56,13 +56,28 @@ class TokenManager {
                 switch result {
                 case .success(let token):
                     self.saveToken(token, effectiveTimeInSeconds)
+                    callback(.success(token))
                 case .failure(_):
+                    callback(.failure(.failed))
                     HUDHelper.showMessage(message: ZGAppLocalizedString("token_get_fail"))
                 }
             }
         } else {
             if needUpdateToken() {
-                updateToken()
+                updateToken { result in
+                    switch result {
+                    case .success(let token):
+                        callback(.success(token))
+                    case .failure(_):
+                        callback(.failure(.failed))
+                    }
+                }
+            } else {
+                guard let token = token else {
+                    callback(.failure(.failed))
+                    return
+                }
+                callback(.success(token.token))
             }
         }
     }
@@ -155,15 +170,18 @@ class TokenManager {
         }
     }
     
-    private func updateToken() {
+    private func updateToken(_ callback: TokenCallback?) {
         guard let userID = CallManager.shared.localUserInfo?.userID else { return }
         let effectiveTimeInSeconds = 24 * 3600
         self.getTokenFromServer(userID, effectiveTimeInSeconds) { result in
             switch result {
             case .success(let token):
                 self.saveToken(token, effectiveTimeInSeconds)
-            case .failure(_):
-                break
+                guard let callback = callback else { return }
+                callback(.success(token))
+            case .failure(let error):
+                guard let callback = callback else { return }
+                callback(.failure(error))
             }
         }
     }
