@@ -60,6 +60,7 @@ extension CallMainVC: CallActionDelegate {
         CallManager.shared.currentCallStatus = .free
         UIApplication.shared.isIdleTimerDisabled = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            HUDHelper.hideNetworkLoading(self.view)
             self.resetTime()
             self.dismiss(animated: true, completion: nil)
         }

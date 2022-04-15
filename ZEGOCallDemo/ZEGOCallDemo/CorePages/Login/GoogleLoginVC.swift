@@ -98,7 +98,9 @@ class GoogleLoginVC: UIViewController {
         guard let clientID = FirebaseApp.app()?.options.clientID else { return }
         let config = GIDConfiguration(clientID: clientID)
         GIDSignIn.sharedInstance.signIn(with: config, presenting: self) { user, error in
-            guard let token = user?.authentication.idToken else {
+            guard let token = user?.authentication.idToken,
+                  error == nil
+            else {
                 let message = String(format: "%@", error?.localizedDescription ?? "")
                 TipView.showWarn(message)
                 return
@@ -116,7 +118,7 @@ class GoogleLoginVC: UIViewController {
                     let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
                     self.navigationController?.pushViewController(vc, animated: true)
                 } else {
-                    let message = String(format: ZGAppLocalizedString("toast_login_fail"), error)
+                    let message = String(format: ZGAppLocalizedString("toast_login_fail_google"), error)
                     TipView.showWarn(message)
                 }
             }
