@@ -9,7 +9,7 @@ import UIKit
 
 protocol CallTimeManagerDelegate: AnyObject {
     /// callback call time
-    func onReceiceCallTimeUpdate(_ duration: Int)
+    func onReceiveCallTimeUpdate(_ duration: Int)
 }
 
 class CallTimeManager: NSObject {
@@ -25,7 +25,7 @@ class CallTimeManager: NSObject {
         timer.setEventHandler {
             let currentTime = Int(Date().timeIntervalSince1970)
             self.callDuration = currentTime - self.startTime
-            self.delegate?.onReceiceCallTimeUpdate(self.callDuration)
+            self.delegate?.onReceiveCallTimeUpdate(self.callDuration)
         }
         timer.start()
     }

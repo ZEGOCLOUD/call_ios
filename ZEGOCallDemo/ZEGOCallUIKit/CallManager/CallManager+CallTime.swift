@@ -9,7 +9,7 @@ import Foundation
 
 extension CallManager: CallTimeManagerDelegate {
     
-    func onReceiceCallTimeUpdate(_ duration: Int) {
+    func onReceiveCallTimeUpdate(_ duration: Int) {
         updateDisplayTime(duration)
     }
     

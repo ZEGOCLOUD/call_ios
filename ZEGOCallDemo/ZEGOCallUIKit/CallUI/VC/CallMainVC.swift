@@ -491,7 +491,7 @@ class CallMainVC: UIViewController {
                     smallBgImage = UIImage(named: String.getCallCoverImageName(userName: localUserInfo.userName))
                     bgImage = UIImage(named: String.getCallCoverImageName(userName: otherUser?.userName))
                 }
-            } else if statusType == .accept {
+            } else if statusType == .accept || statusType == .accepting {
                 backGroundImage.isHidden = false
                 smallHeadImage.isHidden = true
                 bgImage =  UIImage(named: String.getMakImageName(userName: otherUser?.userName))
