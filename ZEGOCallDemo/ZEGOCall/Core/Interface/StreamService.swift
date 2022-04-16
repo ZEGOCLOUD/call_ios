@@ -30,4 +30,6 @@ protocol StreamService {
     func stopPlaying(_ userID: String?)
     
     func startPreview(_ streamView: UIView?)
+    
+    func stopPreview()
 }
