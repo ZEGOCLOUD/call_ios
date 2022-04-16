@@ -157,6 +157,7 @@ class CallManager: NSObject, CallManagerInterface {
     ///   - callType: call type
     ///   - presentVC: Whether present the Call page: default true
     func acceptCall(_ userInfo: UserInfo, callType: CallType, presentVC:Bool = true) {
+        currentCallStatus = .calling
         audioTool.stopPlay()
         guard let userID = userInfo.userID else {
             currentCallStatus = .free
@@ -178,6 +179,9 @@ class CallManager: NSObject, CallManagerInterface {
         }
         
         delegate?.getRTCToken({ token in
+            if self.currentCallStatus != .calling {
+                return
+            }
             guard let token = token else {
                 self.currentCallStatus = .free
                 self.currentCallVC?.changeCallStatusText(.decline)
