@@ -34,10 +34,19 @@ Before getting started with the ZEGOCLOUD Call application, **contact us to acti
       <img width="700px" src="images/bundleId.png"/>
 
 5. Click the **Signing & Capabilities** tab and select your own developer account in the **Team**.  
+<img width="700px" src="images/team.png"/>
+      
+      
+      
+6. 添加 Firebase 配置文件到项目中，去Firebase平台下载官方平台下载GoogleService-Info.plist（[如何获取配置文件](https://firebase.google.com/docs/ios/setup#add-config-file)）
 
-      <img width="700px" src="images/team.png"/>
+      <img width="700px" src="images/GoogleInfo.png"/>
 
+      
 
+7. 设置**URL Types**, URL Schemes 对应**GoogleService-Info.plist**的**REVERSED_CLIENT_ID**字段
+
+      <img width="700px" src="images/url_types.png"/>
 
 ### Run the sample code
 

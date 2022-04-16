@@ -76,6 +76,9 @@ extension CallManager {
         }
         
         delegate?.getRTCToken({ token in
+            if self.currentCallStatus != .calling {
+                return
+            }
             guard let token = token else {
                 self.currentCallStatus = .free
                 return

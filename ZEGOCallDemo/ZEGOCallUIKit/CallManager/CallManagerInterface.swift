@@ -55,10 +55,15 @@ protocol CallManagerDelegate: AnyObject {
     /// - Description: This callback will be triggered when called refused the call.
     func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType)
     
+    /// Callback notification that room Token authentication is about to expire.
+    ///
+    /// Description: The callback notification that the room Token authentication is about to expire, please use [renewToken] to update the room Token authentication.
+    ///
+    /// @param remainTimeInSecond The remaining time before the token expires.
+    /// @param roomID Room ID where the user is logged in, a string of up to 128 bytes in length.
     func onRoomTokenWillExpire(_ remainTimeInSecond: Int32, roomID: String)
     
     func getRTCToken(_ callback: @escaping TokenCallback)
-//    func getRTCToken() -> String?
 }
 
 // default realized
@@ -139,5 +144,11 @@ protocol CallManagerInterface {
     /// - Parameter callback: refers to the callback for make a outbound call.
     func callUser(_ userInfo: UserInfo, callType: CallType, callback: ZegoCallback?)
     
+    /// Renew token.
+    ///
+    /// Description: After the developer receives [onRoomTokenWillExpire], they can use this API to update the token to ensure that the subsequent RTC functions are normal.
+    ///
+    /// @param token The token that needs to be renew.
+    /// @param roomID Room ID.
     func renewToken(_ token: String, roomID: String)
 }
