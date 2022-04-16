@@ -133,6 +133,7 @@ class CallManager: NSObject, CallManagerInterface {
                 self.currentCallStatus = .free
                 self.currentCallVC?.changeCallStatusText(.canceled)
                 vc.callDelayDismiss()
+                ServiceManager.shared.streamService.stopPreview()
                 return
             }
             ServiceManager.shared.callService.callUser(userInfo, token: token, type: callType) { result in

@@ -48,6 +48,10 @@ extension StreamServiceImpl: StreamService {
         ZegoExpressEngine.shared().startPreview(canvas)
     }
     
+    func stopPreview() {
+        ZegoExpressEngine.shared().stopPreview()
+    }
+    
     func stopPlaying(_ userID: String?) {
         guard let roomID = ServiceManager.shared.roomService.roomInfo?.roomID else {
             assert(false, "The room ID can not be nil")
