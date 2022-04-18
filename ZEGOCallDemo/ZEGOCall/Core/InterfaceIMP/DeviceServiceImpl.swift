@@ -68,7 +68,7 @@ class DeviceServiceImpl: NSObject, DeviceService {
     }
     
     var videoMirror: Bool = true {
-        willSet {
+        didSet {
             if videoMirror {
                 ZegoExpressEngine.shared().setVideoMirrorMode(.bothMirror)
             } else {
