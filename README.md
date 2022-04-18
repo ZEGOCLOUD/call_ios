@@ -11,9 +11,9 @@ Before getting started with the ZEGOCLOUD Call application, **contact us to acti
 * [Xcode 12 or later](https://developer.apple.com/xcode/download)
 * [CocoaPods](https://guides.cocoapods.org/using/getting-started.html#installation)
 * An iOS device or Simulator that is running on iOS 13.0 or later and supports audio and video. We recommend you use a real device.
-* Create a project in [ZEGOCLOUD Admin Console](https://console.zegocloud.com/). For details, see [ZEGO Admin Console - Project management](https://docs.zegocloud.com/article/1271).
+* Create a project in [ZEGOCLOUD Admin Console](https://console.zegocloud.com/).
 
-###  Install Pods
+### Install Pods
 
 1. Clone the Live Room Github repository. 
 2. Open Terminal, navigate to the `ZEGOCallDemo` folder where the `Podfile` is located, and run the `pod repo update` command.
@@ -38,13 +38,13 @@ Before getting started with the ZEGOCLOUD Call application, **contact us to acti
       
       
       
-6. 添加 Firebase 配置文件到项目中，去Firebase平台下载官方平台下载GoogleService-Info.plist（[如何获取配置文件](https://firebase.google.com/docs/ios/setup#add-config-file)）
+6. Download the config file **GoogleService-Info.plist** of firebase, and add it to your project. To get the config file, refer to [How to get the config file?](https://firebase.google.com/docs/ios/setup#add-config-file).
 
       <img width="700px" src="images/GoogleInfo.png"/>
 
       
 
-7. 设置**URL Types**, URL Schemes 对应**GoogleService-Info.plist**的**REVERSED_CLIENT_ID**字段
+7. Set up the **URL Types**: Fill in the **URL Schemes** with the **REVERSED_CLIENT_ID** field in the **GoogleService-Info.plist** file. 
 
       <img width="700px" src="images/url_types.png"/>
 
@@ -94,13 +94,13 @@ Directory path:
 │   ├── Listener.swift
 │   ├── ListenerManager.swift
 │   └── ListenerUpdater.swift
-├── Reqeust                                         --- Firebase related request
+├── Reqeust                                         --- Firebase related requests
 ├── Tool
 ```
 
 ### ZEGOCallUIKit
 
-The ZEGOCallUIKit module is a layer of ZEGOCall packaging, simplified interactive video scene access, internal complete call logic and call UI.
+The ZEGOCallUIKit module is a layer of ZEGOCall packaging, which simplifies the access to interactive video scenes, and completes the logic and UI of ZEGO Call.
 
 Directory path: 
 
