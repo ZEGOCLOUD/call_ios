@@ -92,8 +92,10 @@ extension FirebaseManager {
     private func callUsers(_ parameter: [String: AnyObject], callback: @escaping RequestCallback) {
         
         guard let callID = parameter["call_id"] as? String,
-              let caller = parameter["caller"] as? UserInfo,
-              let callees = parameter["callees"] as? [UserInfo],
+              let caller = parameter["caller"] as? [String: Any],
+              let callees = parameter["callees"] as? [[String: Any]],
+              let callerID = caller["id"] as? String,
+              let callerName = caller["name"] as? String,
               let typeOld = parameter["type"] as? Int,
               let type = FirebaseCallType.init(rawValue: typeOld)
         else {
@@ -109,17 +111,19 @@ extension FirebaseManager {
         
         let startTime = Int(Date().timeIntervalSince1970 * 1000)
         let firebaseCaller = FirebaseCallUser()
-        firebaseCaller.caller_id = caller.userID ?? ""
-        firebaseCaller.user_id = caller.userID ?? ""
-        firebaseCaller.user_name = caller.userName
+        firebaseCaller.caller_id = callerID
+        firebaseCaller.user_id = callerID
+        firebaseCaller.user_name = callerName
         firebaseCaller.start_time = startTime
         firebaseCaller.status = .connecting
         callModel.users.append(firebaseCaller)
         
         for user in callees {
             let callee = firebaseCaller.copy()
-            callee.user_id = user.userID ?? ""
-            callee.user_name = user.userName
+            guard let calleeID = user["id"] as? String,
+            let calleeName = user["name"] as? String else { continue }
+            callee.user_id = calleeID
+            callee.user_name = calleeName
             callModel.users.append(callee)
         }
         
@@ -208,7 +212,7 @@ extension FirebaseManager {
         guard let callID = parameter["call_id"] as? String,
 //              let callerID = parameter["caller_id"] as? String,
 //              let userID = parameter["id"] as? String,
-              let type = parameter["type"] as? DeclineType
+              let type = parameter["type"] as? Int
         else {
             callback(.failure(.paramInvalid))
             return
@@ -225,7 +229,7 @@ extension FirebaseManager {
             }
             model.call_status = .ended
             for user in model.users {
-                user.status = type == .decline ? .declined : .busy
+                user.status = type == 1 ? .declined : .busy
             }
             currentData.value = model.toDict()
             return .success(withValue: currentData)
@@ -359,8 +363,8 @@ extension FirebaseManager {
             
             let callees = model.users
                 .filter({ $0.caller_id != $0.user_id })
-                .compactMap({ UserInfo($0.user_id, $0.user_name ?? $0.user_id) })
-            let callerUser = UserInfo(caller.user_id, caller.user_name ?? caller.user_id)
+                .compactMap({ ["id": $0.user_id, "name": $0.user_name ?? $0.user_id] })
+            let callerUser = ["id": caller.user_id, "name": caller.user_name ?? caller.user_id]
             let data: [String: Any] = [
                 "call_id": model.call_id,
                 "call_type": model.call_type.rawValue,
@@ -524,7 +528,7 @@ extension FirebaseManager {
     private func onReceiveEndedNotify(_ callID: String, otherUserID: String) {
         let data: [String: Any] = [
             "call_id": callID,
-            "user_id": otherUserID
+            "id": otherUserID
         ]
         self.listener?.receiveUpdate(Notify_Call_End, parameter: data)
         self.modelDict.removeValue(forKey: callID)
@@ -533,7 +537,7 @@ extension FirebaseManager {
     private func onReceiveTimeoutNotify(_ callID: String, otherUserID: String) {
         let data: [String: Any] = [
             "call_id": callID,
-            "user_id": otherUserID
+            "id": otherUserID
         ]
         self.listener?.receiveUpdate(Notify_Call_Timeout, parameter: data)
     }

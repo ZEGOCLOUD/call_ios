@@ -32,7 +32,7 @@ class DeclineCallCommand: Command {
     
     var type: DeclineType? {
         willSet {
-            parameter["type"] = newValue as AnyObject
+            parameter["type"] = newValue?.rawValue as AnyObject
         }
     }
     
