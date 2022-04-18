@@ -18,13 +18,13 @@ class CallCommand: Command {
         }
     }
     
-    var caller: UserInfo? {
+    var caller: [String: Any]? {
         willSet {
             parameter["caller"] = newValue as AnyObject
         }
     }
     
-    var callees: [UserInfo]? {
+    var callees: [[String: Any]]? {
         willSet {
             parameter["callees"] = newValue as AnyObject
         }

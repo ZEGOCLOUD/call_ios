@@ -81,8 +81,8 @@ extension CallServiceImpl: CallService {
         
         print("[* Call] Start Call, callID: \(callID), callerID: \(String(describing: caller?.userID)), calleeID: \(String(describing: user.userID)), type: \(type.rawValue), status: \(status)")
         
-        callCommand.caller = caller
-        callCommand.callees = [user]
+        callCommand.caller = ["id": callerUserID, "name": caller?.userName ?? ""]
+        callCommand.callees = [["id": user.userID ?? "", "name": user.userName ?? ""]]
         callCommand.callID = callID
         callCommand.type = type
         
@@ -340,11 +340,15 @@ extension CallServiceImpl {
                 
         _ = listener?.addListener(Notify_Call_Invited, listener: { result in
             guard let callID = result["call_id"] as? String,
-                  let caller = result["caller"] as? UserInfo,
-                  let callees = result["callees"] as? [UserInfo],
-                  let callTypeOld = result["call_type"] as? Int
+                  let callerDict = result["caller"] as? [String: Any],
+                  let callerID = callerDict["id"] as? String,
+                  let callerName = callerDict["name"] as? String,
+                  let calleeDicts = result["callees"] as? [[String: Any]],
+                  let callTypeValue = result["call_type"] as? Int
             else { return }
-            guard let callType = CallType.init(rawValue: callTypeOld) else { return }
+            guard let callType = CallType.init(rawValue: callTypeValue) else { return }
+            
+            let caller = UserInfo(callerID, callerName)
             
             print("[* Call] Receive Call Invited, callID: \(callID), callerID: \(String(describing: caller.userID)), type: \(callType.rawValue), status: \(self.status)")
                         
@@ -363,6 +367,13 @@ extension CallServiceImpl {
             self.addCallTimer()
             
             self.callInfo.caller = caller
+            var callees = [UserInfo]()
+            for dict in calleeDicts {
+                guard let calleeID = dict["id"] as? String,
+                      let calleeName = dict["name"] as? String
+                else { continue }
+                callees.append(UserInfo(calleeID, calleeName))
+            }
             self.callInfo.callees = callees
             
             self.delegate?.onReceiveCallInvited(caller, type: callType)
@@ -437,7 +448,7 @@ extension CallServiceImpl {
         
         _ = listener?.addListener(Notify_Call_End, listener: { result in
             guard let callID = result["call_id"] as? String,
-                  let userID = result["user_id"] as? String
+                  let userID = result["id"] as? String
             else {
                 return
             }
@@ -462,7 +473,7 @@ extension CallServiceImpl {
         
         _ = listener?.addListener(Notify_Call_Timeout, listener: { result in
             guard let callID = result["call_id"] as? String,
-                  let userID = result["user_id"] as? String
+                  let userID = result["id"] as? String
             else {
                 return
             }
