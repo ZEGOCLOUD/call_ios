@@ -35,10 +35,14 @@ Before getting started with the ZEGOCLOUD Call application, **contact us to acti
 
 5. Click the **Signing & Capabilities** tab and select your own developer account in the **Team**.  
 <img width="700px" src="images/team.png"/>
+   
       
-      
-      
+   
 6. Download the config file **GoogleService-Info.plist** of firebase, and add it to your project. To get the config file, refer to [How to get the config file?](https://firebase.google.com/docs/ios/setup#add-config-file).
+
+      <img width="700px" src="images/addGoogleInfoPlist.png"/>
+
+      
 
       <img width="700px" src="images/GoogleInfo.png"/>
 
