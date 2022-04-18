@@ -57,6 +57,7 @@ extension CallMainVC: CallActionDelegate {
     
     /// Delay close call page
     func callDelayDismiss() {
+        CallManager.shared.isConnecting = false
         CallManager.shared.currentCallStatus = .free
         UIApplication.shared.isIdleTimerDisabled = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
