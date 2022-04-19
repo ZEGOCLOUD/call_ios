@@ -63,8 +63,8 @@ protocol CallManagerDelegate: AnyObject {
     /// @param roomID Room ID where the user is logged in, a string of up to 128 bytes in length.
     func onRoomTokenWillExpire(_ remainTimeInSecond: Int32, roomID: String)
     
-    /// 当需要获取token的时候会收到这个回调
-    /// - Description: 这个回调将会被触发当发起呼叫/接听呼叫时
+    /// You will receive a notification through this callback when obtaining a Token.
+    /// - Description: This callback will be triggered when making/accepting an incoming call.
     func getRTCToken(_ callback: @escaping TokenCallback)
 }
 
