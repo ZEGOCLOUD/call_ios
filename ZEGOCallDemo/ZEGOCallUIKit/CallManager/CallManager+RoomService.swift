@@ -9,6 +9,9 @@ import Foundation
 
 extension CallManager: RoomServiceDelegate {
     func onRoomTokenWillExpire(_ remainTimeInSecond: Int32, roomID: String) {
-        delegate?.onRoomTokenWillExpire(remainTimeInSecond, roomID: roomID)
+        tokenProvider?.getRTCToken({ token in
+            guard let token = token else { return }
+            ServiceManager.shared.roomService.renewToken(token, roomID: roomID)
+        })
     }
 }

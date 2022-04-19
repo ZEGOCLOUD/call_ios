@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         registerNotification()
         
         // Override point for customization after application launch.
-        CallManager.shared.initWithAppID(AppCenter.appID()) { result in
+        CallManager.shared.initWithAppID(AppCenter.appID(), tokenProvider: nil) { result in
             if result.isFailure {
                 let code = result.failure?.code ?? 1
                 print("init failed: \(String(code))")

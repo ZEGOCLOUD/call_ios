@@ -54,18 +54,6 @@ protocol CallManagerDelegate: AnyObject {
     ///
     /// - Description: This callback will be triggered when called refused the call.
     func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType)
-    
-    /// Callback notification that room Token authentication is about to expire.
-    ///
-    /// Description: The callback notification that the room Token authentication is about to expire, please use [renewToken] to update the room Token authentication.
-    ///
-    /// @param remainTimeInSecond The remaining time before the token expires.
-    /// @param roomID Room ID where the user is logged in, a string of up to 128 bytes in length.
-    func onRoomTokenWillExpire(_ remainTimeInSecond: Int32, roomID: String)
-    
-    /// You will receive a notification through this callback when obtaining a Token.
-    /// - Description: This callback will be triggered when making/accepting an incoming call.
-    func getRTCToken(_ callback: @escaping TokenCallback)
 }
 
 // default realized
@@ -76,7 +64,12 @@ extension CallManagerDelegate {
     func onReceivedCallEnded() { }
     func onReceiveCallAccepted(_ userInfo: UserInfo) { }
     func onReceiveCallDeclined(_ userInfo: UserInfo, type: DeclineType) { }
-    func onRoomTokenWillExpire(_ remainTimeInSecond: Int32, roomID: String) { }
+}
+
+protocol TokenProvider: AnyObject {
+    /// You will receive a notification through this callback when obtaining a Token.
+    /// - Description: This callback will be triggered when making/accepting an incoming call.
+    func getRTCToken(_ callback: @escaping TokenCallback)
 }
 
 protocol CallManagerInterface {
@@ -100,7 +93,7 @@ protocol CallManagerInterface {
     /// Call this method at: Before you log in. We recommend you call this method when the application starts.
     ///
     /// - Parameter appID: refers to the project ID. To get this, go to ZEGOCLOUD Admin Console: https://console.zego.im/dashboard?lang=en
-    func initWithAppID(_ appID: UInt32, callback: ZegoCallback?)
+    func initWithAppID(_ appID: UInt32, tokenProvider: TokenProvider?, callback: ZegoCallback?)
     
     /// The method to deinitialize the SDK
     ///
@@ -108,6 +101,8 @@ protocol CallManagerInterface {
     ///
     /// Call this method at: When the SDK is no longer be used. We recommend you call this method when the application exits.
     func uninit()
+    
+    func setTokenProvider(_ provider: TokenProvider)
         
     /// Set the local user info
     ///
@@ -145,12 +140,4 @@ protocol CallManagerInterface {
     /// - Parameter type: refers to the call type.  ZegoCallTypeVoice: Voice call.  ZegoCallTypeVideo: Video call.
     /// - Parameter callback: refers to the callback for make a outbound call.
     func callUser(_ userInfo: UserInfo, callType: CallType, callback: ZegoCallback?)
-    
-    /// Renew token.
-    ///
-    /// Description: After the developer receives [onRoomTokenWillExpire], they can use this API to update the token to ensure that the subsequent RTC functions are normal.
-    ///
-    /// @param token The token that needs to be renew.
-    /// @param roomID Room ID.
-    func renewToken(_ token: String, roomID: String)
 }

@@ -75,8 +75,8 @@ extension CallManager {
             return
         }
         resetDeviceConfig()
-        
-        delegate?.getRTCToken({ token in
+        assert(tokenProvider != nil, "You must call `setTokenProvider` to set a provider.")
+        tokenProvider?.getRTCToken({ token in
             if self.currentCallStatus != .calling {
                 return
             }
