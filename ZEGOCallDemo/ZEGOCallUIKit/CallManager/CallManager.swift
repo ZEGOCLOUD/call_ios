@@ -12,6 +12,7 @@ class CallManager: NSObject, CallManagerInterface {
     
     static var shared: CallManager! = CallManager()
     weak var delegate: CallManagerDelegate?
+    weak var tokenProvider: TokenProvider?
     var currentCallStatus: callStatus! = .free
     var localUserInfo: UserInfo? {
         get {
@@ -74,12 +75,17 @@ class CallManager: NSObject, CallManagerInterface {
     }
     
     // MARK: -Public
-    func initWithAppID(_ appID: UInt32, callback: ZegoCallback?) {
+    func initWithAppID(_ appID: UInt32, tokenProvider: TokenProvider?, callback: ZegoCallback?) {
+        self.tokenProvider = tokenProvider
         ServiceManager.shared.initWithAppID(appID: appID, callback: callback)
     }
     
     func uninit() {
         ServiceManager.shared.uninit()
+    }
+    
+    func setTokenProvider(_ provider: TokenProvider) {
+        self.tokenProvider = provider
     }
         
     func setLocalUser(_ userID: String, userName: String) {
@@ -125,7 +131,8 @@ class CallManager: NSObject, CallManagerInterface {
         getCurrentViewController()?.present(vc, animated: true, completion: nil)
         ServiceManager.shared.deviceService.useFrontCamera(true)
         
-        delegate?.getRTCToken({ token in
+        assert(tokenProvider != nil, "You must call `setTokenProvider` to set a provider.")
+        tokenProvider?.getRTCToken({ token in
             if self.currentCallStatus != .waitAccept {
                 return
             }
@@ -179,7 +186,8 @@ class CallManager: NSObject, CallManagerInterface {
             currentCallVC.updateCallType(callType, userInfo: userInfo, status: .accepting)
         }
         
-        delegate?.getRTCToken({ token in
+        assert(tokenProvider != nil, "You must call `setTokenProvider` to set a provider.")
+        tokenProvider?.getRTCToken({ token in
             if self.currentCallStatus != .calling {
                 return
             }
