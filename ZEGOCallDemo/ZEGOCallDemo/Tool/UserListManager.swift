@@ -44,7 +44,8 @@ class UserListManager {
             callback(userList)
             return
         }
-        ref.child("online_user").getData { error, snapshot in
+        let usersQuery = self.ref.child("online_user").queryOrdered(byChild: "last_changed")
+        usersQuery.getData { error, snapshot in
             let users = self.getUsers(snapshot)
             self.userList = users
             callback(users)
@@ -65,6 +66,7 @@ class UserListManager {
             let user = UserInfo(userID, userName)
             users.append(user)
         }
+        users.reverse()
         return users
     }
 }
