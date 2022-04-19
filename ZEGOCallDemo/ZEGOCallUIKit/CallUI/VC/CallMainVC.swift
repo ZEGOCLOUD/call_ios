@@ -431,10 +431,6 @@ class CallMainVC: UIViewController {
     }
     
     
-    /// <#Description#>
-    /// - Parameters:
-    ///   - status: <#status description#>
-    ///   - showHud: <#showHud description#>
     func changeCallStatusText(_ status: CallStatusType, showHud:Bool = true) {
         switch status {
         case .take, .accept, .accepting:
