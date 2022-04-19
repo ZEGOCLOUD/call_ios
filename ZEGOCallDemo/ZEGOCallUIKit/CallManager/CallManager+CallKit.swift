@@ -21,20 +21,20 @@ extension CallManager {
                 if self.getCurrentViewController() is CallMainVC {
                     guard let userInfo = currentCallUserInfo else { return }
                     currentCallVC?.updateCallType(callKitCallType, userInfo: userInfo, status: .calling)
-                    startPlayingStream(currentCallUserInfo?.userID)
+                    startPlayingStream(currentCallUserInfo?.userID,updateSpeaker: false)
                 } else {
                     if let currentCallVC = currentCallVC {
                         guard let userInfo = currentCallUserInfo else { return }
                         self.getCurrentViewController()?.present(currentCallVC, animated: true, completion: {
                             currentCallVC.updateCallType(self.callKitCallType, userInfo: userInfo, status: .calling)
-                            self.startPlayingStream(self.currentCallUserInfo?.userID)
+                            self.startPlayingStream(self.currentCallUserInfo?.userID, updateSpeaker: false)
                         })
                     } else {
                         guard let userInfo = currentCallUserInfo else { return }
                         let callVC: CallMainVC = CallMainVC.loadCallMainVC(callKitCallType, userInfo: userInfo, status: .calling)
                         currentCallVC = callVC
                         getCurrentViewController()?.present(callVC, animated: true) {
-                            self.startPlayingStream(userInfo.userID)
+                            self.startPlayingStream(userInfo.userID, updateSpeaker: false)
                         }
                     }
                 }

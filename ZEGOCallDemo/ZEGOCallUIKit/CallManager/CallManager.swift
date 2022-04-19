@@ -248,7 +248,7 @@ class CallManager: NSObject, CallManagerInterface {
     }
     
     /// start playing stream
-    func startPlayingStream(_ userID: String?) {
+    func startPlayingStream(_ userID: String?, updateSpeaker: Bool = true) {
         guard let userID = userID else { return }
         guard let userRoomInfo = ServiceManager.shared.userService.localUserInfo else { return }
         
@@ -271,7 +271,9 @@ class CallManager: NSObject, CallManagerInterface {
             ServiceManager.shared.deviceService.enableMic(userRoomInfo.mic)
             ServiceManager.shared.streamService.startPlaying(userID, streamView: nil)
         }
-        ServiceManager.shared.deviceService.enableSpeaker(false)
+        if updateSpeaker {
+            ServiceManager.shared.deviceService.enableSpeaker(false)
+        }
     }
     
     /// close call page
