@@ -74,6 +74,7 @@ extension CallManager {
             currentCallStatus = .free
             return
         }
+        resetDeviceConfig()
         
         delegate?.getRTCToken({ token in
             if self.currentCallStatus != .calling {
