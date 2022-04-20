@@ -68,3 +68,4 @@ fastlane/test_output
 iOSInjectionProject/
 ZEGOCallDemo/Pods
 ZEGOCallDemo/ZEGOCallDemo/AppCenter/AppCenter.json
+ZEGOCallDemo/ZEGOCallDemo/GoogleService-Info.plist
