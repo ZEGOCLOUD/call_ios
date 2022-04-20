@@ -21,44 +21,50 @@ class HUDHelper: NSObject {
     /// - Parameters:
     ///   - message: message content
     ///   - doneHandler: done callback
-    static func showMessage(message:String,doneHandler:@escaping () -> Void) -> Void {
+    static func showMessage(message:String, doneHandler:@escaping () -> Void) -> Void {
         DispatchQueue.main.async {
-            let hud:MBProgressHUD = MBProgressHUD.showAdded(to: KeyWindow(), animated: true)
+            let hud = MKHUDView(frame: UIScreen.main.bounds, theme: .light)
             hud.mode = .text
-            hud.detailsLabel.text = message
-            hud.detailsLabel.font = UIFont.systemFont(ofSize: 15)
-            hud.hide(animated: true, afterDelay: 2.0)
-            hud.completionBlock = doneHandler
+            hud.text = message
+            hud.textLabel.font = UIFont.systemFont(ofSize: 15)
+            hud.autoHidden = 2.0
+            hud.completionHandle = doneHandler
+            hud.show(to: KeyWindow())
         }
     }
     
     /// Display network loading HUD
     static func showNetworkLoading() -> Void {
         DispatchQueue.main.async {
-            let hud: MBProgressHUD = MBProgressHUD.showAdded(to: KeyWindow(), animated: true)
+            let hud = MKHUDView(frame: UIScreen.main.bounds, theme: .light)
+            hud.mode = .indeterminate
+            hud.animationMode = .zoomIn
             hud.accessibilityIdentifier = "NetWorkLoading"
+            hud.show(to: KeyWindow())
         }
     }
     
     /// Display network loading with message
     static func showNetworkLoading(_ message: String) {
         DispatchQueue.main.async {
-            let hud = MBProgressHUD.showAdded(to: KeyWindow(), animated: true)
+            let hud = MKHUDView(frame: UIScreen.main.bounds, theme: .light)
             hud.accessibilityIdentifier = "NetWorkLoading"
-            hud.mode = .text
-            hud.detailsLabel.text = message
-            hud.detailsLabel.font = UIFont.systemFont(ofSize: 15)
+            hud.mode = .indeterminate
+            hud.text = message
+            hud.textLabel.font = UIFont.systemFont(ofSize: 15)
+            hud.show(to: KeyWindow())
         }
     }
     
     /// Display network loading with message on toView
     static func showNetworkLoading(_ message: String, toView: UIView) {
         DispatchQueue.main.async {
-            let hud = MBProgressHUD.showAdded(to: toView, animated: true)
+            let hud = MKHUDView(frame: toView.bounds, theme: .light)
             hud.accessibilityIdentifier = "NetWorkLoading"
-            hud.mode = .text
-            hud.detailsLabel.text = message
-            hud.detailsLabel.font = UIFont.systemFont(ofSize: 15)
+            hud.mode = .indeterminate
+            hud.text = message
+            hud.textLabel.font = UIFont.systemFont(ofSize: 15)
+            hud.show(to: toView)
         }
     }
     
@@ -66,11 +72,10 @@ class HUDHelper: NSObject {
     static func hideNetworkLoading(_ onView: UIView) {
         DispatchQueue.main.async {
             for subview in onView.subviews {
-                if subview is MBProgressHUD{
-                    let hud:MBProgressHUD = subview as! MBProgressHUD
+                if subview is MKHUDView{
+                    let hud = subview as! MKHUDView
                     if hud.accessibilityIdentifier == "NetWorkLoading" {
-                        hud.removeFromSuperViewOnHide = true
-                        hud.hide(animated: true)
+                        hud.dismiss(animated: true)
                     }
                 }
             }
@@ -81,11 +86,10 @@ class HUDHelper: NSObject {
     static func hideNetworkLoading() -> Void {
         DispatchQueue.main.async {
             for subview in KeyWindow().subviews {
-                if subview is MBProgressHUD{
-                    let hud:MBProgressHUD = subview as! MBProgressHUD
+                if subview is MKHUDView {
+                    let hud = subview as! MKHUDView
                     if hud.accessibilityIdentifier == "NetWorkLoading" {
-                        hud.removeFromSuperViewOnHide = true
-                        hud.hide(animated: true)
+                        hud.dismiss(animated: true)
                     }
                 }
             }
