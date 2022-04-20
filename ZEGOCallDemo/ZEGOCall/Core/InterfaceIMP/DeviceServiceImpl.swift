@@ -48,7 +48,7 @@ class DeviceServiceImpl: NSObject, DeviceService {
         }
     }
     
-    var noiseSliming: Bool = true {
+    var noiseSlimming: Bool = true {
         willSet {
             ZegoExpressEngine.shared().enableANS(newValue)
             ZegoExpressEngine.shared().enableTransientANS(newValue)
@@ -127,7 +127,7 @@ class DeviceServiceImpl: NSObject, DeviceService {
     func resetDeviceConfig() {
         videoResolution = .p720
         bitrate = .b32
-        noiseSliming = true
+        noiseSlimming = true
         echoCancellation = true
         volumeAdjustment = true
         videoMirror = true

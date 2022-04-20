@@ -26,7 +26,7 @@ protocol DeviceService {
     var bitrate: AudioBitrate { get set }
     
     /// Whether to enable or disable the noise suppression
-    var noiseSliming: Bool { get set }
+    var noiseSlimming: Bool { get set }
     
     /// Whether to enable or disable the echo cancellation
     var echoCancellation: Bool { get set }
