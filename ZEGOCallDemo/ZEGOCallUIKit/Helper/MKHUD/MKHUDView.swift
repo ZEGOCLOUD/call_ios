@@ -86,28 +86,25 @@ public final class MKHUDView: UIView {
         return ai
     }()
     
-    /// 背景样式
     public var backgroundStyle: MKHUDBackgroundStyle = .solid {
         didSet {
             backgroundView.style = backgroundStyle
         }
     }
     
-    /// 内边距 UIEdgeInsets(.right is invalid)
+    /// UIEdgeInsets(.right is invalid)
     public var insets: UIEdgeInsets = MKHUD_DefaultContentInsets {
         didSet {
             remarkConstraints()
         }
     }
     
-    /// 竖直方向元素间距
     public var spacing: CGFloat = MKHUD_DefaultItemSpacing {
         didSet {
             remarkConstraints()
         }
     }
     
-    /// 强制宽高相等（正方形背景）
     public var suqared: Bool = false {
         didSet {
             if suqared == oldValue {
@@ -117,14 +114,12 @@ public final class MKHUDView: UIView {
         }
     }
     
-    /// 圆角
     public var corner: CGFloat = MKHUD_DefaultCorner {
         didSet {
             backgroundView.layer.cornerRadius = corner
         }
     }
     
-    /// 自定义视图
     public var customView: UIView? {
         didSet{
             if mode == .custom {
@@ -133,7 +128,6 @@ public final class MKHUDView: UIView {
         }
     }
     
-    /// 标题文案 上label
     public var text: String = "" {
         didSet {
             textLabel.text = text
@@ -141,7 +135,6 @@ public final class MKHUDView: UIView {
         }
     }
     
-    /// 详情文案 下label
     public var detailText: String = "" {
         didSet {
             detailLabel.text = detailText
@@ -149,7 +142,6 @@ public final class MKHUDView: UIView {
         }
     }
     
-    /// 按钮配置项（标题+回调）
     public var btnConfig: MKHUDButtonConfig? {
         didSet {
             guard let config = btnConfig else {
@@ -160,7 +152,6 @@ public final class MKHUDView: UIView {
         }
     }
     
-    /// toast模式
     public var mode: MKHUDMode = .text {
         didSet {
             if mode == oldValue {
@@ -170,25 +161,20 @@ public final class MKHUDView: UIView {
         }
     }
     
-    /// 进度百分比
     public var progress: Double = 0.0 {
         didSet {
             updateProgressIfNeed()
         }
     }
     
-    /// 最小尺寸
     public var minSize: CGSize? {
         didSet {
             remarkConstraints()
         }
     }
     
-    /// 延迟自动隐藏
     public var autoHidden: TimeInterval = 0
-    /// 动画样式
     public var animationMode: MKHUDAnimationMode = .none
-    /// 隐藏后的回调
     public var completionHandle: MKHUDCompletionHandle?
     
     private let theme: MKHUDTheme!
@@ -238,7 +224,6 @@ extension MKHUDView {
     
     private func setupBackgroundView() {
         addSubview(backgroundView)
-        // 移除旧约束
         var constraintsNeedRemove = [NSLayoutConstraint]()
         for cons in self.constraints {
             if cons.firstItem as? NSObject == backgroundView && cons.secondItem as? NSObject == self {
@@ -247,7 +232,6 @@ extension MKHUDView {
         }
         self.removeConstraints(constraintsNeedRemove)
         
-        // 居中
         self.addConstraints(
             [
                 backgroundView.centerXAnchor.constraint(equalTo: self.leadingAnchor, constant: self.frame.width.half),
@@ -300,7 +284,6 @@ extension MKHUDView {
             )
             // Adapt for custom view
             if preItem == customView && !preItem.frame.equalTo(.zero) {
-                // 防止自定义视图太宽 超出屏幕限制
                 if preItem.frame.width > maxContentWidth {
                     let ph = maxContentWidth * preItem.frame.height / preItem.frame.width
                     let pw = maxContentWidth
@@ -350,13 +333,11 @@ extension MKHUDView {
         contentView.layoutIfNeeded()
         var bgSize: CGSize = contentView.frame.size
         
-        // 最小尺寸
         if let minSize = self.minSize {
             bgSize.width = max(minSize.width, contentView.frame.width)
             bgSize.height = max(minSize.height, contentView.frame.height)
         }
         
-        // 强制宽高相等
         if self.suqared {
             let side = max(bgSize.width, bgSize.height)
             bgSize = CGSize(width: side, height: side)
