@@ -107,7 +107,7 @@ class CallSettingView: UIView, UITableViewDelegate, UITableViewDataSource, Setti
             containerViewHeight.constant = 382
             settingDataSource = [["title": ZGUIKitLocalizedString("room_settings_page_noise_suppression"),
                                   "subTitle": "", "selectionType": DeviceType.noiseSuppression,
-                                  "switchStatus": ServiceManager.shared.deviceService.noiseSliming],
+                                  "switchStatus": ServiceManager.shared.deviceService.noiseSlimming],
                                  
                                  ["title": ZGUIKitLocalizedString("room_settings_page_echo_cancellation"),
                                   "subTitle": "", "selectionType": DeviceType.echoCancellation,
@@ -136,7 +136,7 @@ class CallSettingView: UIView, UITableViewDelegate, UITableViewDataSource, Setti
             containerViewHeight.constant = 281
             settingDataSource = [["title": ZGUIKitLocalizedString("room_settings_page_noise_suppression"),
                                   "subTitle": "", "selectionType": DeviceType.noiseSuppression,
-                                  "switchStatus": ServiceManager.shared.deviceService.noiseSliming],
+                                  "switchStatus": ServiceManager.shared.deviceService.noiseSlimming],
                                  
                                  ["title": ZGUIKitLocalizedString("room_settings_page_echo_cancellation"),
                                   "subTitle": "", "selectionType": DeviceType.echoCancellation,
@@ -160,7 +160,7 @@ class CallSettingView: UIView, UITableViewDelegate, UITableViewDataSource, Setti
         for model in settingDataSource {
             switch model.selectionType {
             case .noiseSuppression:
-                model.switchStatus = ServiceManager.shared.deviceService.noiseSliming
+                model.switchStatus = ServiceManager.shared.deviceService.noiseSlimming
             case .echoCancellation:
                 model.switchStatus = ServiceManager.shared.deviceService.echoCancellation
             case .volumeAdjustment:
@@ -239,7 +239,7 @@ class CallSettingView: UIView, UITableViewDelegate, UITableViewDataSource, Setti
             case .videoResolution, .bitrate:
                 delegate?.settingViewDidSelected(model, type: viewType)
             case .noiseSuppression:
-                ServiceManager.shared.deviceService.noiseSliming = value
+                ServiceManager.shared.deviceService.noiseSlimming = value
                 model.switchStatus = value
             case .echoCancellation:
                 ServiceManager.shared.deviceService.echoCancellation = value

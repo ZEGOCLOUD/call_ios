@@ -93,6 +93,7 @@ protocol CallManagerInterface {
     /// Call this method at: Before you log in. We recommend you call this method when the application starts.
     ///
     /// - Parameter appID: refers to the project ID. To get this, go to ZEGOCLOUD Admin Console: https://console.zego.im/dashboard?lang=en
+    /// - Parameter tokenProvider: get token notification callback. [nil] means not receiving get token callback notifications.
     func initWithAppID(_ appID: UInt32, tokenProvider: TokenProvider?, callback: ZegoCallback?)
     
     /// The method to deinitialize the SDK
@@ -102,6 +103,8 @@ protocol CallManagerInterface {
     /// Call this method at: When the SDK is no longer be used. We recommend you call this method when the application exits.
     func uninit()
     
+    
+    /// Set the proxy object to receive notification of obtaining a token
     func setTokenProvider(_ provider: TokenProvider)
         
     /// Set the local user info
