@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		811FC88CC6FD5651833E2209 /* Pods_ZEGOCallDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55A62E6D598ECA438B1684C8 /* Pods_ZEGOCallDemo.framework */; };
+		860763652810F6AF007FE6EF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 860763642810F6AF007FE6EF /* GoogleService-Info.plist */; };
 		8637810527E1D398000A0C22 /* MinimizeCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637810427E1D398000A0C22 /* MinimizeCallView.swift */; };
 		8637810727E1D3E9000A0C22 /* MinimizeCallView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8637810627E1D3E9000A0C22 /* MinimizeCallView.xib */; };
 		8637810927E1E347000A0C22 /* VideoMinimizeCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637810827E1E347000A0C22 /* VideoMinimizeCallView.swift */; };
@@ -142,6 +143,7 @@
 /* Begin PBXFileReference section */
 		1FAC22BD21F182989689EBE3 /* Pods-ZEGOCallDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZEGOCallDemo.release.xcconfig"; path = "Target Support Files/Pods-ZEGOCallDemo/Pods-ZEGOCallDemo.release.xcconfig"; sourceTree = "<group>"; };
 		55A62E6D598ECA438B1684C8 /* Pods_ZEGOCallDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZEGOCallDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		860763642810F6AF007FE6EF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8637810427E1D398000A0C22 /* MinimizeCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinimizeCallView.swift; sourceTree = "<group>"; };
 		8637810627E1D3E9000A0C22 /* MinimizeCallView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MinimizeCallView.xib; sourceTree = "<group>"; };
 		8637810827E1E347000A0C22 /* VideoMinimizeCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoMinimizeCallView.swift; sourceTree = "<group>"; };
@@ -433,6 +435,7 @@
 				86B198A6278BE1C60004C997 /* AppCenter */,
 				86B19891278BDD7D0004C997 /* AppDelegate.swift */,
 				86B19893278BDD7E0004C997 /* SceneDelegate.swift */,
+				860763642810F6AF007FE6EF /* GoogleService-Info.plist */,
 				86B19897278BDD7E0004C997 /* Main.storyboard */,
 				86B1989A278BDD7F0004C997 /* Assets.xcassets */,
 				86B1989C278BDD7F0004C997 /* LaunchScreen.storyboard */,
@@ -805,6 +808,7 @@
 				8637811C27E2DA49000A0C22 /* SettingParamDisplayCell.xib in Resources */,
 				86B1989B278BDD7F0004C997 /* Assets.xcassets in Resources */,
 				8637812227E31743000A0C22 /* CallSettingSecondView.xib in Resources */,
+				860763652810F6AF007FE6EF /* GoogleService-Info.plist in Resources */,
 				86B19998278EC11C0004C997 /* CallAcceptTipView.xib in Resources */,
 				86B19899278BDD7E0004C997 /* Main.storyboard in Resources */,
 				86B1998C278EBB8C0004C997 /* CallingPhoneView.xib in Resources */,
@@ -1174,7 +1178,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = im.zego.call;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "ZEGOCallDemo/ZEGOCallDemo-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1211,7 +1215,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = im.zego.call;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "ZEGOCallDemo/ZEGOCallDemo-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
