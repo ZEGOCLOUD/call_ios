@@ -127,7 +127,6 @@
 		8E77570727E19E9300BFB5F6 /* Listener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77570627E19E9300BFB5F6 /* Listener.swift */; };
 		8E77570927E19ECC00BFB5F6 /* ListenerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77570827E19ECC00BFB5F6 /* ListenerManager.swift */; };
 		8E77570B27E19F2C00BFB5F6 /* ListenerUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77570A27E19F2C00BFB5F6 /* ListenerUpdater.swift */; };
-		8E77570F27E1E70A00BFB5F6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E77570E27E1E70A00BFB5F6 /* GoogleService-Info.plist */; };
 		8E77571527E4721300BFB5F6 /* HeartbeatCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77571427E4721300BFB5F6 /* HeartbeatCommand.swift */; };
 		8E77571727E4749500BFB5F6 /* CallCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77571627E4749500BFB5F6 /* CallCommand.swift */; };
 		8E77571927E477A700BFB5F6 /* CancelCallCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77571827E477A700BFB5F6 /* CancelCallCommand.swift */; };
@@ -216,7 +215,6 @@
 		86B1994D278D63430004C997 /* AuthorizedCheck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizedCheck.swift; sourceTree = "<group>"; };
 		86B1994E278D63430004C997 /* UIImage+Zego.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Zego.swift"; sourceTree = "<group>"; };
 		86B19963278D63E30004C997 /* CallUIKitDefine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallUIKitDefine.swift; sourceTree = "<group>"; };
-		86B19968278D6AAC0004C997 /* ZEGOCallDemo-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZEGOCallDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 		86B19970278D71820004C997 /* GeneralWebVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralWebVC.swift; sourceTree = "<group>"; };
 		86B19977278D75E00004C997 /* OnlineUserListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineUserListVC.swift; sourceTree = "<group>"; };
 		86B19979278D75F60004C997 /* User.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = User.storyboard; sourceTree = "<group>"; };
@@ -270,7 +268,6 @@
 		8E77570627E19E9300BFB5F6 /* Listener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Listener.swift; sourceTree = "<group>"; };
 		8E77570827E19ECC00BFB5F6 /* ListenerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenerManager.swift; sourceTree = "<group>"; };
 		8E77570A27E19F2C00BFB5F6 /* ListenerUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListenerUpdater.swift; sourceTree = "<group>"; };
-		8E77570E27E1E70A00BFB5F6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8E77571427E4721300BFB5F6 /* HeartbeatCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartbeatCommand.swift; sourceTree = "<group>"; };
 		8E77571627E4749500BFB5F6 /* CallCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallCommand.swift; sourceTree = "<group>"; };
 		8E77571827E477A700BFB5F6 /* CancelCallCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelCallCommand.swift; sourceTree = "<group>"; };
@@ -436,8 +433,6 @@
 				86B198A6278BE1C60004C997 /* AppCenter */,
 				86B19891278BDD7D0004C997 /* AppDelegate.swift */,
 				86B19893278BDD7E0004C997 /* SceneDelegate.swift */,
-				8E77570E27E1E70A00BFB5F6 /* GoogleService-Info.plist */,
-				86B19968278D6AAC0004C997 /* ZEGOCallDemo-Bridging-Header.h */,
 				86B19897278BDD7E0004C997 /* Main.storyboard */,
 				86B1989A278BDD7F0004C997 /* Assets.xcassets */,
 				86B1989C278BDD7F0004C997 /* LaunchScreen.storyboard */,
@@ -815,7 +810,6 @@
 				86B1998C278EBB8C0004C997 /* CallingPhoneView.xib in Resources */,
 				8E7756E827DF47CE00BFB5F6 /* CallRing.wav in Resources */,
 				86B1997A278D75F60004C997 /* User.storyboard in Resources */,
-				8E77570F27E1E70A00BFB5F6 /* GoogleService-Info.plist in Resources */,
 				868F6356279E923200D0B5DC /* Call.strings in Resources */,
 				868F635F27A1647000D0B5DC /* InfoPlist.strings in Resources */,
 				86B19990278EBC8E0004C997 /* CallingVideoView.xib in Resources */,
