@@ -71,6 +71,23 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="es0-Bs-gqa">
+                                <rect key="frame" x="37" y="651" width="340" height="50"/>
+                                <color key="backgroundColor" name="F3F4F7"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="PrF-Im-rcb"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="appleLoginClick:" destination="aV1-ej-cJp" eventType="touchUpInside" id="DKp-NH-DXd"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="HYR-HM-u9w"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -82,8 +99,12 @@
                             <constraint firstItem="5Qw-4k-8wB" firstAttribute="leading" secondItem="HqS-cH-QVD" secondAttribute="trailing" constant="6" id="DZV-wI-NXH"/>
                             <constraint firstItem="HYR-HM-u9w" firstAttribute="trailing" secondItem="5Qw-4k-8wB" secondAttribute="trailing" constant="37" id="FYa-Vb-T5m"/>
                             <constraint firstItem="2Hc-AK-5Us" firstAttribute="leading" secondItem="HYR-HM-u9w" secondAttribute="leading" constant="62.5" id="GGh-mR-Yw6"/>
+                            <constraint firstItem="HYR-HM-u9w" firstAttribute="trailing" secondItem="es0-Bs-gqa" secondAttribute="trailing" constant="37" id="HAB-3d-qqA"/>
                             <constraint firstItem="WBe-Wt-QSS" firstAttribute="top" secondItem="2Hc-AK-5Us" secondAttribute="bottom" constant="30" id="RVH-zq-pTO"/>
+                            <constraint firstItem="wBD-pC-RVX" firstAttribute="top" secondItem="es0-Bs-gqa" secondAttribute="bottom" constant="16" id="eBt-yD-wCt"/>
+                            <constraint firstItem="es0-Bs-gqa" firstAttribute="centerX" secondItem="wBD-pC-RVX" secondAttribute="centerX" id="erb-PL-rHR"/>
                             <constraint firstItem="HqS-cH-QVD" firstAttribute="leading" secondItem="HYR-HM-u9w" secondAttribute="leading" constant="37" id="kuI-VI-nwN"/>
+                            <constraint firstItem="es0-Bs-gqa" firstAttribute="leading" secondItem="HYR-HM-u9w" secondAttribute="leading" constant="37" id="oLm-Rk-VoX"/>
                             <constraint firstItem="2Hc-AK-5Us" firstAttribute="top" secondItem="HYR-HM-u9w" secondAttribute="top" constant="79" id="p9F-vZ-8oH"/>
                             <constraint firstItem="HqS-cH-QVD" firstAttribute="top" secondItem="wBD-pC-RVX" secondAttribute="bottom" constant="24" id="pi8-tk-Cnu"/>
                             <constraint firstItem="HYR-HM-u9w" firstAttribute="trailing" secondItem="wBD-pC-RVX" secondAttribute="trailing" constant="37" id="qNc-3U-J3X"/>
@@ -91,6 +112,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="appleLoginButton" destination="es0-Bs-gqa" id="rpr-B1-svj"/>
                         <outlet property="loginButton" destination="wBD-pC-RVX" id="x7g-bo-vrS"/>
                         <outlet property="privacyTextView" destination="5Qw-4k-8wB" id="Gsh-7r-hs0"/>
                         <outlet property="selectedButton" destination="HqS-cH-QVD" id="0Dp-MA-aRX"/>

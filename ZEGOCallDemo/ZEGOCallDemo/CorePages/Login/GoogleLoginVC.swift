@@ -6,18 +6,10 @@
 //
 
 import UIKit
-import GoogleSignIn
-import FirebaseCore
 
 class GoogleLoginVC: UIViewController {
     
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var PrivacyLabel: UILabel! {
-        didSet {
-            PrivacyLabel.numberOfLines = 2
-            PrivacyLabel.text = ZGAppLocalizedString("login_page_service_privacy")
-        }
-    }
     
     @IBOutlet weak var privacyTextView: UITextView! {
         didSet {
@@ -62,7 +54,24 @@ class GoogleLoginVC: UIViewController {
         }
     }
     
+    @IBOutlet weak var appleLoginButton: UIButton! {
+        didSet {
+            let attriTitle: NSMutableAttributedString = NSMutableAttributedString.init()
+            let logo: NSTextAttachment = NSTextAttachment()
+            logo.image = UIImage(named: "apple_login_icon")
+            logo.bounds = CGRect(x: 0, y: -3, width: 16, height: 16)
+            let logoStr = NSAttributedString(attachment: logo)
+            attriTitle.append(logoStr)
+            let titleStr: String = String(format: "  %@", ZGAppLocalizedString("login_page_apple_login"))
+            let title: NSAttributedString = NSAttributedString(string: titleStr, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .semibold), NSAttributedString.Key.foregroundColor: ZegoColor("2A2A2A")])
+            attriTitle.append(title)
+            appleLoginButton.setAttributedTitle(attriTitle, for: .normal)
+        }
+    }
+    
+    
     var isAgreePolicy: Bool = false
+    var currentNonce: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,41 +104,30 @@ class GoogleLoginVC: UIViewController {
             AuthorizedCheck.showMicrophoneUnauthorizedAlert(self)
             return
         }
-        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
-        let config = GIDConfiguration(clientID: clientID)
-        GIDSignIn.sharedInstance.signIn(with: config, presenting: self) { user, error in
-            guard let token = user?.authentication.idToken,
-                  error == nil
-            else {
-                let message = String(format: "%@", error?.localizedDescription ?? "")
-                TipView.showWarn(message)
-                return
-            }
-            HUDHelper.showNetworkLoading()
-            LoginManager.shared.login(token) { userID, userName, error in
-                HUDHelper.hideNetworkLoading()
-                if error == 0 {
-                    guard let userID = userID,
-                          let userName = userName
-                    else { return }
-                    self.isAgreePolicy = false
-                    self.selectedButton.isSelected = self.isAgreePolicy
-                    CallManager.shared.setLocalUser(userID, userName: userName)
-                    let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
-                    self.navigationController?.pushViewController(vc, animated: true)
-                } else {
-                    let message = String(format: ZGAppLocalizedString("toast_login_fail_google"), error)
-                    TipView.showWarn(message)
-                }
-            }
-        }
+        self.startGoogleAuth()
     }
+    
+    @IBAction func appleLoginClick(_ sender: UIButton) {
+        if !isAgreePolicy {
+            HUDHelper.showMessage(message: ZGAppLocalizedString("toast_login_service_privacy"))
+            return
+        }
+        if !DeviceTool.shared.cameraPermission {
+            AuthorizedCheck.showCameraUnauthorizedAlert(self)
+            return
+        }
+        if !DeviceTool.shared.micPermission {
+            AuthorizedCheck.showMicrophoneUnauthorizedAlert(self)
+            return
+        }
+        self.startAppleAuth()
+    }
+    
     
     @IBAction func selectClick(_ sender: UIButton) {
         isAgreePolicy = !isAgreePolicy
         sender.isSelected = !sender.isSelected
     }
-
 }
 
 extension GoogleLoginVC: LoginManagerDelegate {
