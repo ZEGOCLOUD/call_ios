@@ -15,6 +15,7 @@
 "toast_login_service_privacy" = "Please tick to agree to \"Terms of Service\" and \"Privacy Policy\"";
 "login_page_service_privacy" = "I have read and agreed to ZEGOCLOUD's Terms of Service & Privacy Policy.";
 "login_page_google_login" = "Log in with Google";
+"login_page_apple_login" = "Log in with Apple";
 "toast_login_kick_out" = "You have been logged out because this account logged in on another device";
 
 "call_back_title" = "Back";

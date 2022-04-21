@@ -47,10 +47,8 @@ class LoginManager {
     
     weak var delegate: LoginManagerDelegate?
     
-    func login(_ token: String, callback: @escaping loginCallback) {
+    func login(_ credential: AuthCredential, callback: @escaping loginCallback) {
         
-        let credential = GoogleAuthProvider.credential(withIDToken: token,
-                                                       accessToken: "")
         Auth.auth().signIn(with: credential) { result, error in
             
             guard let user = result?.user else {
@@ -58,7 +56,7 @@ class LoginManager {
                 return
             }
             self.user = user
-            callback(user.uid, user.displayName, 0)
+            callback(user.uid, user.displayName ?? user.uid, 0)
         }
     }
     
@@ -99,7 +97,7 @@ extension LoginManager {
             // setup database
             let data: [String : Any?] = [
                 "user_id" : user.uid,
-                "display_name" : user.displayName,
+                "display_name" : user.displayName ?? user.uid,
                 "token_id" : fcmToken,
                 "last_changed" : Int(Date().timeIntervalSince1970 * 1000)
             ]

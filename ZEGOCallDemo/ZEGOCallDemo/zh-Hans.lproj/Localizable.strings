@@ -15,6 +15,7 @@
 "toast_login_service_privacy" = "请阅读并同意《服务条款》和《隐私政策》";
 "login_page_service_privacy" = "我已阅读并同意《服务条款》和《隐私政策》";
 "login_page_google_login" = "通过 Google 登录";
+"login_page_apple_login" = "通过 Apple 登录";
 "toast_login_kick_out" = "该账号已在其他设备登录,你已被下线";
 
 "call_back_title" = "返回";

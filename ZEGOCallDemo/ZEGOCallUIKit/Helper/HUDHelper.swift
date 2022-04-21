@@ -25,8 +25,8 @@ class HUDHelper: NSObject {
         DispatchQueue.main.async {
             let hud = MKHUDView(frame: UIScreen.main.bounds, theme: .light)
             hud.mode = .text
-            hud.text = message
-            hud.textLabel.font = UIFont.systemFont(ofSize: 15)
+            hud.detailLabel.font = UIFont.systemFont(ofSize: 15)
+            hud.detailText = message
             hud.autoHidden = 2.0
             hud.completionHandle = doneHandler
             hud.show(to: KeyWindow())
