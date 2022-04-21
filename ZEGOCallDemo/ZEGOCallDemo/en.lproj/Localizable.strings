@@ -11,6 +11,7 @@
 "login_page_user_name" = "Please enter your username";
 "login_page_login" = "Log in";
 "toast_login_fail_google" = "Failed to log in. Error code: %d (Google)";
+"toast_login_fail_apple" = "Failed to log in. Error code: %d (Apple)";
 "login_page_input_user_name_tip" = "The username should be English characters or number.";
 "toast_login_service_privacy" = "Please tick to agree to \"Terms of Service\" and \"Privacy Policy\"";
 "login_page_service_privacy" = "I have read and agreed to ZEGOCLOUD's Terms of Service & Privacy Policy.";

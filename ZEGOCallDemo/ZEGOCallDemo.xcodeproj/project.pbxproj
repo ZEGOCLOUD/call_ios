@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		811FC88CC6FD5651833E2209 /* Pods_ZEGOCallDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55A62E6D598ECA438B1684C8 /* Pods_ZEGOCallDemo.framework */; };
 		860763652810F6AF007FE6EF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 860763642810F6AF007FE6EF /* GoogleService-Info.plist */; };
-		860763672810FC94007FE6EF /* GoogleLogin+GoogleAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860763662810FC94007FE6EF /* GoogleLogin+GoogleAuth.swift */; };
-		860763692810FD1F007FE6EF /* GoogleLogin+AppleAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860763682810FD1F007FE6EF /* GoogleLogin+AppleAuth.swift */; };
+		860763672810FC94007FE6EF /* GoogleLoginVC+GoogleAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860763662810FC94007FE6EF /* GoogleLoginVC+GoogleAuth.swift */; };
+		860763692810FD1F007FE6EF /* GoogleLoginVC+AppleAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860763682810FD1F007FE6EF /* GoogleLoginVC+AppleAuth.swift */; };
 		8637810527E1D398000A0C22 /* MinimizeCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637810427E1D398000A0C22 /* MinimizeCallView.swift */; };
 		8637810727E1D3E9000A0C22 /* MinimizeCallView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8637810627E1D3E9000A0C22 /* MinimizeCallView.xib */; };
 		8637810927E1E347000A0C22 /* VideoMinimizeCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8637810827E1E347000A0C22 /* VideoMinimizeCallView.swift */; };
@@ -146,8 +146,8 @@
 		1FAC22BD21F182989689EBE3 /* Pods-ZEGOCallDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZEGOCallDemo.release.xcconfig"; path = "Target Support Files/Pods-ZEGOCallDemo/Pods-ZEGOCallDemo.release.xcconfig"; sourceTree = "<group>"; };
 		55A62E6D598ECA438B1684C8 /* Pods_ZEGOCallDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZEGOCallDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		860763642810F6AF007FE6EF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		860763662810FC94007FE6EF /* GoogleLogin+GoogleAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GoogleLogin+GoogleAuth.swift"; sourceTree = "<group>"; };
-		860763682810FD1F007FE6EF /* GoogleLogin+AppleAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GoogleLogin+AppleAuth.swift"; sourceTree = "<group>"; };
+		860763662810FC94007FE6EF /* GoogleLoginVC+GoogleAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GoogleLoginVC+GoogleAuth.swift"; sourceTree = "<group>"; };
+		860763682810FD1F007FE6EF /* GoogleLoginVC+AppleAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GoogleLoginVC+AppleAuth.swift"; sourceTree = "<group>"; };
 		8637810427E1D398000A0C22 /* MinimizeCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinimizeCallView.swift; sourceTree = "<group>"; };
 		8637810627E1D3E9000A0C22 /* MinimizeCallView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MinimizeCallView.xib; sourceTree = "<group>"; };
 		8637810827E1E347000A0C22 /* VideoMinimizeCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoMinimizeCallView.swift; sourceTree = "<group>"; };
@@ -636,8 +636,8 @@
 			isa = PBXGroup;
 			children = (
 				8637813D27E81949000A0C22 /* GoogleLoginVC.swift */,
-				860763662810FC94007FE6EF /* GoogleLogin+GoogleAuth.swift */,
-				860763682810FD1F007FE6EF /* GoogleLogin+AppleAuth.swift */,
+				860763662810FC94007FE6EF /* GoogleLoginVC+GoogleAuth.swift */,
+				860763682810FD1F007FE6EF /* GoogleLoginVC+AppleAuth.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -950,7 +950,7 @@
 				86B198D9278BE2600004C997 /* ServiceManager.swift in Sources */,
 				8637812A27E31AD8000A0C22 /* CallMainVC+Setting.swift in Sources */,
 				8E17539F281017B60096AA48 /* MKHUDUnit.swift in Sources */,
-				860763672810FC94007FE6EF /* GoogleLogin+GoogleAuth.swift in Sources */,
+				860763672810FC94007FE6EF /* GoogleLoginVC+GoogleAuth.swift in Sources */,
 				8E7F92D427F339A20059F833 /* TokenManager.swift in Sources */,
 				8E7F92DB27F479270059F833 /* InitCommand.swift in Sources */,
 				8E77570927E19ECC00BFB5F6 /* ListenerManager.swift in Sources */,
@@ -960,7 +960,7 @@
 				8E7F92D927F471D90059F833 /* UserListManager.swift in Sources */,
 				86B198DB278BE2600004C997 /* Define.swift in Sources */,
 				8E77570127E1939B00BFB5F6 /* CommandManager.swift in Sources */,
-				860763692810FD1F007FE6EF /* GoogleLogin+AppleAuth.swift in Sources */,
+				860763692810FD1F007FE6EF /* GoogleLoginVC+AppleAuth.swift in Sources */,
 				86B1995B278D63440004C997 /* TipView.swift in Sources */,
 				86D4184427FFE28B002B0C8D /* AppDefine.swift in Sources */,
 				8E77571727E4749500BFB5F6 /* CallCommand.swift in Sources */,
