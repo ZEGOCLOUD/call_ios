@@ -12,7 +12,7 @@ import Firebase
 import FirebaseCore
 import FirebaseAuth
 
-extension GoogleLoginVC: ASAuthorizationControllerDelegate {
+extension GoogleLoginVC: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
     
     func startAppleAuth() {
         let nonce = randomNonceString()
@@ -24,7 +24,7 @@ extension GoogleLoginVC: ASAuthorizationControllerDelegate {
         
         let authorizationController = ASAuthorizationController(authorizationRequests: [request])
         authorizationController.delegate = self
-        //authorizationController.presentationContextProvider = self
+        authorizationController.presentationContextProvider = self
         authorizationController.performRequests()
           
     }
@@ -88,12 +88,20 @@ extension GoogleLoginVC: ASAuthorizationControllerDelegate {
               print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
               return
             }
-              
+            
+            let fullName = appleIDCredential.fullName
+            var userName: String? = nil
+            if let fullName = fullName,
+               let familyName = fullName.familyName,
+               let givenName = fullName.givenName
+            {
+                userName = "\(givenName) \(familyName)"
+            }
             // Initialize a Firebase credential.
             let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
             HUDHelper.showNetworkLoading()
             // Sign in with Firebase.
-            LoginManager.shared.login(credential) { userID, userName, error in
+            LoginManager.shared.login(credential,userName: userName) { userID, userName, error in
                 HUDHelper.hideNetworkLoading()
                 if error == 0 {
                     guard let userID = userID,
@@ -105,7 +113,7 @@ extension GoogleLoginVC: ASAuthorizationControllerDelegate {
                     let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
                     self.navigationController?.pushViewController(vc, animated: true)
                 } else {
-                    let message = String(format: ZGAppLocalizedString("toast_login_fail_google"), error)
+                    let message = String(format: ZGAppLocalizedString("toast_login_fail_apple"), error)
                     TipView.showWarn(message)
                 }
             }
@@ -117,8 +125,8 @@ extension GoogleLoginVC: ASAuthorizationControllerDelegate {
         print("Sign in with Apple errored: \(error)")
     }
     
-//    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-//
-//    }
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window ?? KeyWindow()
+    }
     
 }

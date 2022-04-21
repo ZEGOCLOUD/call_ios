@@ -47,7 +47,7 @@ class LoginManager {
     
     weak var delegate: LoginManagerDelegate?
     
-    func login(_ credential: AuthCredential, callback: @escaping loginCallback) {
+    func login(_ credential: AuthCredential, userName: String? = nil, callback: @escaping loginCallback) {
         
         Auth.auth().signIn(with: credential) { result, error in
             
@@ -56,7 +56,19 @@ class LoginManager {
                 return
             }
             self.user = user
-            callback(user.uid, user.displayName ?? user.uid, 0)
+            
+            if user.displayName == nil && userName != nil {
+                let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+                changeRequest?.displayName = userName
+                changeRequest?.commitChanges { error in
+                    if error == nil {
+                        self.user = nil
+                        self.user = Auth.auth().currentUser
+                    }
+                }
+            }
+            
+            callback(user.uid, user.displayName ?? userName ?? user.uid, 0)
         }
     }
     
