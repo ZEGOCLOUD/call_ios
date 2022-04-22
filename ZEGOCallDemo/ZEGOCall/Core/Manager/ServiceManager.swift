@@ -1,6 +1,6 @@
 //
 //  ZegoRoomManager.swift
-//  ZegoLiveAudioRoomDemo
+//  ZEGOCallDemo
 //
 //  Created by Kael Ding on 2021/12/13.
 //
@@ -8,12 +8,12 @@
 import Foundation
 import ZegoExpressEngine
 
-/// Class ZEGOLive business logic management
+/// Class ZEGOCall busainess logic management
 ///
-/// Description: This class contains the ZEGOLive business logic, manages the service instances of different modules, and also distributing the data delivered by the SDK.
+/// Description: This class contains the ZEGOCall business logic, manages the service instances of different modules, and also distributing the data delivered by the SDK.
 class ServiceManager: NSObject {
     
-    /// Get the ZegoRoomManager singleton instance
+    /// Get the ServiceManager singleton instance
     ///
     /// Description: This method can be used to get the RoomManager singleton instance.
     ///
@@ -44,14 +44,14 @@ class ServiceManager: NSObject {
     /// The stream Management instance contains play and publish stream logic.
     open var streamService: StreamService
     
-    /// The room infomation Management instance contains join and leave room logic.
+    /// The room information Management instance contains join and leave room logic.
     var roomService: RoomService
     
     var isSDKInit: Bool = false
     
     /// Initialize the SDK
     ///
-    /// Description: This method can be used to initialize the ZIM SDK and the Express-Audio SDK.
+    /// Description: This method can be used to initialize the Express-Video SDK.
     ///
     /// Call this method at: Before you log in. We recommend you call this method when the application starts.
     ///
@@ -91,7 +91,6 @@ class ServiceManager: NSObject {
     ///
     /// Call this method at: When exceptions occur
     ///
-    /// - Parameter fileName: refers to the name of the file you upload. We recommend you name the file in the format of "appid_platform_timestamp".
     /// - Parameter callback: refers to the callback that be triggered when the logs are upload successfully or failed to upload logs.
     func uploadLog(callback: ZegoCallback?) {
         if isSDKInit == false {
