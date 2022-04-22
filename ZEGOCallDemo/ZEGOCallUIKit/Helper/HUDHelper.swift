@@ -1,6 +1,6 @@
 //
 //  HUDHelper.swift
-//  ZegoLiveAudioRoomDemo
+//  ZEGOCallDemo
 //
 //  Created by zego on 2021/12/15.
 //

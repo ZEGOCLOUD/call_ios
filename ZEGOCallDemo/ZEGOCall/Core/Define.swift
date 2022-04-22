@@ -1,6 +1,6 @@
 //
 //  ZegoDefine.swift
-//  ZegoLiveAudioRoomDemo
+//  ZEGOCallDemo
 //
 //  Created by Kael Ding on 2021/12/13.
 //
@@ -159,7 +159,6 @@ enum CallTimeoutType {
 }
 
 
-let API_Get_Users = "/user/get_users"
 let API_Call_Heartbeat = "/call/heartbeat"
 let API_Start_Call = "/call/start_call"
 let API_Cancel_Call = "/call/cancel_call"
