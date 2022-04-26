@@ -143,9 +143,9 @@ class UserService: NSObject {
         zimUser.userID = userID
         zimUser.userName = userName
         
-        ZIMManager.shared.zim?.login(zimUser, token: token, callback: { error in
+        ZIMManager.shared.zim?.login(with: zimUser, token: token, callback: { error in
             var result: ZegoResult
-            if error.code == .ZIMErrorCodeSuccess {
+            if error.code == .success {
                 self.localUserInfo = user
                 result = .success(())
             } else {
@@ -370,10 +370,12 @@ extension UserService {
             return
         }
         
-        let customMessage: ZIMCustomMessage = ZIMCustomMessage(message: data)
-        ZIMManager.shared.zim?.sendPeerMessage(customMessage, toUserID: userID, callback: { _, error in
+        let commandMessage: ZIMCommandMessage = ZIMCommandMessage(message: data)
+        let config = ZIMMessageSendConfig()
+        config.priority = .low
+        ZIMManager.shared.zim?.sendPeerMessage(commandMessage, toUserID: userID, config: config, callback: { _, error in
             var result: ZegoResult
-            if error.code == .ZIMErrorCodeSuccess {
+            if error.code == .success {
                 result = .success(())
             } else {
                 result = .failure(.other(Int32(error.code.rawValue)))
@@ -387,9 +389,9 @@ extension UserService {
     private func setRoomAttributes(_ attributes: [String : String],
                                    _ roomID: String,
                                    _ config: ZIMRoomAttributesSetConfig, _ callback: RoomCallback?) {
-        ZIMManager.shared.zim?.setRoomAttributes(attributes, roomID: roomID, config: config, callback: { error in
+        ZIMManager.shared.zim?.setRoomAttributes(attributes, roomID: roomID, config: config, callback: { _, _, error in
             guard let callback = callback else { return }
-            if error.code == .ZIMErrorCodeSuccess {
+            if error.code == .success {
                 callback(.success(()))
             } else {
                 callback(.failure(.other(Int32(error.code.rawValue))))
@@ -436,7 +438,7 @@ extension UserService : ZIMEventHandler {
     // recevie a invitation via this method
     func zim(_ zim: ZIM, receivePeerMessage messageList: [ZIMMessage], fromUserID: String) {
         for message in messageList {
-            guard let message = message as? ZIMCustomMessage else { continue }
+            guard let message = message as? ZIMCommandMessage else { continue }
             guard let jsonStr = String(data: message.message, encoding: .utf8) else { continue }
             let command: CustomCommand? = ZegoJsonTool.jsonToModel(type: CustomCommand.self, json: jsonStr)
             guard let command = command else { continue }
