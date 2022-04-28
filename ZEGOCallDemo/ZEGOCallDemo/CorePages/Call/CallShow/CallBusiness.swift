@@ -135,7 +135,7 @@ class CallBusiness: NSObject {
             otherUserRoomInfo = nil
         }
         endSystemCall()
-        if RoomManager.shared.userService.roomService.roomInfo.roomID != nil {
+        if currentCallStatus == .calling {
             RoomManager.shared.userService.endCall(callback: nil)
         } else {
             refusedCall(userID)
