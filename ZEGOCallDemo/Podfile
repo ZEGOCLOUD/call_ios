@@ -6,7 +6,7 @@ target 'ZEGOCallDemo' do
   use_frameworks!
 
   # Pods for ZEGOCallDemo
-  pod 'ZIM','>=2.0.0'
+  pod 'ZIM','>=2.1.1'
   pod 'ZegoExpressEngine'
 
 end
