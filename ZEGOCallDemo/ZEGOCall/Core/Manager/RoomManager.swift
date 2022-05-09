@@ -80,7 +80,7 @@ class RoomManager: NSObject {
     /// - Parameter callback: refers to the callback that be triggered when the logs are upload successfully or failed to upload logs.
     func uploadLog(callback: RoomCallback?) {
         ZIMManager.shared.zim?.uploadLog({ errorCode in
-            if errorCode.code == .ZIMErrorCodeSuccess {
+            if errorCode.code == .success {
                 guard let callback = callback else { return }
                 ZegoExpressEngine.shared().uploadLog { error in
                     if error == 0 {
